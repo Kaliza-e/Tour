@@ -1,31 +1,30 @@
 import Link from "next/link";
+import { TourLogo } from "@/components/tour-logo";
 
 const columns = [
   {
     title: "Platform",
     links: [
       { href: "/questions", label: "Question Hub" },
-      { href: "/research", label: "Explore Research" },
+      { href: "/research", label: "Research Workspace" },
       { href: "/publications", label: "Publications" },
-      { href: "/learning", label: "Learning Hub" },
+      { href: "/workspace", label: "My Workspace" },
     ],
   },
   {
     title: "Community",
     links: [
-      { href: "/community", label: "Discussion Boards" },
-      { href: "/challenges", label: "Challenges" },
-      { href: "/community/clubs", label: "Student Clubs" },
-      { href: "/community/events", label: "Events" },
+      { href: "/community", label: "Community" },
+      { href: "/join", label: "Join Tour" },
+      { href: "/login", label: "Log In" },
     ],
   },
   {
     title: "About",
     links: [
       { href: "/about", label: "Our Mission" },
-      { href: "/about/mentors", label: "Mentors" },
-      { href: "/about/guidelines", label: "Research Guidelines" },
-      { href: "/about/contact", label: "Contact" },
+      { href: "/questions", label: "Browse Questions" },
+      { href: "/publications", label: "Browse Papers" },
     ],
   },
 ];
@@ -36,12 +35,13 @@ export function Footer() {
       <div className="container-tour py-16">
         <div className="grid gap-12 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
           <div>
-            <span className="font-heading text-xl font-bold">Tour</span>
+            <TourLogo variant="panel" imageClassName="h-9" />
             <p className="mt-4 max-w-xs text-sm text-ivory/60">
               Where curiosity becomes knowledge. A research ecosystem for the next
               generation of student scientists.
             </p>
           </div>
+
           {columns.map((col) => (
             <div key={col.title}>
               <h4 className="font-heading text-sm font-semibold text-ivory/90">{col.title}</h4>
@@ -57,8 +57,9 @@ export function Footer() {
             </div>
           ))}
         </div>
+
         <div className="mt-16 flex flex-col-reverse gap-4 border-t border-ivory/10 pt-8 text-xs text-ivory/50 sm:flex-row sm:items-center sm:justify-between">
-          <p>© {new Date().getFullYear()} Tour. A student-led nonprofit.</p>
+          <p>(c) {new Date().getFullYear()} Tour. A student-led nonprofit.</p>
           <p>Every research paper begins with curiosity.</p>
         </div>
       </div>

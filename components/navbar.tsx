@@ -2,8 +2,11 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
+import { usePathname } from "next/navigation";
+import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { TourLogo } from "@/components/tour-logo";
+import { cn } from "@/lib/utils";
 
 const links = [
   { href: "/questions", label: "Questions" },
@@ -15,104 +18,74 @@ const links = [
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+
+  const isActive = (href: string) =>
+    pathname === href || (href !== "/" && pathname.startsWith(`${href}/`));
 
   return (
-    <header className="sticky top-4 z-50">
+    <header className="sticky top-0 z-50 border-b border-navy/10 bg-ivory/95 backdrop-blur">
       <div className="container-tour">
-        <div className="flex h-16 items-center justify-between">
+        <div className="flex h-20 items-center justify-between gap-4">
+          <TourLogo priority imageClassName="h-11" />
 
-          {/* Logo */}
-          <Link href="/" className="flex items-center">
-            <Image
-              src="/logo.png"
-              alt="Tour"
-              width={156}
-              height={50}
-              priority
-              className="h-12 w-auto object-contain"
-            />
-          </Link>
-
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-8">
+          <nav aria-label="Primary navigation" className="hidden items-center gap-1 md:flex">
             {links.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm font-medium text-navy/70 transition-colors hover:text-navy"
+                className={cn(
+                  "rounded-pill px-4 py-2 text-sm font-semibold transition-colors",
+                  isActive(link.href)
+                    ? "bg-white text-navy shadow-card"
+                    : "text-navy/60 hover:bg-white/70 hover:text-navy"
+                )}
               >
                 {link.label}
               </Link>
             ))}
           </nav>
 
-          {/* Right Side */}
-          <div className="flex items-center gap-3">
-
-            {/* Mobile Menu Button */}
-            <button
-              type="button"
-              className="text-navy md:hidden"
-              aria-label="Toggle Menu"
-              onClick={() => setOpen(!open)}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                {open ? (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                ) : (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
-                )}
-              </svg>
-            </button>
-
-            {/* Login */}
+          <div className="flex items-center gap-2">
             <Link
               href="/login"
-              className="hidden text-sm font-semibold text-navy/70 hover:text-navy sm:block"
+              className="hidden rounded-pill px-4 py-2 text-sm font-semibold text-navy/65 transition-colors hover:bg-white/70 hover:text-navy sm:block"
             >
               Log In
             </Link>
 
-            {/* CTA */}
-            <Link href="/get-started">
-              <Button
-                size="sm"
-                className="bg-navy text-ivory hover:bg-sapphire"
-              >
+            <Link href="/join" className="hidden sm:block">
+              <Button size="sm" className="bg-navy text-ivory hover:bg-sapphire">
                 Get Started
               </Button>
             </Link>
 
+            <button
+              type="button"
+              className="grid h-10 w-10 place-items-center rounded-full border border-navy/10 bg-white text-navy shadow-card md:hidden"
+              aria-label={open ? "Close menu" : "Open menu"}
+              aria-expanded={open}
+              onClick={() => setOpen(!open)}
+            >
+              {open ? <X size={20} /> : <Menu size={20} />}
+            </button>
           </div>
         </div>
 
-        {/* Mobile Menu */}
         {open && (
-          <div className="mt-3 rounded-card border border-navy/10 bg-white p-4 shadow-card md:hidden">
+          <div className="mb-4 rounded-card border border-navy/10 bg-white p-4 shadow-card md:hidden">
             <div className="flex flex-col gap-4">
-
               {links.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
                   onClick={() => setOpen(false)}
-                  className="text-sm font-medium text-navy/70 hover:text-navy"
+                  className={cn(
+                    "rounded-2xl px-3 py-2 text-sm font-semibold",
+                    isActive(link.href)
+                      ? "bg-ivory text-navy"
+                      : "text-navy/65 hover:bg-ivory hover:text-navy"
+                  )}
                 >
                   {link.label}
                 </Link>
@@ -121,22 +94,16 @@ export function Navbar() {
               <Link
                 href="/login"
                 onClick={() => setOpen(false)}
-                className="text-sm font-medium text-navy/70 hover:text-navy"
+                className="rounded-2xl px-3 py-2 text-sm font-semibold text-navy/65 hover:bg-ivory hover:text-navy"
               >
                 Log In
               </Link>
 
-              <Link
-                href="/get-started"
-                onClick={() => setOpen(false)}
-              >
-                <Button
-                  className="w-full bg-navy text-ivory hover:bg-sapphire"
-                >
+              <Link href="/join" onClick={() => setOpen(false)}>
+                <Button className="w-full bg-navy text-ivory hover:bg-sapphire">
                   Get Started
                 </Button>
               </Link>
-
             </div>
           </div>
         )}

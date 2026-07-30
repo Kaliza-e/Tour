@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
+import type { Prisma } from "@prisma/client";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
@@ -26,7 +27,7 @@ export async function POST(_request: Request, { params }: { params: { id: string
     return NextResponse.json({ error: "Paper must be approved before it can be published." }, { status: 400 });
   }
 
-  const updates = [
+  const updates: Prisma.PrismaPromise<unknown>[] = [
     prisma.researchPaper.update({
       where: { id: paper.id },
       data: { status: "PUBLISHED", publishedAt: new Date() },

@@ -85,26 +85,6 @@ const journey = [
 ];
 
 
-const stats = [
-  {
-    value: "4,200+",
-    label: "Research Questions",
-  },
-  {
-    value: "1,100+",
-    label: "Published Papers",
-  },
-  {
-    value: "6,800+",
-    label: "Researchers",
-  },
-  {
-    value: "312+",
-    label: "Organizations",
-  },
-];
-
-
 export default function LandingPage() {
   return (
     <>
@@ -195,23 +175,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-
-      {/* STATS */}
-      <section className="border-y border-navy/8 bg-white/60">
-        <div className="container-tour grid grid-cols-2 gap-8 py-14 md:grid-cols-4">
-          {stats.map((s) => (
-            <div key={s.label} className="text-center">
-              <p className="font-heading text-3xl font-extrabold text-navy md:text-4xl">
-                {s.value}
-              </p>
-              <p className="mt-2 text-sm text-navy/50">
-                {s.label}
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
-            {/* WHY TOUR */}
+      {/* WHY TOUR */}
       <section className="py-28">
         <div className="container-tour">
 
