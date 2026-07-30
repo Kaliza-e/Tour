@@ -1,0 +1,405 @@
+// Tour — Research Ecosystem Platform
+// Prisma schema covering the full product surface described in the brief.
+// Run `npx prisma migrate dev` after setting DATABASE_URL in .env
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ---------------------------------------------------------------------------
+// USERS & AUTH
+// ---------------------------------------------------------------------------
+
+enum Role {
+  STUDENT
+  MENTOR
+  ADMIN
+}
+
+model User {
+  id               String   @id @default(cuid())
+  name             String
+  email            String   @unique
+  emailVerified    DateTime?
+  image            String?
+  hashedPassword   String?
+  role             Role     @default(STUDENT)
+
+  // Profile / academic portfolio
+  bio              String?
+  school           String?
+  gradeLevel       String?
+  researchInterests String[] @default([])
+  skills           String[] @default([])
+  location         String?
+
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  // Relations
+  accounts         Account[]
+  sessions         Session[]
+
+  questionsAsked   Question[]        @relation("QuestionAuthor")
+  questionLikes    QuestionLike[]
+  projects         ResearchProject[] @relation("ProjectOwner")
+  collaborations   ProjectCollaborator[]
+  papers           ResearchPaper[]   @relation("PaperOwner")
+  paperAuthors     PaperAuthor[]
+  comments         Comment[]
+  bookmarks        Bookmark[]
+  achievements     UserAchievement[]
+  notifications    Notification[]
+  communityPosts   CommunityPost[]
+  challengeEntries ChallengeEntry[]
+  files            FileAsset[]
+
+  @@index([email])
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// ---------------------------------------------------------------------------
+// TAXONOMY
+// ---------------------------------------------------------------------------
+
+model Category {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  slug        String   @unique
+  description String?
+  icon        String?
+
+  questions   Question[]
+  projects    ResearchProject[]
+  papers      ResearchPaper[]
+  challenges  Challenge[]
+}
+
+// ---------------------------------------------------------------------------
+// QUESTION HUB — the heart of Tour
+// ---------------------------------------------------------------------------
+
+enum QuestionStatus {
+  OPEN
+  BEING_RESEARCHED
+  RESEARCH_COMPLETED
+  ANSWERED
+}
+
+model Question {
+  id          String         @id @default(cuid())
+  title       String
+  description String         @db.Text
+  status      QuestionStatus @default(OPEN)
+  tags        String[]       @default([])
+
+  views       Int            @default(0)
+
+  authorId    String
+  author      User           @relation("QuestionAuthor", fields: [authorId], references: [id])
+
+  categoryId  String
+  category    Category       @relation(fields: [categoryId], references: [id])
+
+  likes       QuestionLike[]
+  project     ResearchProject? // set once a student adopts the question
+
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  @@index([status])
+  @@index([categoryId])
+}
+
+model QuestionLike {
+  id         String   @id @default(cuid())
+  questionId String
+  userId     String
+  createdAt  DateTime @default(now())
+
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([questionId, userId])
+}
+
+// ---------------------------------------------------------------------------
+// RESEARCH WORKSPACE / PROJECT
+// ---------------------------------------------------------------------------
+
+enum ProjectStage {
+  WORKSPACE
+  RESEARCH
+  DRAFT
+  SUBMISSION
+  PUBLICATION
+}
+
+model ResearchProject {
+  id            String       @id @default(cuid())
+  title         String
+  researchGoal  String       @db.Text
+  hypothesis    String?      @db.Text
+  objectives    String[]     @default([])
+  stage         ProjectStage @default(WORKSPACE)
+  progress      Int          @default(0) // 0-100
+
+  questionId    String?      @unique
+  question      Question?    @relation(fields: [questionId], references: [id])
+
+  ownerId       String
+  owner         User         @relation("ProjectOwner", fields: [ownerId], references: [id])
+
+  categoryId    String
+  category      Category     @relation(fields: [categoryId], references: [id])
+
+  collaborators ProjectCollaborator[]
+  notes         ResearchNote[]
+  references    Reference[]
+  tasks         Task[]
+  files         FileAsset[]
+  paper         ResearchPaper?
+
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+}
+
+model ProjectCollaborator {
+  id        String  @id @default(cuid())
+  projectId String
+  userId    String
+  role      String  @default("Collaborator")
+
+  project   ResearchProject @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  user      User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([projectId, userId])
+}
+
+model ResearchNote {
+  id        String   @id @default(cuid())
+  projectId String
+  content   String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  project   ResearchProject @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+model Reference {
+  id         String  @id @default(cuid())
+  projectId  String
+  citation   String  @db.Text
+  url        String?
+
+  project    ResearchProject @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+model Task {
+  id        String   @id @default(cuid())
+  projectId String
+  title     String
+  done      Boolean  @default(false)
+  dueDate   DateTime?
+
+  project   ResearchProject @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+model FileAsset {
+  id         String   @id @default(cuid())
+  url        String
+  name       String
+  type       String
+  size       Int
+
+  uploadedById String
+  uploadedBy   User   @relation(fields: [uploadedById], references: [id])
+
+  projectId  String?
+  project    ResearchProject? @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  createdAt  DateTime @default(now())
+}
+
+// ---------------------------------------------------------------------------
+// PUBLICATION SYSTEM
+// ---------------------------------------------------------------------------
+
+enum PaperStatus {
+  DRAFT
+  SUBMITTED
+  IN_REVIEW
+  APPROVED
+  PUBLISHED
+}
+
+model ResearchPaper {
+  id            String      @id @default(cuid())
+  title         String
+  abstract      String      @db.Text
+  keywords      String[]    @default([])
+  status        PaperStatus @default(DRAFT)
+
+  pdfUrl        String?
+  figures       String[]    @default([])
+  supplementary String[]    @default([])
+
+  categoryId    String
+  category      Category    @relation(fields: [categoryId], references: [id])
+
+  projectId     String      @unique
+  project       ResearchProject @relation(fields: [projectId], references: [id])
+
+  ownerId       String
+  owner         User        @relation("PaperOwner", fields: [ownerId], references: [id])
+  authors       PaperAuthor[]
+
+  views         Int         @default(0)
+  citationCount Int         @default(0)
+
+  comments      Comment[]
+  bookmarks     Bookmark[]
+
+  submittedAt   DateTime?
+  publishedAt   DateTime?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@index([status])
+  @@index([categoryId])
+}
+
+model PaperAuthor {
+  id       String @id @default(cuid())
+  paperId  String
+  userId   String
+  order    Int    @default(0)
+
+  paper    ResearchPaper @relation(fields: [paperId], references: [id], onDelete: Cascade)
+  user     User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([paperId, userId])
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  content   String   @db.Text
+  paperId   String
+  userId    String
+  createdAt DateTime @default(now())
+
+  paper     ResearchPaper @relation(fields: [paperId], references: [id], onDelete: Cascade)
+  user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Bookmark {
+  id       String @id @default(cuid())
+  paperId  String
+  userId   String
+
+  paper    ResearchPaper @relation(fields: [paperId], references: [id], onDelete: Cascade)
+  user     User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([paperId, userId])
+}
+
+// ---------------------------------------------------------------------------
+// COMMUNITY
+// ---------------------------------------------------------------------------
+
+model CommunityPost {
+  id        String   @id @default(cuid())
+  title     String
+  content   String   @db.Text
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model Challenge {
+  id          String   @id @default(cuid())
+  title       String
+  description String   @db.Text
+  categoryId  String
+  category    Category @relation(fields: [categoryId], references: [id])
+  startDate   DateTime
+  endDate     DateTime
+  entries     ChallengeEntry[]
+}
+
+model ChallengeEntry {
+  id          String   @id @default(cuid())
+  challengeId String
+  userId      String
+  summary     String   @db.Text
+  createdAt   DateTime @default(now())
+
+  challenge   Challenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// ---------------------------------------------------------------------------
+// ACHIEVEMENTS & NOTIFICATIONS
+// ---------------------------------------------------------------------------
+
+model Achievement {
+  id          String @id @default(cuid())
+  title       String
+  description String
+  icon        String
+
+  users       UserAchievement[]
+}
+
+model UserAchievement {
+  id            String   @id @default(cuid())
+  userId        String
+  achievementId String
+  earnedAt      DateTime @default(now())
+
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  achievement   Achievement @relation(fields: [achievementId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, achievementId])
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  message   String
+  link      String?
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
