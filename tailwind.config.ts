@@ -22,12 +22,12 @@ const config: Config = {
         muted: "#BEB7A7",
       },
       fontFamily: {
-        heading: ["var(--font-heading)", "Plus Jakarta Sans", "sans-serif"],
+        heading: ["var(--font-heading)", "Playfair Display", "Georgia", "serif"],
         body: ["var(--font-body)", "Inter", "sans-serif"],
       },
       fontSize: {
-        hero: ["72px", { lineHeight: "1.05", letterSpacing: "-0.02em" }],
-        "hero-md": ["48px", { lineHeight: "1.08", letterSpacing: "-0.02em" }],
+        hero: ["72px", { lineHeight: "1.05", letterSpacing: "0" }],
+        "hero-md": ["48px", { lineHeight: "1.08", letterSpacing: "0" }],
       },
       borderRadius: {
         card: "24px",

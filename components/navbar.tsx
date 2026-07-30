@@ -19,21 +19,18 @@ export function Navbar() {
   return (
     <header className="sticky top-4 z-50">
       <div className="container-tour">
-        <div className="bg-navy text-ivory rounded-pill shadow-card flex h-14 items-center justify-between px-4">
+        <div className="flex h-16 items-center justify-between">
 
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3">
+          <Link href="/" className="flex items-center">
             <Image
-              src="/logo.svg"
+              src="/logo.png"
               alt="Tour"
-              width={140}
-              height={40}
-              className="hidden sm:block object-contain"
+              width={156}
+              height={50}
+              priority
+              className="h-12 w-auto object-contain"
             />
-
-            <span className="grid h-9 w-9 place-items-center rounded-full bg-ivory text-navy font-heading text-sm sm:hidden">
-              T
-            </span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -42,7 +39,7 @@ export function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm font-medium text-ivory/85 transition-colors hover:text-ivory"
+                className="text-sm font-medium text-navy/70 transition-colors hover:text-navy"
               >
                 {link.label}
               </Link>
@@ -55,7 +52,7 @@ export function Navbar() {
             {/* Mobile Menu Button */}
             <button
               type="button"
-              className="md:hidden text-ivory"
+              className="text-navy md:hidden"
               aria-label="Toggle Menu"
               onClick={() => setOpen(!open)}
             >
@@ -87,7 +84,7 @@ export function Navbar() {
             {/* Login */}
             <Link
               href="/login"
-              className="hidden sm:block text-sm font-semibold text-ivory/90 hover:text-ivory"
+              className="hidden text-sm font-semibold text-navy/70 hover:text-navy sm:block"
             >
               Log In
             </Link>
@@ -95,9 +92,8 @@ export function Navbar() {
             {/* CTA */}
             <Link href="/get-started">
               <Button
-                variant="secondary"
                 size="sm"
-                className="bg-ivory text-navy hover:bg-champagne"
+                className="bg-navy text-ivory hover:bg-sapphire"
               >
                 Get Started
               </Button>
@@ -108,7 +104,7 @@ export function Navbar() {
 
         {/* Mobile Menu */}
         {open && (
-          <div className="mt-3 rounded-3xl bg-navy/95 p-4 shadow-card md:hidden">
+          <div className="mt-3 rounded-card border border-navy/10 bg-white p-4 shadow-card md:hidden">
             <div className="flex flex-col gap-4">
 
               {links.map((link) => (
@@ -116,7 +112,7 @@ export function Navbar() {
                   key={link.href}
                   href={link.href}
                   onClick={() => setOpen(false)}
-                  className="text-sm font-medium text-ivory/90 hover:text-ivory"
+                  className="text-sm font-medium text-navy/70 hover:text-navy"
                 >
                   {link.label}
                 </Link>
@@ -125,7 +121,7 @@ export function Navbar() {
               <Link
                 href="/login"
                 onClick={() => setOpen(false)}
-                className="text-sm font-medium text-ivory/90 hover:text-ivory"
+                className="text-sm font-medium text-navy/70 hover:text-navy"
               >
                 Log In
               </Link>
@@ -135,7 +131,7 @@ export function Navbar() {
                 onClick={() => setOpen(false)}
               >
                 <Button
-                  className="w-full bg-ivory text-navy hover:bg-champagne"
+                  className="w-full bg-navy text-ivory hover:bg-sapphire"
                 >
                   Get Started
                 </Button>

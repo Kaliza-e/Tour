@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, Inter } from "next/font/google";
+import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 
-const heading = Plus_Jakarta_Sans({
+const heading = Playfair_Display({
   subsets: ["latin"],
   variable: "--font-heading",
-  weight: ["500", "600", "700", "800"],
+  weight: ["600", "700", "800", "900"],
 });
 
 const body = Inter({
