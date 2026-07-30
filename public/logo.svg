@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="60" viewBox="0 0 240 60" fill="none">
+  <rect width="240" height="60" rx="8" fill="#112250"/>
+  <g transform="translate(14,12)">
+    <circle cx="24" cy="18" r="16" fill="#F5F4F0" />
+    <text x="24" y="24" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-weight="700" font-size="14" fill="#112250">T</text>
+  </g>
+  <text x="64" y="37" font-family="Plus Jakarta Sans, sans-serif" font-weight="700" font-size="22" fill="#F5F4F0">Tour</text>
+</svg>

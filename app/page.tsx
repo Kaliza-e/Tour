@@ -63,30 +63,38 @@ export default function LandingPage() {
       {/* HERO */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-constellation [background-size:22px_22px] opacity-40" />
-        <div className="container-tour relative py-28 md:py-36">
-          <div className="mx-auto max-w-4xl text-center">
-            <span className="inline-flex items-center gap-2 rounded-pill bg-white px-4 py-2 text-xs font-semibold text-sapphire shadow-card">
-              <Sparkles size={14} /> A research ecosystem for students
-            </span>
-            <h1 className="mt-8 font-heading text-5xl font-extrabold leading-[1.05] tracking-tight text-navy md:text-hero">
-              Where Curiosity Becomes Knowledge
-            </h1>
-            <p className="mx-auto mt-7 max-w-2xl text-lg text-navy/60">
-              Tour empowers students to ask meaningful scientific questions, transform
-              them into research projects, publish discoveries, and become
-              contributors to global knowledge.
-            </p>
-            <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-              <Link href="/questions">
-                <Button size="lg">
-                  Start Your Research Journey <ArrowRight size={18} />
-                </Button>
-              </Link>
-              <Link href="/publications">
-                <Button size="lg" variant="secondary">
-                  Explore Publications
-                </Button>
-              </Link>
+        <div className="container-tour relative py-20 md:py-28">
+          {/* top stats ribbon */}
+          <div className="mx-auto mb-8 max-w-4xl rounded-pill bg-navy/95 px-4 py-2 text-center text-ivory shadow-card hidden md:block">
+            <div className="flex items-center justify-center gap-8 text-sm font-medium">
+              <span>98+ RCA Talents</span>
+              <span className="mx-4">•</span>
+              <span>37+ Projects showcased</span>
+              <span className="mx-4">•</span>
+              <span>38% Verified profiles</span>
+            </div>
+          </div>
+
+          <div className="container-tour relative">
+            <div className="mx-auto max-w-5xl text-center">
+              <h1 className="mt-2 font-heading text-5xl font-extrabold leading-[1.05] tracking-tight text-navy md:text-hero">
+                Where Curiosity Becomes Knowledge
+              </h1>
+              <p className="mx-auto mt-6 max-w-2xl text-lg text-navy/60">
+                Tour empowers students to ask meaningful scientific questions, transform
+                them into research projects, publish discoveries, and become
+                contributors to global knowledge.
+              </p>
+              <div className="mt-10 flex items-center justify-center gap-6">
+                <Link href="/questions">
+                  <Button size="lg" className="rounded-full bg-navy px-8 py-4 shadow-card">Start Your Research Journey</Button>
+                </Link>
+                <Link href="/publications">
+                  <Button size="lg" variant="ghost" className="rounded-full border border-navy/20 bg-transparent text-navy px-7 py-4">
+                    Explore Publications
+                  </Button>
+                </Link>
+              </div>
             </div>
           </div>
         </div>
@@ -128,6 +136,50 @@ export default function LandingPage() {
                 <p className="mt-3 text-sm leading-relaxed text-navy/60">{f.desc}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CHOOSE YOUR PATH */}
+      <section className="py-20 bg-ivory">
+        <div className="container-tour">
+          <div className="mx-auto max-w-3xl text-center">
+            <h2 className="font-heading text-3xl font-bold text-navy md:text-4xl">Built for students and employers alike</h2>
+            <p className="mt-4 text-navy/60">Whether you're launching your career or building your team, Tour has the tools you need.</p>
+          </div>
+
+          <div className="mt-12 grid gap-8 md:grid-cols-2">
+            <div className="rounded-card bg-white p-8 shadow-card">
+              <div className="mb-4 inline-block rounded-full bg-ivory px-3 py-1 text-xs font-semibold text-navy">FOR STUDENTS</div>
+              <h3 className="mt-3 font-heading text-2xl font-bold text-navy">For Students<br/>Free forever</h3>
+              <p className="mt-4 text-sm text-navy/60">Build your brand, publish a portfolio, and get discovered by employers actively hiring Tour talents.</p>
+              <ul className="mt-6 space-y-3 text-sm text-navy/70">
+                <li>• Professional portfolio builder with custom URL</li>
+                <li>• Admin-verified badge for credibility</li>
+                <li>• Direct messaging with recruiters</li>
+              </ul>
+              <div className="mt-6">
+                <Link href="/questions">
+                  <Button variant="secondary" className="rounded-full px-6 py-3">Explore for Students</Button>
+                </Link>
+              </div>
+            </div>
+
+            <div className="rounded-card bg-gradient-to-b from-sapphire to-navy p-8 text-ivory shadow-card">
+              <div className="mb-4 inline-block rounded-full bg-navy/30 px-3 py-1 text-xs font-semibold text-ivory">FOR COMPANIES</div>
+              <h3 className="mt-3 font-heading text-2xl font-bold">For Companies<br/>Verified talent</h3>
+              <p className="mt-4 text-sm text-ivory/80">Search verified profiles, review real project work, and manage your entire hiring pipeline in one dashboard.</p>
+              <ul className="mt-6 space-y-3 text-sm text-ivory/85">
+                <li>• Advanced skill, cohort & availability filters</li>
+                <li>• Job postings & interview invitations</li>
+                <li>• Bookmark and track promising candidates</li>
+              </ul>
+              <div className="mt-6">
+                <Link href="/publications">
+                  <Button className="rounded-full bg-ivory text-navy px-6 py-3">Explore for Companies</Button>
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </section>
