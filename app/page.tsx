@@ -131,46 +131,38 @@ export default function LandingPage() {
 
 
             {/* Statistics Ribbon */}
-            <div className="relative mt-16 hidden md:block w-full">
-
-              <div className="absolute left-0 top-full w-0 h-0 border-t-[32px] border-r-[48px] border-t-navy border-r-transparent" />
-
-              <div className="absolute right-0 top-full w-0 h-0 border-t-[32px] border-l-[48px] border-t-navy border-l-transparent" />
-
-
-              <div className="bg-navy text-ivory h-14 flex items-center justify-center shadow-lg uppercase tracking-[0.25em] text-sm font-semibold">
-
-                <div className="flex items-center gap-8">
-
-                  <div className="flex items-center gap-3">
-                    <span className="text-sapphire text-lg">•</span>
-                    <span>4,200+ Questions</span>
+            <div className="relative mt-16">
+              <div className="full-bleed">
+                <div className="bg-navy/95 px-6 md:px-10 py-4 shadow-soft">
+                  <div className="ribbon-marquee w-full overflow-hidden">
+                    <div className="ribbon-track inline-flex items-center gap-10">
+                      {[
+                        "4,200+ Questions",
+                        "1,100+ Publications",
+                        "6,800+ Researchers",
+                        "312+ Organizations",
+                      ].map((item) => (
+                        <span key={item} className="inline-flex items-center gap-3 text-sm uppercase tracking-[0.25em] text-ivory">
+                          <span className="text-sapphire text-base">•</span>
+                          {item}
+                        </span>
+                      ))}
+                      {[
+                        "4,200+ Questions",
+                        "1,100+ Publications",
+                        "6,800+ Researchers",
+                        "312+ Organizations",
+                      ].map((item) => (
+                        <span key={`repeat-${item}`} className="inline-flex items-center gap-3 text-sm uppercase tracking-[0.25em] text-ivory">
+                          <span className="text-sapphire text-base">•</span>
+                          {item}
+                        </span>
+                      ))}
+                    </div>
                   </div>
-
-
-                  <div className="flex items-center gap-3">
-                    <span className="text-sapphire text-lg">•</span>
-                    <span>1,100+ Publications</span>
-                  </div>
-
-
-                  <div className="flex items-center gap-3">
-                    <span className="text-sapphire text-lg">•</span>
-                    <span>6,800+ Researchers</span>
-                  </div>
-
-
-                  <div className="flex items-center gap-3">
-                    <span className="text-sapphire text-lg">•</span>
-                    <span>312+ Organizations</span>
-                  </div>
-
                 </div>
-
               </div>
-
             </div>
-
           </div>
         </div>
       </section>
@@ -212,12 +204,10 @@ export default function LandingPage() {
                   "Publish your work, receive feedback, and showcase your contribution to the community.",
               },
             ].map((feature) => (
-
               <div
                 key={feature.title}
-                className="rounded-card bg-white p-8 shadow-card"
+                className="glass-card p-8"
               >
-
                 <h3 className="font-heading text-lg font-bold text-navy">
                   {feature.title}
                 </h3>
@@ -225,16 +215,13 @@ export default function LandingPage() {
                 <p className="mt-3 text-sm leading-relaxed text-navy/60">
                   {feature.desc}
                 </p>
-
               </div>
-
             ))}
 
           </div>
 
         </div>
       </section>
-
 
 
       {/* CHOOSE YOUR PATH */}
@@ -262,7 +249,7 @@ export default function LandingPage() {
 
             {/* RESEARCHERS */}
 
-            <div className="rounded-card bg-white p-8 shadow-card">
+            <div className="glass-card p-8">
 
               <div className="mb-4 inline-block rounded-full bg-ivory px-3 py-1 text-xs font-semibold text-navy">
                 FOR RESEARCHERS
@@ -319,7 +306,7 @@ export default function LandingPage() {
 
             {/* COMPANIES */}
 
-            <div className="rounded-card bg-gradient-to-b from-sapphire to-navy p-8 text-ivory shadow-card">
+            <div className="rounded-card bg-gradient-to-b from-sapphire to-navy p-8 text-ivory shadow-soft">
 
               <div className="mb-4 inline-block rounded-full bg-navy/30 px-3 py-1 text-xs font-semibold text-ivory">
                 FOR ORGANIZATIONS

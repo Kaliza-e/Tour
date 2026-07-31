@@ -43,3 +43,48 @@ h4 {
 .container-tour {
   @apply mx-auto max-w-7xl px-6 md:px-10;
 }
+
+.site-header {
+  @apply sticky top-0 z-50 bg-transparent text-ivory backdrop-blur-xl;
+}
+
+.full-bleed {
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  width: 100vw;
+}
+
+.glass-card {
+  @apply rounded-card border border-white/20 bg-white/70 shadow-soft backdrop-blur-xl;
+}
+
+.ribbon-marquee {
+  width: 100%;
+  overflow: hidden;
+}
+
+.ribbon-track {
+  display: inline-flex;
+  align-items: center;
+  gap: 2.5rem;
+  white-space: nowrap;
+  animation: marquee 18s linear infinite;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ribbon-track {
+    animation: none;
+  }
+}

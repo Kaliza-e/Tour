@@ -29,7 +29,7 @@ export interface QuestionCardProps {
 
 export function QuestionCard(q: QuestionCardProps) {
   return (
-    <div className="group flex flex-col rounded-card border border-navy/8 bg-white p-7 shadow-card transition-all hover:-translate-y-1 hover:shadow-soft">
+    <div className="group flex flex-col rounded-card border border-white/20 bg-white/70 p-7 shadow-soft backdrop-blur-xl transition-all hover:-translate-y-1 hover:bg-white/80 hover:shadow-card">
       <div className="flex items-start justify-between gap-4">
         <span className="rounded-pill bg-ivory px-3 py-1 text-xs font-semibold text-navy/70">
           {q.category}

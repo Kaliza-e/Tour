@@ -20,7 +20,7 @@ export function TourLogo({
   const logo = (
     <span
       className={cn(
-        "inline-flex items-center",
+        "inline-flex items-center justify-center leading-none",
         variant === "panel" && "rounded-md bg-white px-3 py-2 shadow-card",
         className
       )}
