@@ -1,25 +1,13 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
-
-const heading = Playfair_Display({
-  subsets: ["latin"],
-  variable: "--font-heading",
-  weight: ["600", "700", "800", "900"],
-});
-
-const body = Inter({
-  subsets: ["latin"],
-  variable: "--font-body",
-  weight: ["400", "500", "600"],
-});
+import { AIAssistantModal } from "@/components/ai-assistant-modal";
 
 export const metadata: Metadata = {
-  title: "Tour — Where Curiosity Becomes Knowledge",
+  title: "TOUR — Explore Knowledge Wisely | Student Research Platform",
   description:
-    "Tour is a student-led research ecosystem that guides high school and early university students from a first question to a published paper.",
+    "TOUR is a world-class student-led research ecosystem that empowers young minds to explore, write, publish, collaborate, and contribute to scientific knowledge.",
 };
 
 export default function RootLayout({
@@ -28,10 +16,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${heading.variable} ${body.variable}`}>
+    <html lang="en">
       <body>
         <Navbar />
         <main>{children}</main>
+        <AIAssistantModal />
         <Footer />
       </body>
     </html>

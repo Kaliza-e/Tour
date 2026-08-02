@@ -5,26 +5,30 @@ const columns = [
   {
     title: "Platform",
     links: [
-      { href: "/questions", label: "Question Hub" },
-      { href: "/research", label: "Research Workspace" },
-      { href: "/publications", label: "Publications" },
-      { href: "/workspace", label: "My Workspace" },
+      { href: "/questions", label: "Research Questions" },
+      { href: "/research", label: "Explore Papers" },
+      { href: "/submit", label: "Submit Research" },
+      { href: "/ai-assistant", label: "AI Co-pilot" },
+      { href: "/dashboard", label: "User Dashboard" },
     ],
   },
   {
-    title: "Community",
+    title: "Ecosystem",
     links: [
-      { href: "/community", label: "Community" },
-      { href: "/join", label: "Join Tour" },
-      { href: "/login", label: "Log In" },
+      { href: "/community", label: "Community Feed" },
+      { href: "/mentorship", label: "Mentorship Directory" },
+      { href: "/challenges", label: "Research Challenges" },
+      { href: "/achievements", label: "Badges & Certificates" },
+      { href: "/join", label: "Volunteer Program" },
     ],
   },
   {
-    title: "About",
+    title: "Organization",
     links: [
-      { href: "/about", label: "Our Mission" },
-      { href: "/questions", label: "Browse Questions" },
-      { href: "/publications", label: "Browse Papers" },
+      { href: "/about", label: "Story & Values" },
+      { href: "/team", label: "Our Team" },
+      { href: "/contact", label: "Contact & FAQ" },
+      { href: "/admin", label: "Admin Portal" },
     ],
   },
 ];

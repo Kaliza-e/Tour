@@ -1,77 +1,101 @@
 "use client";
 
-import React, { useState } from "react";
-import Link from "next/link";
+import { Users, Mail, ShieldCheck, HeartHandshake, Award, FileText, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { TourLogo } from "@/components/tour-logo";
+
+const roles = [
+  { title: "Student Research Writer", desc: "Formulate questions, conduct lit reviews, and publish peer-reviewed papers.", badge: "Core Academic" },
+  { title: "Peer Reviewer", desc: "Review incoming student paper submissions for methodology & ethical rigor.", badge: "Senior Student / Postdoc" },
+  { title: "Chapter Leader", desc: "Establish a TOUR Science & Research Club at your high school or university.", badge: "Leadership" },
+  { title: "Technical & Design Contributor", desc: "Help build open-source scientific tools and visual infographics.", badge: "Tech & Creative" },
+];
 
 export default function JoinPage() {
-  const [role, setRole] = useState<"student" | "company">("student");
-
   return (
-    <div className="min-h-screen bg-ivory">
-      <div className="container-tour grid grid-cols-1 md:grid-cols-2 gap-8 py-16">
-        <aside className="hidden md:flex flex-col items-center justify-center rounded-card bg-navy p-12 text-center text-ivory">
-          <TourLogo variant="panel" imageClassName="h-12" className="mb-6" />
-          <h2 className="text-2xl font-heading font-bold">Join Tour</h2>
-          <p className="mt-3 max-w-xs text-sm text-ivory/80">Connect with peers and turn curiosity into publishable research.</p>
-        </aside>
+    <div className="py-12 bg-ivory min-h-screen">
+      <div className="container-tour space-y-12">
+        {/* Header */}
+        <div className="text-center max-w-3xl mx-auto space-y-4">
+          <div className="inline-flex items-center gap-2 rounded-full border border-sapphire/20 bg-champagne/50 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-sapphire">
+            <HeartHandshake className="h-4 w-4" /> Join The Global Movement
+          </div>
+          <h1 className="font-heading text-4xl md:text-5xl font-extrabold text-navy">
+            Volunteer & Become a Member
+          </h1>
+          <p className="text-navy/70 leading-relaxed">
+            TOUR is a student-led platform built by students, for students. Join over 2,400 young researchers across 40 countries contributing to scientific literacy and open knowledge.
+          </p>
+        </div>
 
-        <main className="flex items-center justify-center">
-          <div className="w-full max-w-lg rounded-card bg-white p-8 shadow-card">
-            <Link href="/" className="text-sm text-navy/60 hover:underline">← Back to Home</Link>
+        {/* Roles Grid */}
+        <div className="grid gap-6 md:grid-cols-2">
+          {roles.map((r, idx) => (
+            <div key={idx} className="rounded-3xl border border-navy/10 bg-white p-8 shadow-card space-y-4 flex flex-col justify-between">
+              <div className="space-y-3">
+                <span className="rounded-full bg-sapphire/10 border border-sapphire/20 px-3 py-1 text-xs font-bold text-sapphire">
+                  {r.badge}
+                </span>
+                <h3 className="font-heading text-2xl font-bold text-navy">{r.title}</h3>
+                <p className="text-sm text-navy/70 leading-relaxed">{r.desc}</p>
+              </div>
 
-            <h1 className="mt-4 font-heading text-3xl font-bold text-navy">Create your account</h1>
-            <p className="mt-2 text-sm text-navy/60">Join the Tour community</p>
+              <div className="pt-4 border-t border-navy/5 flex items-center justify-between">
+                <span className="text-xs text-emerald-700 font-semibold flex items-center gap-1">
+                  <CheckCircle2 className="h-3.5 w-3.5" /> Earn Verified Hours
+                </span>
+                <Button variant="secondary" className="rounded-full border-navy text-navy hover:bg-navy hover:text-ivory text-xs px-5">
+                  Apply for Role
+                </Button>
+              </div>
+            </div>
+          ))}
+        </div>
 
-            <div className="mt-6 flex w-full gap-3 rounded-full bg-ivory/60 p-1">
-              <button
-                onClick={() => setRole("student")}
-                className={`flex-1 rounded-full py-2 text-sm font-medium ${role === "student" ? "bg-white text-navy shadow-card" : "text-navy/70"}`}
-              >
-                Student
-              </button>
-              <button
-                onClick={() => setRole("company")}
-                className={`flex-1 rounded-full py-2 text-sm font-medium ${role === "company" ? "bg-white text-navy shadow-card" : "text-navy/70"}`}
-              >
-                Company
-              </button>
+        {/* Application Form Card */}
+        <div className="max-w-2xl mx-auto rounded-3xl border border-navy/10 bg-white p-8 shadow-soft space-y-6">
+          <div className="text-center space-y-2">
+            <h3 className="font-heading text-2xl font-bold text-navy">Volunteer Application Form</h3>
+            <p className="text-xs text-navy/60">Fill out your details to join the TOUR volunteer ecosystem and track hours.</p>
+          </div>
+
+          <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+            <div className="grid gap-4 md:grid-cols-2">
+              <div>
+                <label className="block text-xs font-bold uppercase text-navy/80 mb-1">Full Name</label>
+                <input type="text" placeholder="e.g. Maya Lin" className="w-full rounded-2xl border border-navy/15 bg-ivory/40 px-4 py-2.5 text-sm text-navy focus:outline-none focus:ring-2 focus:ring-sapphire" />
+              </div>
+              <div>
+                <label className="block text-xs font-bold uppercase text-navy/80 mb-1">Email Address</label>
+                <input type="email" placeholder="maya@school.edu" className="w-full rounded-2xl border border-navy/15 bg-ivory/40 px-4 py-2.5 text-sm text-navy focus:outline-none focus:ring-2 focus:ring-sapphire" />
+              </div>
             </div>
 
-            <form className="mt-6 grid gap-4">
+            <div className="grid gap-4 md:grid-cols-2">
               <div>
-                <label className="text-xs font-semibold text-navy/60">Full name</label>
-                <input className="mt-1.5 h-12 w-full rounded-2xl border border-navy/10 bg-ivory px-4 text-sm outline-none focus-visible:border-sapphire" placeholder="Enter your full name" />
+                <label className="block text-xs font-bold uppercase text-navy/80 mb-1">School / Institution</label>
+                <input type="text" placeholder="e.g. Oakridge High School" className="w-full rounded-2xl border border-navy/15 bg-ivory/40 px-4 py-2.5 text-sm text-navy focus:outline-none focus:ring-2 focus:ring-sapphire" />
               </div>
-
               <div>
-                <label className="text-xs font-semibold text-navy/60">Email</label>
-                <input type="email" className="mt-1.5 h-12 w-full rounded-2xl border border-navy/10 bg-ivory px-4 text-sm outline-none focus-visible:border-sapphire" placeholder="Enter your email" />
+                <label className="block text-xs font-bold uppercase text-navy/80 mb-1">Role Interested In</label>
+                <select className="w-full rounded-2xl border border-navy/15 bg-ivory/40 px-4 py-2.5 text-sm text-navy focus:outline-none focus:ring-2 focus:ring-sapphire">
+                  <option>Student Research Writer</option>
+                  <option>Peer Reviewer</option>
+                  <option>Chapter Leader</option>
+                  <option>Developer / Designer</option>
+                </select>
               </div>
+            </div>
 
-              {role === "student" && (
-                <div>
-                  <label className="text-xs font-semibold text-navy/60">Cohort year</label>
-                  <select className="mt-1.5 h-12 w-full rounded-2xl border border-navy/10 bg-ivory px-4 text-sm outline-none focus-visible:border-sapphire">
-                    <option>2024</option>
-                    <option>2025</option>
-                    <option>2026</option>
-                  </select>
-                </div>
-              )}
+            <div>
+              <label className="block text-xs font-bold uppercase text-navy/80 mb-1">Why do you want to join TOUR?</label>
+              <textarea rows={3} placeholder="Share your academic passion or goals..." className="w-full rounded-2xl border border-navy/15 bg-ivory/40 px-4 py-2.5 text-sm text-navy focus:outline-none focus:ring-2 focus:ring-sapphire"></textarea>
+            </div>
 
-              <div>
-                <label className="text-xs font-semibold text-navy/60">Password</label>
-                <input type="password" className="mt-1.5 h-12 w-full rounded-2xl border border-navy/10 bg-ivory px-4 text-sm outline-none focus-visible:border-sapphire" placeholder="Create password" />
-              </div>
-
-              <Button size="lg" className="mt-2">{role === "student" ? "Create student account" : "Create company account"}</Button>
-            </form>
-
-            <p className="mt-6 text-center text-sm text-navy/55">Already have an account? <Link href="/login" className="font-semibold text-navy hover:text-sapphire">Log in</Link></p>
-          </div>
-        </main>
+            <Button className="w-full rounded-full bg-navy hover:bg-sapphire text-ivory font-semibold py-3">
+              Submit Volunteer Application
+            </Button>
+          </form>
+        </div>
       </div>
     </div>
   );
