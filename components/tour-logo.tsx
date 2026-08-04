@@ -21,7 +21,7 @@ export function TourLogo({
     <span
       className={cn(
         "inline-flex items-center justify-center leading-none",
-        variant === "panel" && "rounded-md bg-white px-3 py-2 shadow-card",
+        variant === "panel" && "rounded-md px-3 py-2 shadow-card",
         className
       )}
     >

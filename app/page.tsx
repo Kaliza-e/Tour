@@ -232,12 +232,12 @@ export default function LandingPage() {
           <div className="mx-auto max-w-3xl text-center">
 
             <h2 className="font-heading text-3xl font-bold text-navy md:text-4xl">
-              Built for researchers and organizations
+              Built for Student Researchers and Research Communities
             </h2>
 
             <p className="mt-4 text-navy/60">
-              Whether you are building knowledge or discovering talent,
-              Tour connects ideas with opportunities.
+              Whether you are beginning the first research journey or supporting the next generation
+              of innovators,Tour provides the tools to discover,collaborate,publish and grow together.
             </p>
 
           </div>
@@ -252,34 +252,28 @@ export default function LandingPage() {
             <div className="glass-card p-8">
 
               <div className="mb-4 inline-block rounded-full bg-ivory px-3 py-1 text-xs font-semibold text-navy">
-                FOR RESEARCHERS
+                FOR STUDENT RESEARCHERS
               </div>
 
 
               <h3 className="mt-3 font-heading text-2xl font-bold text-navy">
-                Build your research identity
+                Explore,Reseach and Publish
               </h3>
 
 
               <p className="mt-4 text-sm text-navy/60">
-                Create your profile, publish your work, and connect with
-                organizations interested in innovation and research.
+                Start your research journey with a platform designed for curious minds.
+    Discover research topics, publish your work, collaborate with peers, and
+    build an academic portfolio that grows with you.
               </p>
 
 
               <ul className="mt-6 space-y-3 text-sm text-navy/70">
 
-                <li>
-                  • Create a professional research portfolio
-                </li>
-
-                <li>
-                  • Publish and showcase your discoveries
-                </li>
-
-                <li>
-                  • Connect with collaborators and opportunities
-                </li>
+                <li>• Publish original research papers and articles</li>
+                <li>• Discover research across multiple disciplines</li>
+                <li>• Collaborate with students from around the world</li>
+                 <li>• Build a lasting academic portfolio</li>
 
               </ul>
 
@@ -309,20 +303,19 @@ export default function LandingPage() {
             <div className="rounded-card bg-gradient-to-b from-sapphire to-navy p-8 text-ivory shadow-soft">
 
               <div className="mb-4 inline-block rounded-full bg-navy/30 px-3 py-1 text-xs font-semibold text-ivory">
-                FOR ORGANIZATIONS
+                FOR EDUCATORS& RESEARCH COMMUNITIES
               </div>
 
 
 
               <h3 className="mt-3 font-heading text-2xl font-bold">
-                Discover emerging talent
+                Mentor, Support, and Inspire
               </h3>
 
-
-
               <p className="mt-4 text-sm text-ivory/80">
-                Explore verified profiles, review real projects,
-                and connect with talented researchers and innovators.
+               Empower young researchers by mentoring projects, sharing opportunities,
+    organizing research initiatives, and building collaborative scientific
+    communities without barriers.
               </p>
 
 
@@ -330,15 +323,18 @@ export default function LandingPage() {
               <ul className="mt-6 space-y-3 text-sm text-ivory/85">
 
                 <li>
-                  • Discover skilled contributors
+                  •Connect with promising student researchers
                 </li>
 
                 <li>
-                  • Review real research portfolios
+                  • Organize research initiatives and competitions
                 </li>
 
                 <li>
-                  • Build partnerships and collaborations
+                  • Mentor and review student work
+                </li>
+                <li>
+                  • Foster global scientific collaboration
                 </li>
 
               </ul>
@@ -352,7 +348,7 @@ export default function LandingPage() {
                   <Button
                     className="rounded-full bg-ivory text-navy px-6 py-3"
                   >
-                    Explore Organizations
+                    Join the Community
                   </Button>
 
                 </Link>
