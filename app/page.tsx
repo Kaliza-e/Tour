@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { ArrowRight, BookOpenText, FileCheck2, SearchCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -93,35 +95,37 @@ export default function LandingPage() {
         <div className="container-tour relative py-20 md:py-28">
           <div className="mx-auto max-w-5xl text-center">
 
-            <h1 className="mt-2 font-heading text-5xl font-extrabold leading-[1.05] text-navy md:text-hero">
-              Where Curiosity Becomes Knowledge
+            <h1 className="mt-2 font-heading text-5xl font-extrabold leading-[1.1] text-navy md:text-hero uppercase overflow-hidden" aria-label="Take a Tour Between Minds">
+              {["Take", "a", "Tour", "Between", "Minds"].map((word, i) => (
+                <span
+                  key={word + i}
+                  className="hero-word mr-[0.3em] last:mr-0"
+                  style={{ animationDelay: `${i * 0.13}s` }}
+                >
+                  {word}
+                </span>
+              ))}
             </h1>
 
-
-            <p className="mx-auto mt-6 max-w-2xl text-lg text-navy/60">
-              Tour transforms curiosity into real research.
-              Explore ideas, build projects, publish discoveries,
-              and connect with a global research community.
+            <p className="fade-up mx-auto mt-6 max-w-2xl text-lg text-navy/60" style={{ animationDelay: "0.85s" }}>
+              Tour is a student-led, non-profit research and educational platform empowering young minds to explore, write, and share knowledge.
             </p>
 
-
-            <div className="mt-10 flex items-center justify-center gap-6">
-
-              <Link href="/questions">
+            <div className="fade-up mt-10 flex items-center justify-center gap-6" style={{ animationDelay: "1.05s" }}>
+              <Link href="/join">
                 <Button 
                   size="lg"
-                  className="rounded-full bg-navy px-8 py-4 shadow-card"
+                  className="rounded-full bg-navy px-8 py-4 shadow-card text-sm uppercase tracking-wider hover:scale-105 transition-transform duration-200"
                 >
-                  Start Your Research Journey
+                  Join the journey
                 </Button>
               </Link>
-
 
               <Link href="/publications">
                 <Button
                   size="lg"
                   variant="ghost"
-                  className="rounded-full border border-navy/20 bg-transparent text-navy px-7 py-4"
+                  className="rounded-full border border-navy/20 bg-transparent text-navy px-7 py-4 hover:scale-105 transition-transform duration-200"
                 >
                   Explore Publications
                 </Button>
@@ -203,10 +207,11 @@ export default function LandingPage() {
                 desc:
                   "Publish your work, receive feedback, and showcase your contribution to the community.",
               },
-            ].map((feature) => (
+            ].map((feature, i) => (
               <div
                 key={feature.title}
-                className="glass-card p-8"
+                className="glass-card glow-card p-8"
+                style={{ animationDelay: `${i * 1.3}s` }}
               >
                 <h3 className="font-heading text-lg font-bold text-navy">
                   {feature.title}
@@ -223,6 +228,35 @@ export default function LandingPage() {
         </div>
       </section>
 
+
+      {/* WHAT WE OFFER */}
+      <section className="py-28 bg-white border-t border-navy/5">
+        <div className="container-tour">
+          <div className="mx-auto max-w-3xl text-center">
+            <h2 className="font-heading text-3xl font-bold text-navy md:text-4xl">
+              What We Offer
+            </h2>
+            <p className="mt-4 text-navy/60 leading-relaxed text-lg">
+              Tour provides a supportive environment for students to think, research, learn, write, and share their ideas, helping them gain an early and worthwhile start in science and academic research.
+            </p>
+          </div>
+
+          <div className="mt-16 grid gap-8 md:grid-cols-2">
+            {[
+              { title: "Science & Innovation (STEM)", sub: "Life Sciences, Technology & Engineering, and Environment & Future Science", desc: "Exploring STEM fields, scientific research, technology, and innovation that shape our understanding of the world and drive future progress." },
+              { title: "Health & Society", sub: "Public & Global Health, Mental Health & Psychology, and Health Policy & Ethics", desc: "Examining public health, health policy, psychology, and the social dimensions of health through research and critical analysis." },
+              { title: "Education & Development", sub: "Education & Learning, Youth & Human Development, and Access & Equity in Education", desc: "Focusing on education, learning systems, youth development, and the role of knowledge in shaping individuals and communities." },
+              { title: "Humanities & Perspectives", sub: "History & Philosophy, Society & Culture, and Ethics & Social Issues", desc: "Exploring history, philosophy, social sciences, and diverse perspectives that help us understand societies, cultures, and ideas." },
+            ].map((cat, i) => (
+              <div key={cat.title} className="rounded-3xl border border-navy/10 bg-ivory/50 p-8 glow-card space-y-3" style={{ animationDelay: `${i * 1.1}s` }}>
+                <h3 className="font-heading text-xl font-bold text-navy">{cat.title}</h3>
+                <p className="text-xs font-semibold text-sapphire uppercase tracking-wider">{cat.sub}</p>
+                <p className="text-sm text-navy/70 leading-relaxed">{cat.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* CHOOSE YOUR PATH */}
       <section className="bg-ivory py-20">
@@ -249,7 +283,7 @@ export default function LandingPage() {
 
             {/* RESEARCHERS */}
 
-            <div className="glass-card p-8">
+            <div className="glass-card glow-card p-8">
 
               <div className="mb-4 inline-block rounded-full bg-ivory px-3 py-1 text-xs font-semibold text-navy">
                 FOR STUDENT RESEARCHERS
@@ -300,7 +334,7 @@ export default function LandingPage() {
 
             {/* COMPANIES */}
 
-            <div className="rounded-card bg-gradient-to-b from-sapphire to-navy p-8 text-ivory shadow-soft">
+            <div className="rounded-card glow-card bg-gradient-to-b from-sapphire to-navy p-8 text-ivory shadow-soft">
 
               <div className="mb-4 inline-block rounded-full bg-navy/30 px-3 py-1 text-xs font-semibold text-ivory">
                 FOR EDUCATORS& RESEARCH COMMUNITIES
@@ -517,7 +551,7 @@ export default function LandingPage() {
 
 
                       <div
-                        className="grid h-20 w-20 shrink-0 place-items-center bg-navy text-ivory shadow-soft"
+                        className="glow-icon grid h-20 w-20 shrink-0 place-items-center bg-navy text-ivory shadow-soft"
                         style={{
                           clipPath:
                           "polygon(50% 0,93% 25%,93% 75%,50% 100%,7% 75%,7% 25%)"
@@ -662,7 +696,9 @@ export default function LandingPage() {
 
             </p>
 
-
+            <p className="mx-auto mt-4 max-w-2xl text-sm text-navy/60">
+              TOUR is not yet a registered 501(c)(3) organization. However, we are happy to provide verification or confirmation of participation for schools or clubs upon request.
+            </p>
 
             <div className="mt-9">
 

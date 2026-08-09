@@ -5,7 +5,7 @@ import { Upload, FileText, CheckCircle2, ArrowRight, ArrowLeft, ShieldCheck, Ale
 import { Button } from "@/components/ui/button";
 
 export default function SubmitResearchPage() {
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(0);
   const [submitted, setSubmitted] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -28,7 +28,7 @@ export default function SubmitResearchPage() {
             <Upload className="h-4 w-4" /> Multi-Step Peer Submission
           </div>
           <h1 className="font-heading text-4xl font-extrabold text-navy">Submit Your Research Paper</h1>
-          <p className="text-xs text-navy/70">Step {step} of 4: {step === 1 ? "Paper Details" : step === 2 ? "Author Details" : step === 3 ? "Upload PDF & Declarations" : "Review & Submit"}</p>
+          <p className="text-xs text-navy/70">{step === 0 ? "Step 0: Submission Guidelines" : `Step ${step} of 4: ${step === 1 ? "Paper Details" : step === 2 ? "Author Details" : step === 3 ? "Upload PDF & Declarations" : "Review & Submit"}`}</p>
         </div>
 
         {/* Wizard Card */}
@@ -43,6 +43,74 @@ export default function SubmitResearchPage() {
             </div>
           ) : (
             <>
+              {step === 0 && (
+                <div className="space-y-8 text-navy text-sm leading-relaxed">
+                  <div className="space-y-3">
+                    <h2 className="font-heading text-2xl font-bold">Before Submitting Your Research</h2>
+                    <p>Before submitting your work, please carefully review the following guidelines.</p>
+                  </div>
+
+                  <div className="space-y-6">
+                    <h3 className="font-heading text-xl font-bold text-sapphire border-b border-navy/10 pb-2">Publishing Guidelines</h3>
+                    
+                    <div className="space-y-2">
+                      <h4 className="font-bold">Authorship & Originality</h4>
+                      <ul className="list-disc pl-5 space-y-1">
+                        <li>All submitted research must be the author's own original work.</li>
+                        <li>The author is fully responsible for the content submitted.</li>
+                        <li>Plagiarism in any form, including AI-generated text presented as original work or copying content without proper citation, is strictly prohibited and will result in rejection.</li>
+                      </ul>
+                    </div>
+
+                    <div className="space-y-2">
+                      <h4 className="font-bold">Use of Artificial Intelligence (AI)</h4>
+                      <ul className="list-disc pl-5 space-y-1">
+                        <li>The use of Artificial Intelligence (AI) tools is not allowed when writing or preparing any research submitted to this website.</li>
+                        <li>AI may be used only as a tool, not as a writer.</li>
+                        <li>Permitted uses of AI include Grammar checks only.</li>
+                      </ul>
+                    </div>
+
+                    <div className="space-y-2">
+                      <h4 className="font-bold">Editorial Review & Publication</h4>
+                      <ul className="list-disc pl-5 space-y-1">
+                        <li>The website has the right to review, edit, and make minor changes to the research for publication purposes only, without changing the main idea or meaning.</li>
+                        <li>The author will be notified of any changes and has the right to approve or reject them.</li>
+                        <li>If no response is received within a reasonable period of time, the website may proceed with the edits.</li>
+                      </ul>
+                    </div>
+
+                    <div className="space-y-2">
+                      <h4 className="font-bold">Referencing & Sources</h4>
+                      <ul className="list-disc pl-5 space-y-1">
+                        <li>All sources used must be clearly and properly cited using a consistent referencing style.</li>
+                        <li>Failure to provide accurate references may result in revision requests or rejection.</li>
+                        <li>After publication, authors will receive a certificate for their work.</li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div className="space-y-6">
+                    <h3 className="font-heading text-xl font-bold text-sapphire border-b border-navy/10 pb-2">Submission Types</h3>
+                    
+                    <div className="grid gap-4 md:grid-cols-3">
+                      <div className="rounded-2xl border border-navy/10 bg-ivory/50 p-4 space-y-2">
+                        <h4 className="font-bold text-navy">Research Papers</h4>
+                        <p className="text-xs text-navy/70">Original research-based work that explores a specific question or problem through structured methodology, analysis, and evidence. This type focuses on presenting new findings, insights, or data-driven conclusions.</p>
+                      </div>
+                      <div className="rounded-2xl border border-navy/10 bg-ivory/50 p-4 space-y-2">
+                        <h4 className="font-bold text-navy">Review Articles</h4>
+                        <p className="text-xs text-navy/70">Analytical articles that summarize, compare, and evaluate existing research on a specific topic. Review articles do not present new data but aim to organize current knowledge and highlight patterns, gaps, or trends.</p>
+                      </div>
+                      <div className="rounded-2xl border border-navy/10 bg-ivory/50 p-4 space-y-2">
+                        <h4 className="font-bold text-navy">Research Essays</h4>
+                        <p className="text-xs text-navy/70">Thoughtful, research-informed essays that explore ideas, concepts, or questions through critical thinking and evidence. This format allows for more reflection and discussion while still requiring credible sources and academic reasoning.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
               {step === 1 && (
                 <div className="space-y-4">
                   <div>
@@ -173,13 +241,17 @@ export default function SubmitResearchPage() {
 
               {/* Navigation Controls */}
               <div className="flex justify-between pt-4 border-t border-navy/10">
-                {step > 1 ? (
+                {step > 0 ? (
                   <Button variant="secondary" onClick={() => setStep(step - 1)} className="rounded-full border-navy text-navy hover:bg-navy hover:text-ivory text-xs px-5">
                     <ArrowLeft className="h-3.5 w-3.5 mr-1" /> Back
                   </Button>
                 ) : <div />}
 
-                {step < 4 ? (
+                {step === 0 ? (
+                  <Button onClick={() => setStep(1)} className="rounded-full bg-navy hover:bg-sapphire text-ivory text-xs px-6">
+                    I Have Read The Guidelines <ArrowRight className="h-3.5 w-3.5 ml-1" />
+                  </Button>
+                ) : step < 4 ? (
                   <Button onClick={() => setStep(step + 1)} className="rounded-full bg-navy hover:bg-sapphire text-ivory text-xs px-6">
                     Next Step <ArrowRight className="h-3.5 w-3.5 ml-1" />
                   </Button>

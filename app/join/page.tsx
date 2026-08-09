@@ -51,11 +51,51 @@ export default function JoinPage() {
           ))}
         </div>
 
+        {/* Volunteer Info */}
+        <div className="max-w-4xl mx-auto space-y-8">
+          <div className="text-center space-y-4">
+            <h2 className="font-heading text-3xl font-bold text-navy">Volunteer With Tour!</h2>
+            <p className="text-navy/75 leading-relaxed max-w-2xl mx-auto">
+              We recognize the time, effort, and commitment you invest in thinking, researching, and writing, and we truly value the work you contribute to supporting knowledge-sharing. And we want to appreciate it. You can receive volunteer hours for any work you complete for Tour. To apply for volunteer hours, please use the form below.
+            </p>
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-2">
+            <div className="rounded-3xl border border-navy/10 bg-white p-6 shadow-sm space-y-4">
+              <h3 className="font-heading text-xl font-bold text-navy text-center">Ways to Earn Volunteer Hours</h3>
+              <p className="text-xs text-navy/70 text-center">Any contribution to Tour is considered volunteer work, as it supports knowledge-sharing, helps learning, and creates opportunities for young students to engage in research.</p>
+              <ul className="list-none space-y-2 text-sm text-navy/80">
+                <li className="flex items-start gap-2"><CheckCircle2 className="h-4 w-4 text-sapphire mt-0.5 shrink-0" /> Writing and publishing research papers or essays</li>
+                <li className="flex items-start gap-2"><CheckCircle2 className="h-4 w-4 text-sapphire mt-0.5 shrink-0" /> Opening chapters in your country or school</li>
+                <li className="flex items-start gap-2"><CheckCircle2 className="h-4 w-4 text-sapphire mt-0.5 shrink-0" /> Creating Instagram posts or TikTok content</li>
+                <li className="flex items-start gap-2"><CheckCircle2 className="h-4 w-4 text-sapphire mt-0.5 shrink-0" /> Designing graphic or visual content</li>
+                <li className="flex items-start gap-2"><CheckCircle2 className="h-4 w-4 text-sapphire mt-0.5 shrink-0" /> Editing and reviewing submissions</li>
+                <li className="flex items-start gap-2"><CheckCircle2 className="h-4 w-4 text-sapphire mt-0.5 shrink-0" /> Organizing educational initiatives or learning campaigns</li>
+                <li className="flex items-start gap-2"><CheckCircle2 className="h-4 w-4 text-sapphire mt-0.5 shrink-0" /> Translation</li>
+              </ul>
+            </div>
+
+            <div className="rounded-3xl border border-navy/10 bg-white p-6 shadow-sm space-y-4">
+              <h3 className="font-heading text-xl font-bold text-navy text-center">Volunteer Recognition</h3>
+              <p className="text-xs text-navy/70 text-center">To receive volunteer hours, contributors are asked to report the number of hours they spent working with Tour. We trust our contributors to report their hours honestly and responsibly.</p>
+              <ul className="list-none space-y-2 text-sm text-navy/80">
+                <li className="flex items-start gap-2"><Award className="h-4 w-4 text-sapphire mt-0.5 shrink-0" /> A digital volunteer certificate</li>
+                <li className="flex items-start gap-2"><FileText className="h-4 w-4 text-sapphire mt-0.5 shrink-0" /> A record of volunteer hours (for school, NHS, or college applications)</li>
+                <li className="flex items-start gap-2"><Users className="h-4 w-4 text-sapphire mt-0.5 shrink-0" /> A recommendation letter (for contributors who have worked consistently with Tour for at least two consecutive months)</li>
+              </ul>
+              
+              <div className="mt-4 p-3 rounded-xl bg-champagne/40 border border-sapphire/10 text-xs text-navy/80">
+                <strong>Note:</strong> Tour is not yet a registered 501(c)(3) organization. However, we are happy to provide verification or confirmation of participation for schools or clubs upon request.
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Application Form Card */}
         <div className="max-w-2xl mx-auto rounded-3xl border border-navy/10 bg-white p-8 shadow-soft space-y-6">
           <div className="text-center space-y-2">
             <h3 className="font-heading text-2xl font-bold text-navy">Volunteer Application Form</h3>
-            <p className="text-xs text-navy/60">Fill out your details to join the TOUR volunteer ecosystem and track hours.</p>
+            <p className="text-xs text-navy/60">Fill out your details to join the TOUR volunteer ecosystem and apply for hours.</p>
           </div>
 
           <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>

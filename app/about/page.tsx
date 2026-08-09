@@ -25,10 +25,18 @@ export default function AboutPage() {
             <Compass className="h-4 w-4" /> Explore Knowledge Wisely
           </div>
           <h1 className="font-heading text-4xl md:text-6xl font-extrabold text-navy leading-tight">
-            Empowering the Next Generation of Thinkers
+            About Tour
           </h1>
           <p className="text-navy/70 leading-relaxed text-lg">
-            TOUR is a student-led research ecosystem that provides high school and university students an accessible platform to think, explore curiosity, write, publish, and exchange ideas freely.
+            Tour is a student-led, non-profit research and educational platform that encourages young thinkers to start their research journey early, to learn from their curiosity, and to answer questions instead of only asking them. We believe that curiosity, learning, and publishing should be accessible to everyone, not limited by privilege, resources, or background.
+          </p>
+        </div>
+
+        {/* Why Tour */}
+        <div className="max-w-4xl mx-auto rounded-3xl border border-navy/10 bg-white p-8 md:p-10 shadow-soft text-center space-y-4">
+          <h2 className="font-heading text-3xl font-bold text-navy">Why Tour</h2>
+          <p className="text-navy/75 leading-relaxed text-lg mx-auto">
+            We believe that research should not be reserved for elite institutions or expensive programs. At Tour, we aim to create a space where young thinkers can ask meaningful questions, explore science, and transform curiosity into impactful knowledge.
           </p>
         </div>
 
@@ -40,7 +48,7 @@ export default function AboutPage() {
             </div>
             <h2 className="font-heading text-2xl font-bold text-navy">Our Mission</h2>
             <p className="text-sm text-navy/75 leading-relaxed">
-              Empower young students to begin their research journey by providing an accessible platform where they can think, explore curiosity, write, publish, and exchange ideas freely without institutional gatekeeping.
+              We endeavor to empower young students to begin their research journey early by providing an accessible platform where they can think, explore their curiosity, write, publish, and exchange ideas freely.
             </p>
           </div>
 
@@ -50,7 +58,7 @@ export default function AboutPage() {
             </div>
             <h2 className="font-heading text-2xl font-bold text-navy">Our Vision</h2>
             <p className="text-sm text-navy/75 leading-relaxed">
-              Create opportunities for young researchers passionate about science and knowledge to become active contributors to the future of human discovery, ethical technology, and planetary resilience.
+              We strive to create opportunities for young researchers who are passionate about exploring science and becoming active contributors to knowledge.
             </p>
           </div>
         </div>
