@@ -3,23 +3,29 @@
 @tailwind utilities;
 
 :root {
-  --font-heading: "Playfair Display", Georgia, serif;
-  --font-body: "Inter", sans-serif;
+  --font-comic: var(--font-comic-neue), "Comic Neue", cursive, sans-serif;
+  --font-nunito-family: var(--font-nunito), "Nunito", sans-serif;
+  --font-inter-family: var(--font-inter), "Inter", sans-serif;
+  --font-heading: var(--font-comic-neue), "Comic Neue", "Playfair Display", Georgia, serif;
+  --font-body: var(--font-comic-neue), "Comic Neue", "Inter", "Nunito", cursive, sans-serif;
 }
 
 html {
   scroll-behavior: smooth;
+  font-family: var(--font-comic);
 }
 
 body {
-  @apply bg-ivory text-navy font-body antialiased;
+  font-family: var(--font-comic);
+  @apply bg-ivory text-navy antialiased;
 }
 
 h1,
 h2,
 h3,
 h4 {
-  @apply font-heading;
+  font-family: var(--font-comic);
+  @apply font-bold;
 }
 
 /* Visible keyboard focus, respected everywhere */

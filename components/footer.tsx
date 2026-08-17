@@ -1,70 +1,56 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { TourLogo } from "@/components/tour-logo";
 
-const columns = [
-  {
-    title: "Platform",
-    links: [
-      { href: "/questions", label: "Research Questions" },
-      { href: "/research", label: "Explore Papers" },
-      { href: "/submit", label: "Submit Research" },
-      { href: "/ai-assistant", label: "AI Co-pilot" },
-      { href: "/dashboard", label: "User Dashboard" },
-    ],
-  },
-  {
-    title: "Ecosystem",
-    links: [
-      { href: "/community", label: "Community Feed" },
-      { href: "/mentorship", label: "Mentorship Directory" },
-      { href: "/challenges", label: "Research Challenges" },
-      { href: "/achievements", label: "Badges & Certificates" },
-      { href: "/join", label: "Volunteer Program" },
-    ],
-  },
-  {
-    title: "Organization",
-    links: [
-      { href: "/about", label: "Story & Values" },
-      { href: "/team", label: "Our Team" },
-      { href: "/contact", label: "Contact & FAQ" },
-      { href: "/admin", label: "Admin Portal" },
-    ],
-  },
+const footerLinks = [
+  { href: "/research", label: "Explore" },
+  { href: "/join", label: "Join" },
+  { href: "/about", label: "About" },
+  { href: "/team", label: "Team" },
+  { href: "/contact", label: "Contact" },
 ];
 
 export function Footer() {
+  const pathname = usePathname();
+
+  // Hide footer on writer pages (they use the sidebar layout)
+  const writerPages = ["/dashboard", "/workspace", "/submit"];
+  const isWriterPage = writerPages.some(
+    (p) => pathname === p || pathname.startsWith(`${p}/`)
+  );
+  if (isWriterPage) return null;
+
   return (
     <footer className="border-t border-navy/10 bg-navy text-ivory">
-      <div className="container-tour py-16">
-        <div className="grid gap-12 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
-          <div>
-            <TourLogo variant="panel" imageClassName="h-9" />
-            <p className="mt-4 max-w-xs text-sm text-ivory/60">
-              Where curiosity becomes knowledge. A research ecosystem for the next
-              generation of student scientists.
-            </p>
+      <div className="container-tour py-6">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+          {/* Logo + tagline */}
+          <div className="flex items-center gap-3">
+            <TourLogo variant="panel" imageClassName="h-7" />
+            <span className="text-xs text-ivory/50 hidden sm:inline">
+              Where curiosity becomes knowledge.
+            </span>
           </div>
 
-          {columns.map((col) => (
-            <div key={col.title}>
-              <h4 className="font-heading text-sm font-semibold text-ivory/90">{col.title}</h4>
-              <ul className="mt-4 space-y-3">
-                {col.links.map((l) => (
-                  <li key={l.href}>
-                    <Link href={l.href} className="text-sm text-ivory/60 hover:text-ivory">
-                      {l.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
+          {/* Inline links */}
+          <nav className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
+            {footerLinks.map((l) => (
+              <Link
+                key={l.href}
+                href={l.href}
+                className="text-[11px] font-semibold text-ivory/50 hover:text-ivory transition uppercase tracking-wide"
+              >
+                {l.label}
+              </Link>
+            ))}
+          </nav>
 
-        <div className="mt-16 flex flex-col-reverse gap-4 border-t border-ivory/10 pt-8 text-xs text-ivory/50 sm:flex-row sm:items-center sm:justify-between">
-          <p>(c) {new Date().getFullYear()} Tour. A student-led nonprofit.</p>
-          <p>Every research paper begins with curiosity.</p>
+          {/* Copyright */}
+          <p className="text-[11px] text-ivory/40 shrink-0">
+            © {new Date().getFullYear()} Tour
+          </p>
         </div>
       </div>
     </footer>

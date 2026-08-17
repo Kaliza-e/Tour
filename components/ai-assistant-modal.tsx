@@ -1,18 +1,22 @@
 "use client";
 
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 import { Sparkles, Bot, X, Send, BookOpen, Lightbulb, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export function AIAssistantModal() {
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
+  const pathname = usePathname();
   const [messages, setMessages] = useState<Array<{ role: "user" | "assistant"; text: string }>>([
     {
       role: "assistant",
       text: "Greetings young researcher! I am your TOUR AI Assistant. I can help you generate research hypotheses, summarize abstracts, format APA/IEEE citations, or structure your paper draft. How can I guide your discovery today?",
     },
   ]);
+
+  const hideFloatingButton = pathname?.startsWith("/workspace") || pathname?.startsWith("/dashboard");
 
   const handleSend = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
@@ -36,14 +40,16 @@ export function AIAssistantModal() {
 
   return (
     <>
-      <button
-        onClick={() => setOpen(true)}
-        className="fixed bottom-6 right-6 z-50 flex items-center gap-2.5 rounded-full bg-navy px-5 py-3 text-sm font-semibold text-ivory shadow-soft transition hover:bg-sapphire hover:scale-105"
-        aria-label="Open AI Assistant"
-      >
-        <Sparkles className="h-4 w-4 text-champagne animate-pulse" />
-        <span>Tour</span>
-      </button>
+      {!hideFloatingButton && (
+        <button
+          onClick={() => setOpen(true)}
+          className="fixed bottom-6 right-6 z-50 flex items-center gap-2.5 rounded-full bg-navy px-5 py-3 text-sm font-semibold text-ivory shadow-soft transition hover:bg-sapphire hover:scale-105"
+          aria-label="Open AI Assistant"
+        >
+          <Sparkles className="h-4 w-4 text-champagne animate-pulse" />
+          <span>Tour</span>
+        </button>
+      )}
 
       {open && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-navy/60 p-4 backdrop-blur-sm">

@@ -22,8 +22,11 @@ const config: Config = {
         muted: "#BEB7A7",
       },
       fontFamily: {
-        heading: ["var(--font-heading)", "Playfair Display", "Georgia", "serif"],
-        body: ["var(--font-body)", "Inter", "sans-serif"],
+        heading: ["var(--font-comic-neue)", "Comic Neue", "cursive", "sans-serif"],
+        body: ["var(--font-comic-neue)", "Comic Neue", "var(--font-inter)", "Inter", "var(--font-nunito)", "Nunito", "cursive", "sans-serif"],
+        comic: ["var(--font-comic-neue)", "Comic Neue", "cursive", "sans-serif"],
+        inter: ["var(--font-inter)", "Inter", "sans-serif"],
+        nunito: ["var(--font-nunito)", "Nunito", "sans-serif"],
       },
       fontSize: {
         hero: ["72px", { lineHeight: "1.05", letterSpacing: "0" }],

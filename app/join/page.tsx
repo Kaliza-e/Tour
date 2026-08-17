@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Users, Mail, ShieldCheck, HeartHandshake, Award, FileText, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -29,26 +30,44 @@ export default function JoinPage() {
 
         {/* Roles Grid */}
         <div className="grid gap-6 md:grid-cols-2">
-          {roles.map((r, idx) => (
-            <div key={idx} className="rounded-3xl border border-navy/10 bg-white p-8 shadow-card space-y-4 flex flex-col justify-between">
-              <div className="space-y-3">
-                <span className="rounded-full bg-sapphire/10 border border-sapphire/20 px-3 py-1 text-xs font-bold text-sapphire">
-                  {r.badge}
-                </span>
-                <h3 className="font-heading text-2xl font-bold text-navy">{r.title}</h3>
-                <p className="text-sm text-navy/70 leading-relaxed">{r.desc}</p>
-              </div>
+          {roles.map((r, idx) => {
+            const isWriter = r.title === "Student Research Writer";
+            return (
+              <div key={idx} className="rounded-3xl border border-navy/10 bg-white p-8 shadow-card space-y-4 flex flex-col justify-between hover:shadow-soft transition">
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="rounded-full bg-sapphire/10 border border-sapphire/20 px-3 py-1 text-xs font-bold text-sapphire">
+                      {r.badge}
+                    </span>
+                    {isWriter && (
+                      <span className="text-[10px] uppercase font-bold tracking-wider text-emerald-700 bg-emerald-100 px-2.5 py-0.5 rounded-full">
+                        Featured Track
+                      </span>
+                    )}
+                  </div>
+                  <h3 className="font-heading text-2xl font-bold text-navy">{r.title}</h3>
+                  <p className="text-sm text-navy/70 leading-relaxed">{r.desc}</p>
+                </div>
 
-              <div className="pt-4 border-t border-navy/5 flex items-center justify-between">
-                <span className="text-xs text-emerald-700 font-semibold flex items-center gap-1">
-                  <CheckCircle2 className="h-3.5 w-3.5" /> Earn Verified Hours
-                </span>
-                <Button variant="secondary" className="rounded-full border-navy text-navy hover:bg-navy hover:text-ivory text-xs px-5">
-                  Apply for Role
-                </Button>
+                <div className="pt-4 border-t border-navy/5 flex items-center justify-between">
+                  <span className="text-xs text-emerald-700 font-semibold flex items-center gap-1">
+                    <CheckCircle2 className="h-3.5 w-3.5" /> Earn Verified Hours
+                  </span>
+                  {isWriter ? (
+                    <Link href="/join/writer">
+                      <Button className="rounded-full bg-navy text-ivory hover:bg-sapphire text-xs px-5 shadow-sm">
+                        Apply & Start Writing →
+                      </Button>
+                    </Link>
+                  ) : (
+                    <Button variant="secondary" className="rounded-full border-navy text-navy hover:bg-navy hover:text-ivory text-xs px-5">
+                      Apply for Role
+                    </Button>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Volunteer Info */}

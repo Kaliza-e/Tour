@@ -95,11 +95,11 @@ export default function LandingPage() {
         <div className="container-tour relative py-20 md:py-28">
           <div className="mx-auto max-w-5xl text-center">
 
-            <h1 className="mt-2 font-heading text-5xl font-extrabold leading-[1.1] text-navy md:text-hero uppercase overflow-hidden" aria-label="Take a Tour Between Minds">
+            <h1 className="mt-2 font-heading text-3xl sm:text-4xl md:text-5xl lg:text-hero font-extrabold leading-[1.1] text-navy uppercase overflow-hidden" aria-label="Take a Tour Between Minds">
               {["Take", "a", "Tour", "Between", "Minds"].map((word, i) => (
                 <span
                   key={word + i}
-                  className="hero-word mr-[0.3em] last:mr-0"
+                  className="hero-word mr-[0.2em] sm:mr-[0.3em] last:mr-0 inline-block"
                   style={{ animationDelay: `${i * 0.13}s` }}
                 >
                   {word}
@@ -107,30 +107,29 @@ export default function LandingPage() {
               ))}
             </h1>
 
-            <p className="fade-up mx-auto mt-6 max-w-2xl text-lg text-navy/60" style={{ animationDelay: "0.85s" }}>
+            <p className="fade-up mx-auto mt-4 sm:mt-6 max-w-2xl text-base sm:text-lg text-navy/60 px-2" style={{ animationDelay: "0.85s" }}>
               Tour is a student-led, non-profit research and educational platform empowering young minds to explore, write, and share knowledge.
             </p>
 
-            <div className="fade-up mt-10 flex items-center justify-center gap-6" style={{ animationDelay: "1.05s" }}>
-              <Link href="/join">
+            <div className="fade-up mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6 w-full max-w-xs sm:max-w-none mx-auto" style={{ animationDelay: "1.05s" }}>
+              <Link href="/join" className="w-full sm:w-auto">
                 <Button 
                   size="lg"
-                  className="rounded-full bg-navy px-8 py-4 shadow-card text-sm uppercase tracking-wider hover:scale-105 transition-transform duration-200"
+                  className="w-full sm:w-auto rounded-full bg-navy px-8 py-4 shadow-card text-xs sm:text-sm uppercase tracking-wider hover:scale-105 transition-transform duration-200"
                 >
                   Join the journey
                 </Button>
               </Link>
 
-              <Link href="/publications">
+              <Link href="/publications" className="w-full sm:w-auto">
                 <Button
                   size="lg"
                   variant="ghost"
-                  className="rounded-full border border-navy/20 bg-transparent text-navy px-7 py-4 hover:scale-105 transition-transform duration-200"
+                  className="w-full sm:w-auto rounded-full border border-navy/20 bg-transparent text-navy px-7 py-4 hover:scale-105 transition-transform duration-200 text-xs sm:text-sm"
                 >
                   Explore Publications
                 </Button>
               </Link>
-
             </div>
 
 
