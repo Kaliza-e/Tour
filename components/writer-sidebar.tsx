@@ -41,7 +41,6 @@ const writerNav = [
   {
     group: "Activity",
     items: [
-      { href: "/questions", label: "Question Hub", icon: BookOpen },
       { href: "/achievements", label: "Achievements", icon: Award },
     ],
   },
