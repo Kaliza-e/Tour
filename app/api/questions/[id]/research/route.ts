@@ -3,6 +3,8 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
+export const dynamic = "force-dynamic";
+
 // POST /api/questions/:id/research
 // Implements: "I'd Like To Research This" -> creates a ResearchProject in the
 // student's workspace, links it to the question, and flips the question's

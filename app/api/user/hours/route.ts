@@ -3,6 +3,8 @@ import { getServerSession } from "next-auth";
 import { z } from "zod";
 import { authOptions } from "@/lib/auth";
 
+export const dynamic = "force-dynamic";
+
 const hourLogSchema = z.object({
   task: z.string().min(3),
   hours: z.number().min(0.25).max(100),

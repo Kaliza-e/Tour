@@ -5,6 +5,8 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { QuestionStatus } from "@prisma/client";
 
+export const dynamic = "force-dynamic";
+
 const createQuestionSchema = z.object({
   title: z.string().min(10).max(200),
   description: z.string().min(20),

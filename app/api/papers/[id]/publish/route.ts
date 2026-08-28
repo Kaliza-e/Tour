@@ -4,6 +4,8 @@ import type { Prisma } from "@prisma/client";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
+export const dynamic = "force-dynamic";
+
 // POST /api/papers/:id/publish
 // Final step of the publication workflow. Requires status APPROVED.
 // On success: paper -> PUBLISHED, and if the paper's project was adopted
