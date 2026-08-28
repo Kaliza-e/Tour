@@ -61,13 +61,11 @@ export function Navbar() {
           )}
         >
           {/* Logo */}
-          <Link href="/" className="shrink-0">
-            <TourLogo
-              priority
-              imageClassName="h-9"
-              className="rounded-full bg-navy/5 p-1.5 hover:bg-navy/10 transition"
-            />
-          </Link>
+          <TourLogo
+            priority
+            imageClassName="h-9"
+            className="rounded-full bg-navy/5 p-1.5 hover:bg-navy/10 transition"
+          />
 
           {/* ── Desktop Nav Links ── */}
           <nav aria-label="Primary" className="hidden lg:flex items-center gap-1">

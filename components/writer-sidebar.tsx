@@ -77,10 +77,10 @@ export function WriterSidebar() {
           MOBILE TOP BAR (Visible on screens < lg)
          ───────────────────────────────────────────────────────────── */}
       <div className="lg:hidden sticky top-0 z-40 flex items-center justify-between border-b border-navy/10 bg-white/95 backdrop-blur-md px-4 py-2.5 shadow-2xs">
-        <Link href="/" className="flex items-center gap-2">
+        <div className="flex items-center gap-2">
           <TourLogo priority imageClassName="h-7" className="rounded-full bg-navy/5 p-1" />
           <span className="text-xs font-bold text-navy uppercase tracking-wider">Writer Portal</span>
-        </Link>
+        </div>
 
         <button
           onClick={() => setMobileOpen((v) => !v)}
@@ -105,10 +105,10 @@ export function WriterSidebar() {
           {/* Drawer Sheet */}
           <div className="relative flex w-[280px] max-w-[85vw] flex-1 flex-col bg-white shadow-soft p-5 z-10 overflow-y-auto">
             <div className="flex items-center justify-between pb-4 border-b border-navy/10">
-              <Link href="/" className="flex items-center gap-2">
+              <div className="flex items-center gap-2">
                 <TourLogo priority imageClassName="h-7" className="rounded-full bg-navy/5 p-1" />
                 <span className="text-sm font-bold text-navy">TOUR Workspace</span>
-              </Link>
+              </div>
               <button
                 onClick={() => setMobileOpen(false)}
                 className="rounded-lg p-1.5 text-navy/60 hover:bg-ivory hover:text-navy transition"
@@ -189,14 +189,10 @@ export function WriterSidebar() {
         {/* Header: Logo + Collapse */}
         <div className="flex items-center justify-between px-4 py-4 border-b border-navy/8">
           {!collapsed && (
-            <Link href="/" className="flex items-center gap-2">
-              <TourLogo priority imageClassName="h-7" className="rounded-full bg-navy/5 p-1" />
-            </Link>
+            <TourLogo priority imageClassName="h-7" className="rounded-full bg-navy/5 p-1" />
           )}
           {collapsed && (
-            <Link href="/" className="mx-auto">
-              <TourLogo priority imageClassName="h-7" className="rounded-full bg-navy/5 p-1" />
-            </Link>
+            <TourLogo priority imageClassName="h-7" className="rounded-full bg-navy/5 p-1" />
           )}
           <button
             onClick={() => setCollapsed((v) => !v)}
