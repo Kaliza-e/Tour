@@ -125,8 +125,8 @@ export async function GET() {
           ],
         });
       }
-    } catch {
-      // Fallback
+    } catch (error) {
+      console.error("Dashboard DB fetch error:", error);
     }
 
     return NextResponse.json({

@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { z } from "zod";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { QuestionStatus } from "@prisma/client";
 
 const createQuestionSchema = z.object({
   title: z.string().min(10).max(200),
@@ -11,15 +12,21 @@ const createQuestionSchema = z.object({
   tags: z.array(z.string()).max(8).default([]),
 });
 
+const validStatuses: QuestionStatus[] = ["OPEN", "BEING_RESEARCHED", "RESEARCH_COMPLETED", "ANSWERED"];
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const status = searchParams.get("status") ?? undefined;
+  const statusParam = searchParams.get("status");
   const categoryId = searchParams.get("categoryId") ?? undefined;
   const q = searchParams.get("q") ?? undefined;
 
+  const status = statusParam && validStatuses.includes(statusParam as QuestionStatus)
+    ? (statusParam as QuestionStatus)
+    : undefined;
+
   const questions = await prisma.question.findMany({
     where: {
-      status: status as never,
+      status,
       categoryId,
       title: q ? { contains: q, mode: "insensitive" } : undefined,
     },
