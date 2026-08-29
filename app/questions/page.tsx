@@ -2,6 +2,8 @@ import { Search } from "lucide-react";
 import { QuestionCard } from "@/components/question-card";
 import { prisma } from "@/lib/prisma";
 
+export const dynamic = "force-dynamic";
+
 const categories = ["All", "Biology", "Earth Science", "Medicine", "Computer Science", "Physics", "Psychology"];
 
 async function getQuestions() {
