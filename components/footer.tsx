@@ -15,12 +15,12 @@ const footerLinks = [
 export function Footer() {
   const pathname = usePathname();
 
-  // Hide footer on writer pages (they use the sidebar layout)
-  const writerPages = ["/dashboard", "/workspace", "/submit"];
-  const isWriterPage = writerPages.some(
+  // Hide footer on portal and auth pages
+  const hiddenFooterPages = ["/dashboard", "/workspace", "/submit", "/achievements", "/settings", "/login", "/join"];
+  const isHiddenPage = hiddenFooterPages.some(
     (p) => pathname === p || pathname.startsWith(`${p}/`)
   );
-  if (isWriterPage) return null;
+  if (isHiddenPage) return null;
 
   return (
     <footer className="border-t border-navy/10 bg-navy text-ivory">

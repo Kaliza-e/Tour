@@ -7,7 +7,7 @@ export default withAuth(
     const path = req.nextUrl.pathname;
 
     // Protect writer routes - require authentication
-    const writerPaths = ["/dashboard", "/workspace", "/submit"];
+    const writerPaths = ["/dashboard", "/workspace", "/submit", "/achievements", "/settings"];
     const isWriterPath = writerPaths.some((p) => path === p || path.startsWith(`${p}/`));
 
     if (isWriterPath && !token) {
@@ -31,7 +31,7 @@ export default withAuth(
     callbacks: {
       authorized: ({ token, req }) => {
         const path = req.nextUrl.pathname;
-        const writerPaths = ["/dashboard", "/workspace", "/submit"];
+        const writerPaths = ["/dashboard", "/workspace", "/submit", "/achievements", "/settings"];
         const isWriterPath = writerPaths.some((p) => path === p || path.startsWith(`${p}/`));
 
         // Allow access to writer paths only if authenticated
@@ -51,6 +51,8 @@ export const config = {
     "/dashboard/:path*",
     "/workspace/:path*",
     "/submit/:path*",
+    "/achievements/:path*",
+    "/settings/:path*",
     "/login",
     "/join",
   ],

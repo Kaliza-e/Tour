@@ -186,32 +186,32 @@ export function WriterSidebar() {
           collapsed ? "w-[68px]" : "w-[240px]"
         )}
       >
-        {/* Header: Logo + Collapse */}
-        <div className="flex items-center justify-between px-4 py-4 border-b border-navy/8">
+        {/* Header: Logo + Collapse (removed line below logo) */}
+        <div className="flex items-center justify-between px-4 py-4">
           {!collapsed && (
-            <TourLogo priority imageClassName="h-7" className="rounded-full bg-navy/5 p-1" />
+            <TourLogo priority imageClassName="h-7" className="p-0.5" />
           )}
           {collapsed && (
-            <TourLogo priority imageClassName="h-7" className="rounded-full bg-navy/5 p-1" />
+            <TourLogo priority imageClassName="h-7" className="p-0.5" />
           )}
           <button
             onClick={() => setCollapsed((v) => !v)}
             className={cn(
-              "grid h-7 w-7 place-items-center rounded-lg border border-navy/10 text-navy/50 hover:bg-ivory hover:text-navy transition",
+              "grid h-6 w-6 place-items-center rounded-full border border-navy/15 bg-white text-navy/70 shadow-2xs hover:bg-navy hover:text-white transition-all duration-150",
               collapsed && "mx-auto mt-2"
             )}
             aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
           >
-            {collapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
+            {collapsed ? <ChevronRight size={13} /> : <ChevronLeft size={13} />}
           </button>
         </div>
 
         {/* Desktop Nav Groups */}
-        <nav className="flex-1 overflow-y-auto py-4 px-3 space-y-5">
+        <nav className="flex-1 overflow-y-auto py-3 px-3 space-y-4">
           {writerNav.map((section) => (
             <div key={section.group}>
               {!collapsed && (
-                <p className="px-3 mb-2 text-[9px] font-bold uppercase tracking-[0.15em] text-sapphire/70">
+                <p className="px-3 mb-1.5 text-[9px] font-bold uppercase tracking-[0.15em] text-sapphire/70">
                   {section.group}
                 </p>
               )}
@@ -225,14 +225,14 @@ export function WriterSidebar() {
                       href={item.href}
                       title={collapsed ? item.label : undefined}
                       className={cn(
-                        "flex items-center gap-3 rounded-xl px-3 py-2.5 text-[13px] font-semibold transition-all duration-150",
+                        "flex items-center gap-3 rounded-xl px-3 py-2.5 text-[13px] font-bold transition-all duration-150 relative",
                         active
-                          ? "bg-navy text-ivory shadow-sm"
-                          : "text-navy/60 hover:bg-navy/6 hover:text-navy",
-                        collapsed && "justify-center px-0"
+                          ? "text-navy bg-navy/8 border-l-3 border-navy font-extrabold"
+                          : "text-navy/60 hover:bg-navy/5 hover:text-navy",
+                        collapsed && "justify-center px-0 border-l-0"
                       )}
                     >
-                      <Icon className="h-4 w-4 shrink-0" />
+                      <Icon className={cn("h-4 w-4 shrink-0", active ? "text-navy" : "text-navy/50")} />
                       {!collapsed && <span>{item.label}</span>}
                     </Link>
                   );

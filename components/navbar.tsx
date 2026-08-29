@@ -37,12 +37,12 @@ export function Navbar() {
       ? pathname === "/"
       : pathname === href || pathname.startsWith(`${href}/`);
 
-  // Hide the global navbar on writer pages that use the sidebar layout
-  const writerPages = ["/dashboard", "/workspace", "/submit"];
-  const isWriterPage = writerPages.some(
+  // Hide the global navbar on writer portal & auth pages
+  const hiddenNavbarPages = ["/dashboard", "/workspace", "/submit", "/achievements", "/settings", "/login", "/join"];
+  const isHiddenPage = hiddenNavbarPages.some(
     (p) => pathname === p || pathname.startsWith(`${p}/`)
   );
-  if (isWriterPage) return null;
+  if (isHiddenPage) return null;
 
   return (
     <header
@@ -64,7 +64,7 @@ export function Navbar() {
           <TourLogo
             priority
             imageClassName="h-9"
-            className="rounded-full bg-navy/5 p-1.5 hover:bg-navy/10 transition"
+            className="p-1 transition opacity-95 hover:opacity-100"
           />
 
           {/* ── Desktop Nav Links ── */}
@@ -74,10 +74,10 @@ export function Navbar() {
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  "rounded-full px-4 py-2 text-[12px] font-bold uppercase tracking-wide transition-all duration-150",
+                  "relative px-3.5 py-1.5 text-[12px] font-bold uppercase tracking-wide transition-all duration-150 border-b-2",
                   isActive(link.href)
-                    ? "bg-navy text-ivory shadow-sm"
-                    : "text-navy/60 hover:bg-navy/6 hover:text-navy"
+                    ? "text-navy border-navy font-extrabold"
+                    : "text-navy/65 hover:text-navy border-transparent hover:border-navy/30"
                 )}
               >
                 {link.label}

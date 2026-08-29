@@ -132,8 +132,11 @@ const initialNotes = [
 ];
 
 export default function ResearchNotebookPage() {
-  const [paperTitle, setPaperTitle] = useState("Microplastic Accumulation in Freshwater Snails Across Urban River Basins");
-  const [category, setCategory] = useState("Environmental Science");
+  const [projectId, setProjectId] = useState<string | null>(null);
+  const [paperTitle, setPaperTitle] = useState("Loading Your Research Investigation...");
+  const [category, setCategory] = useState("Science");
+  const [researchGoal, setResearchGoal] = useState("");
+  const [hypothesis, setHypothesis] = useState("");
   const [activeSection, setActiveSection] = useState<SectionKey>("abstract");
   const [sections, setSections] = useState<SectionContent[]>(defaultSections);
   const [references, setReferences] = useState(initialReferences);
@@ -147,6 +150,39 @@ export default function ResearchNotebookPage() {
   const [lastSavedTime, setLastSavedTime] = useState<string>("Just now");
   const [showExportModal, setShowExportModal] = useState(false);
   const [citationFormat, setCitationFormat] = useState<"APA" | "MLA" | "IEEE" | "Chicago">("APA");
+
+  // Fetch logged in user's active research project
+  useEffect(() => {
+    async function loadActiveProject() {
+      try {
+        const res = await fetch("/api/projects");
+        if (res.ok) {
+          const projects = await res.json();
+          if (Array.isArray(projects) && projects.length > 0) {
+            const active = projects[0];
+            setProjectId(active.id);
+            setPaperTitle(active.title || "Untitled Research Investigation");
+            if (active.category?.name) setCategory(active.category.name);
+            if (active.researchGoal) setResearchGoal(active.researchGoal);
+            if (active.hypothesis) setHypothesis(active.hypothesis);
+            if (Array.isArray(active.notes) && active.notes.length > 0) {
+              setNotes(
+                active.notes.map((n: { id: string; content: string }) => ({
+                  id: n.id,
+                  title: "Research Note",
+                  text: n.content,
+                  tag: "Workspace",
+                }))
+              );
+            }
+          }
+        }
+      } catch (err) {
+        console.error("Error loading project in notebook:", err);
+      }
+    }
+    loadActiveProject();
+  }, []);
 
   // Checklist items
   const [checklist, setChecklist] = useState([
@@ -176,8 +212,22 @@ export default function ResearchNotebookPage() {
     );
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     setSavedStatus("saving");
+    try {
+      if (projectId) {
+        await fetch(`/api/projects/${projectId}`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            title: paperTitle,
+            progress: progressPercent,
+          }),
+        });
+      }
+    } catch (e) {
+      console.error("Failed to save project", e);
+    }
     setTimeout(() => {
       setSavedStatus("saved");
       setLastSavedTime(new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }));
@@ -194,7 +244,7 @@ export default function ResearchNotebookPage() {
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
+  }, [paperTitle, progressPercent, projectId]);
 
   const handleAddNote = () => {
     if (!newNoteText.trim()) return;
@@ -784,3 +834,5 @@ export default function ResearchNotebookPage() {
     </div>
   );
 }
+
+
