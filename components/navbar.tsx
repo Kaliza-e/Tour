@@ -123,37 +123,40 @@ export function Navbar() {
 
         {/* ── Mobile Drawer ── */}
         {mobileOpen && (
-          <div className="mt-3 overflow-hidden rounded-3xl border border-navy/12 bg-white/97 shadow-soft backdrop-blur-2xl lg:hidden">
-            <div className="p-5 space-y-4">
-              <div className="grid grid-cols-2 gap-1.5">
+          <div className="mt-2 overflow-hidden rounded-3xl border border-navy/10 bg-white shadow-xl lg:hidden">
+            <div className="p-4 pb-6 space-y-6">
+              <div className="flex flex-col space-y-1">
                 {navLinks.map((link) => (
                   <Link
                     key={link.href}
                     href={link.href}
                     className={cn(
-                      "rounded-2xl px-4 py-3 text-xs font-bold uppercase tracking-wider transition text-center",
+                      "rounded-full px-6 py-3.5 text-[15px] font-semibold transition flex items-center justify-between",
                       isActive(link.href)
-                        ? "bg-navy text-ivory shadow-sm"
-                        : "bg-ivory/70 text-navy hover:bg-champagne/60"
+                        ? "bg-navy/5 text-navy"
+                        : "text-navy/75 hover:text-navy"
                     )}
                   >
-                    {link.label}
+                    <span>{link.label}</span>
+                    {isActive(link.href) && (
+                      <span className="h-1.5 w-1.5 rounded-full bg-navy" />
+                    )}
                   </Link>
                 ))}
               </div>
 
-              <div className="border-t border-navy/8 pt-4 space-y-2">
+              <div className="grid grid-cols-2 gap-3 pt-2">
                 <Link
                   href="/login"
-                  className="block rounded-2xl border border-navy/15 bg-ivory/50 px-4 py-3 text-xs font-bold text-navy text-center hover:bg-champagne/60 transition"
+                  className="flex items-center justify-center rounded-full border border-navy/20 bg-white px-4 py-3.5 text-sm font-bold text-navy hover:bg-navy/5 transition"
                 >
-                  Log In to Your Account
+                  Log In
                 </Link>
                 <Link
                   href="/join"
-                  className="block rounded-2xl bg-navy text-ivory px-4 py-3 text-xs font-bold text-center hover:bg-sapphire transition"
+                  className="flex items-center justify-center rounded-full bg-navy text-ivory px-4 py-3.5 text-sm font-bold hover:bg-sapphire transition shadow-md"
                 >
-                  Join Tour →
+                  Join Tour
                 </Link>
               </div>
             </div>

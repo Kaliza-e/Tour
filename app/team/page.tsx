@@ -1,6 +1,12 @@
-import { Users, Linkedin, Github, Globe, Shield, Sparkles } from "lucide-react";
+import { Users, Linkedin, Github, Globe } from "lucide-react";
 
 const teamMembers = [
+  {
+    name: "Wasan alnaqeeb",
+    role: "Chief Executive Officer (CEO)",
+    bio: "Visionary leader driving Tour's mission to democratize research and empower student scientists worldwide.",
+    institution: "Tour",
+  },
   {
     name: "Siddharth Rao",
     role: "Founder & Executive Director",
@@ -8,22 +14,16 @@ const teamMembers = [
     institution: "Stanford Online High School",
   },
   {
+    name: "Kaliza Esther",
+    role: "Tech Lead",
+    bio: "Lead engineer architecting Tour's platform — building scalable, open web tools for collaborative student research.",
+    institution: "Tour",
+  },
+  {
     name: "Dr. Catherine Hayes",
     role: "Academic Advisor & Board Chair",
     bio: "Professor of Molecular Biology & Advocate for Early Research Mentorship in STEM.",
     institution: "MIT Dept of Biology",
-  },
-  {
-    name: "Li Wei",
-    role: "Head of Engineering",
-    bio: "Full Stack Developer building open web tools for collaborative literature review.",
-    institution: "UC Berkeley",
-  },
-  {
-    name: "Ananya Sharma",
-    role: "Chief Managing Editor",
-    bio: "Leads a global student editorial board reviewing incoming research across 12 disciplines.",
-    institution: "Oxford University",
   },
 ];
 

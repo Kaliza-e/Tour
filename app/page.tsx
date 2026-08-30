@@ -695,9 +695,13 @@ export default function LandingPage() {
 
             </p>
 
-            <p className="mx-auto mt-4 max-w-2xl text-sm text-navy/60">
-              TOUR is not yet a registered 501(c)(3) organization. However, we are happy to provide verification or confirmation of participation for schools or clubs upon request.
-            </p>
+            <div className="mx-auto mt-6 max-w-2xl rounded-2xl border border-sapphire/15 bg-champagne/40 px-6 py-4">
+              <p className="text-sm font-semibold text-navy/80 leading-relaxed">
+                <span className="inline-block mr-1.5">⚠️</span>
+                <span className="font-bold">TOUR is not yet a registered 501(c)(3) organization.</span>{" "}
+                However, we are happy to provide verification or confirmation of participation for schools or clubs upon request.
+              </p>
+            </div>
 
             <div className="mt-9">
 

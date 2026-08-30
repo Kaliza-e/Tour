@@ -1,6 +1,4 @@
-import Link from "next/link";
-import { Compass, Eye, Heart, ShieldCheck, Sparkles, Award, Users, CheckCircle2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Compass, Eye, Sparkles } from "lucide-react";
 
 const values = [
   { title: "Curiosity", desc: "Every scientific breakthrough starts with a bold question. We encourage unbounded youth inquiry." },
@@ -10,9 +8,9 @@ const values = [
 ];
 
 const timeline = [
-  { year: "2024", title: "The Spark", desc: "Founded by student researchers seeking an accessible platform for non-university youth research." },
-  { year: "2025", title: "Peer Review Network", desc: "Launched double-blind student peer review board and verified volunteer hour tracking system." },
-  { year: "2026", title: "Global Ecosystem", desc: "Now powering 2,400+ student researchers across 40 countries with AI Co-Pilot guidance." },
+  { year: "2026", title: "The Spark", desc: "Founded by student researchers seeking an accessible platform for non-university youth research." },
+  { year: "2027", title: "Peer Review Network", desc: "Launched double-blind student peer review board and verified volunteer hour tracking system." },
+  { year: "2028", title: "Global Ecosystem", desc: "Now powering 2,400+ student researchers across 40 countries with AI Co-Pilot guidance." },
 ];
 
 export default function AboutPage() {
@@ -24,10 +22,10 @@ export default function AboutPage() {
           <div className="inline-flex items-center gap-2 rounded-full border border-sapphire/20 bg-champagne/50 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-sapphire">
             <Compass className="h-4 w-4" /> Explore Knowledge Wisely
           </div>
-          <h1 className="font-heading text-4xl md:text-6xl font-extrabold text-navy leading-tight">
+          <h1 className="font-heading text-4xl md:text-5xl font-extrabold text-navy leading-tight">
             About Tour
           </h1>
-          <p className="text-navy/70 leading-relaxed text-lg">
+          <p className="text-navy/70 leading-relaxed">
             Tour is a student-led, non-profit research and educational platform that encourages young thinkers to start their research journey early, to learn from their curiosity, and to answer questions instead of only asking them. We believe that curiosity, learning, and publishing should be accessible to everyone, not limited by privilege, resources, or background.
           </p>
         </div>
@@ -35,7 +33,7 @@ export default function AboutPage() {
         {/* Why Tour */}
         <div className="max-w-4xl mx-auto rounded-3xl border border-navy/10 bg-white p-8 md:p-10 shadow-soft text-center space-y-4">
           <h2 className="font-heading text-3xl font-bold text-navy">Why Tour</h2>
-          <p className="text-navy/75 leading-relaxed text-lg mx-auto">
+          <p className="text-navy/70 leading-relaxed mx-auto">
             We believe that research should not be reserved for elite institutions or expensive programs. At Tour, we aim to create a space where young thinkers can ask meaningful questions, explore science, and transform curiosity into impactful knowledge.
           </p>
         </div>
@@ -47,7 +45,7 @@ export default function AboutPage() {
               <Eye className="h-6 w-6" />
             </div>
             <h2 className="font-heading text-2xl font-bold text-navy">Our Mission</h2>
-            <p className="text-sm text-navy/75 leading-relaxed">
+            <p className="text-sm text-navy/70 leading-relaxed">
               We endeavor to empower young students to begin their research journey early by providing an accessible platform where they can think, explore their curiosity, write, publish, and exchange ideas freely.
             </p>
           </div>
@@ -57,7 +55,7 @@ export default function AboutPage() {
               <Sparkles className="h-6 w-6" />
             </div>
             <h2 className="font-heading text-2xl font-bold text-navy">Our Vision</h2>
-            <p className="text-sm text-navy/75 leading-relaxed">
+            <p className="text-sm text-navy/70 leading-relaxed">
               We strive to create opportunities for young researchers who are passionate about exploring science and becoming active contributors to knowledge.
             </p>
           </div>

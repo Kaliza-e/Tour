@@ -43,7 +43,7 @@ export function AIAssistantModal() {
       {!hideFloatingButton && (
         <button
           onClick={() => setOpen(true)}
-          className="fixed bottom-6 right-6 z-50 flex items-center gap-2.5 rounded-full bg-navy px-5 py-3 text-sm font-semibold text-ivory shadow-soft transition hover:bg-sapphire hover:scale-105"
+          className="fixed bottom-20 right-6 sm:bottom-24 z-50 flex items-center gap-2.5 rounded-full bg-navy px-5 py-3 text-sm font-semibold text-ivory shadow-soft transition hover:bg-sapphire hover:scale-105"
           aria-label="Open AI Assistant"
         >
           <Sparkles className="h-4 w-4 text-champagne animate-pulse" />
