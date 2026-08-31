@@ -6,17 +6,23 @@
   --font-comic: var(--font-comic-neue), "Comic Neue", cursive, sans-serif;
   --font-nunito-family: var(--font-nunito), "Nunito", sans-serif;
   --font-inter-family: var(--font-inter), "Inter", sans-serif;
-  --font-heading: var(--font-comic-neue), "Comic Neue", "Playfair Display", Georgia, serif;
-  --font-body: var(--font-comic-neue), "Comic Neue", "Inter", "Nunito", cursive, sans-serif;
+  --font-plus-jakarta-sans-family: var(--font-plus-jakarta-sans), "Plus Jakarta Sans", sans-serif;
+  --font-heading: var(--font-comic-neue), "Comic Neue", cursive, sans-serif;
+  --font-body: var(--font-nunito), "Nunito", sans-serif;
+  --font-button: var(--font-nunito), "Nunito", sans-serif;
+  --font-navigation: var(--font-nunito), "Nunito", sans-serif;
+  --font-form: var(--font-nunito), "Nunito", sans-serif;
+  --font-logo: var(--font-plus-jakarta-sans), "Plus Jakarta Sans", sans-serif;
+  --font-label: var(--font-inter), "Inter", sans-serif;
 }
 
 html {
   scroll-behavior: smooth;
-  font-family: var(--font-comic);
+  font-family: var(--font-body);
 }
 
 body {
-  font-family: var(--font-comic);
+  font-family: var(--font-body);
   @apply bg-ivory text-navy antialiased;
 }
 
@@ -24,8 +30,42 @@ h1,
 h2,
 h3,
 h4 {
-  font-family: var(--font-comic);
+  font-family: var(--font-heading);
   @apply font-bold;
+}
+
+/* Button font */
+button,
+.btn {
+  font-family: var(--font-button);
+}
+
+/* Navigation font */
+nav,
+.navbar {
+  font-family: var(--font-navigation);
+}
+
+/* Form elements font */
+input,
+textarea,
+select,
+label,
+.form-control {
+  font-family: var(--font-form);
+}
+
+/* Logo font */
+.logo {
+  font-family: var(--font-logo);
+}
+
+/* Small labels font */
+small,
+.label,
+.text-xs,
+.text-sm {
+  font-family: var(--font-label);
 }
 
 /* Visible keyboard focus, respected everywhere */

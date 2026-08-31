@@ -23,7 +23,12 @@ const config: Config = {
       },
       fontFamily: {
         heading: ["var(--font-comic-neue)", "Comic Neue", "cursive", "sans-serif"],
-        body: ["var(--font-comic-neue)", "Comic Neue", "var(--font-inter)", "Inter", "var(--font-nunito)", "Nunito", "cursive", "sans-serif"],
+        body: ["var(--font-nunito)", "Nunito", "sans-serif"],
+        button: ["var(--font-nunito)", "Nunito", "sans-serif"],
+        navigation: ["var(--font-nunito)", "Nunito", "sans-serif"],
+        form: ["var(--font-nunito)", "Nunito", "sans-serif"],
+        logo: ["var(--font-plus-jakarta-sans)", "Plus Jakarta Sans", "sans-serif"],
+        label: ["var(--font-inter)", "Inter", "sans-serif"],
         comic: ["var(--font-comic-neue)", "Comic Neue", "cursive", "sans-serif"],
         inter: ["var(--font-inter)", "Inter", "sans-serif"],
         nunito: ["var(--font-nunito)", "Nunito", "sans-serif"],

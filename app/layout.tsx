@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Comic_Neue, Nunito, Inter } from "next/font/google";
+import { Comic_Neue, Nunito, Inter, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
@@ -27,6 +27,13 @@ const inter = Inter({
   display: "swap",
 });
 
+const plusJakartaSans = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+  variable: "--font-plus-jakarta-sans",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "TOUR — Explore Knowledge Wisely | Student Research Platform",
   description:
@@ -42,11 +49,11 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${comicNeue.variable} ${nunito.variable} ${inter.variable}`}
+      className={`${comicNeue.variable} ${nunito.variable} ${inter.variable} ${plusJakartaSans.variable}`}
     >
       <body
         suppressHydrationWarning
-        style={{ fontFamily: "'Comic Neue', cursive, sans-serif" }}
+        style={{ fontFamily: "'Nunito', sans-serif" }}
       >
         <Providers>
           <Navbar />
