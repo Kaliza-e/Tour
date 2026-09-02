@@ -7,7 +7,7 @@ export default function PublicationDetailPage({ params }: { params: { id: string
       <span className="rounded-pill bg-champagne px-3 py-1 text-xs font-semibold text-navy">
         Environmental Science
       </span>
-      <h1 className="mt-5 font-heading text-3xl font-bold text-navy md:text-4xl">
+      <h1 className="mt-5 font-heading text-2xl font-semibold text-navy md:text-3xl">
         Microplastic Accumulation in Freshwater Snails
       </h1>
       <p className="mt-3 text-sm text-navy/50">Leah M. · Published · Paper #{params.id}</p>

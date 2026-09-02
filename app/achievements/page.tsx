@@ -132,7 +132,7 @@ export default function AchievementsPage() {
               <div className="inline-flex items-center gap-2 rounded-full border border-sapphire/20 bg-champagne/50 px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-sapphire">
                 <Award className="h-3.5 w-3.5" /> Portal Portfolio & Recognition
               </div>
-              <h1 className="font-heading text-2xl sm:text-3xl md:text-4xl font-extrabold text-navy">
+              <h1 className="font-heading text-xl sm:text-2xl md:text-3xl font-semibold text-navy">
                 {userName}&apos;s Academic Distinctions
               </h1>
               <p className="text-xs sm:text-sm text-navy/70">
@@ -151,7 +151,7 @@ export default function AchievementsPage() {
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <div className="rounded-3xl border border-navy/10 bg-white p-6 shadow-card space-y-2 text-center">
               <span className="text-[10px] font-bold uppercase tracking-wider text-sapphire">Verified Hours</span>
-              <p className="font-heading text-3xl font-extrabold text-navy">{volunteerHours} hrs</p>
+              <p className="font-heading text-2xl font-semibold text-navy">{volunteerHours} hrs</p>
               <p className="text-[11px] text-emerald-700 font-semibold flex items-center justify-center gap-1">
                 <CheckCircle2 className="h-3.5 w-3.5" /> Verified by Editorial Board
               </p>
@@ -159,7 +159,7 @@ export default function AchievementsPage() {
 
             <div className="rounded-3xl border border-navy/10 bg-white p-6 shadow-card space-y-2 text-center">
               <span className="text-[10px] font-bold uppercase tracking-wider text-sapphire">Badges Unlocked</span>
-              <p className="font-heading text-3xl font-extrabold text-navy">
+              <p className="font-heading text-2xl font-semibold text-navy">
                 {unlockedCount} / {badges.length}
               </p>
               <p className="text-[11px] text-navy/60">
@@ -169,13 +169,13 @@ export default function AchievementsPage() {
 
             <div className="rounded-3xl border border-navy/10 bg-white p-6 shadow-card space-y-2 text-center">
               <span className="text-[10px] font-bold uppercase tracking-wider text-sapphire">Active Investigations</span>
-              <p className="font-heading text-3xl font-extrabold text-navy">{inProgressCount}</p>
+              <p className="font-heading text-2xl font-semibold text-navy">{inProgressCount}</p>
               <p className="text-[11px] text-navy/60">Manuscripts in Progress</p>
             </div>
 
             <div className="rounded-3xl border border-navy/10 bg-white p-6 shadow-card space-y-2 text-center">
               <span className="text-[10px] font-bold uppercase tracking-wider text-sapphire">Published Papers</span>
-              <p className="font-heading text-3xl font-extrabold text-navy">{publishedCount}</p>
+              <p className="font-heading text-2xl font-semibold text-navy">{publishedCount}</p>
               <p className="text-[11px] text-navy/60">Peer-Reviewed & Archived</p>
             </div>
           </div>

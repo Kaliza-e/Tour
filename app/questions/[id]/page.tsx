@@ -7,7 +7,7 @@ export default function QuestionDetailPage({ params }: { params: { id: string } 
   return (
     <div className="container-tour max-w-3xl py-20">
       <span className="rounded-pill bg-champagne px-3 py-1 text-xs font-semibold text-navy">Biology</span>
-      <h1 className="mt-5 font-heading text-3xl font-bold text-navy md:text-4xl">
+      <h1 className="mt-5 font-heading text-2xl font-semibold text-navy md:text-3xl">
         Why do octopuses have three hearts?
       </h1>
       <p className="mt-2 text-sm text-navy/50">Asked by Amara O. · Question #{params.id}</p>

@@ -80,7 +80,7 @@ export default function ExploreResearchPage() {
           <div className="inline-flex items-center gap-2 rounded-full border border-sapphire/20 bg-champagne/50 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-sapphire">
             <BookOpen className="h-4 w-4" /> Global Open Access Archive
           </div>
-          <h1 className="font-heading text-4xl md:text-5xl font-extrabold text-navy">
+          <h1 className="font-heading text-2xl md:text-3xl font-semibold text-navy">
             Explore Peer-Reviewed Student Research
           </h1>
           <p className="text-navy/70 leading-relaxed">

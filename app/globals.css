@@ -3,17 +3,14 @@
 @tailwind utilities;
 
 :root {
-  --font-comic: var(--font-comic-neue), "Comic Neue", cursive, sans-serif;
-  --font-nunito-family: var(--font-nunito), "Nunito", sans-serif;
-  --font-inter-family: var(--font-inter), "Inter", sans-serif;
-  --font-plus-jakarta-sans-family: var(--font-plus-jakarta-sans), "Plus Jakarta Sans", sans-serif;
-  --font-heading: var(--font-comic-neue), "Comic Neue", cursive, sans-serif;
-  --font-body: var(--font-nunito), "Nunito", sans-serif;
-  --font-button: var(--font-nunito), "Nunito", sans-serif;
-  --font-navigation: var(--font-nunito), "Nunito", sans-serif;
-  --font-form: var(--font-nunito), "Nunito", sans-serif;
-  --font-logo: var(--font-plus-jakarta-sans), "Plus Jakarta Sans", sans-serif;
-  --font-label: var(--font-inter), "Inter", sans-serif;
+  --font-outfit-family: var(--font-outfit), "Outfit", sans-serif;
+  --font-heading: var(--font-outfit), "Outfit", sans-serif;
+  --font-body: var(--font-outfit), "Outfit", sans-serif;
+  --font-button: var(--font-outfit), "Outfit", sans-serif;
+  --font-navigation: var(--font-outfit), "Outfit", sans-serif;
+  --font-form: var(--font-outfit), "Outfit", sans-serif;
+  --font-logo: var(--font-outfit), "Outfit", sans-serif;
+  --font-label: var(--font-outfit), "Outfit", sans-serif;
 }
 
 html {
@@ -31,7 +28,7 @@ h2,
 h3,
 h4 {
   font-family: var(--font-heading);
-  @apply font-bold;
+  @apply font-semibold;
 }
 
 /* Button font */

@@ -24,7 +24,7 @@ export default function CommunityPage() {
   return (
     <div className="container-tour py-20">
       <span className="text-xs font-semibold uppercase tracking-widest text-sapphire">Community</span>
-      <h1 className="mt-3 font-heading text-4xl font-bold text-navy">Research is better with people around it</h1>
+      <h1 className="mt-3 font-heading text-2xl font-semibold text-navy">Research is better with people around it</h1>
       <p className="mt-4 max-w-2xl text-navy/60">
         Tour connects curious students, collaborators, and mentors so research feels supported from the
         first question through publication.

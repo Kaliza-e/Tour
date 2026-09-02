@@ -27,7 +27,7 @@ export default function SubmitResearchPage() {
           <div className="inline-flex items-center gap-2 rounded-full border border-sapphire/20 bg-champagne/50 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-sapphire">
             <Upload className="h-4 w-4" /> Multi-Step Peer Submission
           </div>
-          <h1 className="font-heading text-4xl font-extrabold text-navy">Submit Your Research Paper</h1>
+          <h1 className="font-heading text-2xl font-semibold text-navy">Submit Your Research Paper</h1>
           <p className="text-xs text-navy/70">{step === 0 ? "Step 0: Submission Guidelines" : `Step ${step} of 4: ${step === 1 ? "Paper Details" : step === 2 ? "Author Details" : step === 3 ? "Upload PDF & Declarations" : "Review & Submit"}`}</p>
         </div>
 

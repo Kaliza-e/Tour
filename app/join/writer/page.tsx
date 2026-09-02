@@ -218,7 +218,7 @@ export default function StudentWriterApplyPage() {
           <div className="inline-flex items-center gap-2 rounded-full border border-sapphire/20 bg-champagne/60 px-4 py-1 text-[11px] font-bold uppercase tracking-wider text-sapphire">
             <GraduationCap className="h-3.5 w-3.5" /> Researcher Application & Onboarding
           </div>
-          <h1 className="font-heading text-3xl md:text-5xl font-extrabold text-navy">
+          <h1 className="font-heading text-2xl md:text-3xl font-semibold text-navy">
             Become a Student Research Writer
           </h1>
           <p className="text-sm text-navy/70 leading-relaxed">
@@ -711,7 +711,7 @@ export default function StudentWriterApplyPage() {
               </div>
 
               <div className="space-y-2 max-w-md mx-auto">
-                <h2 className="font-heading text-3xl font-extrabold text-navy">
+                <h2 className="font-heading text-2xl font-semibold text-navy">
                   Welcome to TOUR, {accountForm.name}!
                 </h2>
                 <p className="text-xs text-navy/70 leading-relaxed">

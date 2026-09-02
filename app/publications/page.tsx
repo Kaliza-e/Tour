@@ -15,7 +15,7 @@ export default function PublicationsPage() {
     <div className="container-tour py-20">
       <div className="max-w-2xl">
         <span className="text-xs font-semibold uppercase tracking-widest text-sapphire">Publications</span>
-        <h1 className="mt-3 font-heading text-4xl font-bold text-navy">Explore research</h1>
+        <h1 className="mt-3 font-heading text-2xl font-semibold text-navy">Explore research</h1>
         <p className="mt-3 text-navy/60">
           A modern library of published student research — searchable, citable, and
           growing every week.

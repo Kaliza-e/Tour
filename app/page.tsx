@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, BookOpenText, FileCheck2, SearchCheck } from "lucide-react";
+import { ArrowRight, BookOpenText, FileCheck2, SearchCheck, Lightbulb } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { QuestionCard } from "@/components/question-card";
 import { PublicationCard } from "@/components/publication-card";
@@ -70,18 +70,23 @@ const featuredPapers = [
 
 const journey = [
   {
-    label: "Ask a question",
-    desc: "Share an idea, curiosity, or problem and transform it into a research opportunity.",
-    icon: BookOpenText,
+    label: "Start with a Question",
+    desc: "Transform your curiosity into research opportunities by sharing questions and ideas with our community.",
+    icon: Lightbulb,
   },
   {
-    label: "Build the research",
-    desc: "Organize sources, notes, experiments, and drafts in one collaborative workspace.",
+    label: "Explore and Plan",
+    desc: "Gather sources, review literature, and develop a structured methodology with clear objectives.",
     icon: SearchCheck,
   },
   {
-    label: "Publish your work",
-    desc: "Submit your research, share discoveries, and build your reputation.",
+    label: "Conduct Research",
+    desc: "Execute your plan systematically in a collaborative workspace designed for organizing notes and analyzing data.",
+    icon: BookOpenText,
+  },
+  {
+    label: "Share Discoveries",
+    desc: "Publish your findings, contribute to global knowledge, and build your academic reputation.",
     icon: FileCheck2,
   },
 ];
@@ -95,7 +100,7 @@ export default function LandingPage() {
         <div className="container-tour relative py-20 md:py-28">
           <div className="mx-auto max-w-5xl text-center">
 
-            <h1 className="mt-2 font-heading text-3xl sm:text-4xl md:text-5xl lg:text-hero font-extrabold leading-[1.1] text-navy uppercase overflow-hidden" aria-label="Take a Tour Between Minds">
+            <h1 className="mt-2 font-heading text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold leading-[1.1] text-navy uppercase overflow-hidden" aria-label="Take a Tour Between Minds">
               {["Take", "a", "Tour", "Between", "Minds"].map((word, i) => (
                 <span
                   key={word + i}
@@ -176,7 +181,7 @@ export default function LandingPage() {
 
           <div className="mx-auto max-w-2xl text-center">
 
-            <h2 className="font-heading text-3xl font-bold text-navy md:text-4xl">
+            <h2 className="font-heading text-2xl font-semibold text-navy md:text-3xl">
               Every discovery starts with a question worth exploring
             </h2>
 
@@ -232,7 +237,7 @@ export default function LandingPage() {
       <section className="py-28 bg-white border-t border-navy/5">
         <div className="container-tour">
           <div className="mx-auto max-w-3xl text-center">
-            <h2 className="font-heading text-3xl font-bold text-navy md:text-4xl">
+            <h2 className="font-heading text-2xl font-semibold text-navy md:text-3xl">
               What We Offer
             </h2>
             <p className="mt-4 text-navy/60 leading-relaxed text-lg">
@@ -264,7 +269,7 @@ export default function LandingPage() {
 
           <div className="mx-auto max-w-3xl text-center">
 
-            <h2 className="font-heading text-3xl font-bold text-navy md:text-4xl">
+            <h2 className="font-heading text-2xl font-semibold text-navy md:text-3xl">
               Built for Student Researchers and Research Communities
             </h2>
 
@@ -458,143 +463,69 @@ export default function LandingPage() {
 
       </section>
             {/* HOW IT WORKS */}
-      <section className="py-28">
+      <section className="py-28 bg-gradient-to-b from-ivory/30 to-white">
 
         <div className="container-tour">
 
-          <div className="relative overflow-hidden rounded-card border border-navy/8 bg-white px-6 py-12 shadow-card sm:px-10 md:px-16 md:py-16">
-
-            <h2 className="font-heading text-5xl font-extrabold leading-none text-navy md:text-6xl">
-              How it works
+          <div className="text-center mb-16">
+            <span className="inline-block px-4 py-1.5 rounded-full bg-sapphire/10 text-sapphire text-xs font-semibold uppercase tracking-wider mb-4">
+              How It Works
+            </span>
+            <h2 className="font-heading text-3xl font-semibold text-navy md:text-4xl mb-4">
+              Your Research Journey
             </h2>
+            <p className="text-navy/60 max-w-2xl mx-auto">
+              From curiosity to contribution, discover how Tour transforms questions into published research
+            </p>
+          </div>
 
+          <div className="relative">
+            {/* Progress line */}
+            <div className="absolute top-12 left-0 right-0 h-0.5 bg-gradient-to-r from-sapphire/0 via-sapphire/30 to-sapphire/0 hidden md:block" />
 
+            <div className="relative z-10 grid gap-8 md:grid-cols-4 md:gap-6">
 
-            <div className="relative mt-12 min-h-[430px] md:mt-4">
+              {journey.map((step, index) => {
+                const Icon = step.icon;
 
-
-              <svg
-                className="pointer-events-none absolute inset-x-0 bottom-0 hidden h-[260px] w-full md:block"
-                viewBox="0 0 1100 260"
-                fill="none"
-                preserveAspectRatio="none"
-                aria-hidden="true"
-              >
-
-                <path
-                  d="M40 226C98 130 216 178 332 140C455 99 466 76 602 88C718 99 778 100 900 62C983 37 1033 22 1070 58"
-                  stroke="#343434"
-                  strokeWidth="48"
-                  strokeLinecap="round"
-                />
-
-                <path
-                  d="M48 220C108 147 231 170 342 130C455 89 477 75 603 86C718 96 778 96 898 60C980 35 1026 27 1064 58"
-                  stroke="#9B9B9B"
-                  strokeWidth="3"
-                  strokeDasharray="14 14"
-                  strokeLinecap="round"
-                />
-
-                <path
-                  d="M672 110H750"
-                  stroke="#F5F4F0"
-                  strokeWidth="18"
-                  strokeLinecap="square"
-                />
-
-                <ellipse
-                  cx="1015"
-                  cy="58"
-                  rx="46"
-                  ry="28"
-                  fill="#343434"
-                  opacity="0.68"
-                />
-
-              </svg>
-
-
-
-
-              <div
-                className="absolute bottom-0 left-8 top-12 w-10 rounded-full bg-[#343434] md:hidden"
-                aria-hidden="true"
-              >
-                <div className="mx-auto mt-8 h-[calc(100%-4rem)] w-px border-l-2 border-dashed border-white/45"/>
-              </div>
-
-
-
-
-              <div className="relative z-10 grid gap-10 md:grid-cols-3 md:gap-14">
-
-
-                {journey.map((step,index)=>{
-
-                  const Icon = step.icon;
-
-                  const offsets=[
-                    "md:pt-8",
-                    "md:pt-0",
-                    "md:pt-2"
-                  ];
-
-
-                  return (
-
-                    <div
-                      key={step.label}
-                      className={`relative flex gap-5 pl-20 text-left md:flex-col md:items-center md:pl-0 md:text-center ${offsets[index]}`}
-                    >
-
-
-                      <div
-                        className="glow-icon grid h-20 w-20 shrink-0 place-items-center bg-navy text-ivory shadow-soft"
-                        style={{
-                          clipPath:
-                          "polygon(50% 0,93% 25%,93% 75%,50% 100%,7% 75%,7% 25%)"
-                        }}
-                      >
-
-                        <Icon size={30} strokeWidth={1.9}/>
-
-                      </div>
-
-
-
-                      <div className="max-w-[260px]">
-
-                        <p className="text-xs font-extrabold uppercase tracking-wider text-taupe">
-                          Step {String(index + 1).padStart(2,"0")}
-                        </p>
-
-
-                        <h3 className="mt-2 font-heading text-2xl font-extrabold leading-tight text-navy">
-                          {step.label}
-                        </h3>
-
-
-                        <p className="mt-3 text-sm leading-6 text-navy/70">
-                          {step.desc}
-                        </p>
-
-
-                      </div>
-
-
+                return (
+                  <div
+                    key={step.label}
+                    className="group relative"
+                  >
+                    {/* Step number badge */}
+                    <div className="absolute -top-3 -left-3 w-8 h-8 rounded-full bg-navy text-ivory text-sm font-bold flex items-center justify-center shadow-lg z-20">
+                      {index + 1}
                     </div>
 
-                  );
+                    {/* Card */}
+                    <div className="relative bg-white rounded-2xl p-6 shadow-lg border border-navy/5 hover:shadow-xl hover:border-sapphire/20 transition-all duration-300 group-hover:-translate-y-1">
+                      {/* Icon container */}
+                      <div className="w-14 h-14 rounded-xl bg-navy flex items-center justify-center mb-4 shadow-md">
+                        <Icon size={28} className="text-ivory" strokeWidth={2} />
+                      </div>
 
-                })}
+                      {/* Content */}
+                      <h3 className="font-heading text-lg font-bold text-navy mb-2">
+                        {step.label}
+                      </h3>
+                      <p className="text-sm text-navy/60 leading-relaxed">
+                        {step.desc}
+                      </p>
 
+                      {/* Decorative elements */}
+                      <div className="absolute top-4 right-4 w-2 h-2 rounded-full bg-sapphire/20 group-hover:bg-sapphire/40 transition-colors" />
+                    </div>
 
-              </div>
-
+                    {/* Connector line (desktop) */}
+                    {index < 3 && (
+                      <div className="hidden md:block absolute top-12 right-0 w-6 h-0.5 bg-gradient-to-r from-sapphire/30 to-transparent" />
+                    )}
+                  </div>
+                );
+              })}
 
             </div>
-
           </div>
 
         </div>
@@ -682,7 +613,7 @@ export default function LandingPage() {
           <div className="border-y border-navy/10 px-10 py-20 text-center">
 
 
-            <h2 className="font-heading text-3xl font-bold text-navy md:text-4xl">
+            <h2 className="font-heading text-2xl font-semibold text-navy md:text-3xl">
               Your curiosity could become the next discovery
             </h2>
 

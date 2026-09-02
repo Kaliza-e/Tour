@@ -22,7 +22,7 @@ export default function AboutPage() {
           <div className="inline-flex items-center gap-2 rounded-full border border-sapphire/20 bg-champagne/50 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-sapphire">
             <Compass className="h-4 w-4" /> Explore Knowledge Wisely
           </div>
-          <h1 className="font-heading text-4xl md:text-5xl font-extrabold text-navy leading-tight">
+          <h1 className="font-heading text-2xl md:text-3xl font-semibold text-navy leading-tight">
             About Tour
           </h1>
           <p className="text-navy/70 leading-relaxed">
@@ -80,7 +80,7 @@ export default function AboutPage() {
           <div className="grid gap-6 md:grid-cols-3">
             {timeline.map((item, idx) => (
               <div key={idx} className="rounded-2xl bg-white/10 p-6 space-y-2 border border-white/15">
-                <span className="font-heading text-2xl font-extrabold text-champagne">{item.year}</span>
+                <span className="font-heading text-xl font-semibold text-champagne">{item.year}</span>
                 <h3 className="font-heading text-lg font-bold text-ivory">{item.title}</h3>
                 <p className="text-xs text-ivory/70 leading-relaxed">{item.desc}</p>
               </div>

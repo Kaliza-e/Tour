@@ -196,8 +196,8 @@ Tour follows a clean, modern design inspired by premium educational and technolo
 
 Typography:
 
-* **Headings:** Plus Jakarta Sans / Manrope
-* **Body:** Inter
+* **Headings:** Outfit
+* **Body:** Outfit
 
 Design principles:
 

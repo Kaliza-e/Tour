@@ -78,8 +78,7 @@ export function WriterSidebar() {
          ───────────────────────────────────────────────────────────── */}
       <div className="lg:hidden sticky top-0 z-40 flex items-center justify-between border-b border-navy/10 bg-white/95 backdrop-blur-md px-4 py-2.5 shadow-2xs">
         <div className="flex items-center gap-2">
-          <TourLogo priority imageClassName="h-7" className="rounded-full bg-navy/5 p-1" />
-          <span className="text-xs font-bold text-navy uppercase tracking-wider">Writer Portal</span>
+          <TourLogo priority imageClassName="h-7" />
         </div>
 
         <button
@@ -106,8 +105,7 @@ export function WriterSidebar() {
           <div className="relative flex w-[280px] max-w-[85vw] flex-1 flex-col bg-white shadow-soft p-5 z-10 overflow-y-auto">
             <div className="flex items-center justify-between pb-4 border-b border-navy/10">
               <div className="flex items-center gap-2">
-                <TourLogo priority imageClassName="h-7" className="rounded-full bg-navy/5 p-1" />
-                <span className="text-sm font-bold text-navy">TOUR Workspace</span>
+                <TourLogo priority imageClassName="h-7" />
               </div>
               <button
                 onClick={() => setMobileOpen(false)}
@@ -225,9 +223,9 @@ export function WriterSidebar() {
                       href={item.href}
                       title={collapsed ? item.label : undefined}
                       className={cn(
-                        "flex items-center gap-3 rounded-xl px-3 py-2.5 text-[13px] font-bold transition-all duration-150 relative",
+                        "flex items-center gap-3 rounded-xl px-3 py-2.5 text-[13px] font-semibold transition-all duration-150 relative",
                         active
-                          ? "text-navy bg-navy/8 border-l-3 border-navy font-extrabold"
+                          ? "text-navy bg-navy/8 border-l-3 border-navy font-semibold"
                           : "text-navy/60 hover:bg-navy/5 hover:text-navy",
                         collapsed && "justify-center px-0 border-l-0"
                       )}

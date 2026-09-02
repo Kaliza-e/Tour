@@ -160,7 +160,7 @@ export default function DashboardPage() {
           {/* Profile Card Header */}
           <div className="rounded-3xl border border-navy/10 bg-white p-5 sm:p-8 shadow-card flex flex-col md:flex-row items-start md:items-center justify-between gap-5 sm:gap-6">
             <div className="flex items-center gap-4 sm:gap-5">
-              <div className="h-14 w-14 sm:h-20 sm:w-20 rounded-full bg-navy text-ivory font-heading font-extrabold text-lg sm:text-2xl flex items-center justify-center border-2 sm:border-4 border-champagne shadow-sm shrink-0">
+              <div className="h-14 w-14 sm:h-20 sm:w-20 rounded-full bg-navy text-ivory font-heading font-semibold text-lg sm:text-2xl flex items-center justify-center border-2 sm:border-4 border-champagne shadow-sm shrink-0">
                 {initials}
               </div>
               <div className="space-y-0.5 sm:space-y-1 min-w-0">
@@ -289,7 +289,7 @@ export default function DashboardPage() {
                     <span className="font-heading font-bold text-xs uppercase tracking-wider text-navy/70">Published Papers</span>
                     <FileText className="h-5 w-5 text-sapphire" />
                   </div>
-                  <p className="font-heading text-3xl font-extrabold text-navy">
+                  <p className="font-heading text-2xl font-semibold text-navy">
                     {data?.stats?.publishedCount ?? 0}
                   </p>
                   <p className="text-[11px] text-navy/60">{data?.stats?.totalReads ?? 0} total reads worldwide</p>
@@ -300,7 +300,7 @@ export default function DashboardPage() {
                     <span className="font-heading font-bold text-xs uppercase tracking-wider text-navy/70">Volunteer Hours</span>
                     <Clock className="h-5 w-5 text-sapphire" />
                   </div>
-                  <p className="font-heading text-3xl font-extrabold text-navy">
+                  <p className="font-heading text-2xl font-semibold text-navy">
                     {data?.stats?.volunteerHours ?? 0}h
                   </p>
                   <p className="text-[11px] text-emerald-700 font-semibold flex items-center gap-1">
@@ -313,7 +313,7 @@ export default function DashboardPage() {
                     <span className="font-heading font-bold text-xs uppercase tracking-wider text-navy/70">Active Projects</span>
                     <PenTool className="h-5 w-5 text-sapphire" />
                   </div>
-                  <p className="font-heading text-3xl font-extrabold text-navy">
+                  <p className="font-heading text-2xl font-semibold text-navy">
                     {data?.projects?.length ?? 0}
                   </p>
                   <p className="text-[11px] text-sapphire font-semibold">Manuscripts in Workspace</p>
@@ -324,7 +324,7 @@ export default function DashboardPage() {
                     <span className="font-heading font-bold text-xs uppercase tracking-wider text-navy/70">Peer Reviews</span>
                     <ShieldCheck className="h-5 w-5 text-sapphire" />
                   </div>
-                  <p className="font-heading text-3xl font-extrabold text-navy">
+                  <p className="font-heading text-2xl font-semibold text-navy">
                     {data?.stats?.peerReviewsCompleted ?? 0}
                   </p>
                   <p className="text-[11px] text-navy/60">Double-blind accuracy</p>
@@ -579,7 +579,7 @@ export default function DashboardPage() {
                 </div>
                 <div className="rounded-3xl border border-navy/10 bg-white p-6 shadow-sm space-y-1">
                   <span className="text-xs text-navy/60 font-semibold uppercase">Next Milestone</span>
-                  <p className="font-heading text-3xl font-extrabold text-navy">50.0h</p>
+                  <p className="font-heading text-2xl font-semibold text-navy">50.0h</p>
                   <p className="text-[11px] text-sapphire font-semibold">
                     {Math.max(0, 50 - (data?.stats?.volunteerHours || 0))} hours to Gold Scholar Honor
                   </p>

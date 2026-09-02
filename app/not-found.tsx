@@ -11,7 +11,7 @@ export default function NotFound() {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
         </div>
-        <h2 className="font-heading text-4xl font-bold text-navy">404</h2>
+        <h2 className="font-heading text-2xl font-semibold text-navy">404</h2>
         <p className="text-navy/60 text-lg">
           The page you're looking for doesn't exist or has been moved.
         </p>

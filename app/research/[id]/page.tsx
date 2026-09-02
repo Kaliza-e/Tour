@@ -36,7 +36,7 @@ export default function PaperDetailPage({ params }: { params: { id: string } }) 
             {paper.category}
           </span>
 
-          <h1 className="font-heading text-3xl md:text-5xl font-extrabold text-navy leading-tight">
+          <h1 className="font-heading text-2xl md:text-3xl font-semibold text-navy leading-tight">
             {paper.title}
           </h1>
 

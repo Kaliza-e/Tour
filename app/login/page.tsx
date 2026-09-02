@@ -168,7 +168,7 @@ export default function LoginPage() {
 
             {/* Header */}
             <div className="space-y-1">
-              <h2 className="font-heading text-3xl font-extrabold text-white tracking-tight">
+              <h2 className="font-heading text-2xl font-semibold text-white tracking-tight">
                 Sign In
               </h2>
               <p className="text-xs text-ivory/60">

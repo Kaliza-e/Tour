@@ -82,7 +82,7 @@ export default function WorkspacePage() {
             <span className="text-xs font-semibold uppercase tracking-widest text-sapphire">
               Research Workspace & Lab
             </span>
-            <h1 className="font-heading text-3xl md:text-4xl font-bold text-navy">
+            <h1 className="font-heading text-2xl md:text-3xl font-semibold text-navy">
               Welcome to your Research Lab
             </h1>
             <p className="max-w-xl text-xs md:text-sm text-navy/60">

@@ -54,7 +54,7 @@ export default function SettingsPage() {
             <span className="text-xs font-semibold uppercase tracking-widest text-sapphire">
               Account & Researcher Preferences
             </span>
-            <h1 className="font-heading text-2xl sm:text-3xl md:text-4xl font-extrabold text-navy">
+            <h1 className="font-heading text-xl sm:text-2xl md:text-3xl font-semibold text-navy">
               Profile Settings
             </h1>
             <p className="text-xs sm:text-sm text-navy/60">

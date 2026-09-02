@@ -1,36 +1,15 @@
 import type { Metadata } from "next";
-import { Comic_Neue, Nunito, Inter, Plus_Jakarta_Sans } from "next/font/google";
+import { Outfit } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { AIAssistantModal } from "@/components/ai-assistant-modal";
 import { Providers } from "@/components/providers";
 
-const comicNeue = Comic_Neue({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  variable: "--font-comic-neue",
-  display: "swap",
-});
-
-const nunito = Nunito({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
-  variable: "--font-nunito",
-  display: "swap",
-});
-
-const inter = Inter({
+const outfit = Outfit({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
-  variable: "--font-inter",
-  display: "swap",
-});
-
-const plusJakartaSans = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-  variable: "--font-plus-jakarta-sans",
+  variable: "--font-outfit",
   display: "swap",
 });
 
@@ -49,11 +28,11 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${comicNeue.variable} ${nunito.variable} ${inter.variable} ${plusJakartaSans.variable}`}
+      className={`${outfit.variable}`}
     >
       <body
         suppressHydrationWarning
-        style={{ fontFamily: "'Nunito', sans-serif" }}
+        style={{ fontFamily: "'Outfit', sans-serif" }}
       >
         <Providers>
           <Navbar />

@@ -20,7 +20,7 @@ export default function JoinPage() {
           <div className="inline-flex items-center gap-2 rounded-full border border-sapphire/20 bg-champagne/50 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-sapphire">
             <HeartHandshake className="h-4 w-4" /> Join The Global Movement
           </div>
-          <h1 className="font-heading text-4xl md:text-5xl font-extrabold text-navy">
+          <h1 className="font-heading text-2xl md:text-3xl font-semibold text-navy">
             Volunteer & Become a Member
           </h1>
           <p className="text-navy/70 leading-relaxed">

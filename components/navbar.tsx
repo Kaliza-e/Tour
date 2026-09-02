@@ -74,9 +74,9 @@ export function Navbar() {
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  "relative px-3.5 py-1.5 text-[12px] font-bold uppercase tracking-wide transition-all duration-150 border-b-2",
+                  "relative px-3.5 py-1.5 text-[12px] font-semibold uppercase tracking-wide transition-all duration-150 border-b-2",
                   isActive(link.href)
-                    ? "text-navy border-navy font-extrabold"
+                    ? "text-navy border-navy font-semibold"
                     : "text-navy/65 hover:text-navy border-transparent hover:border-navy/30"
                 )}
               >

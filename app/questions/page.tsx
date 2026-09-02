@@ -46,7 +46,7 @@ export default async function QuestionsPage() {
     <div className="container-tour py-20">
       <div className="max-w-2xl">
         <span className="text-xs font-semibold uppercase tracking-widest text-sapphire">Question Hub</span>
-        <h1 className="mt-3 font-heading text-4xl font-bold text-navy">Explore questions</h1>
+        <h1 className="mt-3 font-heading text-2xl font-semibold text-navy">Explore questions</h1>
         <p className="mt-3 text-navy/60">
           Browse what other students are curious about — and claim a question to turn
           into your own research project.

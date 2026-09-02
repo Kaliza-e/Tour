@@ -22,22 +22,22 @@ export default function AdminDashboardPage() {
         <div className="grid gap-6 md:grid-cols-4">
           <div className="rounded-3xl border border-navy/10 bg-white p-6 shadow-sm space-y-2">
             <p className="text-xs uppercase font-bold text-sapphire">Pending Submissions</p>
-            <p className="font-heading text-3xl font-extrabold text-navy">12</p>
+            <p className="font-heading text-2xl font-semibold text-navy">12</p>
             <p className="text-xs text-amber-700 font-semibold">Requires Editorial Review</p>
           </div>
           <div className="rounded-3xl border border-navy/10 bg-white p-6 shadow-sm space-y-2">
             <p className="text-xs uppercase font-bold text-sapphire">Active Peer Reviews</p>
-            <p className="font-heading text-3xl font-extrabold text-navy">28</p>
+            <p className="font-heading text-2xl font-semibold text-navy">28</p>
             <p className="text-xs text-navy/60">Across 8 categories</p>
           </div>
           <div className="rounded-3xl border border-navy/10 bg-white p-6 shadow-sm space-y-2">
             <p className="text-xs uppercase font-bold text-sapphire">Pending Volunteer Logs</p>
-            <p className="font-heading text-3xl font-extrabold text-navy">19</p>
+            <p className="font-heading text-2xl font-semibold text-navy">19</p>
             <p className="text-xs text-navy/60">Hours verification queue</p>
           </div>
           <div className="rounded-3xl border border-navy/10 bg-white p-6 shadow-sm space-y-2">
             <p className="text-xs uppercase font-bold text-sapphire">Total Platform Users</p>
-            <p className="font-heading text-3xl font-extrabold text-navy">2,480</p>
+            <p className="font-heading text-2xl font-semibold text-navy">2,480</p>
             <p className="text-xs text-emerald-700 font-semibold">+18% this month</p>
           </div>
         </div>

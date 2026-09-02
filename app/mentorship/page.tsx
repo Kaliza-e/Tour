@@ -35,7 +35,7 @@ export default function MentorshipPage() {
           <div className="inline-flex items-center gap-2 rounded-full border border-sapphire/20 bg-champagne/50 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-sapphire">
             <GraduationCap className="h-4 w-4" /> Academic Guidance
           </div>
-          <h1 className="font-heading text-4xl md:text-5xl font-extrabold text-navy">
+          <h1 className="font-heading text-2xl md:text-3xl font-semibold text-navy">
             Connect with Academic Mentors
           </h1>
           <p className="text-navy/70 leading-relaxed">
