@@ -17,6 +17,11 @@ export const metadata: Metadata = {
   title: "TOUR — Explore Knowledge Wisely | Student Research Platform",
   description:
     "TOUR is a world-class student-led research ecosystem that empowers young minds to explore, write, publish, collaborate, and contribute to scientific knowledge.",
+  icons: {
+    icon: "/logo.svg",
+    shortcut: "/logo.svg",
+    apple: "/logo.png",
+  },
 };
 
 export default function RootLayout({
