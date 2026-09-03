@@ -14,7 +14,7 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "TOUR — Explore Knowledge Wisely | Student Research Platform",
+  title: "TOUR | Student Research Platform",
   description:
     "TOUR is a world-class student-led research ecosystem that empowers young minds to explore, write, publish, collaborate, and contribute to scientific knowledge.",
   icons: {
