@@ -70,23 +70,23 @@ const featuredPapers = [
 
 const journey = [
   {
-    label: "Start with a Question",
-    desc: "Transform your curiosity into research opportunities by sharing questions and ideas with our community.",
+    label: "Think About the Question",
+    desc: "Start by exploring the research question provided by the platform. Reflect on what it means, why it matters, and what you want to discover.",
     icon: Lightbulb,
   },
   {
-    label: "Explore and Plan",
-    desc: "Gather sources, review literature, and develop a structured methodology with clear objectives.",
+    label: "Explore & Plan",
+    desc: "Explore the topic, gather relevant sources, and create a clear plan for how you will investigate the question.",
     icon: SearchCheck,
   },
   {
     label: "Conduct Research",
-    desc: "Execute your plan systematically in a collaborative workspace designed for organizing notes and analyzing data.",
+    desc: "Put your plan into action by gathering information, analyzing evidence, and documenting your findings in your research workspace.",
     icon: BookOpenText,
   },
   {
-    label: "Share Discoveries",
-    desc: "Publish your findings, contribute to global knowledge, and build your academic reputation.",
+    label: "Publish Your Discoveries",
+    desc: "Turn your research into a meaningful contribution by sharing your findings with the community and contributing to knowledge.",
     icon: FileCheck2,
   },
 ];
