@@ -16,17 +16,11 @@ export default function NotFound() {
           The page you're looking for doesn't exist or has been moved.
         </p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
-          <Link href="/">
-            <Button className="gap-2">
-              <Home className="h-4 w-4" />
-              Back to Home
-            </Button>
+          <Link href="/" className="inline-flex h-12 items-center justify-center gap-2 rounded-pill bg-navy px-7 font-heading text-[15px] font-semibold text-ivory transition-colors hover:bg-sapphire">
+            <Home className="h-4 w-4" /> Back to Home
           </Link>
-          <Link href="/research">
-            <Button variant="secondary" className="gap-2">
-              <Search className="h-4 w-4" />
-              Explore Research
-            </Button>
+          <Link href="/research" className="inline-flex h-12 items-center justify-center gap-2 rounded-pill border border-navy/20 px-7 font-heading text-[15px] font-semibold text-navy transition-colors hover:border-navy hover:bg-white">
+            <Search className="h-4 w-4" /> Explore Research
           </Link>
         </div>
       </div>

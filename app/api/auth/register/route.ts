@@ -31,11 +31,11 @@ export async function POST(request: Request) {
   // Rate limiting: 5 requests per minute per IP
   const clientId = getClientIdentifier(request);
   const rl = rateLimit(clientId, { windowMs: 60 * 1000, maxRequests: 5 });
-  
+
   if (!rl.success) {
     return NextResponse.json(
       { error: "Too many registration attempts. Please try again later." },
-      { 
+      {
         status: 429,
         headers: {
           "Retry-After": Math.ceil((rl.resetTime - Date.now()) / 1000).toString(),
@@ -106,46 +106,49 @@ export async function POST(request: Request) {
       }
     }
 
-    const createdUser = await prisma.user.create({
-      data: {
-        name,
-        email: email.toLowerCase(),
-        hashedPassword,
-        role,
-        school: school || "High School",
-        gradeLevel: gradeLevel || "Student Researcher",
-        bio: bio || "Passionate student researcher exploring scientific inquiries on TOUR.",
-        researchInterests: researchInterests.length > 0 ? researchInterests : ["General Science"],
-        skills: ["Literature Review", "Scientific Method", "Academic Writing"],
-        notifications: {
-          create: {
-            message: "Welcome to TOUR! Your Student Research Writer account is activated.",
-            link: "/workspace/notebook",
-          },
-        },
-      },
-    });
-
-    let initialProject = null;
-    if (initialTopic && categoryRecord && createdUser) {
-      initialProject = await prisma.researchProject.create({
+    const { createdUser, initialProject } = await prisma.$transaction(async (tx) => {
+      const createdUser = await tx.user.create({
         data: {
-          title: initialTopic.title,
-          researchGoal: initialTopic.researchGoal,
-          hypothesis: initialTopic.hypothesis || null,
-          categoryId: categoryRecord.id,
-          ownerId: createdUser.id,
-          questionId: initialTopic.questionId || null,
-          stage: "WORKSPACE",
-          progress: 15,
-          notes: {
+          name,
+          email: email.toLowerCase(),
+          hashedPassword,
+          role,
+          school: school || "High School",
+          gradeLevel: gradeLevel || "Student Researcher",
+          bio: bio || "Passionate student researcher exploring scientific inquiries on TOUR.",
+          researchInterests: researchInterests.length > 0 ? researchInterests : ["General Science"],
+          skills: ["Literature Review", "Scientific Method", "Academic Writing"],
+          notifications: {
             create: {
-              content: `Initial Research Topic setup: ${initialTopic.title}\nGoal: ${initialTopic.researchGoal}\nHypothesis: ${initialTopic.hypothesis || "To be formulated"}`,
+              message: "Welcome to TOUR! Your Student Research Writer account is activated.",
+              link: "/workspace/notebook",
             },
           },
         },
       });
-    }
+
+      const initialProject = initialTopic && categoryRecord
+        ? await tx.researchProject.create({
+          data: {
+            title: initialTopic.title,
+            researchGoal: initialTopic.researchGoal,
+            hypothesis: initialTopic.hypothesis || null,
+            categoryId: categoryRecord.id,
+            ownerId: createdUser.id,
+            questionId: initialTopic.questionId || null,
+            stage: "WORKSPACE",
+            progress: 15,
+            notes: {
+              create: {
+                content: `Initial Research Topic setup: ${initialTopic.title}\nGoal: ${initialTopic.researchGoal}\nHypothesis: ${initialTopic.hypothesis || "To be formulated"}`,
+              },
+            },
+          },
+        })
+        : null;
+
+      return { createdUser, initialProject };
+    });
 
     return NextResponse.json(
       {

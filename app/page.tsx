@@ -117,23 +117,12 @@ export default function LandingPage() {
             </p>
 
             <div className="fade-up mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6 w-full max-w-xs sm:max-w-none mx-auto" style={{ animationDelay: "1.05s" }}>
-              <Link href="/join" className="w-full sm:w-auto">
-                <Button 
-                  size="lg"
-                  className="w-full sm:w-auto rounded-full bg-navy px-8 py-4 shadow-card text-xs sm:text-sm uppercase tracking-wider hover:scale-105 transition-transform duration-200"
-                >
-                  Join the journey
-                </Button>
+              <Link href="/join" className="inline-flex w-full items-center justify-center rounded-full bg-navy px-8 py-4 text-xs font-semibold uppercase tracking-wider text-ivory shadow-card transition-transform duration-200 hover:scale-105 sm:w-auto sm:text-sm">
+                Join the journey
               </Link>
 
-              <Link href="/publications" className="w-full sm:w-auto">
-                <Button
-                  size="lg"
-                  variant="ghost"
-                  className="w-full sm:w-auto rounded-full border border-navy/20 bg-transparent text-navy px-7 py-4 hover:scale-105 transition-transform duration-200 text-xs sm:text-sm"
-                >
-                  Explore Publications
-                </Button>
+              <Link href="/publications" className="inline-flex w-full items-center justify-center rounded-full border border-navy/20 px-7 py-4 text-xs font-semibold text-navy transition-transform duration-200 hover:scale-105 sm:w-auto sm:text-sm">
+                Explore Publications
               </Link>
             </div>
 

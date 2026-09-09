@@ -1,160 +1,500 @@
 "use client";
 
+import { FormEvent, useState } from "react";
 import Link from "next/link";
-import { Users, Mail, ShieldCheck, HeartHandshake, Award, FileText, CheckCircle2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import {
+  BookOpen,
+  ChevronDown,
+  Eye,
+  EyeOff,
+  FlaskConical,
+  Loader2,
+  Lock,
+  Mail,
+  School,
+  User,
+} from "lucide-react";
 
-const roles = [
-  { title: "Student Research Writer", desc: "Formulate questions, conduct lit reviews, and publish peer-reviewed papers.", badge: "Core Academic" },
-  { title: "Peer Reviewer", desc: "Review incoming student paper submissions for methodology & ethical rigor.", badge: "Senior Student / Postdoc" },
-  { title: "Chapter Leader", desc: "Establish a TOUR Science & Research Club at your high school or university.", badge: "Leadership" },
-  { title: "Technical & Design Contributor", desc: "Help build open-source scientific tools and visual infographics.", badge: "Tech & Creative" },
-];
+import { TourLogo } from "@/components/tour-logo";
+
+// ---------------------------------------------------------------------------
+// Role → destination (same logic as login page + lib/auth.ts)
+// ---------------------------------------------------------------------------
+
+function roleHome(role: string): string {
+  if (role === "ADMIN" || role === "REVIEWER") return "/admin/submissions";
+  return "/researcher";
+}
+
+// ---------------------------------------------------------------------------
+// Role option cards
+// ---------------------------------------------------------------------------
+
+const ROLE_OPTIONS = [
+  {
+    value: "STUDENT",
+    icon: <FlaskConical className="h-5 w-5" />,
+    title: "Student Researcher",
+    desc: "I want to conduct research, write papers, and get published on TOUR.",
+    color: "border-sapphire/40 bg-sapphire/5 text-sapphire",
+    selectedColor: "border-sapphire bg-sapphire text-white",
+  },
+  {
+    value: "MENTOR",
+    icon: <BookOpen className="h-5 w-5" />,
+    title: "Mentor / Educator",
+    desc: "I guide student researchers and support their academic development.",
+    color: "border-violet-300 bg-violet-50/60 text-violet-700",
+    selectedColor: "border-violet-600 bg-violet-600 text-white",
+  },
+] as const;
+
+// ---------------------------------------------------------------------------
+// Form steps
+// ---------------------------------------------------------------------------
+
+type Step = 1 | 2;
 
 export default function JoinPage() {
+  const router = useRouter();
+
+  const [step, setStep] = useState<Step>(1);
+  const [role, setRole] = useState<"STUDENT" | "MENTOR">("STUDENT");
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    password: "",
+    school: "",
+    gradeLevel: "",
+    bio: "",
+  });
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+
+  const update = (field: keyof typeof form, value: string) =>
+    setForm((prev) => ({ ...prev, [field]: value }));
+
+  // ── Step 1 validation (before moving to step 2) ──
+  const canProceed =
+    form.name.trim().length >= 2 &&
+    /^\S+@\S+\.\S+$/.test(form.email) &&
+    form.password.length >= 6;
+
+  // ── Final submit ──
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    if (!canProceed) return;
+    setSubmitting(true);
+    setError("");
+
+    try {
+      // 1. Create account
+      const regRes = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: form.name.trim(),
+          email: form.email.trim().toLowerCase(),
+          password: form.password,
+          school: form.school.trim() || undefined,
+          gradeLevel: form.gradeLevel.trim() || undefined,
+          bio: form.bio.trim() || undefined,
+          role,
+          researchInterests: [],
+        }),
+      });
+
+      const regData = (await regRes.json()) as { error?: string };
+      if (!regRes.ok) {
+        throw new Error(regData.error ?? "Unable to create your account.");
+      }
+
+      // 2. Auto sign-in
+      const signInResult = await signIn("credentials", {
+        email: form.email.trim().toLowerCase(),
+        password: form.password,
+        redirect: false,
+      });
+
+      if (signInResult?.error) {
+        // Account created but sign-in failed — send to login
+        router.push("/login?registered=1");
+        return;
+      }
+
+      // 3. Role-based redirect
+      router.push(roleHome(role));
+      router.refresh();
+    } catch (err) {
+      setError(
+        err instanceof Error ? err.message : "Something went wrong. Please try again."
+      );
+      setSubmitting(false);
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Render
+  // ---------------------------------------------------------------------------
+
   return (
-    <div className="py-12 bg-ivory min-h-screen">
-      <div className="container-tour space-y-12">
-        {/* Header */}
-        <div className="text-center max-w-3xl mx-auto space-y-4">
-          <div className="inline-flex items-center gap-2 rounded-full border border-sapphire/20 bg-champagne/50 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-sapphire">
-            <HeartHandshake className="h-4 w-4" /> Join The Global Movement
-          </div>
-          <h1 className="font-heading text-2xl md:text-3xl font-semibold text-navy">
-            Volunteer & Become a Member
-          </h1>
-          <p className="text-navy/70 leading-relaxed">
-            TOUR is a student-led platform built by students, for students. Join over 2,400 young researchers across 40 countries contributing to scientific literacy and open knowledge.
-          </p>
-        </div>
+    <div className="flex min-h-screen items-center justify-center bg-ivory px-0 py-0 sm:px-6 sm:py-6">
 
-        {/* Roles Grid */}
-        <div className="grid gap-6 md:grid-cols-2">
-          {roles.map((r, idx) => {
-            const isWriter = r.title === "Student Research Writer";
-            return (
-              <div key={idx} className="rounded-3xl border border-navy/10 bg-white p-8 shadow-card space-y-4 flex flex-col justify-between hover:shadow-soft transition">
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className="rounded-full bg-sapphire/10 border border-sapphire/20 px-3 py-1 text-xs font-bold text-sapphire">
-                      {r.badge}
-                    </span>
-                    {isWriter && (
-                      <span className="text-[10px] uppercase font-bold tracking-wider text-emerald-700 bg-emerald-100 px-2.5 py-0.5 rounded-full">
-                        Featured Track
-                      </span>
-                    )}
-                  </div>
-                  <h3 className="font-heading text-2xl font-bold text-navy">{r.title}</h3>
-                  <p className="text-sm text-navy/70 leading-relaxed">{r.desc}</p>
-                </div>
+      {/* ══════════════════════════════════════════════
+          LEFT — form panel
+      ══════════════════════════════════════════════ */}
+      <div className="mx-auto flex w-full max-w-6xl flex-col overflow-hidden rounded-none bg-white shadow-none sm:min-h-[calc(100vh-3rem)] lg:flex-row lg:rounded-[2rem] lg:shadow-[0_24px_70px_rgba(20,35,70,0.16)]">
+      <div className="flex flex-1 flex-col items-center justify-center bg-white px-5 py-12 sm:px-8 md:px-12 lg:overflow-y-auto lg:px-14 xl:px-20">
 
-                <div className="pt-4 border-t border-navy/5 flex items-center justify-between">
-                  <span className="text-xs text-emerald-700 font-semibold flex items-center gap-1">
-                    <CheckCircle2 className="h-3.5 w-3.5" /> Earn Verified Hours
-                  </span>
-                  {isWriter ? (
-                    <Link href="/join/writer">
-                      <Button className="rounded-full bg-navy text-ivory hover:bg-sapphire text-xs px-5 shadow-sm">
-                        Apply & Start Writing →
-                      </Button>
-                    </Link>
-                  ) : (
-                    <Button variant="secondary" className="rounded-full border-navy text-navy hover:bg-navy hover:text-ivory text-xs px-5">
-                      Apply for Role
-                    </Button>
-                  )}
-                </div>
-              </div>
-            );
-          })}
-        </div>
+        {/* Mobile logo */}
+        <TourLogo
+          priority
+          imageClassName="h-10 w-auto"
+          className="mb-8 lg:hidden"
+        />
 
-        {/* Volunteer Info */}
-        <div className="max-w-4xl mx-auto space-y-8">
-          <div className="text-center space-y-4">
-            <h2 className="font-heading text-3xl font-bold text-navy">Volunteer With Tour!</h2>
-            <p className="text-navy/75 leading-relaxed max-w-2xl mx-auto">
-              We recognize the time, effort, and commitment you invest in thinking, researching, and writing, and we truly value the work you contribute to supporting knowledge-sharing. And we want to appreciate it. You can receive volunteer hours for any work you complete for Tour. To apply for volunteer hours, please use the form below.
+        <div className="w-full max-w-md">
+          {/* Heading */}
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-sapphire">
+              Join TOUR
+            </p>
+            <h2 className="mt-3 font-heading text-3xl font-bold text-navy md:text-4xl">
+              Create your account
+            </h2>
+            <p className="mt-2 text-sm leading-relaxed text-navy/60">
+              Already have an account?{" "}
+              <Link
+                href="/login"
+                className="font-semibold text-sapphire underline-offset-2 hover:underline"
+              >
+                Sign in
+              </Link>
             </p>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2">
-            <div className="rounded-3xl border border-navy/10 bg-white p-6 shadow-sm space-y-4">
-              <h3 className="font-heading text-xl font-bold text-navy text-center">Ways to Earn Volunteer Hours</h3>
-              <p className="text-xs text-navy/70 text-center">Any contribution to Tour is considered volunteer work, as it supports knowledge-sharing, helps learning, and creates opportunities for young students to engage in research.</p>
-              <ul className="list-none space-y-2 text-sm text-navy/80">
-                <li className="flex items-start gap-2"><CheckCircle2 className="h-4 w-4 text-sapphire mt-0.5 shrink-0" /> Writing and publishing research papers or essays</li>
-                <li className="flex items-start gap-2"><CheckCircle2 className="h-4 w-4 text-sapphire mt-0.5 shrink-0" /> Opening chapters in your country or school</li>
-                <li className="flex items-start gap-2"><CheckCircle2 className="h-4 w-4 text-sapphire mt-0.5 shrink-0" /> Creating Instagram posts or TikTok content</li>
-                <li className="flex items-start gap-2"><CheckCircle2 className="h-4 w-4 text-sapphire mt-0.5 shrink-0" /> Designing graphic or visual content</li>
-                <li className="flex items-start gap-2"><CheckCircle2 className="h-4 w-4 text-sapphire mt-0.5 shrink-0" /> Editing and reviewing submissions</li>
-                <li className="flex items-start gap-2"><CheckCircle2 className="h-4 w-4 text-sapphire mt-0.5 shrink-0" /> Organizing educational initiatives or learning campaigns</li>
-                <li className="flex items-start gap-2"><CheckCircle2 className="h-4 w-4 text-sapphire mt-0.5 shrink-0" /> Translation</li>
-              </ul>
-            </div>
+          {/* Progress dots */}
+          <div className="mt-6 flex items-center gap-2" aria-label={`Step ${step} of 2`}>
+            {([1, 2] as Step[]).map((s) => (
+              <div
+                key={s}
+                className={`h-1.5 rounded-full transition-all duration-300 ${s === step
+                  ? "w-6 bg-sapphire"
+                  : s < step
+                    ? "w-4 bg-sapphire/40"
+                    : "w-4 bg-navy/15"
+                  }`}
+              />
+            ))}
+            <span className="ml-1 text-xs text-navy/40">Step {step} of 2</span>
+          </div>
 
-            <div className="rounded-3xl border border-navy/10 bg-white p-6 shadow-sm space-y-4">
-              <h3 className="font-heading text-xl font-bold text-navy text-center">Volunteer Recognition</h3>
-              <p className="text-xs text-navy/70 text-center">To receive volunteer hours, contributors are asked to report the number of hours they spent working with Tour. We trust our contributors to report their hours honestly and responsibly.</p>
-              <ul className="list-none space-y-2 text-sm text-navy/80">
-                <li className="flex items-start gap-2"><Award className="h-4 w-4 text-sapphire mt-0.5 shrink-0" /> A digital volunteer certificate</li>
-                <li className="flex items-start gap-2"><FileText className="h-4 w-4 text-sapphire mt-0.5 shrink-0" /> A record of volunteer hours (for school, NHS, or college applications)</li>
-                <li className="flex items-start gap-2"><Users className="h-4 w-4 text-sapphire mt-0.5 shrink-0" /> A recommendation letter (for contributors who have worked consistently with Tour for at least two consecutive months)</li>
-              </ul>
-              
-              <div className="mt-4 p-3 rounded-xl bg-champagne/40 border border-sapphire/10 text-xs text-navy/80">
-                <strong>Note:</strong> Tour is not yet a registered 501(c)(3) organization. However, we are happy to provide verification or confirmation of participation for schools or clubs upon request.
+          {/* ── STEP 1 — Role + credentials ── */}
+          {step === 1 && (
+            <form
+              onSubmit={(e) => { e.preventDefault(); if (canProceed) setStep(2); }}
+              noValidate
+              className="mt-6 border-t border-navy/10 pt-6"
+            >
+              {/* Role selector */}
+              <fieldset>
+                <legend className="text-sm font-semibold text-navy">
+                  I am joining as a…
+                </legend>
+                <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                  {ROLE_OPTIONS.map((opt) => (
+                    <button
+                      key={opt.value}
+                      type="button"
+                      onClick={() => setRole(opt.value)}
+                      className={`flex flex-col gap-2 rounded-2xl border-2 p-4 text-left transition ${role === opt.value ? opt.selectedColor : `${opt.color} hover:opacity-90`
+                        }`}
+                    >
+                      <div className="flex items-center gap-2 font-semibold text-sm">
+                        {opt.icon}
+                        {opt.title}
+                      </div>
+                      <p className={`text-xs leading-relaxed ${role === opt.value ? "opacity-80" : "opacity-70"
+                        }`}>
+                        {opt.desc}
+                      </p>
+                    </button>
+                  ))}
+                </div>
+              </fieldset>
+
+              <div className="mt-6 space-y-4">
+                {/* Full name */}
+                <label className="block text-sm font-semibold text-navy">
+                  Full name <span className="text-red-500">*</span>
+                  <div className="relative mt-2">
+                    <User className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-navy/35" />
+                    <input
+                      required
+                      minLength={2}
+                      value={form.name}
+                      onChange={(e) => update("name", e.target.value)}
+                      autoComplete="name"
+                      placeholder="Jane Doe"
+                      className="w-full rounded-xl border border-navy/10 bg-ivory py-3 pl-10 pr-4 text-sm font-normal outline-none transition focus:border-sapphire focus:bg-white"
+                    />
+                  </div>
+                </label>
+
+                {/* Email */}
+                <label className="block text-sm font-semibold text-navy">
+                  Email address <span className="text-red-500">*</span>
+                  <div className="relative mt-2">
+                    <Mail className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-navy/35" />
+                    <input
+                      required
+                      type="email"
+                      value={form.email}
+                      onChange={(e) => update("email", e.target.value)}
+                      autoComplete="email"
+                      placeholder="you@example.com"
+                      className="w-full rounded-xl border border-navy/10 bg-ivory py-3 pl-10 pr-4 text-sm font-normal outline-none transition focus:border-sapphire focus:bg-white"
+                    />
+                  </div>
+                </label>
+
+                {/* Password */}
+                <label className="block text-sm font-semibold text-navy">
+                  Password <span className="text-red-500">*</span>
+                  <div className="relative mt-2">
+                    <Lock className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-navy/35" />
+                    <input
+                      required
+                      minLength={6}
+                      type={showPassword ? "text" : "password"}
+                      value={form.password}
+                      onChange={(e) => update("password", e.target.value)}
+                      autoComplete="new-password"
+                      placeholder="At least 6 characters"
+                      className="w-full rounded-xl border border-navy/10 bg-ivory py-3 pl-10 pr-11 text-sm font-normal outline-none transition focus:border-sapphire focus:bg-white"
+                    />
+                    <button
+                      type="button"
+                      aria-label={showPassword ? "Hide password" : "Show password"}
+                      onClick={() => setShowPassword((v) => !v)}
+                      className="absolute right-3.5 top-1/2 -translate-y-1/2 rounded p-0.5 text-navy/35 hover:text-navy/60"
+                    >
+                      {showPassword ? (
+                        <EyeOff className="h-4 w-4" />
+                      ) : (
+                        <Eye className="h-4 w-4" />
+                      )}
+                    </button>
+                  </div>
+                  {/* Password strength hint */}
+                  {form.password.length > 0 && (
+                    <div className="mt-2 flex items-center gap-2">
+                      {[...Array(3)].map((_, i) => (
+                        <div
+                          key={i}
+                          className={`h-1 flex-1 rounded-full transition-all ${form.password.length >= 10
+                            ? "bg-emerald-400"
+                            : form.password.length >= 6
+                              ? i < 2 ? "bg-amber-400" : "bg-navy/15"
+                              : i < 1 ? "bg-red-400" : "bg-navy/15"
+                            }`}
+                        />
+                      ))}
+                      <span className="text-[10px] text-navy/45">
+                        {form.password.length >= 10
+                          ? "Strong"
+                          : form.password.length >= 6
+                            ? "Good"
+                            : "Weak"}
+                      </span>
+                    </div>
+                  )}
+                </label>
+              </div>
+
+              <button
+                type="submit"
+                disabled={!canProceed}
+                className="mt-6 flex w-full items-center justify-center gap-2 rounded-lg bg-navy py-3.5 text-sm font-semibold text-white transition hover:bg-sapphire disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                Continue
+                <ChevronDown className="h-4 w-4 -rotate-90" />
+              </button>
+            </form>
+          )}
+
+          {/* ── STEP 2 — Profile details ── */}
+          {step === 2 && (
+            <form
+              onSubmit={handleSubmit}
+              noValidate
+              className="mt-6 border-t border-navy/10 pt-6"
+            >
+              <p className="text-sm text-navy/55">
+                Tell us a bit about yourself — this helps personalize your experience.
+                You can update these later.
+              </p>
+
+              <div className="mt-5 space-y-4">
+                {/* School */}
+                <label className="block text-sm font-semibold text-navy">
+                  School or institution
+                  <div className="relative mt-2">
+                    <School className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-navy/35" />
+                    <input
+                      value={form.school}
+                      onChange={(e) => update("school", e.target.value)}
+                      autoComplete="organization"
+                      placeholder="e.g. Rwanda Coding Academy"
+                      className="w-full rounded-xl border border-navy/10 bg-ivory py-3 pl-10 pr-4 text-sm font-normal outline-none transition focus:border-sapphire focus:bg-white"
+                    />
+                  </div>
+                </label>
+
+                {/* Academic level */}
+                <label className="block text-sm font-semibold text-navy">
+                  Academic level
+                  <div className="relative mt-2">
+                    <ChevronDown className="pointer-events-none absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-navy/35" />
+                    <select
+                      value={form.gradeLevel}
+                      onChange={(e) => update("gradeLevel", e.target.value)}
+                      className="w-full appearance-none rounded-xl border border-navy/10 bg-ivory py-3 pl-4 pr-10 text-sm font-normal outline-none transition focus:border-sapphire focus:bg-white"
+                    >
+                      <option value="">Select your level</option>
+                      <option>Secondary school / High school</option>
+                      <option>Undergraduate (Year 1–2)</option>
+                      <option>Undergraduate (Year 3–4)</option>
+                      <option>Postgraduate / Masters</option>
+                      <option>PhD / Doctoral</option>
+                      <option>Educator / Mentor</option>
+                      <option>Independent researcher</option>
+                    </select>
+                  </div>
+                </label>
+
+                {/* Bio */}
+                <label className="block text-sm font-semibold text-navy">
+                  Short bio (optional)
+                  <textarea
+                    rows={3}
+                    value={form.bio}
+                    onChange={(e) => update("bio", e.target.value)}
+                    placeholder="A sentence or two about your research interests…"
+                    className="mt-2 w-full rounded-xl border border-navy/10 bg-ivory px-4 py-3 text-sm font-normal leading-relaxed outline-none transition focus:border-sapphire focus:bg-white"
+                  />
+                </label>
+              </div>
+
+              {/* Destination preview */}
+              <div className="mt-5 flex items-start gap-3 rounded-2xl border border-navy/8 bg-ivory/60 px-4 py-3">
+                <FlaskConical className="mt-0.5 h-4 w-4 shrink-0 text-sapphire" />
+                <div>
+                  <p className="text-xs font-semibold text-navy">
+                    After joining, you&apos;ll be taken to your{" "}
+                    {role === "MENTOR" ? "researcher" : "research"} dashboard
+                  </p>
+                  <p className="mt-0.5 text-xs text-navy/50">
+                    You can start a new research project right away.
+                  </p>
+                </div>
+              </div>
+
+              {error && (
+                <div
+                  role="alert"
+                  className="mt-4 flex items-start gap-2.5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+                >
+                  <span className="mt-0.5 shrink-0">⚠</span>
+                  {error}
+                </div>
+              )}
+
+              <div className="mt-5 flex gap-3">
+                <button
+                  type="button"
+                  onClick={() => { setStep(1); setError(""); }}
+                  className="flex-1 rounded-lg border border-navy/15 py-3 text-sm font-semibold text-navy hover:bg-ivory"
+                >
+                  Back
+                </button>
+                <button
+                  type="submit"
+                  disabled={submitting}
+                  className="flex flex-[2] items-center justify-center gap-2 rounded-lg bg-navy py-3 text-sm font-semibold text-white transition hover:bg-sapphire disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  {submitting ? (
+                    <>
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                      Creating account…
+                    </>
+                  ) : (
+                    "Join TOUR"
+                  )}
+                </button>
+              </div>
+
+              <p className="mt-4 text-center text-xs text-navy/40">
+                By joining you agree to TOUR&apos;s submission guidelines and
+                community standards.
+              </p>
+            </form>
+          )}
+        </div>
+      </div>
+
+      {/* ══════════════════════════════════════════════
+          RIGHT — brand panel (hidden on mobile)
+      ══════════════════════════════════════════════ */}
+      <div className="relative hidden flex-col justify-between bg-navy px-12 py-14 lg:flex lg:w-[42%] xl:w-[38%]">
+
+        {/* Logo */}
+        <TourLogo
+          priority
+          imageClassName="h-11 w-auto"
+          className="relative z-10"
+        />
+
+        {/* Hero copy */}
+        <div className="relative z-10 flex-1 pt-24">
+          <p className="text-xs font-bold uppercase tracking-[0.25em] text-white/50">
+            Start your journey
+          </p>
+          <h1 className="mt-4 max-w-md font-heading text-4xl font-bold leading-tight text-white xl:text-5xl">
+            Start with a question.
+          </h1>
+          <p className="mt-5 max-w-sm text-base leading-relaxed text-white/65">
+            Create an account to plan research, submit your work, and receive feedback.
+          </p>
+
+          {/* Destination preview card */}
+          <div className="mt-10 rounded-2xl border border-white/10 bg-white/8 p-5 backdrop-blur-sm">
+            <p className="text-xs font-bold uppercase tracking-wider text-white/45">
+              After joining
+            </p>
+            <div className="mt-3 flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-sapphire/80">
+                <FlaskConical className="h-5 w-5 text-white" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-white">
+                  Research Dashboard
+                </p>
+                <p className="text-xs text-white/50">
+                  Track projects · Tasks · Notes · References
+                </p>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Application Form Card */}
-        <div className="max-w-2xl mx-auto rounded-3xl border border-navy/10 bg-white p-8 shadow-soft space-y-6">
-          <div className="text-center space-y-2">
-            <h3 className="font-heading text-2xl font-bold text-navy">Volunteer Application Form</h3>
-            <p className="text-xs text-navy/60">Fill out your details to join the TOUR volunteer ecosystem and apply for hours.</p>
-          </div>
-
-          <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
-            <div className="grid gap-4 md:grid-cols-2">
-              <div>
-                <label className="block text-xs font-bold uppercase text-navy/80 mb-1">Full Name</label>
-                <input type="text" placeholder="e.g. Maya Lin" className="w-full rounded-2xl border border-navy/15 bg-ivory/40 px-4 py-2.5 text-sm text-navy focus:outline-none focus:ring-2 focus:ring-sapphire" />
-              </div>
-              <div>
-                <label className="block text-xs font-bold uppercase text-navy/80 mb-1">Email Address</label>
-                <input type="email" placeholder="maya@school.edu" className="w-full rounded-2xl border border-navy/15 bg-ivory/40 px-4 py-2.5 text-sm text-navy focus:outline-none focus:ring-2 focus:ring-sapphire" />
-              </div>
-            </div>
-
-            <div className="grid gap-4 md:grid-cols-2">
-              <div>
-                <label className="block text-xs font-bold uppercase text-navy/80 mb-1">School / Institution</label>
-                <input type="text" placeholder="e.g. Oakridge High School" className="w-full rounded-2xl border border-navy/15 bg-ivory/40 px-4 py-2.5 text-sm text-navy focus:outline-none focus:ring-2 focus:ring-sapphire" />
-              </div>
-              <div>
-                <label className="block text-xs font-bold uppercase text-navy/80 mb-1">Role Interested In</label>
-                <select className="w-full rounded-2xl border border-navy/15 bg-ivory/40 px-4 py-2.5 text-sm text-navy focus:outline-none focus:ring-2 focus:ring-sapphire">
-                  <option>Student Research Writer</option>
-                  <option>Peer Reviewer</option>
-                  <option>Chapter Leader</option>
-                  <option>Developer / Designer</option>
-                </select>
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-xs font-bold uppercase text-navy/80 mb-1">Why do you want to join TOUR?</label>
-              <textarea rows={3} placeholder="Share your academic passion or goals..." className="w-full rounded-2xl border border-navy/15 bg-ivory/40 px-4 py-2.5 text-sm text-navy focus:outline-none focus:ring-2 focus:ring-sapphire"></textarea>
-            </div>
-
-            <Button className="w-full rounded-full bg-navy hover:bg-sapphire text-ivory font-semibold py-3">
-              Submit Volunteer Application
-            </Button>
-          </form>
-        </div>
+        <p className="relative z-10 text-xs text-white/30">
+          © {new Date().getFullYear()} TOUR — The Open Undergraduate Research platform
+        </p>
+      </div>
       </div>
     </div>
   );

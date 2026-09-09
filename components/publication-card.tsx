@@ -6,8 +6,8 @@ export interface PublicationCardProps {
   title: string;
   author: string;
   category: string;
-  readingTime: string;
-  views: number;
+  readingTime?: string;
+  views?: number;
 }
 
 export function PublicationCard(p: PublicationCardProps) {
@@ -27,12 +27,8 @@ export function PublicationCard(p: PublicationCardProps) {
       </div>
 
       <div className="mt-6 flex items-center justify-between text-sm text-navy/50">
-        <span className="flex items-center gap-1.5">
-          <BookOpen size={15} /> {p.readingTime}
-        </span>
-        <span className="flex items-center gap-1.5">
-          <Eye size={15} /> {p.views}
-        </span>
+          {p.readingTime && <span className="flex items-center gap-1.5"><BookOpen size={15} /> {p.readingTime}</span>}
+          {typeof p.views === "number" && <span className="flex items-center gap-1.5"><Eye size={15} /> {p.views}</span>}
       </div>
     </Link>
   );

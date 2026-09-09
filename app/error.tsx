@@ -34,11 +34,8 @@ export default function Error({
             <RefreshCw className="h-4 w-4" />
             Try again
           </Button>
-          <Link href="/">
-            <Button variant="ghost" className="gap-2">
-              <Home className="h-4 w-4" />
-              Go home
-            </Button>
+          <Link href="/" className="inline-flex h-12 items-center justify-center gap-2 rounded-pill bg-transparent px-7 font-heading text-[15px] font-semibold text-navy transition-colors hover:bg-navy/5">
+            <Home className="h-4 w-4" /> Go home
           </Link>
         </div>
         {process.env.NODE_ENV === "development" && (

@@ -1,301 +1,294 @@
-﻿"use client";
+"use client";
 
-import { useState } from "react";
+import { FormEvent, Suspense, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
-import {
-  Eye,
-  EyeOff,
-  Sparkles,
-  ArrowRight,
-  ShieldCheck,
-  CheckCircle2,
-  AlertCircle,
-  GraduationCap,
-  Award,
-  Zap,
-  ChevronLeft,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Eye, EyeOff, FlaskConical, Loader2, Lock, Mail } from "lucide-react";
+
 import { TourLogo } from "@/components/tour-logo";
 
-export default function LoginPage() {
+// ---------------------------------------------------------------------------
+// Role → destination (mirrors lib/auth.ts roleHome — kept client-side so
+// the page can redirect immediately after signIn resolves).
+// ---------------------------------------------------------------------------
+
+function roleHome(role: string | undefined | null): string {
+  if (role === "ADMIN" || role === "REVIEWER") return "/admin/submissions";
+  return "/researcher"; // STUDENT, MENTOR, unknown
+}
+
+// ---------------------------------------------------------------------------
+// Inner form — needs useSearchParams so wrapped in Suspense by parent
+// ---------------------------------------------------------------------------
+
+function LoginForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [submitting, setSubmitting] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  // Show a success banner if the user just registered but auto-login failed
+  const justRegistered = searchParams.get("registered") === "1";
+
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setLoading(true);
+    setSubmitting(true);
     setError("");
 
-    try {
-      const res = await signIn("credentials", {
-        email,
-        password,
-        redirect: false,
-      });
+    const result = await signIn("credentials", {
+      email: email.trim().toLowerCase(),
+      password,
+      redirect: false,
+    });
 
-      if (res?.error) {
-        setError("Invalid credentials. Check your email and password, or use Instant Demo Login.");
-      } else {
-        router.push("/dashboard");
-        router.refresh();
-      }
-    } catch {
-      setError("An unexpected network error occurred. Please try again.");
-    } finally {
-      setLoading(false);
+    if (result?.error) {
+      setError("The email or password is incorrect. Please try again.");
+      setSubmitting(false);
+      return;
     }
-  };
 
-  const handleQuickDemoLogin = async () => {
-    setEmail("kaliza@gmail.com");
-    setPassword("password123");
-    setLoading(true);
-    setError("");
-    try {
-      const res = await signIn("credentials", {
-        email: "kaliza@gmail.com",
-        password: "password123",
-        redirect: false,
-      });
-
-      if (res?.error) {
-        setError("Redirecting to Workspace...");
-        setTimeout(() => router.push("/dashboard"), 500);
-      } else {
-        router.push("/dashboard");
-        router.refresh();
-      }
-    } catch {
-      router.push("/dashboard");
-    } finally {
-      setLoading(false);
+    // Determine destination:
+    // 1. callbackUrl set by middleware (user tried to access a protected page)
+    // 2. Role-based home — fetch session to get role
+    const callbackUrl = searchParams.get("callbackUrl");
+    if (callbackUrl && callbackUrl.startsWith("/")) {
+      router.push(callbackUrl);
+      router.refresh();
+      return;
     }
-  };
+
+    // Fetch the new session to read role
+    const sessionRes = await fetch("/api/auth/session");
+    const session = (await sessionRes.json()) as {
+      user?: { role?: string };
+    } | null;
+    const destination = roleHome(session?.user?.role);
+    router.push(destination);
+    router.refresh();
+  }
 
   return (
-    <div className="min-h-screen bg-ivory/60 flex items-center justify-center p-4 sm:p-6 md:p-10 relative overflow-hidden">
+    <div className="flex min-h-screen items-center justify-center bg-ivory px-0 py-0 sm:px-6 sm:py-6">
 
-      {/* Ambient blobs */}
-      <div className="absolute top-10 left-10 w-96 h-96 rounded-full bg-sapphire/10 blur-3xl pointer-events-none" />
-      <div className="absolute bottom-10 right-10 w-96 h-96 rounded-full bg-champagne/20 blur-3xl pointer-events-none" />
+      {/* ══════════════════════════════════════════════
+          LEFT — brand panel (hidden on mobile)
+      ══════════════════════════════════════════════ */}
+      <div className="mx-auto flex w-full max-w-6xl flex-col overflow-hidden rounded-none bg-white shadow-none sm:min-h-[calc(100vh-3rem)] lg:flex-row lg:rounded-[2rem] lg:shadow-[0_24px_70px_rgba(20,35,70,0.16)]">
+      <div className="relative hidden flex-col justify-between bg-navy px-12 py-14 lg:flex lg:w-[42%] xl:w-[38%]">
 
-      {/* Back button */}
-      <Link
-        href="/"
-        className="absolute top-6 left-6 z-50 inline-flex items-center gap-1.5 rounded-full border border-navy/10 bg-white/80 backdrop-blur-sm px-4 py-2 text-xs font-semibold text-navy hover:bg-white hover:border-navy/20 hover:shadow-sm transition-all duration-200"
-      >
-        <ChevronLeft className="h-3.5 w-3.5" />
-        Back to Home
-      </Link>
+        {/* Logo */}
+        <TourLogo
+          priority
+          imageClassName="h-11 w-auto"
+          className="relative z-10"
+        />
 
-      {/* Main card */}
-      <div className="w-full max-w-5xl rounded-[2.5rem] bg-navy text-ivory shadow-2xl border border-navy/20 overflow-hidden grid grid-cols-1 md:grid-cols-12 relative min-h-[560px]">
-
-        {/* ── LEFT PANEL ── */}
-        <div className="md:col-span-7 bg-white text-navy p-8 md:p-12 flex flex-col justify-between relative overflow-hidden z-10">
-
-          {/* Logo only — no badge */}
-          <div className="relative z-20">
-            <TourLogo variant="plain" imageClassName="h-10" />
-          </div>
-
-          {/* Illustration area */}
-          <div className="relative my-8 flex flex-col items-center justify-center text-center z-20 py-4">
-
-            {/* Soft ambient background */}
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-              <div className="w-64 h-64 rounded-full bg-champagne/40 blur-2xl" />
-              <div className="w-44 h-44 rounded-full bg-sapphire/10 blur-xl translate-x-10 -translate-y-6" />
-            </div>
-
-            <div className="relative z-10 space-y-4 max-w-sm">
-              {/* Icon */}
-              <div className="mx-auto h-24 w-24 rounded-3xl bg-gradient-to-tr from-navy to-sapphire p-0.5 shadow-lg flex items-center justify-center transform -rotate-3 hover:rotate-0 transition duration-300">
-                <div className="h-full w-full bg-white rounded-[22px] flex items-center justify-center">
-                  <GraduationCap className="h-12 w-12 text-navy" />
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <h3 className="font-heading text-xl sm:text-2xl font-bold text-navy">
-                  Youth Student Researcher Hub
-                </h3>
-                <p className="text-xs text-navy/60 leading-relaxed max-w-xs mx-auto">
-                  Publish high school & undergraduate scientific papers, track verified volunteer hours, and collaborate with peer reviewers.
-                </p>
-              </div>
-
-              {/* Feature pills */}
-              <div className="flex flex-wrap items-center justify-center gap-2 pt-2">
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-ivory px-3 py-1 text-[11px] font-semibold text-navy border border-navy/10">
-                  <CheckCircle2 className="h-3 w-3 text-emerald-600" /> IMRAD Format
-                </span>
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-ivory px-3 py-1 text-[11px] font-semibold text-navy border border-navy/10">
-                  <ShieldCheck className="h-3 w-3 text-sapphire" /> Peer Reviewed
-                </span>
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-ivory px-3 py-1 text-[11px] font-semibold text-navy border border-navy/10">
-                  <Award className="h-3 w-3 text-amber-600" /> NHS & Volunteer Credits
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* Footer */}
-          <div className="relative z-20 pt-4 border-t border-navy/10 flex items-center justify-between text-[11px] text-navy/40">
-            <span>© 2026 TOUR Student Research Platform</span>
-            <span>Powered by Open Science</span>
-          </div>
-
-          {/* Right-side wave bulge */}
-          <div className="absolute right-0 top-0 bottom-0 w-24 translate-x-12 pointer-events-none hidden md:block z-10 text-white">
-            <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="h-full w-full">
-              <path d="M 0 0 C 60 20 80 50 0 100 Z" fill="currentColor" />
-            </svg>
-          </div>
+        {/* Hero copy */}
+        <div className="relative z-10 flex-1 pt-24">
+          <p className="text-xs font-bold uppercase tracking-[0.25em] text-white/50">
+            Welcome back
+          </p>
+          <h1 className="mt-4 max-w-md font-heading text-4xl font-bold leading-tight text-white xl:text-5xl">
+            Welcome back.
+          </h1>
+          <p className="mt-5 max-w-sm text-base leading-relaxed text-white/65">
+            Sign in to manage your research, submissions, and reviewer feedback.
+          </p>
         </div>
 
-        {/* ── RIGHT PANEL ── */}
-        <div className="md:col-span-5 bg-navy p-8 md:p-10 flex flex-col justify-between relative z-20 text-white">
+        {/* Bottom tagline */}
+        <p className="relative z-10 text-xs text-white/30">
+          © {new Date().getFullYear()} TOUR — The Open Undergraduate Research platform
+        </p>
+      </div>
 
-          <div className="space-y-6 my-auto">
+      {/* ══════════════════════════════════════════════
+          RIGHT — form panel
+      ══════════════════════════════════════════════ */}
+      <div className="flex flex-1 flex-col items-center justify-center bg-white px-5 py-12 sm:px-8 md:px-12 lg:overflow-y-auto lg:px-14 xl:px-20">
 
-            {/* Header */}
-            <div className="space-y-1">
-              <h2 className="font-heading text-2xl font-semibold text-white tracking-tight">
-                Sign In
-              </h2>
-              <p className="text-xs text-ivory/60">
-                Access your research notebook & portal.
-              </p>
-            </div>
+        {/* Mobile logo */}
+        <TourLogo
+          priority
+          imageClassName="h-10 w-auto"
+          className="mb-8 lg:hidden"
+        />
 
-            {/* Error */}
-            {error && (
-              <div className="rounded-2xl border border-red-500/30 bg-red-950/60 p-3 text-xs text-red-200 font-semibold flex items-center gap-2">
-                <AlertCircle className="h-4 w-4 text-red-400 shrink-0" />
-                <span>{error}</span>
-              </div>
-            )}
+        <div className="w-full max-w-md">
+          {/* Heading */}
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-sapphire">
+              TOUR account
+            </p>
+            <h2 className="mt-3 font-heading text-3xl font-bold text-navy md:text-4xl">
+              Sign in
+            </h2>
+            <p className="mt-2 text-sm leading-relaxed text-navy/60">
+              Don&apos;t have an account?{" "}
+              <Link
+                href="/join"
+                className="font-semibold text-sapphire underline-offset-2 hover:underline"
+              >
+                Join TOUR for free
+              </Link>
+            </p>
+          </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Form card */}
+          <div className="mt-8 border-t border-navy/10 pt-7">
+            <form onSubmit={handleSubmit} noValidate className="space-y-5">
 
               {/* Email */}
-              <div className="space-y-1.5">
-                <label className="block text-xs font-semibold text-ivory/70">
-                  Email or Username
-                </label>
-                <input
-                  type="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full rounded-full bg-white/10 border border-white/15 px-5 py-3 text-sm text-white placeholder:text-ivory/35 focus:outline-none focus:ring-2 focus:ring-sapphire focus:bg-white/20 transition"
-                  placeholder="Enter your email address"
-                />
-              </div>
+              <label className="block text-sm font-semibold text-navy">
+                Email address
+                <div className="relative mt-2">
+                  <Mail className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-navy/35" />
+                  <input
+                    type="email"
+                    required
+                    autoComplete="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="you@example.com"
+                    className="w-full rounded-xl border border-navy/10 bg-ivory py-3 pl-10 pr-4 text-sm font-normal outline-none transition focus:border-sapphire focus:bg-white"
+                  />
+                </div>
+              </label>
 
               {/* Password */}
-              <div className="space-y-1.5">
-                <label className="block text-xs font-semibold text-ivory/70">
-                  Password
-                </label>
-                <div className="relative">
+              <label className="block text-sm font-semibold text-navy">
+                Password
+                <div className="relative mt-2">
+                  <Lock className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-navy/35" />
                   <input
                     type={showPassword ? "text" : "password"}
                     required
+                    autoComplete="current-password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full rounded-full bg-white/10 border border-white/15 px-5 py-3 pr-11 text-sm text-white placeholder:text-ivory/35 focus:outline-none focus:ring-2 focus:ring-sapphire focus:bg-white/20 transition"
-                    placeholder="Enter your password"
+                    placeholder="Your password"
+                    className="w-full rounded-xl border border-navy/10 bg-ivory py-3 pl-10 pr-11 text-sm font-normal outline-none transition focus:border-sapphire focus:bg-white"
                   />
                   <button
                     type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute inset-y-0 right-0 pr-4 flex items-center text-ivory/40 hover:text-white transition"
+                    aria-label={showPassword ? "Hide password" : "Show password"}
+                    onClick={() => setShowPassword((v) => !v)}
+                    className="absolute right-3.5 top-1/2 -translate-y-1/2 rounded p-0.5 text-navy/35 hover:text-navy/60"
                   >
-                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    {showPassword ? (
+                      <EyeOff className="h-4 w-4" />
+                    ) : (
+                      <Eye className="h-4 w-4" />
+                    )}
                   </button>
                 </div>
+              </label>
 
-                <div className="text-right pt-0.5">
-                  <a
-                    href="#"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      alert("Password reset instructions sent to your email!");
-                    }}
-                    className="text-[11px] text-champagne/80 hover:text-white hover:underline transition"
-                  >
-                    Forgot Password?
-                  </a>
+              {/* Just-registered success banner */}
+              {justRegistered && !error && (
+                <div
+                  role="status"
+                  className="flex items-start gap-2.5 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700"
+                >
+                  <span className="mt-0.5 shrink-0">✓</span>
+                  Account created! Sign in below to continue.
                 </div>
-              </div>
+              )}
 
-              {/* Sign in button */}
-              <Button
+              {/* Error */}
+              {error && (
+                <div
+                  role="alert"
+                  className="flex items-start gap-2.5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+                >
+                  <span className="mt-0.5 shrink-0">⚠</span>
+                  {error}
+                </div>
+              )}
+
+              {/* Submit */}
+              <button
                 type="submit"
-                disabled={loading}
-                className="w-full rounded-full bg-sapphire hover:bg-sapphire/85 text-white font-bold py-3.5 text-xs shadow-lg transition flex items-center justify-center gap-2 mt-2"
+                disabled={submitting}
+                className="flex w-full items-center justify-center gap-2 rounded-lg bg-navy py-3.5 text-sm font-semibold text-white transition hover:bg-sapphire disabled:cursor-not-allowed disabled:opacity-60"
               >
-                {loading ? (
+                {submitting ? (
                   <>
-                    <span className="h-4 w-4 rounded-full border-2 border-white border-t-transparent animate-spin" />
-                    Signing in...
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    Signing in…
                   </>
                 ) : (
-                  <>
-                    Log in to Workspace <ArrowRight className="h-4 w-4" />
-                  </>
+                  "Sign in to TOUR"
                 )}
-              </Button>
-
-              {/* Demo login */}
-              <Button
-                type="button"
-                variant="ghost"
-                onClick={handleQuickDemoLogin}
-                className="w-full rounded-full bg-white/5 border border-white/10 text-ivory/80 hover:bg-white/15 hover:text-white text-xs font-semibold py-2.5 flex items-center justify-center gap-1.5 transition"
-              >
-                <Zap className="h-3.5 w-3.5 text-champagne" /> Instant Demo Scholar Access
-              </Button>
-
+              </button>
             </form>
 
-            {/* Register */}
-            <div className="text-center text-xs text-ivory/60 pt-1">
-              <p>
-                Don&apos;t have an account?{" "}
-                <Link href="/join/writer" className="font-bold text-champagne hover:text-white hover:underline transition">
-                  Register Now
-                </Link>
-              </p>
+            {/* Divider */}
+            <div className="mt-6 flex items-center gap-3">
+              <span className="h-px flex-1 bg-navy/10" />
+              <span className="text-xs text-navy/35">or</span>
+              <span className="h-px flex-1 bg-navy/10" />
             </div>
 
+            {/* Alt CTA */}
+            <div className="mt-5 text-center text-sm text-navy/55">
+              New to TOUR?{" "}
+              <Link
+                href="/join"
+                className="font-semibold text-sapphire underline-offset-2 hover:underline"
+              >
+                Create a free account
+              </Link>
+            </div>
           </div>
 
-          {/* Footer */}
-          <div className="pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px] text-ivory/40">
-            <Link href="/about" className="hover:text-white hover:underline transition">
-              Terms and Services
-            </Link>
-            <span>
-              Need help? Contact{" "}
-              <a href="mailto:support@tour.dev" className="hover:underline text-ivory/60 hover:text-white transition">
-                support@tour.dev
-              </a>
-            </span>
+          {/* Roles hint */}
+          <div className="mt-6 rounded-2xl border border-navy/8 bg-white/60 p-4">
+            <p className="flex items-center gap-2 text-xs font-semibold text-navy/55">
+              <FlaskConical className="h-3.5 w-3.5 text-sapphire" />
+              Where will you land after sign-in?
+            </p>
+            <ul className="mt-2 space-y-1.5 text-xs text-navy/50">
+              <li className="flex items-center gap-2">
+                <span className="h-1.5 w-1.5 rounded-full bg-sapphire/60" />
+                <strong className="text-navy/70">Student / Researcher</strong> → Research Dashboard
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
+                <strong className="text-navy/70">Reviewer</strong> → Review Queue
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="h-1.5 w-1.5 rounded-full bg-rose-400" />
+                <strong className="text-navy/70">Admin</strong> → Admin Panel
+              </li>
+            </ul>
           </div>
-
         </div>
-
+      </div>
       </div>
     </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Page export — Suspense required because LoginForm uses useSearchParams
+// ---------------------------------------------------------------------------
+
+export default function LoginPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex min-h-screen items-center justify-center bg-ivory">
+          <Loader2 className="h-8 w-8 animate-spin text-sapphire/50" />
+        </div>
+      }
+    >
+      <LoginForm />
+    </Suspense>
   );
 }

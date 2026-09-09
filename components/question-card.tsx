@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { Heart, Users, Eye } from "lucide-react";
-import { Button } from "@/components/ui/button";
 
 const statusStyles: Record<string, string> = {
   OPEN: "bg-champagne text-navy",
@@ -60,10 +59,8 @@ export function QuestionCard(q: QuestionCardProps) {
       </div>
 
       <div className="mt-6">
-        <Link href={`/questions/${q.id}`}>
-          <Button variant="secondary" size="sm" className="w-full">
-            I'd Like to Research This
-          </Button>
+        <Link href={`/questions/${q.id}`} className="inline-flex h-10 w-full items-center justify-center rounded-pill border border-navy/20 px-5 text-sm font-semibold text-navy transition-colors hover:border-navy hover:bg-white">
+          I&apos;d Like to Research This
         </Link>
       </div>
     </div>

@@ -6,8 +6,12 @@ export default withAuth(
     const token = req.nextauth.token;
     const path = req.nextUrl.pathname;
 
-    // Protect writer routes - require authentication
-    const writerPaths = ["/dashboard", "/workspace", "/submit", "/achievements", "/settings"];
+    if (path.startsWith("/admin") && !["ADMIN", "REVIEWER"].includes(String(token?.role))) {
+      return NextResponse.redirect(new URL("/", req.url));
+    }
+
+    // Protect author/writer routes — require authentication
+    const writerPaths = ["/dashboard", "/researcher", "/workspace", "/submit", "/achievements", "/settings", "/my-submissions"];
     const isWriterPath = writerPaths.some((p) => path === p || path.startsWith(`${p}/`));
 
     if (isWriterPath && !token) {
@@ -21,17 +25,23 @@ export default withAuth(
     const isAuthPath = authPaths.some((p) => path === p || path.startsWith(`${p}/`));
 
     if (isAuthPath && token) {
-      return NextResponse.redirect(new URL("/dashboard", req.url));
+      return NextResponse.redirect(new URL("/", req.url));
     }
 
     return NextResponse.next();
   },
   {
     secret: process.env.NEXTAUTH_SECRET,
+    pages: {
+      signIn: "/login",
+    },
     callbacks: {
       authorized: ({ token, req }) => {
         const path = req.nextUrl.pathname;
-        const writerPaths = ["/dashboard", "/workspace", "/submit", "/achievements", "/settings"];
+        if (path.startsWith("/admin")) {
+          return ["ADMIN", "REVIEWER"].includes(String(token?.role));
+        }
+        const writerPaths = ["/dashboard", "/researcher", "/workspace", "/submit", "/achievements", "/settings", "/my-submissions"];
         const isWriterPath = writerPaths.some((p) => path === p || path.startsWith(`${p}/`));
 
         // Allow access to writer paths only if authenticated
@@ -49,10 +59,13 @@ export default withAuth(
 export const config = {
   matcher: [
     "/dashboard/:path*",
+    "/researcher/:path*",
     "/workspace/:path*",
     "/submit/:path*",
     "/achievements/:path*",
     "/settings/:path*",
+    "/my-submissions/:path*",
+    "/admin/:path*",
     "/login",
     "/join",
   ],

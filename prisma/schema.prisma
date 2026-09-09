@@ -18,6 +18,7 @@ datasource db {
 enum Role {
   STUDENT
   MENTOR
+  REVIEWER
   ADMIN
 }
 
@@ -51,6 +52,12 @@ model User {
   collaborations   ProjectCollaborator[]
   papers           ResearchPaper[]   @relation("PaperOwner")
   paperAuthors     PaperAuthor[]
+  submissions      Submission[]
+  assignedSubmissions Submission[] @relation("AssignedReviewer")
+  submissionVersions SubmissionVersion[]
+  submissionAuthors SubmissionAuthor[]
+  reviews          Review[]
+  publicationAuthors PublicationAuthor[]
   comments         Comment[]
   bookmarks        Bookmark[]
   achievements     UserAchievement[]
@@ -58,6 +65,7 @@ model User {
   communityPosts   CommunityPost[]
   challengeEntries ChallengeEntry[]
   files            FileAsset[]
+  emailLogs        EmailNotificationLog[]
 
   @@index([email])
 }
@@ -263,6 +271,203 @@ enum PaperStatus {
   PUBLISHED
 }
 
+enum SubmissionStatus {
+  DRAFT
+  SUBMITTED
+  UNDER_REVIEW
+  REVISION_REQUESTED
+  RESUBMITTED
+  APPROVED
+  PUBLISHED
+  REJECTED
+}
+
+enum SubmissionResearchType {
+  RESEARCH_ARTICLE
+  STUDENT_SCIENCE_WRITING
+  EXPLORATORY_ESSAY
+  LITERATURE_REVIEW
+  RESEARCH_PROJECT
+  EXPERIMENTAL_STUDY
+  OPINION_REFLECTION
+  OTHER
+}
+
+enum ReviewDecision {
+  APPROVE
+  REQUEST_REVISION
+  REJECT
+}
+
+model SubmissionAuthor {
+  id            String      @id @default(cuid())
+  submissionId  String
+  userId        String?
+  fullName      String
+  email         String
+  institution   String?
+  country       String?
+  academicLevel String?
+  bio           String?     @db.Text
+  createdAt     DateTime    @default(now())
+
+  submission    Submission  @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+  user          User?       @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([submissionId])
+}
+
+model Submission {
+  id               String                 @id @default(cuid())
+  submissionId     String                 @unique
+  userId           String
+  assignedReviewerId String?
+  title            String
+  abstract         String                 @db.Text
+  category         String
+  researchType     SubmissionResearchType @default(RESEARCH_ARTICLE)
+  keywords         String[]               @default([])
+  description      String?                @db.Text
+  methodology      String?                @db.Text
+  references       String?                @db.Text
+  supportingLinks  String[]               @default([])
+  authorBio        String?                @db.Text
+  publicationTitle String?
+  publicationCategory String?
+  publicationSummary String?              @db.Text
+  publicationCoverImage String?
+  publicationAuthorBio String?            @db.Text
+  publicationDate  DateTime?
+  institution      String?
+  country          String?
+  academicLevel    String?
+  coAuthors        String[]               @default([])
+  email            String
+  fileUrl          String?
+  fileName         String?
+  fileType         String?
+  status           SubmissionStatus       @default(DRAFT)
+  isTermsAccepted  Boolean                @default(false)
+  submittedAt      DateTime?
+  createdAt        DateTime               @default(now())
+  updatedAt        DateTime               @updatedAt
+
+  user             User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  authors          SubmissionAuthor[]
+  reviews          Review[]
+  statusHistory    SubmissionStatusHistory[]
+  fileRecords      SubmissionFile[]
+  publication      Publication?
+  versions         SubmissionVersion[]
+  assignedReviewer User? @relation("AssignedReviewer", fields: [assignedReviewerId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([status])
+  @@index([assignedReviewerId])
+}
+
+model SubmissionVersion {
+  id            String   @id @default(cuid())
+  submissionId  String
+  versionNumber Int
+  title         String
+  abstract      String   @db.Text
+  description   String?  @db.Text
+  methodology   String?  @db.Text
+  references    String?  @db.Text
+  fileUrl       String?
+  fileName      String?
+  fileType      String?
+  createdById   String
+  createdAt     DateTime @default(now())
+
+  submission    Submission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+  createdBy     User       @relation(fields: [createdById], references: [id], onDelete: Cascade)
+
+  @@unique([submissionId, versionNumber])
+  @@index([submissionId])
+}
+
+model SubmissionFile {
+  id            String      @id @default(cuid())
+  submissionId  String
+  filename      String
+  originalName  String
+  mimeType      String
+  size          Int
+  url           String
+  createdAt     DateTime    @default(now())
+
+  submission    Submission  @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+
+  @@index([submissionId])
+}
+
+model Review {
+  id            String        @id @default(cuid())
+  submissionId  String
+  reviewerId    String
+  decision      ReviewDecision
+  feedback      String?       @db.Text
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  submission    Submission    @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+  reviewer      User          @relation(fields: [reviewerId], references: [id], onDelete: Cascade)
+
+  @@index([submissionId])
+}
+
+model SubmissionStatusHistory {
+  id            String           @id @default(cuid())
+  submissionId  String
+  previousStatus SubmissionStatus?
+  newStatus     SubmissionStatus
+  changedBy     String?
+  note          String?          @db.Text
+  createdAt     DateTime         @default(now())
+
+  submission    Submission       @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+
+  @@index([submissionId])
+}
+
+model Publication {
+  id            String      @id @default(cuid())
+  submissionId  String      @unique
+  title         String
+  category      String
+  abstract      String      @db.Text
+  summary       String?     @db.Text
+  coverImage    String?
+  publicationDate DateTime?
+  content       String?     @db.Text
+  keywords      String[]    @default([])
+  references    String?     @db.Text
+  authorBio     String?     @db.Text
+  isFeatured    Boolean     @default(false)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  submission    Submission  @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+  authors       PublicationAuthor[]
+}
+
+model PublicationAuthor {
+  id            String      @id @default(cuid())
+  publicationId String
+  userId        String?
+  name          String
+  institution   String?
+  bio           String?     @db.Text
+  role          String      @default("Author")
+
+  publication   Publication @relation(fields: [publicationId], references: [id], onDelete: Cascade)
+  user          User?       @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([publicationId])
+}
+
 model ResearchPaper {
   id            String      @id @default(cuid())
   title         String
@@ -402,4 +607,50 @@ model Notification {
   createdAt DateTime @default(now())
 
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([read])
 }
+
+// ---------------------------------------------------------------------------
+// EMAIL NOTIFICATION LOG
+// Persists every outbound email attempt so admins can audit delivery
+// and email providers can be swapped without touching the notification callers.
+// ---------------------------------------------------------------------------
+
+enum EmailEvent {
+  SUBMISSION_RECEIVED
+  SUBMISSION_UNDER_REVIEW
+  REVISION_REQUESTED
+  SUBMISSION_APPROVED
+  SUBMISSION_PUBLISHED
+}
+
+enum EmailStatus {
+  PENDING
+  SENT
+  FAILED
+  SKIPPED
+}
+
+model EmailNotificationLog {
+  id          String      @id @default(cuid())
+  userId      String
+  toEmail     String
+  subject     String
+  body        String      @db.Text
+  event       EmailEvent
+  status      EmailStatus @default(PENDING)
+  provider    String?                      // e.g. "resend", "sendgrid", "console"
+  providerRef String?                      // message-id returned by the provider
+  error       String?     @db.Text
+  sentAt      DateTime?
+  createdAt   DateTime    @default(now())
+
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([event])
+  @@index([status])
+}
+

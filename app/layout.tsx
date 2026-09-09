@@ -3,7 +3,6 @@ import { Outfit } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
-import { AIAssistantModal } from "@/components/ai-assistant-modal";
 import { Providers } from "@/components/providers";
 
 const outfit = Outfit({
@@ -14,9 +13,9 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "TOUR | Student Research Platform",
+  title: "TOUR | Young Student Research & Publishing",
   description:
-    "TOUR is a world-class student-led research ecosystem that empowers young minds to explore, write, publish, collaborate, and contribute to scientific knowledge.",
+    "TOUR is a student-led, non-profit research and educational platform that helps young students explore curiosity, conduct research, write, and publish meaningful work.",
   icons: {
     icon: "/logo.svg",
     shortcut: "/logo.svg",
@@ -42,7 +41,6 @@ export default function RootLayout({
         <Providers>
           <Navbar />
           <main>{children}</main>
-          <AIAssistantModal />
           <Footer />
         </Providers>
       </body>

@@ -1,99 +1,245 @@
-"use client";
+import { Download, ExternalLink, Quote } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { prisma } from "@/lib/prisma";
 
-import { useState } from "react";
-import { BookOpen, FileText, Download, Share2, Bookmark, CheckCircle2, Quote, Eye, ThumbsUp, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
+export const dynamic = "force-dynamic";
 
-export default function PaperDetailPage({ params }: { params: { id: string } }) {
-  const [copied, setCopied] = useState(false);
-  const [showPdfModal, setShowPdfModal] = useState(false);
+export default async function ResearchDetailPage({
+  params,
+}: {
+  params: { id: string };
+}) {
+  const publication = await prisma.publication.findFirst({
+    where: { id: params.id, submission: { status: "PUBLISHED" } },
+    include: {
+      authors: true,
+      submission: {
+        select: {
+          fileUrl: true,
+          fileName: true,
+          keywords: true,
+          references: true,
+          supportingLinks: true,
+          category: true,
+          researchType: true,
+        },
+      },
+    },
+  });
 
-  const paper = {
-    title: "Microplastic Accumulation in Freshwater Snails across Urban River Basins",
-    authors: [
-      { name: "Leah M.", school: "Oakridge High School", country: "United States" },
-      { name: "Siddharth R.", school: "Stanford Online High School", country: "United States" },
-    ],
-    category: "Environmental Science",
-    date: "August 2026",
-    doi: "10.5281/zenodo.tour.2026.0812",
-    abstract: "Microplastics pose an increasing ecological risk to benthic freshwater organisms. This study evaluates the bioaccumulation rates of low-density polyethylene (LDPE) particles (10–50 µm) in freshwater snails (Physella acuta) across three urban river gradients. Results indicate a strong correlation between upstream stormwater runoff volume and tissue microplastic concentration, suggesting benthic gastropods serve as reliable bioindicators.",
-    citation: "Leah, M., & Siddharth, R. (2026). Microplastic Accumulation in Freshwater Snails across Urban River Basins. TOUR Journal of Youth Science, 4(2), 45–58.",
-  };
+  if (!publication) notFound();
 
-  const handleCopyCitation = () => {
-    navigator.clipboard.writeText(paper.citation);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
+  const { submission } = publication;
+  const keywords = publication.keywords.length
+    ? publication.keywords
+    : submission.keywords;
+  const references = publication.references ?? submission.references;
 
   return (
-    <div className="py-12 bg-ivory min-h-screen">
-      <div className="container-tour max-w-4xl space-y-8">
-        {/* Header */}
-        <div className="space-y-4 border-b border-navy/10 pb-8">
-          <span className="rounded-full bg-sapphire/10 border border-sapphire/20 px-3 py-1 text-xs font-bold text-sapphire">
-            {paper.category}
-          </span>
+    <div className="bg-ivory py-16 md:py-20">
+      <div className="container-tour max-w-4xl">
 
-          <h1 className="font-heading text-2xl md:text-3xl font-semibold text-navy leading-tight">
-            {paper.title}
-          </h1>
+        {/* ── Breadcrumb ── */}
+        <nav className="mb-8 text-sm text-navy/50" aria-label="Breadcrumb">
+          <Link href="/research" className="hover:text-navy">Research &amp; Publications</Link>
+          <span className="mx-2">›</span>
+          <span className="text-navy/75">{publication.title}</span>
+        </nav>
 
-          {/* Authors */}
-          <div className="flex flex-wrap gap-4 text-xs pt-2">
-            {paper.authors.map((a, idx) => (
-              <div key={idx} className="rounded-2xl border border-navy/10 bg-white p-3 space-y-0.5 shadow-sm">
-                <p className="font-bold text-navy">{a.name}</p>
-                <p className="text-navy/60">{a.school} • {a.country}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className="flex items-center justify-between text-xs text-navy/60 pt-4">
-            <span>Published {paper.date} • DOI: {paper.doi}</span>
-            <div className="flex gap-2">
-              <Button size="sm" onClick={() => setShowPdfModal(true)} className="rounded-full bg-navy text-ivory hover:bg-sapphire text-xs flex items-center gap-1.5">
-                <FileText className="h-3.5 w-3.5" /> Read PDF
-              </Button>
-              <Button size="sm" variant="secondary" onClick={handleCopyCitation} className="rounded-full border-navy text-navy hover:bg-navy hover:text-ivory text-xs flex items-center gap-1.5">
-                <Quote className="h-3.5 w-3.5" /> {copied ? "Copied APA!" : "Cite"}
-              </Button>
-            </div>
-          </div>
-        </div>
-
-        {/* Abstract Box */}
-        <div className="rounded-3xl border border-navy/10 bg-white p-8 shadow-card space-y-3">
-          <h3 className="font-heading text-xl font-bold text-navy">Abstract</h3>
-          <p className="text-sm text-navy/80 leading-relaxed">{paper.abstract}</p>
-        </div>
-
-        {/* PDF Embedded Reader Modal */}
-        {showPdfModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-navy/70 p-4 backdrop-blur-md">
-            <div className="flex h-[80vh] w-full max-w-4xl flex-col rounded-3xl border border-navy/10 bg-ivory shadow-soft overflow-hidden">
-              <div className="flex items-center justify-between border-b border-navy/10 bg-navy px-6 py-4 text-ivory">
-                <span className="font-heading font-bold text-sm">{paper.title} (PDF Document Viewer)</span>
-                <button onClick={() => setShowPdfModal(false)} className="rounded-full p-1 text-ivory/70 hover:bg-white/10 hover:text-ivory">
-                  <X className="h-5 w-5" />
-                </button>
-              </div>
-              <div className="flex-1 bg-slate-800 p-8 flex items-center justify-center text-ivory/80 text-center">
-                <div className="space-y-4 max-w-md">
-                  <FileText className="h-16 w-16 mx-auto text-champagne" />
-                  <h4 className="font-heading text-xl font-bold text-ivory">TOUR PDF Reader Simulation</h4>
-                  <p className="text-xs text-ivory/70">
-                    Integrated PDF.js Reader allows full-page zoom, keyword search, text highlighting, and direct annotation export.
-                  </p>
-                  <Button className="rounded-full bg-champagne text-navy hover:bg-white text-xs px-6 py-2">
-                    <Download className="h-4 w-4 mr-1.5" /> Download Full PDF
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </div>
+        {/* ── Cover image ── */}
+        {publication.coverImage && (
+          <Image
+            src={publication.coverImage}
+            alt=""
+            width={1200}
+            height={400}
+            unoptimized
+            className="mb-8 h-64 w-full rounded-3xl object-cover"
+          />
         )}
+
+        {/* ── Category + research type ── */}
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="rounded-full border border-sapphire/20 bg-champagne/60 px-3 py-1 text-xs font-semibold text-sapphire">
+            {publication.category}
+          </span>
+          <span className="rounded-full border border-navy/10 bg-white px-3 py-1 text-xs font-medium text-navy/60">
+            {submission.researchType.replace(/_/g, " ")}
+          </span>
+        </div>
+
+        {/* ── Title ── */}
+        <h1 className="mt-5 font-heading text-2xl font-bold text-navy md:text-4xl leading-tight">
+          {publication.title}
+        </h1>
+
+        {/* ── Authors + meta ── */}
+        <div className="mt-4 flex flex-wrap gap-3">
+          {publication.authors.map((author) => (
+            <div
+              key={author.id}
+              className="rounded-2xl border border-navy/10 bg-white px-4 py-2.5 text-sm shadow-sm"
+            >
+              <p className="font-semibold text-navy">{author.name}</p>
+              {author.institution && (
+                <p className="text-xs text-navy/55">{author.institution}</p>
+              )}
+            </div>
+          ))}
+        </div>
+        <p className="mt-3 text-sm text-navy/50">
+          Published{" "}
+          {publication.publicationDate
+            ? new Date(publication.publicationDate).toLocaleDateString("en-US", {
+              month: "long",
+              year: "numeric",
+            })
+            : "—"}
+        </p>
+
+        {/* ── Action buttons ── */}
+        <div className="mt-6 flex flex-wrap gap-3">
+          {submission.fileUrl ? (
+            <>
+              <a
+                href={submission.fileUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 rounded-full bg-navy px-5 py-2.5 text-sm font-semibold text-white hover:bg-sapphire"
+              >
+                <ExternalLink className="h-4 w-4" /> Read Research
+              </a>
+              <a
+                href={submission.fileUrl}
+                download={submission.fileName ?? undefined}
+                className="inline-flex items-center gap-2 rounded-full border border-navy/15 bg-white px-5 py-2.5 text-sm font-semibold text-navy hover:bg-navy/5"
+              >
+                <Download className="h-4 w-4" /> Download PDF
+              </a>
+            </>
+          ) : (
+            <span className="text-sm text-navy/50">No downloadable file attached.</span>
+          )}
+          <button
+            type="button"
+            className="inline-flex items-center gap-2 rounded-full border border-navy/15 bg-white px-5 py-2.5 text-sm font-semibold text-navy hover:bg-navy/5"
+          >
+            <Quote className="h-4 w-4" /> Cite this paper
+          </button>
+        </div>
+
+        {/* ── Abstract ── */}
+        <section className="mt-10 rounded-3xl border border-navy/10 bg-white p-8 shadow-sm">
+          <h2 className="font-heading text-lg font-bold text-navy">Abstract</h2>
+          <p className="mt-3 leading-relaxed text-navy/70">{publication.abstract}</p>
+        </section>
+
+        {/* ── Summary / description ── */}
+        {publication.summary && (
+          <section className="mt-6 rounded-3xl border border-navy/10 bg-white p-8 shadow-sm">
+            <h2 className="font-heading text-lg font-bold text-navy">Summary</h2>
+            <p className="mt-3 leading-relaxed text-navy/70">{publication.summary}</p>
+          </section>
+        )}
+
+        {/* ── Full research content / methodology ── */}
+        {publication.content && (
+          <section className="mt-6 rounded-3xl border border-navy/10 bg-white p-8 shadow-sm">
+            <h2 className="font-heading text-lg font-bold text-navy">Research Details</h2>
+            <p className="mt-3 whitespace-pre-wrap leading-relaxed text-navy/70">
+              {publication.content}
+            </p>
+          </section>
+        )}
+
+        {/* ── Author bios ── */}
+        {(publication.authorBio || publication.authors.some((a) => a.bio)) && (
+          <section className="mt-6 rounded-3xl border border-navy/10 bg-white p-8 shadow-sm">
+            <h2 className="font-heading text-lg font-bold text-navy">About the Author{publication.authors.length > 1 ? "s" : ""}</h2>
+            {publication.authorBio && (
+              <p className="mt-3 leading-relaxed text-navy/70">{publication.authorBio}</p>
+            )}
+            {publication.authors
+              .filter((a) => a.bio && a.bio !== publication.authorBio)
+              .map((a) => (
+                <div key={a.id} className="mt-4">
+                  <p className="text-sm font-semibold text-navy">{a.name}</p>
+                  <p className="mt-1 text-sm leading-relaxed text-navy/65">{a.bio}</p>
+                </div>
+              ))}
+          </section>
+        )}
+
+        {/* ── Keywords ── */}
+        {keywords.length > 0 && (
+          <section className="mt-6 rounded-3xl border border-navy/10 bg-white p-6 shadow-sm">
+            <h2 className="font-heading text-sm font-bold text-navy">Keywords</h2>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {keywords.map((k) => (
+                <span
+                  key={k}
+                  className="rounded-full bg-ivory px-3 py-1 text-xs text-navy/60"
+                >
+                  {k}
+                </span>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* ── References ── */}
+        {references && (
+          <section className="mt-6 rounded-3xl border border-navy/10 bg-white p-6 shadow-sm">
+            <h2 className="font-heading text-sm font-bold text-navy">References</h2>
+            <p className="mt-3 whitespace-pre-wrap text-sm leading-relaxed text-navy/65">
+              {references}
+            </p>
+          </section>
+        )}
+
+        {/* ── Supporting links ── */}
+        {submission.supportingLinks.length > 0 && (
+          <section className="mt-6 rounded-3xl border border-navy/10 bg-white p-6 shadow-sm">
+            <h2 className="font-heading text-sm font-bold text-navy">Supporting Links</h2>
+            <ul className="mt-3 space-y-2">
+              {submission.supportingLinks.map((link) => (
+                <li key={link}>
+                  <a
+                    href={link}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-1 text-sm text-sapphire hover:underline break-all"
+                  >
+                    {link} <ExternalLink className="h-3.5 w-3.5 shrink-0" />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {/* ── Related research CTA ── */}
+        <div className="mt-10 rounded-3xl border border-navy/10 bg-white p-8 shadow-sm">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-sapphire">
+                More research
+              </p>
+              <h3 className="mt-1.5 font-heading text-xl font-bold text-navy">
+                Explore more student research
+              </h3>
+            </div>
+            <Link
+              href="/research"
+              className="inline-flex items-center gap-2 rounded-full bg-navy px-5 py-2.5 text-sm font-semibold text-white hover:bg-sapphire"
+            >
+              Browse all publications
+            </Link>
+          </div>
+        </div>
+
       </div>
     </div>
   );

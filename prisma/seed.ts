@@ -15,15 +15,41 @@ async function main() {
   );
 
   const password = await bcrypt.hash("password123", 10);
-  const amara = await prisma.user.upsert({
-    where: { email: "amara@tour.dev" },
-    update: {},
+  const kaliza = await prisma.user.upsert({
+    where: { email: "kaliza@tour.dev" },
+    update: { hashedPassword: password, role: "STUDENT" },
     create: {
-      name: "Amara O.",
-      email: "amara@tour.dev",
+      name: "Kaliza E.",
+      email: "kaliza@tour.dev",
       hashedPassword: password,
       bio: "Aspiring marine biologist. Curious about cephalopods.",
       researchInterests: ["marine biology", "evolution"],
+    },
+  });
+
+  const admin = await prisma.user.upsert({
+    where: { email: "admin@tour.dev" },
+    update: { hashedPassword: password, role: "ADMIN" },
+    create: {
+      name: "TOUR Admin",
+      email: "admin@tour.dev",
+      hashedPassword: password,
+      role: "ADMIN",
+      bio: "TOUR research review administrator.",
+      researchInterests: ["Student research", "Publishing"],
+    },
+  });
+
+  const reviewer = await prisma.user.upsert({
+    where: { email: "reviewer@tour.dev" },
+    update: { hashedPassword: password, role: "REVIEWER" },
+    create: {
+      name: "TOUR Reviewer",
+      email: "reviewer@tour.dev",
+      hashedPassword: password,
+      role: "REVIEWER",
+      bio: "TOUR research reviewer.",
+      researchInterests: ["Research quality", "Academic writing"],
     },
   });
 
@@ -35,12 +61,18 @@ async function main() {
       description:
         "Two hearts pump blood to the gills, one to the rest of the body — but the systemic heart stops when swimming. What's the evolutionary tradeoff?",
       categoryId: biology.id,
-      authorId: amara.id,
+      authorId: kaliza.id,
       tags: ["biology", "evolution", "marine-life"],
     },
   });
 
-  console.log("Seeded:", { categories: categories.length, user: amara.email, question: question.title });
+  console.log("Seeded:", {
+    categories: categories.length,
+    student: `${kaliza.email} / password123`,
+    admin: `${admin.email} / password123`,
+    reviewer: `${reviewer.email} / password123`,
+    question: question.title,
+  });
 }
 
 main()

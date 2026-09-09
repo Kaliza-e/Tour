@@ -5,19 +5,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const staticRoutes = [
     "",
-    "/about",
     "/research",
-    "/questions",
-    "/publications",
-    "/community",
-    "/team",
+    "/get-published",
+    "/volunteer",
+    "/about",
     "/contact",
-    "/join",
-    "/login",
-    "/achievements",
-    "/challenges",
-    "/mentorship",
-    "/get-started",
   ];
 
   const lastModified = new Date();
