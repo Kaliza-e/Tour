@@ -4,7 +4,7 @@ import { FormEvent, Suspense, useState } from "react";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Eye, EyeOff, FlaskConical, Loader2, Lock, Mail } from "lucide-react";
+import { ArrowLeft, Eye, EyeOff, FlaskConical, Loader2, Lock, Mail } from "lucide-react";
 
 import { TourLogo } from "@/components/tour-logo";
 
@@ -120,6 +120,13 @@ function LoginForm() {
         />
 
         <div className="w-full max-w-md">
+          <Link
+            href="/"
+            className="mb-8 inline-flex items-center gap-1.5 text-sm font-semibold text-navy/55 transition-colors hover:text-navy"
+          >
+            <ArrowLeft className="h-4 w-4" /> Back to home
+          </Link>
+
           {/* Heading */}
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-sapphire">

@@ -204,7 +204,7 @@ export function Navbar() {
 
         <div
           className={cn(
-            "flex min-h-16 items-center gap-4 rounded-2xl border border-navy/10 bg-white px-4 shadow-[0_8px_24px_rgba(20,35,70,0.08)] transition-all duration-300 sm:px-6 lg:gap-6 lg:px-8"
+            "flex min-h-16 items-center gap-4 px-4 transition-all duration-300 sm:px-6 lg:gap-6 lg:px-8"
           )}
         >
           {/* ---------------------------------------------------------------- */}
@@ -254,7 +254,7 @@ export function Navbar() {
               <>
                 <Link
                   href="/login"
-                  className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-navy/15 px-3 py-2 text-[13px] font-semibold text-navy transition-colors hover:bg-navy/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sapphire sm:px-4 sm:py-2.5 2xl:text-[14px]"
+                  className="inline-flex items-center justify-center gap-1.5 px-3 py-2 text-[13px] font-semibold text-navy transition-colors hover:text-sapphire focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sapphire sm:px-4 sm:py-2.5 2xl:text-[14px]"
                 >
                   <LogIn className="h-4 w-4 shrink-0" />
                   <span>Sign in</span>
@@ -262,7 +262,7 @@ export function Navbar() {
 
                 <Link
                   href="/join"
-                  className="inline-flex items-center justify-center gap-1.5 rounded-lg bg-navy px-3 py-2 text-[13px] font-semibold text-white transition-colors hover:bg-sapphire focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sapphire sm:px-4 sm:py-2.5 2xl:text-[14px]"
+                  className="inline-flex items-center justify-center gap-1.5 px-3 py-2 text-[13px] font-semibold text-navy transition-colors hover:text-sapphire focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sapphire sm:px-4 sm:py-2.5 2xl:text-[14px]"
                 >
                   <UserPlus className="h-4 w-4 shrink-0" />
                   <span>Join TOUR</span>
@@ -454,7 +454,7 @@ export function Navbar() {
           <div className="min-h-0 overflow-hidden">
             <nav
               aria-label="Mobile navigation"
-              className="mt-3 rounded-2xl border border-navy/10 bg-white px-5 py-3 shadow-[0_8px_24px_rgba(20,35,70,0.08)]"
+              className="mt-3 px-5 py-3"
             >
               {/* ------------------------------------------------------------ */}
               {/* Main Links                                                    */}
@@ -470,7 +470,7 @@ export function Navbar() {
                       isActive(link.href) ? "page" : undefined
                     }
                     className={cn(
-                      "flex min-h-12 items-center border-b border-navy/5 text-[15px] font-medium text-navy/70 transition-colors hover:text-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sapphire",
+                      "flex min-h-12 items-center text-[15px] font-medium text-navy/70 transition-colors hover:text-sapphire focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sapphire",
                       isActive(link.href) && "font-semibold text-navy"
                     )}
                   >
@@ -487,14 +487,14 @@ export function Navbar() {
               {/* Mobile Authentication                                         */}
               {/* ------------------------------------------------------------ */}
 
-              <div className="mt-4 border-t border-navy/10 pt-4">
+              <div className="mt-4 pt-4">
                 {/* Not signed in */}
                 {!isSignedIn && !isLoading && (
                   <div className="flex flex-col gap-2">
                     <Link
                       href="/login"
                       tabIndex={mobileOpen ? 0 : -1}
-                      className="flex min-h-12 items-center justify-center gap-2 rounded-xl border border-navy/15 text-[15px] font-semibold text-navy transition-colors hover:bg-navy/5"
+                      className="flex min-h-12 items-center justify-center gap-2 text-[15px] font-semibold text-navy transition-colors hover:text-sapphire"
                     >
                       <LogIn className="h-4 w-4" />
                       Sign in
@@ -503,7 +503,7 @@ export function Navbar() {
                     <Link
                       href="/join"
                       tabIndex={mobileOpen ? 0 : -1}
-                      className="flex min-h-12 items-center justify-center gap-2 rounded-xl bg-navy text-[15px] font-semibold text-white transition-colors hover:bg-sapphire"
+                      className="flex min-h-12 items-center justify-center gap-2 text-[15px] font-semibold text-navy transition-colors hover:text-sapphire"
                     >
                       <UserPlus className="h-4 w-4" />
                       Join TOUR

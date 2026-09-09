@@ -6,6 +6,7 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import {
   BookOpen,
+  ArrowLeft,
   ChevronDown,
   Eye,
   EyeOff,
@@ -157,6 +158,13 @@ export default function JoinPage() {
         />
 
         <div className="w-full max-w-md">
+          <Link
+            href="/"
+            className="mb-8 inline-flex items-center gap-1.5 text-sm font-semibold text-navy/55 transition-colors hover:text-navy"
+          >
+            <ArrowLeft className="h-4 w-4" /> Back to home
+          </Link>
+
           {/* Heading */}
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-sapphire">
