@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import {
@@ -116,7 +116,7 @@ export default function ReviewDetailPage() {
   });
 
   // ── Load submission ──
-  const load = async () => {
+  const load = useCallback(async () => {
     setLoading(true);
     const res = await fetch("/api/admin/submissions", { cache: "no-store" });
     if (res.ok) {
@@ -128,9 +128,9 @@ export default function ReviewDetailPage() {
       }
     }
     setLoading(false);
-  };
+  }, [id]);
 
-  useEffect(() => { void load(); }, [id]);
+  useEffect(() => { void load(); }, [load]);
 
   // ── Flash helper ──
   const flash = (text: string, ok = true) => {

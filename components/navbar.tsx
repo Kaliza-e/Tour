@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
 import {
@@ -282,9 +283,11 @@ export function Navbar() {
                   {/* Avatar */}
                   <div className="grid h-8 w-8 shrink-0 place-items-center overflow-hidden rounded-full bg-navy text-white">
                     {user?.image ? (
-                      <img
+                      <Image
                         src={user.image}
                         alt={user.name || "User"}
+                        width={32}
+                        height={32}
                         className="h-full w-full object-cover"
                       />
                     ) : (
@@ -325,9 +328,11 @@ export function Navbar() {
                       <div className="flex items-center gap-3">
                         <div className="grid h-10 w-10 shrink-0 place-items-center overflow-hidden rounded-full bg-navy text-white">
                           {user?.image ? (
-                            <img
+                            <Image
                               src={user.image}
                               alt={user.name || "User"}
+                              width={40}
+                              height={40}
                               className="h-full w-full object-cover"
                             />
                           ) : (
@@ -513,9 +518,11 @@ export function Navbar() {
                     <div className="flex items-center gap-3 rounded-xl bg-navy/5 px-3 py-3">
                       <div className="grid h-10 w-10 shrink-0 place-items-center overflow-hidden rounded-full bg-navy text-white">
                         {user?.image ? (
-                          <img
+                          <Image
                             src={user.image}
                             alt={user.name || "User"}
+                            width={40}
+                            height={40}
                             className="h-full w-full object-cover"
                           />
                         ) : (
