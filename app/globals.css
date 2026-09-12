@@ -2,45 +2,109 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'The Seasons';
+  src: url('/fonts/the-seasons/FONTSPRINGDEMO-TheSeasonsRegular.woff2') format('woff2'),
+       url('/fonts/the-seasons/FONTSPRINGDEMO-TheSeasonsRegular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'The Seasons';
+  src: url('/fonts/the-seasons/FONTSPRINGDEMO-TheSeasonsItalic.woff2') format('woff2'),
+       url('/fonts/the-seasons/FONTSPRINGDEMO-TheSeasonsItalic.woff') format('woff');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'The Seasons';
+  src: url('/fonts/the-seasons/FONTSPRINGDEMO-TheSeasonsBold.woff2') format('woff2'),
+       url('/fonts/the-seasons/FONTSPRINGDEMO-TheSeasonsBold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'The Seasons';
+  src: url('/fonts/the-seasons/FONTSPRINGDEMO-TheSeasonsBoldItalic.woff2') format('woff2'),
+       url('/fonts/the-seasons/FONTSPRINGDEMO-TheSeasonsBoldItalic.woff') format('woff');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'The Seasons';
+  src: url('/fonts/the-seasons/FONTSPRINGDEMO-TheSeasonsLightRegular.woff2') format('woff2'),
+       url('/fonts/the-seasons/FONTSPRINGDEMO-TheSeasonsLightRegular.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'The Seasons';
+  src: url('/fonts/the-seasons/FONTSPRINGDEMO-TheSeasonsLightItalic.woff2') format('woff2'),
+       url('/fonts/the-seasons/FONTSPRINGDEMO-TheSeasonsLightItalic.woff') format('woff');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
 :root {
-  --font-outfit-family: var(--font-outfit), "Outfit", sans-serif;
-  --font-heading: var(--font-outfit), "Outfit", sans-serif;
-  --font-body: var(--font-outfit), "Outfit", sans-serif;
-  --font-button: var(--font-outfit), "Outfit", sans-serif;
-  --font-navigation: var(--font-outfit), "Outfit", sans-serif;
-  --font-form: var(--font-outfit), "Outfit", sans-serif;
-  --font-logo: var(--font-outfit), "Outfit", sans-serif;
-  --font-label: var(--font-outfit), "Outfit", sans-serif;
+  --font-the-seasons-family: var(--font-the-seasons, 'The Seasons'), 'The Seasons', serif;
+  --font-outfit: var(--font-the-seasons-family);
+  --font-outfit-family: var(--font-the-seasons-family);
+  --font-heading: var(--font-the-seasons-family);
+  --font-body: var(--font-the-seasons-family);
+  --font-button: var(--font-the-seasons-family);
+  --font-navigation: var(--font-the-seasons-family);
+  --font-form: var(--font-the-seasons-family);
+  --font-logo: var(--font-the-seasons-family);
+  --font-label: var(--font-the-seasons-family);
+}
+
+*,
+*::before,
+*::after {
+  font-family: var(--font-the-seasons-family);
 }
 
 html {
   scroll-behavior: smooth;
-  font-family: var(--font-body);
+  font-family: var(--font-the-seasons-family);
 }
 
 body {
-  font-family: var(--font-body);
+  font-family: var(--font-the-seasons-family);
   @apply bg-ivory text-navy antialiased;
 }
 
 h1,
 h2,
 h3,
-h4 {
-  font-family: var(--font-heading);
+h4,
+h5,
+h6 {
+  font-family: var(--font-the-seasons-family);
   @apply font-semibold;
 }
 
 /* Button font */
 button,
 .btn {
-  font-family: var(--font-button);
+  font-family: var(--font-the-seasons-family);
 }
 
 /* Navigation font */
 nav,
 .navbar {
-  font-family: var(--font-navigation);
+  font-family: var(--font-the-seasons-family);
 }
 
 /* Form elements font */
@@ -49,12 +113,12 @@ textarea,
 select,
 label,
 .form-control {
-  font-family: var(--font-form);
+  font-family: var(--font-the-seasons-family);
 }
 
 /* Logo font */
 .logo {
-  font-family: var(--font-logo);
+  font-family: var(--font-the-seasons-family);
 }
 
 /* Small labels font */
@@ -62,7 +126,7 @@ small,
 .label,
 .text-xs,
 .text-sm {
-  font-family: var(--font-label);
+  font-family: var(--font-the-seasons-family);
 }
 
 /* Visible keyboard focus, respected everywhere */
