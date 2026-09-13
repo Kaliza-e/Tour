@@ -9,6 +9,7 @@
   font-weight: 400;
   font-style: normal;
   font-display: swap;
+  unicode-range: U+0020, U+002C, U+002E, U+0030-0033, U+0035-003B, U+003F, U+0041-005A, U+0061-007A, U+00C0-00FF;
 }
 
 @font-face {
@@ -18,6 +19,7 @@
   font-weight: 400;
   font-style: italic;
   font-display: swap;
+  unicode-range: U+0020, U+002C, U+002E, U+0030-0033, U+0035-003B, U+003F, U+0041-005A, U+0061-007A, U+00C0-00FF;
 }
 
 @font-face {
@@ -27,6 +29,7 @@
   font-weight: 700;
   font-style: normal;
   font-display: swap;
+  unicode-range: U+0020, U+002C, U+002E, U+0030-0033, U+0035-003B, U+003F, U+0041-005A, U+0061-007A, U+00C0-00FF;
 }
 
 @font-face {
@@ -36,6 +39,7 @@
   font-weight: 700;
   font-style: italic;
   font-display: swap;
+  unicode-range: U+0020, U+002C, U+002E, U+0030-0033, U+0035-003B, U+003F, U+0041-005A, U+0061-007A, U+00C0-00FF;
 }
 
 @font-face {
@@ -45,6 +49,7 @@
   font-weight: 300;
   font-style: normal;
   font-display: swap;
+  unicode-range: U+0020, U+002C, U+002E, U+0030-0033, U+0035-003B, U+003F, U+0041-005A, U+0061-007A, U+00C0-00FF;
 }
 
 @font-face {
@@ -54,34 +59,39 @@
   font-weight: 300;
   font-style: italic;
   font-display: swap;
+  unicode-range: U+0020, U+002C, U+002E, U+0030-0033, U+0035-003B, U+003F, U+0041-005A, U+0061-007A, U+00C0-00FF;
 }
 
 :root {
-  --font-the-seasons-family: var(--font-the-seasons, 'The Seasons'), 'The Seasons', serif;
-  --font-outfit: var(--font-the-seasons-family);
-  --font-outfit-family: var(--font-the-seasons-family);
-  --font-heading: var(--font-the-seasons-family);
-  --font-body: var(--font-the-seasons-family);
-  --font-button: var(--font-the-seasons-family);
-  --font-navigation: var(--font-the-seasons-family);
-  --font-form: var(--font-the-seasons-family);
-  --font-logo: var(--font-the-seasons-family);
-  --font-label: var(--font-the-seasons-family);
+  --font-cormorant-family: var(--font-cormorant), 'Cormorant Garamond', serif;
+  --font-the-seasons-family: var(--font-cormorant-family);
+  --font-outfit: var(--font-cormorant-family);
+  --font-outfit-family: var(--font-cormorant-family);
+  --font-heading: var(--font-cormorant-family);
+  --font-body: var(--font-cormorant-family);
+  --font-button: var(--font-cormorant-family);
+  --font-navigation: var(--font-cormorant-family);
+  --font-form: var(--font-cormorant-family);
+  --font-logo: var(--font-cormorant-family);
+  --font-label: var(--font-cormorant-family);
 }
 
 *,
 *::before,
 *::after {
-  font-family: var(--font-the-seasons-family);
+  font-family: var(--font-cormorant-family);
 }
 
 html {
   scroll-behavior: smooth;
-  font-family: var(--font-the-seasons-family);
+  font-family: var(--font-cormorant-family);
+  font-size: 112.5%; /* 18px base font size for elegant Cormorant Garamond proportions */
 }
 
 body {
-  font-family: var(--font-the-seasons-family);
+  font-family: var(--font-cormorant-family);
+  font-size: 1.125rem;
+  line-height: 1.6;
   @apply bg-ivory text-navy antialiased;
 }
 
@@ -91,20 +101,42 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: var(--font-the-seasons-family);
-  @apply font-semibold;
+  font-family: var(--font-cormorant-family);
+  @apply font-semibold tracking-tight;
+}
+
+h1 {
+  font-size: 2.5rem;
+  line-height: 1.15;
+}
+
+h2 {
+  font-size: 2rem;
+  line-height: 1.2;
+}
+
+h3 {
+  font-size: 1.625rem;
+  line-height: 1.25;
+}
+
+h4 {
+  font-size: 1.35rem;
+  line-height: 1.3;
 }
 
 /* Button font */
 button,
 .btn {
-  font-family: var(--font-the-seasons-family);
+  font-family: var(--font-cormorant-family);
+  font-size: 1.05rem;
 }
 
 /* Navigation font */
 nav,
 .navbar {
-  font-family: var(--font-the-seasons-family);
+  font-family: var(--font-cormorant-family);
+  font-size: 1.1rem;
 }
 
 /* Form elements font */
@@ -113,12 +145,13 @@ textarea,
 select,
 label,
 .form-control {
-  font-family: var(--font-the-seasons-family);
+  font-family: var(--font-cormorant-family);
+  font-size: 1.05rem;
 }
 
 /* Logo font */
 .logo {
-  font-family: var(--font-the-seasons-family);
+  font-family: var(--font-cormorant-family);
 }
 
 /* Small labels font */
@@ -126,7 +159,7 @@ small,
 .label,
 .text-xs,
 .text-sm {
-  font-family: var(--font-the-seasons-family);
+  font-family: var(--font-cormorant-family);
 }
 
 /* Visible keyboard focus, respected everywhere */

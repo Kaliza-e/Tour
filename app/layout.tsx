@@ -1,8 +1,17 @@
 import type { Metadata } from "next";
+import { Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { Providers } from "@/components/providers";
+
+const cormorant = Cormorant_Garamond({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  style: ["normal", "italic"],
+  variable: "--font-cormorant",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "TOUR | Young Student Research & Publishing",
@@ -21,10 +30,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className={cormorant.variable} suppressHydrationWarning>
       <body
         suppressHydrationWarning
-        style={{ fontFamily: "'The Seasons', serif" }}
+        style={{ fontFamily: "var(--font-cormorant-family)" }}
       >
         <Providers>
           <Navbar />
