@@ -127,7 +127,12 @@ export function Navbar() {
   const handleLogout = async () => {
     setUserMenuOpen(false);
     setMobileOpen(false);
-    await signOut({ callbackUrl: "/" });
+    try {
+      await signOut({ redirect: false });
+    } catch {
+      // Ignore transient network errors during signout
+    }
+    window.location.href = "/";
   };
 
   if (isHiddenPage) {

@@ -71,6 +71,15 @@ export function WriterSidebar() {
     return pathname === href || pathname.startsWith(`${href}/`);
   };
 
+  const handleLogout = async () => {
+    try {
+      await signOut({ redirect: false });
+    } catch {
+      // Ignore
+    }
+    window.location.href = "/";
+  };
+
   return (
     <>
       {/* ─────────────────────────────────────────────────────────────
@@ -164,8 +173,8 @@ export function WriterSidebar() {
               })}
 
               <button
-                onClick={() => signOut({ callbackUrl: "/" })}
-                className="flex w-full items-center gap-3 rounded-xl px-3.5 py-2 text-xs font-semibold text-red-500 hover:bg-red-50 transition"
+                onClick={handleLogout}
+                className="flex w-full items-center gap-3 rounded-xl px-3.5 py-2 text-xs font-semibold text-red-500 hover:bg-red-50 transition cursor-pointer"
               >
                 <LogOut className="h-4 w-4 shrink-0" />
                 <span>Log Out</span>
@@ -262,10 +271,10 @@ export function WriterSidebar() {
 
           {/* Log out */}
           <button
-            onClick={() => signOut({ callbackUrl: "/" })}
+            onClick={handleLogout}
             title={collapsed ? "Log Out" : undefined}
             className={cn(
-              "flex w-full items-center gap-3 rounded-xl px-3 py-2 text-[12px] font-semibold text-red-500/80 hover:bg-red-50 hover:text-red-600 transition",
+              "flex w-full items-center gap-3 rounded-xl px-3 py-2 text-[12px] font-semibold text-red-500/80 hover:bg-red-50 hover:text-red-600 transition cursor-pointer",
               collapsed && "justify-center px-0"
             )}
           >
