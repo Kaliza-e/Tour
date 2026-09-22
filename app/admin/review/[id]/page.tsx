@@ -261,7 +261,7 @@ export default function ReviewDetailPage() {
         <div className="space-y-6">
 
           {/* Title block */}
-          <div className="rounded-3xl border border-navy/10 bg-white p-6 shadow-sm">
+          <div className="rounded-3xl border border-navy/10 bg-white p-6">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-sapphire">
               {submission.submissionId}
             </p>
@@ -287,7 +287,7 @@ export default function ReviewDetailPage() {
           </div>
 
           {/* Author information */}
-          <div className="rounded-3xl border border-navy/10 bg-white p-6 shadow-sm">
+          <div className="rounded-3xl border border-navy/10 bg-white p-6">
             <h2 className="mb-4 font-heading text-base font-bold text-navy">Author Information</h2>
             {submission.authors.length > 0 ? (
               <div className="space-y-4">
@@ -307,14 +307,14 @@ export default function ReviewDetailPage() {
           </div>
 
           {/* Abstract */}
-          <div className="rounded-3xl border border-navy/10 bg-white p-6 shadow-sm">
+          <div className="rounded-3xl border border-navy/10 bg-white p-6">
             <h2 className="mb-3 font-heading text-base font-bold text-navy">Abstract</h2>
             <p className="leading-relaxed text-navy/75">{submission.abstract}</p>
           </div>
 
           {/* Description / methodology */}
           {(submission.description || submission.methodology) && (
-            <div className="rounded-3xl border border-navy/10 bg-white p-6 shadow-sm">
+            <div className="rounded-3xl border border-navy/10 bg-white p-6">
               {submission.description && (
                 <div className="mb-5">
                   <h2 className="mb-2 font-heading text-base font-bold text-navy">Description</h2>
@@ -332,7 +332,7 @@ export default function ReviewDetailPage() {
 
           {/* References */}
           {submission.references && (
-            <div className="rounded-3xl border border-navy/10 bg-white p-6 shadow-sm">
+            <div className="rounded-3xl border border-navy/10 bg-white p-6">
               <h2 className="mb-3 font-heading text-base font-bold text-navy">References</h2>
               <p className="whitespace-pre-wrap text-sm leading-relaxed text-navy/70">{submission.references}</p>
             </div>
@@ -340,7 +340,7 @@ export default function ReviewDetailPage() {
 
           {/* Supporting links */}
           {submission.supportingLinks.length > 0 && (
-            <div className="rounded-3xl border border-navy/10 bg-white p-6 shadow-sm">
+            <div className="rounded-3xl border border-navy/10 bg-white p-6">
               <h2 className="mb-3 font-heading text-base font-bold text-navy">Supporting Links</h2>
               <ul className="space-y-2">
                 {submission.supportingLinks.map((link) => (
@@ -355,7 +355,7 @@ export default function ReviewDetailPage() {
           )}
 
           {/* Uploaded document */}
-          <div className="rounded-3xl border border-navy/10 bg-white p-6 shadow-sm">
+          <div className="rounded-3xl border border-navy/10 bg-white p-6">
             <h2 className="mb-3 font-heading text-base font-bold text-navy">Uploaded Document</h2>
             {submission.fileUrl ? (
               <a
@@ -427,7 +427,7 @@ export default function ReviewDetailPage() {
 
           {/* Review decision panel */}
           {submission.status !== "PUBLISHED" && submission.status !== "REJECTED" && (
-            <div className="rounded-3xl border border-navy/10 bg-white p-5 shadow-sm">
+            <div className="rounded-3xl border border-navy/10 bg-white p-5">
               <h2 className="mb-4 font-heading text-base font-bold text-navy">Review Actions</h2>
 
               {/* Decision selector */}

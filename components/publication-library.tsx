@@ -22,7 +22,7 @@ export function PublicationLibrary({ publications }: { publications: Publication
 
   return (
     <>
-      <div className="rounded-3xl border border-navy/10 bg-white p-6 shadow-card">
+      <div className="rounded-3xl border border-navy/10 bg-white p-6">
         <div className="relative">
           <Search className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-navy/40" size={18} />
           <input type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search by title, topic, or author" className="h-12 w-full rounded-full border border-navy/10 bg-ivory/40 pl-11 pr-5 text-sm text-navy placeholder:text-navy/40 focus:outline-none focus:ring-2 focus:ring-sapphire" />
@@ -36,7 +36,7 @@ export function PublicationLibrary({ publications }: { publications: Publication
           {filtered.map((publication) => <PublicationCard key={publication.id} {...publication} />)}
         </div>
       ) : (
-        <div className="rounded-3xl border border-dashed border-navy/20 bg-white p-10 text-center shadow-card"><Sparkles className="mx-auto h-8 w-8 text-sapphire" /><h2 className="mt-4 font-heading text-2xl font-bold text-navy">No published research yet</h2><p className="mt-3 text-sm leading-relaxed text-navy/65">Approved research will appear here after an admin publishes it.</p></div>
+        <div className="rounded-3xl border border-dashed border-navy/20 bg-white p-10 text-center"><Sparkles className="mx-auto h-8 w-8 text-sapphire" /><h2 className="mt-4 font-heading text-2xl font-bold text-navy">No published research yet</h2><p className="mt-3 text-sm leading-relaxed text-navy/65">Approved research will appear here after an admin publishes it.</p></div>
       )}
     </>
   );

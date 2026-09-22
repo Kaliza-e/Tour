@@ -27,7 +27,7 @@ export default async function PublicationsPage() {
           <p className="mt-4 text-base leading-relaxed text-navy/70">Read work that has completed TOUR&apos;s review and publication process.</p>
         </div>
         <PublicationLibrary publications={items} />
-        <div className="rounded-3xl border border-navy/10 bg-white p-8 shadow-card"><div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between"><div><p className="text-xs font-semibold uppercase tracking-[0.2em] text-sapphire">Open to new work</p><h2 className="mt-2 font-heading text-2xl font-bold text-navy">Ready to publish your research?</h2></div><Link href="/get-published" className="inline-flex items-center gap-2 text-sm font-semibold text-navy hover:text-sapphire">Get published <ArrowRight className="h-4 w-4" /></Link></div></div>
+        <div className="rounded-3xl border border-navy/10 bg-white p-8"><div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between"><div><p className="text-xs font-semibold uppercase tracking-[0.2em] text-sapphire">Open to new work</p><h2 className="mt-2 font-heading text-2xl font-bold text-navy">Ready to publish your research?</h2></div><Link href="/get-published" className="inline-flex items-center gap-2 text-sm font-semibold text-navy hover:text-sapphire">Get published <ArrowRight className="h-4 w-4" /></Link></div></div>
       </div>
     </div>
   );

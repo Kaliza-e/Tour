@@ -4,6 +4,8 @@ import "./globals.css";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { Providers } from "@/components/providers";
+import { BackgroundParticles } from "@/components/background-particles";
+import { PageTransition } from "@/components/page-transition";
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
@@ -33,14 +35,21 @@ export default function RootLayout({
     <html lang="en" className={cormorant.variable} suppressHydrationWarning>
       <body
         suppressHydrationWarning
+        className="relative bg-[#EBF1F5] text-navy antialiased min-h-screen selection:bg-sapphire/20"
         style={{ fontFamily: "var(--font-cormorant-family)" }}
       >
         <Providers>
-          <Navbar />
-          <main>{children}</main>
-          <Footer />
+          <BackgroundParticles />
+          <div className="relative z-10 flex min-h-screen flex-col">
+            <Navbar />
+            <main className="flex-1 flex flex-col">
+              <PageTransition>{children}</PageTransition>
+            </main>
+            <Footer />
+          </div>
         </Providers>
       </body>
     </html>
   );
 }
+

@@ -1,10 +1,24 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, BookOpenText, FileCheck2, SearchCheck, Lightbulb } from "lucide-react";
+import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { QuestionCard } from "@/components/question-card";
 import { PublicationCard } from "@/components/publication-card";
+import {
+  FlaticonRocket,
+  FlaticonStar,
+  FlaticonPlus,
+  FlaticonArrowRight,
+  FlaticonBook,
+  FlaticonIdea,
+  FlaticonSearch,
+  FlaticonGraduation,
+} from "@/components/flaticons";
+import { CountUp } from "@/components/count-up";
+import { AnimatedHeading } from "@/components/animated-heading";
 
 const featuredQuestions = [
   {
@@ -39,7 +53,6 @@ const featuredQuestions = [
   },
 ];
 
-
 const featuredPapers = [
   {
     id: "p1",
@@ -67,552 +80,621 @@ const featuredPapers = [
   },
 ];
 
-
 const journey = [
   {
     label: "Think About the Question",
     desc: "Start by exploring the research question provided by the platform. Reflect on what it means, why it matters, and what you want to discover.",
-    icon: Lightbulb,
+    icon: FlaticonIdea,
   },
   {
     label: "Explore & Plan",
     desc: "Explore the topic, gather relevant sources, and create a clear plan for how you will investigate the question.",
-    icon: SearchCheck,
+    icon: FlaticonSearch,
   },
   {
     label: "Conduct Research",
     desc: "Put your plan into action by gathering information, analyzing evidence, and documenting your findings in your research workspace.",
-    icon: BookOpenText,
+    icon: FlaticonBook,
   },
   {
     label: "Publish Your Discoveries",
     desc: "Turn your research into a meaningful contribution by sharing your findings with the community and contributing to knowledge.",
-    icon: FileCheck2,
+    icon: FlaticonGraduation,
   },
 ];
-
 
 export default function LandingPage() {
   return (
     <>
-      {/* HERO */}
-      <section className="relative overflow-hidden">
-        <div className="container-tour relative py-20 md:py-28">
-          <div className="mx-auto max-w-5xl text-center">
+      {/* HERO SECTION */}
+      <section className="relative overflow-hidden bg-ivory/60 pt-6 pb-12 md:pb-16">
+        <div className="container-tour relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center py-6 md:py-10">
+            
+            {/* LEFT SIDE: Oval/blob image frame with attached static stats ribbon */}
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.94, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+              className="lg:col-span-6 relative flex flex-col items-center justify-center order-2 lg:order-1"
+            >
+              <div className="relative w-full max-w-md sm:max-w-lg aspect-[4/3] rounded-[60px] sm:rounded-[100px] border-4 border-navy/20 bg-navy overflow-hidden p-2 sm:p-3">
+                <Image
+                  src="/hero-students.jpg"
+                  alt="Young Student Researchers"
+                  width={700}
+                  height={525}
+                  priority
+                  className="w-full h-full object-cover rounded-[50px] sm:rounded-[90px]"
+                />
+              </div>
 
-            <h1 className="mt-2 font-heading text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold leading-[1.1] text-navy uppercase overflow-hidden" aria-label="Take a Tour Between Minds">
-              {["Take", "a", "Tour", "Between", "Minds"].map((word, i) => (
-                <span
-                  key={word + i}
-                  className="hero-word mr-[0.2em] sm:mr-[0.3em] last:mr-0 inline-block"
-                  style={{ animationDelay: `${i * 0.13}s` }}
-                >
-                  {word}
-                </span>
-              ))}
-            </h1>
+              {/* ATTACHED STATIC COMPACT STATS RIBBON */}
+              <div className="-mt-8 relative z-20 w-full max-w-md sm:max-w-lg px-2">
+                <div className="rounded-2xl sm:rounded-full border-2 border-navy bg-navy px-4 py-3 flex items-center justify-around gap-2 text-ivory">
+                  <div className="flex items-center gap-2">
+                    <FlaticonIdea size={16} className="text-champagne shrink-0" />
+                    <div>
+                      <p className="font-heading text-sm sm:text-base font-bold text-white leading-none">
+                        <CountUp end={4200} suffix="+" />
+                      </p>
+                      <p className="text-[10px] uppercase tracking-wider text-ivory/70">Questions</p>
+                    </div>
+                  </div>
 
-            <p className="fade-up mx-auto mt-4 sm:mt-6 max-w-2xl text-base sm:text-lg text-navy/60 px-2" style={{ animationDelay: "0.85s" }}>
-              Tour is a student-led, non-profit research and educational platform empowering young minds to explore, write, and share knowledge.
-            </p>
+                  <span className="h-6 w-px bg-white/20" />
 
-            <div className="fade-up mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6 w-full max-w-xs sm:max-w-none mx-auto" style={{ animationDelay: "1.05s" }}>
-              <Link href="/join" className="inline-flex w-full items-center justify-center rounded-full bg-navy px-8 py-4 text-xs font-semibold uppercase tracking-wider text-ivory shadow-card transition-transform duration-200 hover:scale-105 sm:w-auto sm:text-sm">
-                Join the journey
-              </Link>
+                  <div className="flex items-center gap-2">
+                    <FlaticonBook size={16} className="text-champagne shrink-0" />
+                    <div>
+                      <p className="font-heading text-sm sm:text-base font-bold text-white leading-none">
+                        <CountUp end={1100} suffix="+" />
+                      </p>
+                      <p className="text-[10px] uppercase tracking-wider text-ivory/70">Papers</p>
+                    </div>
+                  </div>
 
-              <Link href="/publications" className="inline-flex w-full items-center justify-center rounded-full border border-navy/20 px-7 py-4 text-xs font-semibold text-navy transition-transform duration-200 hover:scale-105 sm:w-auto sm:text-sm">
-                Explore Publications
-              </Link>
-            </div>
+                  <span className="h-6 w-px bg-white/20" />
 
+                  <div className="flex items-center gap-2">
+                    <FlaticonGraduation size={16} className="text-champagne shrink-0" />
+                    <div>
+                      <p className="font-heading text-sm sm:text-base font-bold text-white leading-none">
+                        <CountUp end={6800} suffix="+" />
+                      </p>
+                      <p className="text-[10px] uppercase tracking-wider text-ivory/70">Minds</p>
+                    </div>
+                  </div>
 
-            {/* Statistics Ribbon */}
-            <div className="relative mt-16">
-              <div className="full-bleed">
-                <div className="bg-navy/95 px-6 md:px-10 py-4 shadow-soft">
-                  <div className="ribbon-marquee w-full overflow-hidden">
-                    <div className="ribbon-track inline-flex items-center gap-10">
-                      {[
-                        "4,200+ Questions",
-                        "1,100+ Publications",
-                        "6,800+ Researchers",
-                        "312+ Organizations",
-                      ].map((item) => (
-                        <span key={item} className="inline-flex items-center gap-3 text-sm uppercase tracking-[0.25em] text-ivory">
-                          <span className="text-sapphire text-base">•</span>
-                          {item}
-                        </span>
-                      ))}
-                      {[
-                        "4,200+ Questions",
-                        "1,100+ Publications",
-                        "6,800+ Researchers",
-                        "312+ Organizations",
-                      ].map((item) => (
-                        <span key={`repeat-${item}`} className="inline-flex items-center gap-3 text-sm uppercase tracking-[0.25em] text-ivory">
-                          <span className="text-sapphire text-base">•</span>
-                          {item}
-                        </span>
-                      ))}
+                  <span className="h-6 w-px bg-white/20" />
+
+                  <div className="flex items-center gap-2">
+                    <FlaticonRocket size={16} className="text-champagne shrink-0" />
+                    <div>
+                      <p className="font-heading text-sm sm:text-base font-bold text-white leading-none">
+                        <CountUp end={312} suffix="+" />
+                      </p>
+                      <p className="text-[10px] uppercase tracking-wider text-ivory/70">Partners</p>
                     </div>
                   </div>
                 </div>
               </div>
+
+              {/* Floating vector sparkles & plus icons around image */}
+              <FlaticonPlus size={22} className="absolute top-4 left-4 text-navy/40" />
+              <FlaticonStar size={20} className="absolute bottom-16 right-2 text-navy/50" />
+              <FlaticonPlus size={18} className="absolute -top-2 right-12 text-navy/35" />
+            </motion.div>
+
+            {/* RIGHT SIDE: Headline, subtext & CTA */}
+            <div className="lg:col-span-6 relative text-left space-y-6 order-1 lg:order-2">
+              {/* Floating Rocket Doodle top right */}
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.8, rotate: 0 }}
+                animate={{ opacity: 1, scale: 1, rotate: 12 }}
+                transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+                className="absolute -top-12 right-0 sm:right-6 text-navy pointer-events-none"
+              >
+                <FlaticonRocket size={56} className="text-navy/80" />
+              </motion.div>
+
+              {/* Floating decorative sparkles */}
+              <FlaticonStar size={22} className="absolute -top-4 left-0 text-navy/40" />
+
+              <AnimatedHeading 
+                text="Take a Tour Between Minds" 
+                className="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-[2.75rem] xl:text-5xl font-bold leading-[1.15] text-navy tracking-tight pt-4 uppercase" 
+                delay={0.15} 
+              />
+
+              <motion.p 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                className="text-base sm:text-lg text-navy/70 leading-relaxed max-w-xl"
+              >
+                Tour is an international student-led research platform designed to inspire curiosity, creativity, and confidence in young scholars and researchers worldwide.
+              </motion.p>
+
+              {/* Action buttons */}
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                className="pt-3 flex flex-wrap items-center gap-4"
+              >
+                <Link
+                  href="/join"
+                  className="inline-flex items-center gap-2.5 rounded-full border-2 border-navy bg-white px-7 py-3.5 text-sm font-semibold text-navy hover:bg-navy hover:text-ivory transition-all duration-200 active:scale-[0.98]"
+                >
+                  <span>Join the Journey</span>
+                  <FlaticonArrowRight size={18} />
+                </Link>
+
+                <Link
+                  href="/publications"
+                  className="inline-flex items-center gap-2.5 rounded-full border border-navy/20 bg-transparent px-7 py-3.5 text-sm font-semibold text-navy hover:border-navy transition-all duration-200"
+                >
+                  <span>Explore Publications</span>
+                </Link>
+              </motion.div>
+
+              {/* Floating plus at bottom right */}
+              <div className="pt-2 flex items-center justify-end pr-8">
+                <FlaticonPlus size={24} className="text-navy/40" />
+              </div>
             </div>
           </div>
         </div>
       </section>
 
+
       {/* WHY TOUR */}
-      <section className="py-28">
+      <section className="py-16">
         <div className="container-tour">
 
-          <div className="mx-auto max-w-2xl text-center">
-
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="mx-auto max-w-2xl text-center"
+          >
             <h2 className="font-heading text-2xl font-semibold text-navy md:text-3xl">
               Every discovery starts with a question worth exploring
             </h2>
-
-            <p className="mt-4 text-navy/60">
+            <p className="mt-4 text-navy/70 leading-relaxed">
               Tour removes the barriers between curiosity and meaningful research,
               helping ideas become projects, discoveries, and published work.
             </p>
+          </motion.div>
 
-          </div>
-
-
-          <div className="mt-16 grid gap-6 md:grid-cols-3">
-
+          <div className="mt-12 grid gap-6 md:grid-cols-3">
             {[
               {
                 title: "Explore without limits",
-                desc:
-                  "Share your ideas and research questions without needing expensive labs or resources to begin.",
+                desc: "Share your ideas and research questions without needing expensive labs or resources to begin.",
+                icon: FlaticonSearch,
+                badge: "Limitless",
               },
               {
                 title: "A structured workspace",
-                desc:
-                  "Manage sources, notes, tasks, and drafts in one place designed for impactful research.",
+                desc: "Manage sources, notes, tasks, and drafts in one place designed for impactful research.",
+                icon: FlaticonBook,
+                badge: "Workspace",
               },
               {
                 title: "Share your discoveries",
-                desc:
-                  "Publish your work, receive feedback, and showcase your contribution to the community.",
+                desc: "Publish your work, receive feedback, and showcase your contribution to the community.",
+                icon: FlaticonGraduation,
+                badge: "Publishing",
               },
-            ].map((feature, i) => (
-              <div
-                key={feature.title}
-                className="glass-card glow-card p-8"
-                style={{ animationDelay: `${i * 1.3}s` }}
-              >
-                <h3 className="font-heading text-lg font-bold text-navy">
-                  {feature.title}
-                </h3>
+            ].map((feature, i) => {
+              const Icon = feature.icon;
+              return (
+                <motion.div
+                  key={feature.title}
+                  initial={{ opacity: 0, y: 35 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ duration: 0.6, delay: i * 0.15, ease: [0.22, 1, 0.36, 1] }}
+                  className="group relative rounded-3xl border-2 border-navy/15 bg-white p-8 transition-all duration-300 hover:border-navy hover:-translate-y-1.5 flex flex-col justify-between"
+                >
+                  <div>
+                    <div className="flex items-center justify-between mb-5">
+                      <div className="w-12 h-12 rounded-2xl bg-champagne/40 border border-navy/10 flex items-center justify-center text-navy group-hover:bg-navy group-hover:text-ivory transition-all duration-200">
+                        <Icon size={26} />
+                      </div>
+                      <span className="rounded-full bg-ivory px-3 py-1 text-xs font-semibold text-navy/70 border border-navy/10">
+                        {feature.badge}
+                      </span>
+                    </div>
 
-                <p className="mt-3 text-sm leading-relaxed text-navy/60">
-                  {feature.desc}
-                </p>
-              </div>
-            ))}
+                    <h3 className="font-heading text-xl font-bold text-navy">
+                      {feature.title}
+                    </h3>
 
+                    <p className="mt-3 text-sm leading-relaxed text-navy/70">
+                      {feature.desc}
+                    </p>
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
 
         </div>
       </section>
 
-
       {/* WHAT WE OFFER */}
-      <section className="py-28 bg-white border-t border-navy/5">
+      <section className="py-16 bg-white border-t border-navy/10">
         <div className="container-tour">
-          <div className="mx-auto max-w-3xl text-center">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="mx-auto max-w-3xl text-center"
+          >
             <h2 className="font-heading text-2xl font-semibold text-navy md:text-3xl">
               What We Offer
             </h2>
-            <p className="mt-4 text-navy/60 leading-relaxed text-lg">
+            <p className="mt-4 text-navy/70 leading-relaxed text-lg">
               Tour provides a supportive environment for students to think, research, learn, write, and share their ideas, helping them gain an early and worthwhile start in science and academic research.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="mt-16 grid gap-8 md:grid-cols-2">
+          <div className="mt-12 grid gap-6 md:grid-cols-2">
             {[
-              { title: "Science & Innovation (STEM)", sub: "Life Sciences, Technology & Engineering, and Environment & Future Science", desc: "Exploring STEM fields, scientific research, technology, and innovation that shape our understanding of the world and drive future progress." },
-              { title: "Health & Society", sub: "Public & Global Health, Mental Health & Psychology, and Health Policy & Ethics", desc: "Examining public health, health policy, psychology, and the social dimensions of health through research and critical analysis." },
-              { title: "Education & Development", sub: "Education & Learning, Youth & Human Development, and Access & Equity in Education", desc: "Focusing on education, learning systems, youth development, and the role of knowledge in shaping individuals and communities." },
-              { title: "Humanities & Perspectives", sub: "History & Philosophy, Society & Culture, and Ethics & Social Issues", desc: "Exploring history, philosophy, social sciences, and diverse perspectives that help us understand societies, cultures, and ideas." },
-            ].map((cat, i) => (
-              <div key={cat.title} className="rounded-3xl border border-navy/10 bg-ivory/50 p-8 glow-card space-y-3" style={{ animationDelay: `${i * 1.1}s` }}>
-                <h3 className="font-heading text-xl font-bold text-navy">{cat.title}</h3>
-                <p className="text-xs font-semibold text-sapphire uppercase tracking-wider">{cat.sub}</p>
-                <p className="text-sm text-navy/70 leading-relaxed">{cat.desc}</p>
-              </div>
-            ))}
+              { 
+                title: "Science & Innovation (STEM)", 
+                sub: "Life Sciences, Technology & Engineering, and Environment", 
+                desc: "Exploring STEM fields, scientific research, technology, and innovation that shape our understanding of the world and drive future progress.",
+                icon: FlaticonIdea
+              },
+              { 
+                title: "Health & Society", 
+                sub: "Public & Global Health, Mental Health, and Health Policy", 
+                desc: "Examining public health, health policy, psychology, and the social dimensions of health through research and critical analysis.",
+                icon: FlaticonBook
+              },
+              { 
+                title: "Education & Development", 
+                sub: "Education & Learning, Youth & Human Development", 
+                desc: "Focusing on education, learning systems, youth development, and the role of knowledge in shaping individuals and communities.",
+                icon: FlaticonGraduation
+              },
+              { 
+                title: "Humanities & Perspectives", 
+                sub: "History & Philosophy, Society & Culture, and Ethics", 
+                desc: "Exploring history, philosophy, social sciences, and diverse perspectives that help us understand societies, cultures, and ideas.",
+                icon: FlaticonSearch
+              },
+            ].map((cat, i) => {
+              const Icon = cat.icon;
+              return (
+                <motion.div 
+                  key={cat.title}
+                  initial={{ opacity: 0, y: 35 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ duration: 0.6, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] }}
+                  className="rounded-3xl border-2 border-navy/15 bg-ivory/40 p-8 space-y-4 hover:border-navy hover:bg-white transition-all duration-300 hover:-translate-y-1"
+                >
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-2xl bg-navy text-ivory flex items-center justify-center shrink-0">
+                      <Icon size={24} />
+                    </div>
+                    <div>
+                      <h3 className="font-heading text-xl font-bold text-navy">{cat.title}</h3>
+                      <p className="text-xs font-semibold text-sapphire uppercase tracking-wider">{cat.sub}</p>
+                    </div>
+                  </div>
+                  <p className="text-sm text-navy/75 leading-relaxed">{cat.desc}</p>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>
 
       {/* CHOOSE YOUR PATH */}
-      <section className="bg-ivory py-20">
-
+      <section className="bg-ivory py-16 border-t border-navy/10">
         <div className="container-tour">
-
-          <div className="mx-auto max-w-3xl text-center">
-
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.6 }}
+            className="mx-auto max-w-3xl text-center"
+          >
             <h2 className="font-heading text-2xl font-semibold text-navy md:text-3xl">
               Built for Student Researchers and Research Communities
             </h2>
-
-            <p className="mt-4 text-navy/60">
-              Whether you are beginning the first research journey or supporting the next generation
-              of innovators,Tour provides the tools to discover,collaborate,publish and grow together.
+            <p className="mt-4 text-navy/70 leading-relaxed">
+              Whether you are beginning your first research journey or supporting the next generation of innovators, Tour provides the tools to discover, collaborate, publish, and grow together.
             </p>
+          </motion.div>
 
-          </div>
-
-
-
-          <div className="mt-12 grid gap-8 md:grid-cols-2">
-
-
+          <div className="mt-12 grid gap-6 md:grid-cols-2">
             {/* RESEARCHERS */}
+            <motion.div 
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+              className="rounded-[32px] border-2 border-navy/20 bg-white p-8 sm:p-10 flex flex-col justify-between hover:border-navy transition-all duration-300 hover:-translate-y-1"
+            >
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <span className="rounded-full bg-champagne/50 border border-navy/10 px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-navy">
+                    For Student Researchers
+                  </span>
+                  <FlaticonBook size={28} className="text-navy/70" />
+                </div>
 
-            <div className="glass-card glow-card p-8">
+                <h3 className="mt-3 font-heading text-2xl sm:text-3xl font-bold text-navy">
+                  Explore, Research and Publish
+                </h3>
 
-              <div className="mb-4 inline-block rounded-full bg-ivory px-3 py-1 text-xs font-semibold text-navy">
-                FOR STUDENT RESEARCHERS
+                <p className="mt-4 text-sm leading-relaxed text-navy/70">
+                  Start your research journey with a platform designed for curious minds. Discover research topics, publish your work, collaborate with peers, and build an academic portfolio that grows with you.
+                </p>
+
+                <ul className="mt-6 space-y-3 text-sm text-navy/80">
+                  <li className="flex items-center gap-2.5">
+                    <FlaticonStar size={14} className="text-sapphire shrink-0" />
+                    <span>Publish original research papers and articles</span>
+                  </li>
+                  <li className="flex items-center gap-2.5">
+                    <FlaticonStar size={14} className="text-sapphire shrink-0" />
+                    <span>Discover research across multiple disciplines</span>
+                  </li>
+                  <li className="flex items-center gap-2.5">
+                    <FlaticonStar size={14} className="text-sapphire shrink-0" />
+                    <span>Collaborate with students from around the world</span>
+                  </li>
+                  <li className="flex items-center gap-2.5">
+                    <FlaticonStar size={14} className="text-sapphire shrink-0" />
+                    <span>Build a lasting academic portfolio</span>
+                  </li>
+                </ul>
               </div>
 
-
-              <h3 className="mt-3 font-heading text-2xl font-bold text-navy">
-                Explore,Reseach and Publish
-              </h3>
-
-
-              <p className="mt-4 text-sm text-navy/60">
-                Start your research journey with a platform designed for curious minds.
-    Discover research topics, publish your work, collaborate with peers, and
-    build an academic portfolio that grows with you.
-              </p>
-
-
-              <ul className="mt-6 space-y-3 text-sm text-navy/70">
-
-                <li>• Publish original research papers and articles</li>
-                <li>• Discover research across multiple disciplines</li>
-                <li>• Collaborate with students from around the world</li>
-                 <li>• Build a lasting academic portfolio</li>
-
-              </ul>
-
-
-              <div className="mt-6">
-
-                <Link href="/questions">
-
-                  <Button
-                    variant="secondary"
-                    className="rounded-full px-6 py-3"
-                  >
-                    Explore Research
-                  </Button>
-
+              <div className="mt-8">
+                <Link
+                  href="/questions"
+                  className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-navy bg-navy px-7 py-3.5 text-sm font-semibold text-ivory hover:bg-sapphire transition-all duration-200 w-full sm:w-auto"
+                >
+                  <span>Explore Research</span>
+                  <FlaticonArrowRight size={16} />
                 </Link>
+              </div>
+            </motion.div>
 
+            {/* EDUCATORS */}
+            <motion.div 
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.7, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
+              className="rounded-[32px] border-2 border-navy bg-navy p-8 sm:p-10 text-ivory flex flex-col justify-between transition-all duration-300 hover:-translate-y-1"
+            >
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <span className="rounded-full bg-white/10 border border-ivory/20 px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-champagne">
+                    For Educators & Mentors
+                  </span>
+                  <FlaticonGraduation size={28} className="text-champagne" />
+                </div>
+
+                <h3 className="mt-3 font-heading text-2xl sm:text-3xl font-bold text-ivory">
+                  Mentor, Support, and Inspire
+                </h3>
+
+                <p className="mt-4 text-sm leading-relaxed text-ivory/80">
+                  Empower young researchers by mentoring projects, sharing opportunities, organizing research initiatives, and building collaborative scientific communities without barriers.
+                </p>
+
+                <ul className="mt-6 space-y-3 text-sm text-ivory/90">
+                  <li className="flex items-center gap-2.5">
+                    <FlaticonStar size={14} className="text-champagne shrink-0" />
+                    <span>Connect with promising student researchers</span>
+                  </li>
+                  <li className="flex items-center gap-2.5">
+                    <FlaticonStar size={14} className="text-champagne shrink-0" />
+                    <span>Organize research initiatives and competitions</span>
+                  </li>
+                  <li className="flex items-center gap-2.5">
+                    <FlaticonStar size={14} className="text-champagne shrink-0" />
+                    <span>Mentor and review student work</span>
+                  </li>
+                  <li className="flex items-center gap-2.5">
+                    <FlaticonStar size={14} className="text-champagne shrink-0" />
+                    <span>Foster global scientific collaboration</span>
+                  </li>
+                </ul>
               </div>
 
-            </div>
-
-
-
-
-            {/* COMPANIES */}
-
-            <div className="rounded-card glow-card bg-gradient-to-b from-sapphire to-navy p-8 text-ivory shadow-soft">
-
-              <div className="mb-4 inline-block rounded-full bg-navy/30 px-3 py-1 text-xs font-semibold text-ivory">
-                FOR EDUCATORS& RESEARCH COMMUNITIES
-              </div>
-
-
-
-              <h3 className="mt-3 font-heading text-2xl font-bold">
-                Mentor, Support, and Inspire
-              </h3>
-
-              <p className="mt-4 text-sm text-ivory/80">
-               Empower young researchers by mentoring projects, sharing opportunities,
-    organizing research initiatives, and building collaborative scientific
-    communities without barriers.
-              </p>
-
-
-
-              <ul className="mt-6 space-y-3 text-sm text-ivory/85">
-
-                <li>
-                  •Connect with promising student researchers
-                </li>
-
-                <li>
-                  • Organize research initiatives and competitions
-                </li>
-
-                <li>
-                  • Mentor and review student work
-                </li>
-                <li>
-                  • Foster global scientific collaboration
-                </li>
-
-              </ul>
-
-
-
-              <div className="mt-6">
-
-                <Link href="/publications">
-
-                  <Button
-                    className="rounded-full bg-ivory text-navy px-6 py-3"
-                  >
-                    Join the Community
-                  </Button>
-
+              <div className="mt-8">
+                <Link
+                  href="/publications"
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-ivory px-7 py-3.5 text-sm font-semibold text-navy hover:bg-white transition-all duration-200 w-full sm:w-auto"
+                >
+                  <span>Join the Community</span>
+                  <FlaticonArrowRight size={16} />
                 </Link>
-
               </div>
-
-            </div>
-
-
+            </motion.div>
           </div>
-
         </div>
-
       </section>
 
-
-
-
       {/* FEATURED QUESTIONS */}
-
-      <section className="bg-white py-28">
-
+      <section className="bg-white py-16 border-t border-navy/10">
         <div className="container-tour">
-
-
-          <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
-
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.6 }}
+            className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end"
+          >
             <div>
-
               <span className="text-xs font-semibold uppercase tracking-widest text-sapphire">
                 Question Hub
               </span>
-
-
               <h2 className="mt-3 font-heading text-3xl font-bold text-navy md:text-4xl">
                 Questions researchers are exploring right now
               </h2>
-
-
             </div>
-
-
 
             <Link
               href="/questions"
-              className="flex items-center gap-1 text-sm font-semibold text-navy hover:text-sapphire"
+              className="inline-flex items-center gap-1.5 text-sm font-semibold text-navy hover:text-sapphire"
             >
-
-              Browse all questions
-              <ArrowRight size={15}/>
-
+              <span>Browse all questions</span>
+              <FlaticonArrowRight size={16} />
             </Link>
+          </motion.div>
 
-
-          </div>
-
-
-
-
-          <div className="mt-12 grid gap-6 md:grid-cols-3">
-
-            {featuredQuestions.map((question)=>(
-              <QuestionCard
+          <div className="mt-8 grid gap-6 md:grid-cols-3">
+            {featuredQuestions.map((question, i) => (
+              <motion.div
                 key={question.id}
-                {...question}
-              />
+                initial={{ opacity: 0, y: 35 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.6, delay: i * 0.15, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <QuestionCard {...question} />
+              </motion.div>
             ))}
-
           </div>
-
-
-
         </div>
-
       </section>
-            {/* HOW IT WORKS */}
-      <section className="py-28 bg-gradient-to-b from-ivory/30 to-white">
 
+      {/* HOW IT WORKS */}
+      <section className="py-16 bg-gradient-to-b from-ivory/40 to-white border-t border-navy/10">
         <div className="container-tour">
-
-          <div className="text-center mb-16">
-            <span className="inline-block px-4 py-1.5 rounded-full bg-sapphire/10 text-sapphire text-xs font-semibold uppercase tracking-wider mb-4">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-14"
+          >
+            <span className="inline-block px-4 py-1.5 rounded-full bg-sapphire/10 text-sapphire text-xs font-semibold uppercase tracking-wider mb-4 border border-sapphire/20">
               How It Works
             </span>
             <h2 className="font-heading text-3xl font-semibold text-navy md:text-4xl mb-4">
               Your Research Journey
             </h2>
-            <p className="text-navy/60 max-w-2xl mx-auto">
+            <p className="text-navy/70 max-w-2xl mx-auto">
               From curiosity to contribution, discover how Tour transforms questions into published research
             </p>
-          </div>
+          </motion.div>
 
           <div className="relative">
-            {/* Progress line */}
-            <div className="absolute top-12 left-0 right-0 h-0.5 bg-gradient-to-r from-sapphire/0 via-sapphire/30 to-sapphire/0 hidden md:block" />
-
-            <div className="relative z-10 grid gap-8 md:grid-cols-4 md:gap-6">
-
+            <div className="relative z-10 grid gap-6 md:grid-cols-4">
               {journey.map((step, index) => {
                 const Icon = step.icon;
-
                 return (
-                  <div
-                    key={step.label}
+                  <motion.div 
+                    key={step.label} 
+                    initial={{ opacity: 0, y: 35, scale: 0.95 }}
+                    whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                    viewport={{ once: true, margin: "-50px" }}
+                    transition={{ duration: 0.6, delay: index * 0.15, ease: [0.22, 1, 0.36, 1] }}
                     className="group relative"
                   >
                     {/* Step number badge */}
-                    <div className="absolute -top-3 -left-3 w-8 h-8 rounded-full bg-navy text-ivory text-sm font-bold flex items-center justify-center shadow-lg z-20">
+                    <div className="absolute -top-3 -left-3 w-9 h-9 rounded-full bg-navy text-ivory text-sm font-bold flex items-center justify-center z-20 border-2 border-white">
                       {index + 1}
                     </div>
 
-                    {/* Card */}
-                    <div className="relative bg-white rounded-2xl p-6 shadow-lg border border-navy/5 hover:shadow-xl hover:border-sapphire/20 transition-all duration-300 group-hover:-translate-y-1">
-                      {/* Icon container */}
-                      <div className="w-14 h-14 rounded-xl bg-navy flex items-center justify-center mb-4 shadow-md">
-                        <Icon size={28} className="text-ivory" strokeWidth={2} />
+                    <div className="relative bg-white rounded-3xl p-6 border-2 border-navy/15 hover:border-navy transition-all duration-300 group-hover:-translate-y-1.5 h-full flex flex-col justify-between">
+                      <div>
+                        <div className="w-14 h-14 rounded-2xl bg-ivory border border-navy/10 flex items-center justify-center mb-4 text-navy group-hover:bg-navy group-hover:text-ivory transition-all duration-200">
+                          <Icon size={28} />
+                        </div>
+
+                        <h3 className="font-heading text-lg font-bold text-navy mb-2">
+                          {step.label}
+                        </h3>
+                        <p className="text-sm text-navy/70 leading-relaxed">
+                          {step.desc}
+                        </p>
                       </div>
-
-                      {/* Content */}
-                      <h3 className="font-heading text-lg font-bold text-navy mb-2">
-                        {step.label}
-                      </h3>
-                      <p className="text-sm text-navy/60 leading-relaxed">
-                        {step.desc}
-                      </p>
-
-                      {/* Decorative elements */}
-                      <div className="absolute top-4 right-4 w-2 h-2 rounded-full bg-sapphire/20 group-hover:bg-sapphire/40 transition-colors" />
                     </div>
-
-                    {/* Connector line (desktop) */}
-                    {index < 3 && (
-                      <div className="hidden md:block absolute top-12 right-0 w-6 h-0.5 bg-gradient-to-r from-sapphire/30 to-transparent" />
-                    )}
-                  </div>
+                  </motion.div>
                 );
               })}
-
             </div>
           </div>
-
         </div>
-
       </section>
 
-
-
-
-
-
       {/* LATEST PUBLICATIONS */}
-
-      <section className="bg-white py-28">
-
+      <section className="bg-white py-16 border-t border-navy/10">
         <div className="container-tour">
-
-
-          <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
-
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.6 }}
+            className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end"
+          >
             <div>
-
               <span className="text-xs font-semibold uppercase tracking-widest text-sapphire">
                 Publications
               </span>
-
-
               <h2 className="mt-3 font-heading text-3xl font-bold text-navy md:text-4xl">
                 Recently published research
               </h2>
-
-
             </div>
-
-
 
             <Link
               href="/publications"
-              className="flex items-center gap-1 text-sm font-semibold text-navy hover:text-sapphire"
+              className="inline-flex items-center gap-1.5 text-sm font-semibold text-navy hover:text-sapphire"
             >
-
-              Explore the library
-              <ArrowRight size={15}/>
-
+              <span>Explore the library</span>
+              <FlaticonArrowRight size={16} />
             </Link>
+          </motion.div>
 
-
-          </div>
-
-
-
-
-          <div className="mt-12 grid gap-6 md:grid-cols-3">
-
-
-            {featuredPapers.map((paper)=>(
-              <PublicationCard
+          <div className="mt-8 grid gap-6 md:grid-cols-3">
+            {featuredPapers.map((paper, i) => (
+              <motion.div
                 key={paper.id}
-                {...paper}
-              />
+                initial={{ opacity: 0, y: 35 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.6, delay: i * 0.15, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <PublicationCard {...paper} />
+              </motion.div>
             ))}
-
-
           </div>
-
-
-
         </div>
-
-
       </section>
 
-
-
-
-
-
       {/* CTA */}
-
-      <section className="py-28">
-
+      <section className="py-16 border-t border-navy/10">
         <div className="container-tour">
-
-
-          <div className="border-y border-navy/10 px-10 py-20 text-center">
-
-
+          <motion.div 
+            initial={{ opacity: 0, y: 35 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            className="px-8 py-6 text-center"
+          >
             <h2 className="font-heading text-2xl font-semibold text-navy md:text-3xl">
               Your curiosity could become the next discovery
             </h2>
 
-
-
             <p className="mx-auto mt-4 max-w-xl text-navy/60">
-
-              Join researchers, innovators, and organizations
-              turning questions into meaningful knowledge.
-
+              Join researchers, innovators, and organizations turning questions into meaningful knowledge.
             </p>
 
             <div className="mx-auto mt-6 max-w-2xl rounded-2xl border border-sapphire/15 bg-champagne/40 px-6 py-4">
@@ -624,31 +706,16 @@ export default function LandingPage() {
             </div>
 
             <div className="mt-9">
-
               <Link href="/join">
-
                 <Button size="lg">
-
                   Join Tour — It's Free
                   <ArrowRight size={18}/>
-
                 </Button>
-
               </Link>
-
-
             </div>
-
-
-
-          </div>
-
-
+          </motion.div>
         </div>
-
-
       </section>
-
     </>
   );
 }

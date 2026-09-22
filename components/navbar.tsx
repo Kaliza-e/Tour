@@ -6,22 +6,21 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
 import {
-  Briefcase,
-  ChevronDown,
-  FlaskConical,
-  HeartHandshake,
-  LayoutDashboard,
-  LogIn,
-  Mail,
-  Menu,
-  Notebook,
-  Settings,
-  ShieldCheck,
-  Sparkles,
-  User,
-  UserPlus,
-  X,
-} from "lucide-react";
+  FlaticonBriefcase,
+  FlaticonChevronDown,
+  FlaticonFlask,
+  FlaticonHeartHandshake,
+  FlaticonDashboard,
+  FlaticonUser,
+  FlaticonMail,
+  FlaticonMenu,
+  FlaticonBook,
+  FlaticonSettings,
+  FlaticonShieldCheck,
+  FlaticonSparkles,
+  FlaticonUsers,
+  FlaticonClose,
+} from "@/components/flaticons";
 
 import { cn } from "@/lib/utils";
 
@@ -30,11 +29,11 @@ import { cn } from "@/lib/utils";
 /* -------------------------------------------------------------------------- */
 
 const navLinks = [
-  { href: "/about", label: "About", icon: User },
-  { href: "/research", label: "Research", icon: Sparkles },
-  { href: "/get-published", label: "Get Published", icon: Briefcase },
-  { href: "/volunteer", label: "Volunteer", icon: HeartHandshake },
-  { href: "/contact", label: "Contact", icon: Mail },
+  { href: "/about", label: "About", icon: FlaticonUser },
+  { href: "/research", label: "Research", icon: FlaticonSparkles },
+  { href: "/get-published", label: "Publish", icon: FlaticonBriefcase },
+  { href: "/volunteer", label: "Volunteer", icon: FlaticonHeartHandshake },
+  { href: "/contact", label: "Contact", icon: FlaticonMail },
 ];
 
 const hiddenNavbarPages = [
@@ -140,8 +139,8 @@ export function Navbar() {
       {/* -------------------------------------------------------------------- */}
       {/* Floating Pill Bar                                                    */}
       {/* -------------------------------------------------------------------- */}
-      <div className="pointer-events-auto flex items-center h-12 sm:h-14 px-3.5 sm:px-5 rounded-full bg-white/85 backdrop-blur-xl border border-navy/10 shadow-[0_8px_30px_rgba(17,34,80,0.08)] transition-all duration-300">
-        {/* Left Corner: TOUR Logo (replaces Home icon) */}
+      <div className="pointer-events-auto flex items-center h-13 sm:h-14 px-4 sm:px-5 rounded-full bg-white/95 border-2 border-navy/15 transition-all duration-300">
+        {/* Left Corner: TOUR Logo */}
         <Link
           href="/"
           aria-label="Home"
@@ -150,23 +149,23 @@ export function Navbar() {
           <Image
             src="/logo.png"
             alt="TOUR"
-            width={110}
+            width={115}
             height={34}
             priority
-            className="h-6 sm:h-7 w-auto object-contain"
+            className="h-6.5 sm:h-7.5 w-auto object-contain"
           />
         </Link>
 
         {/* Left Divider */}
         <div
-          className="h-5 w-[1px] bg-navy/15 mx-2 sm:mx-3 shrink-0"
+          className="h-5 w-[1px] bg-navy/15 mx-2.5 sm:mx-3 shrink-0"
           aria-hidden="true"
         />
 
-        {/* Center: Navigation Links with Icons */}
+        {/* Center: Navigation Links with Active Dot */}
         <nav
           aria-label="Primary navigation"
-          className="hidden md:flex items-center gap-1 lg:gap-2"
+          className="hidden md:flex items-center gap-1 sm:gap-1.5"
         >
           {navLinks.map((link) => {
             const Icon = link.icon;
@@ -177,9 +176,9 @@ export function Navbar() {
                 href={link.href}
                 aria-current={active ? "page" : undefined}
                 className={cn(
-                  "flex items-center gap-1.5 lg:gap-2 px-2.5 lg:px-3 py-1.5 rounded-full text-[13px] lg:text-[14px] font-medium transition-all duration-150 whitespace-nowrap",
+                  "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition-all duration-150 whitespace-nowrap",
                   active
-                    ? "text-navy font-semibold bg-navy/8"
+                    ? "text-navy font-bold"
                     : "text-navy/70 hover:text-navy hover:bg-navy/5"
                 )}
               >
@@ -188,38 +187,40 @@ export function Navbar() {
                     "h-4 w-4 shrink-0 transition-colors",
                     active ? "text-navy" : "text-navy/60"
                   )}
-                  strokeWidth={1.8}
                 />
                 <span>{link.label}</span>
+                {active && (
+                  <span className="h-1.5 w-1.5 rounded-full bg-navy shrink-0 ml-0.5" />
+                )}
               </Link>
             );
           })}
         </nav>
 
         {/* Mobile current label */}
-        <span className="md:hidden text-xs font-semibold text-navy truncate max-w-[120px]">
+        <span className="md:hidden text-sm font-extrabold text-navy truncate max-w-[140px]">
           {navLinks.find((l) => isActive(l.href))?.label || "Explore"}
         </span>
 
         {/* Right Divider */}
         <div
-          className="h-5 w-[1px] bg-navy/15 mx-2 sm:mx-3 shrink-0"
+          className="h-6 w-[1px] bg-navy/15 mx-3 sm:mx-4 shrink-0"
           aria-hidden="true"
         />
 
         {/* Right Corner: Notebook Icon & Profile Actions */}
-        <div className="flex items-center gap-1 shrink-0">
-          {/* Notebook icon (replaces Moon icon) */}
+        <div className="flex items-center gap-1.5 shrink-0">
+          {/* Notebook icon */}
           <Link
             href="/researcher"
             title="Research Notebook"
             aria-label="Research Notebook"
             className={cn(
-              "grid h-8 sm:h-9 w-8 sm:w-9 place-items-center rounded-full text-navy/75 hover:text-navy hover:bg-navy/5 transition-colors",
-              isActive("/researcher") && "text-navy bg-navy/8"
+              "grid h-9 sm:h-10 w-9 sm:w-10 place-items-center rounded-full text-navy/80 hover:text-navy hover:bg-navy/5 transition-colors",
+              isActive("/researcher") && "text-navy bg-navy/10 font-bold"
             )}
           >
-            <Notebook className="h-[18px] w-[18px]" strokeWidth={1.8} />
+            <FlaticonBook size={20} />
           </Link>
 
           {/* User Profile / Auth */}
@@ -231,18 +232,18 @@ export function Navbar() {
                 aria-expanded={userMenuOpen}
                 aria-haspopup="menu"
                 title={user?.name || "Account"}
-                className="grid h-7 w-7 sm:h-8 sm:w-8 place-items-center overflow-hidden rounded-full border border-navy/15 bg-navy text-white transition hover:ring-2 hover:ring-sapphire/30 ml-0.5"
+                className="grid h-8 w-8 sm:h-9 sm:w-9 place-items-center overflow-hidden rounded-full border-2 border-navy/20 bg-navy text-white transition hover:ring-2 hover:ring-sapphire/40 ml-0.5"
               >
                 {user?.image ? (
                   <Image
                     src={user.image}
                     alt={user.name || "User"}
-                    width={32}
-                    height={32}
+                    width={36}
+                    height={36}
                     className="h-full w-full object-cover"
                   />
                 ) : (
-                  <User className="h-4 w-4 text-white" />
+                  <FlaticonUser size={18} className="text-white" />
                 )}
               </button>
 
@@ -250,29 +251,29 @@ export function Navbar() {
               {userMenuOpen && (
                 <div
                   role="menu"
-                  className="absolute right-0 top-[calc(100%+12px)] w-60 overflow-hidden rounded-2xl border border-navy/10 bg-white shadow-[0_12px_35px_rgba(20,35,70,0.14)] p-1.5"
+                  className="absolute right-0 top-[calc(100%+14px)] w-64 overflow-hidden rounded-2xl border-2 border-navy/15 bg-white p-2"
                 >
-                  <div className="border-b border-navy/10 px-3 py-2.5">
-                    <p className="truncate text-xs font-semibold text-navy">
+                  <div className="border-b border-navy/10 px-3 py-3">
+                    <p className="truncate text-xs font-bold text-navy">
                       {user?.name || "User"}
                     </p>
-                    <p className="truncate text-[10px] text-navy/50">
+                    <p className="truncate text-[11px] text-navy/60">
                       {user?.email || role || "TOUR Member"}
                     </p>
                   </div>
 
-                  <div className="py-1">
+                  <div className="py-1 space-y-0.5">
                     <Link
                       href={getDashboardPath()}
                       role="menuitem"
-                      className="flex items-center gap-2.5 rounded-xl px-3 py-2 text-xs font-medium text-navy transition-colors hover:bg-navy/5"
+                      className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-xs font-semibold text-navy transition-colors hover:bg-navy/5"
                     >
                       {isAdmin ? (
-                        <ShieldCheck className="h-4 w-4 text-sapphire" />
+                        <FlaticonShieldCheck size={16} className="text-sapphire" />
                       ) : isReviewer ? (
-                        <Settings className="h-4 w-4 text-sapphire" />
+                        <FlaticonSettings size={16} className="text-sapphire" />
                       ) : (
-                        <LayoutDashboard className="h-4 w-4 text-sapphire" />
+                        <FlaticonDashboard size={16} className="text-sapphire" />
                       )}
                       {getDashboardLabel()}
                     </Link>
@@ -281,9 +282,9 @@ export function Navbar() {
                       <Link
                         href="/researcher"
                         role="menuitem"
-                        className="flex items-center gap-2.5 rounded-xl px-3 py-2 text-xs font-medium text-navy transition-colors hover:bg-navy/5"
+                        className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-xs font-semibold text-navy transition-colors hover:bg-navy/5"
                       >
-                        <FlaskConical className="h-4 w-4 text-sapphire" />
+                        <FlaticonFlask size={16} className="text-sapphire" />
                         My Research
                       </Link>
                     )}
@@ -291,9 +292,9 @@ export function Navbar() {
                     <Link
                       href="/settings"
                       role="menuitem"
-                      className="flex items-center gap-2.5 rounded-xl px-3 py-2 text-xs font-medium text-navy transition-colors hover:bg-navy/5"
+                      className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-xs font-semibold text-navy transition-colors hover:bg-navy/5"
                     >
-                      <Settings className="h-4 w-4 text-sapphire" />
+                      <FlaticonSettings size={16} className="text-sapphire" />
                       Settings
                     </Link>
                   </div>
@@ -303,9 +304,9 @@ export function Navbar() {
                       type="button"
                       onClick={handleLogout}
                       role="menuitem"
-                      className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-left text-xs font-medium text-red-600 transition-colors hover:bg-red-50"
+                      className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-left text-xs font-bold text-navy/80 transition-colors hover:bg-navy/5 cursor-pointer"
                     >
-                      <LogIn className="h-4 w-4 rotate-180" />
+                      <FlaticonUser size={16} className="rotate-180" />
                       Sign out
                     </button>
                   </div>
@@ -317,9 +318,9 @@ export function Navbar() {
               <Link
                 href="/login"
                 title="Sign in"
-                className="hidden lg:inline-flex items-center gap-1 px-2.5 py-1 text-xs font-semibold text-navy/70 hover:text-navy hover:bg-navy/5 rounded-full transition ml-0.5"
+                className="hidden lg:inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs sm:text-sm font-bold text-navy hover:bg-navy/5 rounded-full transition ml-0.5"
               >
-                <LogIn className="h-3.5 w-3.5" />
+                <FlaticonUser size={15} />
                 <span>Sign in</span>
               </Link>
             )
@@ -332,7 +333,7 @@ export function Navbar() {
             onClick={() => setMobileOpen((open) => !open)}
             className="grid h-8 w-8 place-items-center rounded-full text-navy/70 hover:text-navy hover:bg-navy/5 transition-colors md:hidden ml-0.5"
           >
-            {mobileOpen ? <X size={18} /> : <Menu size={18} />}
+            {mobileOpen ? <FlaticonClose size={18} /> : <FlaticonMenu size={18} />}
           </button>
         </div>
       </div>
@@ -341,7 +342,7 @@ export function Navbar() {
       {/* Mobile Drawer (Under Floating Pill)                                  */}
       {/* -------------------------------------------------------------------- */}
       {mobileOpen && (
-        <div className="pointer-events-auto mt-2 w-full max-w-xs overflow-hidden rounded-2xl border border-navy/10 bg-white/95 p-3 shadow-xl backdrop-blur-xl md:hidden transition-all animate-fade-in">
+        <div className="pointer-events-auto mt-2 w-full max-w-xs overflow-hidden rounded-xl border border-navy/10 bg-white/95 p-3 backdrop-blur-xl md:hidden transition-all animate-fade-in">
           <nav className="flex flex-col gap-1">
             {navLinks.map((link) => {
               const Icon = link.icon;
@@ -357,7 +358,7 @@ export function Navbar() {
                       : "text-navy/75 hover:bg-navy/5"
                   )}
                 >
-                  <Icon className="h-4 w-4 text-navy/70" />
+                  <Icon size={16} className="text-navy/70" />
                   <span>{link.label}</span>
                 </Link>
               );
@@ -369,14 +370,14 @@ export function Navbar() {
                   href="/login"
                   className="flex items-center gap-2.5 rounded-xl px-3 py-2 text-xs font-medium text-navy/75 hover:bg-navy/5"
                 >
-                  <LogIn className="h-4 w-4" />
+                  <FlaticonUser size={16} />
                   <span>Sign in</span>
                 </Link>
                 <Link
                   href="/join"
                   className="flex items-center gap-2.5 rounded-xl px-3 py-2 text-xs font-medium text-sapphire hover:bg-navy/5"
                 >
-                  <UserPlus className="h-4 w-4" />
+                  <FlaticonUsers size={16} />
                   <span>Join TOUR</span>
                 </Link>
               </div>

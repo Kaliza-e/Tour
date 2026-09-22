@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Heart, Users, Eye } from "lucide-react";
+import { FlaticonHeart, FlaticonUsers, FlaticonEye } from "@/components/flaticons";
 
 const statusStyles: Record<string, string> = {
   OPEN: "bg-champagne text-navy",
@@ -28,7 +28,7 @@ export interface QuestionCardProps {
 
 export function QuestionCard(q: QuestionCardProps) {
   return (
-    <div className="group flex flex-col rounded-card border border-white/20 bg-white/70 p-7 shadow-soft backdrop-blur-xl transition-all hover:-translate-y-1 hover:bg-white/80 hover:shadow-card">
+    <div className="group flex flex-col rounded-card border-2 border-navy/15 bg-white p-7 transition-all duration-300 hover:-translate-y-1 hover:border-navy/40">
       <div className="flex items-start justify-between gap-4">
         <span className="rounded-pill bg-ivory px-3 py-1 text-xs font-semibold text-navy/70">
           {q.category}
@@ -48,13 +48,13 @@ export function QuestionCard(q: QuestionCardProps) {
 
       <div className="mt-6 flex items-center gap-5 text-sm text-navy/50">
         <span className="flex items-center gap-1.5">
-          <Heart size={15} /> {q.likes}
+          <FlaticonHeart size={16} /> {q.likes}
         </span>
         <span className="flex items-center gap-1.5">
-          <Users size={15} /> {q.interestedResearchers}
+          <FlaticonUsers size={16} /> {q.interestedResearchers}
         </span>
         <span className="flex items-center gap-1.5">
-          <Eye size={15} /> {q.views}
+          <FlaticonEye size={16} /> {q.views}
         </span>
       </div>
 

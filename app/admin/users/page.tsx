@@ -341,7 +341,7 @@ export default function AdminUsersPage() {
         </details>
 
         {/* ── User table ── */}
-        <div className="mt-4 overflow-hidden rounded-3xl border border-navy/10 bg-white shadow-sm">
+        <div className="mt-4 overflow-hidden rounded-3xl border border-navy/10 bg-white">
           {loading ? (
             <div className="p-10 text-center text-sm text-navy/50">Loading users…</div>
           ) : filtered.length === 0 ? (
@@ -406,7 +406,7 @@ export default function AdminUsersPage() {
       {/* ── Role change modal ── */}
       {editing && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-navy/40 px-4 backdrop-blur-sm">
-          <div className="w-full max-w-md rounded-3xl bg-white p-6 shadow-2xl">
+          <div className="w-full max-w-md rounded-3xl border-2 border-navy/15 bg-white p-6">
             <div className="flex items-start justify-between gap-4">
               <div>
                 <h2 className="font-heading text-xl font-bold text-navy">Change Role</h2>

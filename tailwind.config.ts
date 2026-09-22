@@ -10,12 +10,12 @@ const config: Config = {
     extend: {
       colors: {
         navy: "#112250",
-        ivory: "#F5F4F0",
+        ivory: "#EBF1F5",
         sapphire: "#3B507D",
         champagne: "#E7E2CE",
         taupe: "#BEB7A7",
         // semantic aliases used across components
-        background: "#F5F4F0",
+        background: "#EBF1F5",
         foreground: "#112250",
         accent: "#3B507D",
         highlight: "#E7E2CE",
@@ -39,25 +39,34 @@ const config: Config = {
       },
       fontSize: {
         xs: ["0.875rem", { lineHeight: "1.4" }],      /* 14px */
-        sm: ["1.025rem", { lineHeight: "1.5" }],     /* ~16.5px */
-        base: ["1.15rem", { lineHeight: "1.6" }],      /* ~18.5px */
-        lg: ["1.3rem", { lineHeight: "1.5" }],        /* ~21px */
-        xl: ["1.55rem", { lineHeight: "1.4" }],       /* ~25px */
-        "2xl": ["1.85rem", { lineHeight: "1.3" }],    /* ~30px */
-        "3xl": ["2.25rem", { lineHeight: "1.25" }],   /* ~36px */
-        "4xl": ["2.75rem", { lineHeight: "1.2" }],    /* ~44px */
-        "5xl": ["3.5rem", { lineHeight: "1.15" }],    /* ~56px */
-        "6xl": ["4.25rem", { lineHeight: "1.1" }],    /* ~68px */
-        hero: ["3.5rem", { lineHeight: "1.1", letterSpacing: "0" }],
-        "hero-md": ["2.5rem", { lineHeight: "1.15", letterSpacing: "0" }],
+        sm: ["0.95rem", { lineHeight: "1.5" }],       /* ~15px */
+        base: ["1rem", { lineHeight: "1.6" }],        /* 16px */
+        lg: ["1.125rem", { lineHeight: "1.5" }],     /* ~18px */
+        xl: ["1.25rem", { lineHeight: "1.4" }],       /* ~20px */
+        "2xl": ["1.5rem", { lineHeight: "1.3" }],      /* ~24px */
+        "3xl": ["1.875rem", { lineHeight: "1.25" }],   /* ~30px */
+        "4xl": ["2.25rem", { lineHeight: "1.2" }],    /* ~36px */
+        "5xl": ["3rem", { lineHeight: "1.15" }],      /* ~48px */
+        "6xl": ["3.75rem", { lineHeight: "1.1" }],    /* ~60px */
+        hero: ["3rem", { lineHeight: "1.1", letterSpacing: "0" }],
+        "hero-md": ["2.25rem", { lineHeight: "1.15", letterSpacing: "0" }],
       },
       borderRadius: {
-        card: "24px",
+        card: "1.5rem",
         pill: "999px",
       },
       boxShadow: {
-        soft: "0 20px 60px -20px rgba(17, 34, 80, 0.18)",
-        card: "0 10px 30px -12px rgba(17, 34, 80, 0.12)",
+        none: "none",
+        "2xs": "none",
+        sm: "none",
+        DEFAULT: "none",
+        md: "none",
+        lg: "none",
+        xl: "none",
+        "2xl": "none",
+        inner: "none",
+        soft: "none",
+        card: "none",
       },
       backgroundImage: {
         "constellation": "radial-gradient(circle at 1px 1px, rgba(17,34,80,0.14) 1px, transparent 0)",

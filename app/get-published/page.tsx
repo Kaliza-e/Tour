@@ -1,7 +1,14 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { ArrowRight, CheckCircle2, FileText, FolderUp, ShieldCheck, Sparkles } from "lucide-react";
+import { motion } from "framer-motion";
+import { 
+  FlaticonArrowRight, 
+  FlaticonCheckCircle, 
+  FlaticonBook, 
+  FlaticonShieldCheck, 
+  FlaticonSparkles 
+} from "@/components/flaticons";
 
 const researchTypes = [
   "Research Article",
@@ -137,9 +144,14 @@ export default function GetPublishedPage() {
   };
 
   return (
-    <div className="bg-ivory py-16 md:py-20">
+    <div className="bg-transparent py-16 md:py-20">
       <div className="container-tour space-y-10">
-        <div className="max-w-3xl">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="max-w-3xl"
+        >
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-sapphire">Get published</p>
           <h1 className="mt-4 font-heading text-3xl font-semibold text-navy md:text-5xl">
             Get your work published.
@@ -151,33 +163,39 @@ export default function GetPublishedPage() {
             <button
               type="button"
               onClick={() => setStep(1)}
-              className="inline-flex items-center gap-2 rounded-full bg-navy px-5 py-3 text-sm font-semibold text-white transition hover:bg-navy/90"
+              className="inline-flex items-center gap-2 rounded-full border-2 border-navy bg-navy px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-sapphire cursor-pointer"
             >
-              Submit your research <ArrowRight className="h-4 w-4" />
+              <span>Submit your research</span>
+              <FlaticonArrowRight size={16} />
             </button>
           </div>
-        </div>
+        </motion.div>
 
         <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
-          <div className="space-y-5">
-            <div className="rounded-3xl border border-navy/10 bg-white p-6 shadow-card">
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-sapphire/10 text-sapphire">
-                <FileText className="h-5 w-5" />
+          <motion.div 
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="space-y-5"
+          >
+            <div className="rounded-3xl border-2 border-navy/15 bg-white p-6">
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-navy text-ivory">
+                <FlaticonBook size={24} />
               </div>
               <h2 className="font-heading text-2xl font-bold text-navy">Submission requirements</h2>
               <ul className="mt-5 space-y-3 text-sm leading-relaxed text-navy/70">
                 {requirements.map((item) => (
                   <li key={item} className="flex gap-3">
-                    <CheckCircle2 className="mt-0.5 h-4 w-4 text-sapphire" />
+                    <FlaticonCheckCircle size={16} className="mt-0.5 text-sapphire shrink-0" />
                     <span>{item}</span>
                   </li>
                 ))}
               </ul>
             </div>
 
-            <div className="rounded-3xl border border-navy/10 bg-white p-6 shadow-card">
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-champagne text-navy">
-                <ShieldCheck className="h-5 w-5" />
+            <div className="rounded-3xl border-2 border-navy/15 bg-white p-6">
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-champagne text-navy">
+                <FlaticonShieldCheck size={24} />
               </div>
               <h2 className="font-heading text-2xl font-bold text-navy">Status workflow</h2>
               <div className="mt-4 flex flex-wrap gap-2">
@@ -188,9 +206,14 @@ export default function GetPublishedPage() {
                 ))}
               </div>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="rounded-3xl border border-navy/10 bg-white p-8 shadow-card">
+          <motion.div 
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="rounded-3xl border-2 border-navy/15 bg-white p-8"
+          >
             <div className="mb-6">
               <div className="mb-2 flex items-center justify-between text-xs font-semibold uppercase tracking-[0.2em] text-navy/60">
                 <span>Submission process</span>
@@ -283,7 +306,9 @@ export default function GetPublishedPage() {
               <div className="space-y-5">
                 <h2 className="font-heading text-2xl font-bold text-navy">Step 3: Upload your work</h2>
                 <div className="rounded-2xl border-2 border-dashed border-navy/15 bg-ivory p-6 text-center">
-                  <FolderUp className="mx-auto h-10 w-10 text-sapphire" />
+                  <div className="mx-auto flex h-12 w-12 items-center justify-center text-sapphire">
+                    <FlaticonBook size={36} />
+                  </div>
                   <p className="mt-3 text-sm font-medium text-navy">Upload PDF or DOCX</p>
                   <input
                     type="file"
@@ -337,7 +362,7 @@ export default function GetPublishedPage() {
             {step === 5 && (
               <div className="space-y-5">
                 <div className="flex h-16 w-16 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">
-                  <Sparkles className="h-7 w-7" />
+                  <FlaticonSparkles size={28} />
                 </div>
                 <h2 className="font-heading text-2xl font-bold text-navy">Submission received!</h2>
                 <p className="text-sm leading-relaxed text-navy/70">
@@ -387,7 +412,7 @@ export default function GetPublishedPage() {
                 </button>
               )}
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </div>

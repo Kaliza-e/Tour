@@ -80,7 +80,7 @@ export default async function ResearchDetailPage({
           {publication.authors.map((author) => (
             <div
               key={author.id}
-              className="rounded-2xl border border-navy/10 bg-white px-4 py-2.5 text-sm shadow-sm"
+              className="rounded-2xl border border-navy/10 bg-white px-4 py-2.5 text-sm"
             >
               <p className="font-semibold text-navy">{author.name}</p>
               {author.institution && (
@@ -131,14 +131,14 @@ export default async function ResearchDetailPage({
         </div>
 
         {/* ── Abstract ── */}
-        <section className="mt-10 rounded-3xl border border-navy/10 bg-white p-8 shadow-sm">
+        <section className="mt-10 rounded-3xl border border-navy/10 bg-white p-8">
           <h2 className="font-heading text-lg font-bold text-navy">Abstract</h2>
           <p className="mt-3 leading-relaxed text-navy/70">{publication.abstract}</p>
         </section>
 
         {/* ── Summary / description ── */}
         {publication.summary && (
-          <section className="mt-6 rounded-3xl border border-navy/10 bg-white p-8 shadow-sm">
+          <section className="mt-6 rounded-3xl border border-navy/10 bg-white p-8">
             <h2 className="font-heading text-lg font-bold text-navy">Summary</h2>
             <p className="mt-3 leading-relaxed text-navy/70">{publication.summary}</p>
           </section>
@@ -146,7 +146,7 @@ export default async function ResearchDetailPage({
 
         {/* ── Full research content / methodology ── */}
         {publication.content && (
-          <section className="mt-6 rounded-3xl border border-navy/10 bg-white p-8 shadow-sm">
+          <section className="mt-6 rounded-3xl border border-navy/10 bg-white p-8">
             <h2 className="font-heading text-lg font-bold text-navy">Research Details</h2>
             <p className="mt-3 whitespace-pre-wrap leading-relaxed text-navy/70">
               {publication.content}
@@ -156,7 +156,7 @@ export default async function ResearchDetailPage({
 
         {/* ── Author bios ── */}
         {(publication.authorBio || publication.authors.some((a) => a.bio)) && (
-          <section className="mt-6 rounded-3xl border border-navy/10 bg-white p-8 shadow-sm">
+          <section className="mt-6 rounded-3xl border border-navy/10 bg-white p-8">
             <h2 className="font-heading text-lg font-bold text-navy">About the Author{publication.authors.length > 1 ? "s" : ""}</h2>
             {publication.authorBio && (
               <p className="mt-3 leading-relaxed text-navy/70">{publication.authorBio}</p>
@@ -174,7 +174,7 @@ export default async function ResearchDetailPage({
 
         {/* ── Keywords ── */}
         {keywords.length > 0 && (
-          <section className="mt-6 rounded-3xl border border-navy/10 bg-white p-6 shadow-sm">
+          <section className="mt-6 rounded-3xl border border-navy/10 bg-white p-6">
             <h2 className="font-heading text-sm font-bold text-navy">Keywords</h2>
             <div className="mt-3 flex flex-wrap gap-2">
               {keywords.map((k) => (
@@ -191,7 +191,7 @@ export default async function ResearchDetailPage({
 
         {/* ── References ── */}
         {references && (
-          <section className="mt-6 rounded-3xl border border-navy/10 bg-white p-6 shadow-sm">
+          <section className="mt-6 rounded-3xl border border-navy/10 bg-white p-6">
             <h2 className="font-heading text-sm font-bold text-navy">References</h2>
             <p className="mt-3 whitespace-pre-wrap text-sm leading-relaxed text-navy/65">
               {references}
@@ -201,7 +201,7 @@ export default async function ResearchDetailPage({
 
         {/* ── Supporting links ── */}
         {submission.supportingLinks.length > 0 && (
-          <section className="mt-6 rounded-3xl border border-navy/10 bg-white p-6 shadow-sm">
+          <section className="mt-6 rounded-3xl border border-navy/10 bg-white p-6">
             <h2 className="font-heading text-sm font-bold text-navy">Supporting Links</h2>
             <ul className="mt-3 space-y-2">
               {submission.supportingLinks.map((link) => (
@@ -221,7 +221,7 @@ export default async function ResearchDetailPage({
         )}
 
         {/* ── Related research CTA ── */}
-        <div className="mt-10 rounded-3xl border border-navy/10 bg-white p-8 shadow-sm">
+        <div className="mt-10 rounded-3xl border border-navy/10 bg-white p-8">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.2em] text-sapphire">

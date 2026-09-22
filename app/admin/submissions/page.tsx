@@ -287,7 +287,7 @@ export default function AdminSubmissionsPage() {
   return (
     <div className="min-h-screen bg-ivory">
       {/* ── Header ── */}
-      <div className="border-b border-navy/10 bg-white px-6 py-6 md:px-10">
+      <div className="border-b-2 border-navy/15 bg-white px-6 py-6 md:px-10">
         <div className="mx-auto max-w-screen-xl">
           <Link
             href="/"
@@ -306,14 +306,14 @@ export default function AdminSubmissionsPage() {
           <div className="flex gap-2">
             <Link
               href="/admin/users"
-              className="inline-flex items-center gap-1.5 rounded-full border border-navy/15 bg-white px-4 py-2 text-sm font-semibold text-navy hover:bg-navy/5"
+              className="inline-flex items-center gap-1.5 rounded-full border-2 border-navy/15 bg-white px-4 py-2 text-sm font-semibold text-navy hover:border-navy hover:bg-navy/5 transition"
             >
               <UserCheck className="h-4 w-4" /> Manage users
             </Link>
             <button
               type="button"
               onClick={() => void loadAll()}
-              className="inline-flex items-center gap-1.5 rounded-full border border-navy/15 bg-white px-4 py-2 text-sm font-semibold text-navy hover:bg-navy/5"
+              className="inline-flex items-center gap-1.5 rounded-full border-2 border-navy/15 bg-white px-4 py-2 text-sm font-semibold text-navy hover:border-navy hover:bg-navy/5 transition"
             >
               <RefreshCw className="h-4 w-4" /> Refresh
             </button>
@@ -338,24 +338,24 @@ export default function AdminSubmissionsPage() {
               key={String(filter)}
               type="button"
               onClick={() => setStatusFilter(String(filter))}
-              className={`rounded-2xl border p-3 text-left transition ${statusFilter === filter
+              className={`rounded-2xl border-2 p-3 text-left transition cursor-pointer ${statusFilter === filter
                   ? "border-navy bg-navy text-white"
-                  : "border-navy/10 bg-white text-navy hover:border-navy/25"
+                  : "border-navy/15 bg-white text-navy hover:border-navy/40"
                 }`}
             >
-              <p className={`text-[10px] font-bold uppercase tracking-wider ${statusFilter === filter ? "text-white/65" : "text-navy/45"}`}>
+              <p className={`text-[10px] font-bold uppercase tracking-wider ${statusFilter === filter ? "text-white/70" : "text-navy/50"}`}>
                 {label}
               </p>
-              <p className="mt-1.5 text-2xl font-bold">{count}</p>
+              <p className="mt-1.5 font-heading text-2xl font-bold">{count}</p>
             </button>
           ))}
         </div>
 
         {/* ── Flash message ── */}
         {message && (
-          <div className={`mt-5 flex items-center justify-between rounded-2xl border px-4 py-3 text-sm font-medium ${message.ok
-              ? "border-emerald-200 bg-emerald-50 text-emerald-800"
-              : "border-red-200 bg-red-50 text-red-800"
+          <div className={`mt-5 flex items-center justify-between rounded-2xl border-2 px-4 py-3 text-sm font-medium ${message.ok
+              ? "border-emerald-300 bg-emerald-50 text-emerald-800"
+              : "border-red-300 bg-red-50 text-red-800"
             }`}>
             {message.text}
             <button type="button" onClick={() => setMessage(null)} aria-label="Dismiss">
@@ -367,31 +367,31 @@ export default function AdminSubmissionsPage() {
         {/* ── Search / filter bar ── */}
         <div className="mt-5 flex flex-col gap-3 sm:flex-row">
           <label className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-navy/40" />
+            <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-navy/40" />
             <input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search title, author, ID, or category…"
-              className="w-full rounded-xl border border-navy/10 bg-white py-2.5 pl-9 pr-3 text-sm outline-none focus:border-sapphire"
+              className="w-full rounded-2xl border-2 border-navy/15 bg-white py-2.5 pl-10 pr-4 text-sm text-navy outline-none focus:border-sapphire transition"
             />
           </label>
           <label className="relative sm:w-52">
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="w-full appearance-none rounded-xl border border-navy/10 bg-white px-3 py-2.5 pr-8 text-sm outline-none focus:border-sapphire"
+              className="w-full appearance-none rounded-2xl border-2 border-navy/15 bg-white px-4 py-2.5 pr-8 text-sm font-semibold text-navy outline-none focus:border-sapphire transition"
             >
               <option value="ALL">All statuses</option>
               {Object.entries(STATUS_LABELS).map(([v, l]) => (
                 <option key={v} value={v}>{l}</option>
               ))}
             </select>
-            <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-navy/45" />
+            <ChevronDown className="pointer-events-none absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-navy/45" />
           </label>
         </div>
 
         {/* ── Table ── */}
-        <div className="mt-4 overflow-hidden rounded-3xl border border-navy/10 bg-white shadow-sm">
+        <div className="mt-5 overflow-hidden rounded-3xl border-2 border-navy/15 bg-white">
           {loading ? (
             <div className="p-10 text-center text-sm text-navy/50">Loading submissions…</div>
           ) : filtered.length === 0 ? (
@@ -402,41 +402,41 @@ export default function AdminSubmissionsPage() {
             <div className="overflow-x-auto">
               <table className="w-full min-w-[800px] border-collapse text-sm">
                 <thead>
-                  <tr className="border-b border-navy/10 bg-ivory/60">
+                  <tr className="border-b-2 border-navy/15 bg-ivory/60">
                     {["Submission", "Author", "Topic", "Status", "Reviewer", "Last Updated", "Action"].map((h) => (
-                      <th key={h} className="px-5 py-3 text-left text-[11px] font-bold uppercase tracking-wider text-navy/50">
+                      <th key={h} className="px-5 py-3.5 text-left text-[11px] font-bold uppercase tracking-wider text-navy/60">
                         {h}
                       </th>
                     ))}
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-navy/8">
+                <tbody className="divide-y divide-navy/10">
                   {filtered.map((s) => (
                     <tr key={s.id} className="group transition-colors hover:bg-ivory/60">
                       {/* Submission title */}
                       <td className="max-w-[260px] px-5 py-4">
-                        <p className="truncate font-semibold text-navy">{s.title}</p>
-                        <p className="mt-0.5 text-[11px] text-navy/45">{s.submissionId}</p>
+                        <p className="truncate font-bold text-navy">{s.title}</p>
+                        <p className="mt-0.5 text-[11px] font-mono text-navy/50">{s.submissionId}</p>
                       </td>
                       {/* Author */}
                       <td className="px-5 py-4">
-                        <p className="font-medium text-navy">
+                        <p className="font-semibold text-navy">
                           {s.authors[0]?.fullName ?? s.user.name}
                         </p>
-                        <p className="text-[11px] text-navy/45">{s.user.email}</p>
+                        <p className="text-[11px] text-navy/50">{s.user.email}</p>
                       </td>
                       {/* Topic */}
-                      <td className="px-5 py-4 text-navy/70">{s.category}</td>
+                      <td className="px-5 py-4 font-semibold text-navy/70">{s.category}</td>
                       {/* Status */}
                       <td className="px-5 py-4">
-                        <span className={`rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider ${STATUS_STYLES[s.status] ?? STATUS_STYLES.DRAFT}`}>
+                        <span className={`rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-wider ${STATUS_STYLES[s.status] ?? STATUS_STYLES.DRAFT}`}>
                           {STATUS_LABELS[s.status] ?? s.status}
                         </span>
                       </td>
                       {/* Reviewer */}
-                      <td className="px-5 py-4 text-navy/65">
+                      <td className="px-5 py-4 text-navy/70">
                         {s.assignedReviewer?.name ?? (
-                          <span className="text-navy/35 italic">Unassigned</span>
+                          <span className="text-navy/40 italic">Unassigned</span>
                         )}
                       </td>
                       {/* Last updated */}
@@ -446,7 +446,7 @@ export default function AdminSubmissionsPage() {
                         <button
                           type="button"
                           onClick={() => openDrawer(s)}
-                          className="inline-flex items-center gap-1 rounded-full bg-navy px-3.5 py-1.5 text-xs font-semibold text-white transition hover:bg-sapphire"
+                          className="inline-flex items-center gap-1.5 rounded-full bg-navy px-4 py-1.5 text-xs font-semibold text-white transition hover:bg-sapphire cursor-pointer"
                         >
                           {s.status === "PUBLISHED" ? "View" : "Review"}
                           <ArrowUpRight className="h-3.5 w-3.5" />
@@ -478,7 +478,7 @@ export default function AdminSubmissionsPage() {
           <div
             ref={drawerRef}
             tabIndex={-1}
-            className="relative flex w-full max-w-2xl flex-col overflow-y-auto bg-white shadow-2xl outline-none"
+            className="relative flex w-full max-w-2xl flex-col overflow-y-auto bg-white border-l-2 border-navy/15 outline-none"
           >
             {/* Drawer header */}
             <div className="sticky top-0 z-10 flex items-start justify-between gap-4 border-b border-navy/10 bg-white px-7 py-5">

@@ -162,8 +162,8 @@ function RevisionModal({ submission, onClose, onSuccess }: RevisionModalProps) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-navy/40 px-4 py-10 backdrop-blur-sm">
-      <div className="w-full max-w-2xl rounded-3xl bg-white shadow-2xl">
+    <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-navy/40 px-4 py-10">
+      <div className="w-full max-w-2xl rounded-3xl border-2 border-navy/15 bg-white">
         {/* Header */}
         <div className="flex items-start justify-between gap-4 border-b border-navy/10 px-7 py-5">
           <div>
@@ -356,13 +356,13 @@ export default function MySubmissionsPage() {
             <button
               type="button"
               onClick={() => void load()}
-              className="inline-flex items-center gap-2 rounded-full border border-navy/15 bg-white px-4 py-2.5 text-sm font-semibold text-navy hover:bg-navy/5"
+              className="inline-flex items-center gap-2 rounded-full border-2 border-navy/15 bg-white px-4 py-2.5 text-sm font-semibold text-navy hover:border-navy hover:bg-navy/5 transition"
             >
               <RefreshCw className="h-4 w-4" /> Refresh
             </button>
             <Link
               href="/get-published"
-              className="rounded-full bg-navy px-4 py-2.5 text-sm font-semibold text-white hover:bg-sapphire"
+              className="rounded-full bg-navy px-5 py-2.5 text-sm font-semibold text-white hover:bg-sapphire transition"
             >
               + New submission
             </Link>
@@ -371,9 +371,9 @@ export default function MySubmissionsPage() {
 
         {/* ── Flash message ── */}
         {message && (
-          <div className={`mt-5 flex items-center justify-between rounded-2xl border px-4 py-3 text-sm font-medium ${message.ok
-              ? "border-emerald-200 bg-emerald-50 text-emerald-800"
-              : "border-red-200 bg-red-50 text-red-800"
+          <div className={`mt-5 flex items-center justify-between rounded-2xl border-2 px-4 py-3 text-sm font-medium ${message.ok
+              ? "border-emerald-300 bg-emerald-50 text-emerald-800"
+              : "border-red-300 bg-red-50 text-red-800"
             }`}>
             {message.text}
             <button type="button" onClick={() => setMessage(null)} aria-label="Dismiss">
@@ -386,7 +386,7 @@ export default function MySubmissionsPage() {
         {loading ? (
           <p className="mt-10 text-sm text-navy/50">Loading your submissions…</p>
         ) : submissions.length === 0 ? (
-          <div className="mt-10 rounded-3xl border border-navy/10 bg-white p-12 text-center shadow-sm">
+          <div className="mt-10 rounded-3xl border-2 border-dashed border-navy/20 bg-white p-12 text-center">
             <FileText className="mx-auto h-10 w-10 text-sapphire/50" />
             <p className="mt-4 font-semibold text-navy">No submissions yet</p>
             <p className="mt-1.5 text-sm text-navy/55">
@@ -400,7 +400,7 @@ export default function MySubmissionsPage() {
             </Link>
           </div>
         ) : (
-          <div className="mt-8 space-y-5">
+          <div className="mt-8 space-y-6">
             {submissions.map((s) => {
               const latestReview = s.reviews[0] ?? null;
               const needsRevision = s.status === "REVISION_REQUESTED";
@@ -410,13 +410,13 @@ export default function MySubmissionsPage() {
               return (
                 <article
                   key={s.id}
-                  className={`rounded-3xl border bg-white shadow-sm transition ${needsRevision
-                      ? "border-orange-200 ring-1 ring-orange-200"
-                      : "border-navy/10"
+                  className={`rounded-3xl border-2 bg-white transition-all duration-300 hover:border-navy/40 hover:-translate-y-1 ${needsRevision
+                      ? "border-orange-300 bg-orange-50/20"
+                      : "border-navy/15"
                     }`}
                 >
                   {/* ── Card header ── */}
-                  <div className="flex items-start justify-between gap-4 px-6 pt-6">
+                  <div className="flex items-start justify-between gap-4 px-7 pt-7">
                     <div className="min-w-0">
                       <p className="text-xs font-bold uppercase tracking-[0.15em] text-sapphire">
                         {s.submissionId}
@@ -446,20 +446,20 @@ export default function MySubmissionsPage() {
                     {/* Status badge */}
                     <div className="flex shrink-0 items-center gap-1.5">
                       {STATUS_ICON[s.status]}
-                      <span className={`rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider ${STATUS_STYLES[s.status] ?? STATUS_STYLES.DRAFT}`}>
+                      <span className={`rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-wider ${STATUS_STYLES[s.status] ?? STATUS_STYLES.DRAFT}`}>
                         {STATUS_LABELS[s.status] ?? s.status}
                       </span>
                     </div>
                   </div>
 
                   {/* ── Abstract ── */}
-                  <p className="mt-3 line-clamp-2 px-6 text-sm leading-relaxed text-navy/65">
+                  <p className="mt-3 line-clamp-2 px-7 text-sm leading-relaxed text-navy/65">
                     {s.abstract}
                   </p>
 
                   {/* ── Reviewer feedback (shown prominently when present) ── */}
                   {latestReview?.feedback && (
-                    <div className={`mx-6 mt-4 rounded-2xl border p-4 ${latestReview.decision === "APPROVE"
+                    <div className={`mx-7 mt-4 rounded-2xl border-2 p-4 ${latestReview.decision === "APPROVE"
                         ? "border-emerald-200 bg-emerald-50"
                         : latestReview.decision === "REJECT"
                           ? "border-red-200 bg-red-50"
@@ -493,13 +493,13 @@ export default function MySubmissionsPage() {
 
                   {/* ── Version history ── */}
                   {s.versions.length > 1 && (
-                    <div className="mx-6 mt-4">
+                    <div className="mx-7 mt-4">
                       <p className="text-xs font-bold uppercase tracking-wider text-navy/40">
                         Version History
                       </p>
                       <div className="mt-1.5 flex flex-wrap gap-2">
                         {s.versions.map((v) => (
-                          <span key={v.id} className="rounded-full bg-ivory px-2.5 py-1 text-[11px] text-navy/60">
+                          <span key={v.id} className="rounded-full bg-ivory px-3 py-1 text-[11px] text-navy/60 border border-navy/10">
                             v{v.versionNumber} — {fmt(v.createdAt)}
                           </span>
                         ))}
@@ -508,14 +508,14 @@ export default function MySubmissionsPage() {
                   )}
 
                   {/* ── Actions ── */}
-                  <div className="flex flex-wrap items-center gap-2 border-t border-navy/8 px-6 py-4 mt-4">
+                  <div className="flex flex-wrap items-center gap-2 border-t border-navy/10 px-7 py-4 mt-4">
                     {/* Always: view file if available */}
                     {s.fileUrl && (
                       <a
                         href={s.fileUrl}
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex items-center gap-1.5 rounded-full border border-navy/15 px-4 py-2 text-sm font-semibold text-navy hover:bg-ivory"
+                        className="inline-flex items-center gap-1.5 rounded-full border-2 border-navy/15 px-4 py-2 text-sm font-semibold text-navy hover:border-navy hover:bg-ivory transition"
                       >
                         <FileText className="h-4 w-4" /> View document
                         <ExternalLink className="h-3.5 w-3.5" />
@@ -527,7 +527,7 @@ export default function MySubmissionsPage() {
                       <button
                         type="button"
                         onClick={() => setRevising(s)}
-                        className="inline-flex items-center gap-2 rounded-full bg-orange-600 px-4 py-2 text-sm font-semibold text-white hover:bg-orange-700"
+                        className="inline-flex items-center gap-2 rounded-full bg-orange-600 px-5 py-2 text-sm font-semibold text-white hover:bg-orange-700 transition cursor-pointer"
                       >
                         <RotateCcw className="h-4 w-4" />
                         Resubmit Revised Work
@@ -538,7 +538,7 @@ export default function MySubmissionsPage() {
                     {isPublished && s.publication && (
                       <Link
                         href={`/publications/${s.publication.id}`}
-                        className="inline-flex items-center gap-1.5 rounded-full bg-teal-600 px-4 py-2 text-sm font-semibold text-white hover:bg-teal-700"
+                        className="inline-flex items-center gap-1.5 rounded-full bg-teal-600 px-5 py-2 text-sm font-semibold text-white hover:bg-teal-700 transition"
                       >
                         <ExternalLink className="h-4 w-4" />
                         View Published Article
@@ -547,7 +547,7 @@ export default function MySubmissionsPage() {
 
                     {/* Approved: waiting to be published */}
                     {isApproved && (
-                      <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-4 py-2 text-sm font-semibold text-emerald-700">
+                      <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-300 bg-emerald-50 px-4 py-2 text-sm font-semibold text-emerald-700">
                         <CheckCircle2 className="h-4 w-4" />
                         Approved — Pending Publication
                       </span>

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BookOpen, Eye } from "lucide-react";
+import { FlaticonBook, FlaticonEye } from "@/components/flaticons";
 
 export interface PublicationCardProps {
   id: string;
@@ -14,7 +14,7 @@ export function PublicationCard(p: PublicationCardProps) {
   return (
     <Link
       href={`/publications/${p.id}`}
-      className="group flex flex-col justify-between rounded-card border border-white/20 bg-white/70 p-7 shadow-soft backdrop-blur-xl transition-all hover:-translate-y-1 hover:bg-white/80 hover:shadow-card"
+      className="group flex flex-col justify-between rounded-card border-2 border-navy/15 bg-white p-7 transition-all duration-300 hover:-translate-y-1 hover:border-navy/40"
     >
       <div>
         <span className="rounded-pill bg-ivory px-3 py-1 text-xs font-semibold text-navy/70">
@@ -27,8 +27,8 @@ export function PublicationCard(p: PublicationCardProps) {
       </div>
 
       <div className="mt-6 flex items-center justify-between text-sm text-navy/50">
-          {p.readingTime && <span className="flex items-center gap-1.5"><BookOpen size={15} /> {p.readingTime}</span>}
-          {typeof p.views === "number" && <span className="flex items-center gap-1.5"><Eye size={15} /> {p.views}</span>}
+          {p.readingTime && <span className="flex items-center gap-1.5"><FlaticonBook size={16} /> {p.readingTime}</span>}
+          {typeof p.views === "number" && <span className="flex items-center gap-1.5"><FlaticonEye size={16} /> {p.views}</span>}
       </div>
     </Link>
   );

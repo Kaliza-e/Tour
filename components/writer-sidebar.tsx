@@ -76,7 +76,7 @@ export function WriterSidebar() {
       {/* ─────────────────────────────────────────────────────────────
           MOBILE TOP BAR (Visible on screens < lg)
          ───────────────────────────────────────────────────────────── */}
-      <div className="lg:hidden sticky top-0 z-40 flex items-center justify-between border-b border-navy/10 bg-white/95 backdrop-blur-md px-4 py-2.5 shadow-2xs">
+      <div className="lg:hidden sticky top-0 z-40 flex items-center justify-between border-b border-navy/10 bg-white/95 backdrop-blur-md px-4 py-2.5">
         <div className="flex items-center gap-2">
           <TourLogo priority imageClassName="h-7" />
         </div>
@@ -84,7 +84,7 @@ export function WriterSidebar() {
         <button
           onClick={() => setMobileOpen((v) => !v)}
           aria-label={mobileOpen ? "Close menu" : "Open menu"}
-          className="grid h-9 w-9 place-items-center rounded-xl border border-navy/15 bg-white text-navy shadow-2xs hover:bg-ivory transition"
+          className="grid h-9 w-9 place-items-center rounded-xl border border-navy/15 bg-white text-navy hover:bg-ivory transition"
         >
           {mobileOpen ? <X size={18} /> : <Menu size={18} />}
         </button>
@@ -102,7 +102,7 @@ export function WriterSidebar() {
           />
 
           {/* Drawer Sheet */}
-          <div className="relative flex w-[280px] max-w-[85vw] flex-1 flex-col bg-white shadow-soft p-5 z-10 overflow-y-auto">
+          <div className="relative flex w-[280px] max-w-[85vw] flex-1 flex-col bg-white p-5 z-10 overflow-y-auto">
             <div className="flex items-center justify-between pb-4 border-b border-navy/10">
               <div className="flex items-center gap-2">
                 <TourLogo priority imageClassName="h-7" />
@@ -180,11 +180,11 @@ export function WriterSidebar() {
          ───────────────────────────────────────────────────────────── */}
       <aside
         className={cn(
-          "hidden lg:flex sticky top-0 h-screen flex-col border-r border-navy/10 bg-white/95 backdrop-blur-xl transition-all duration-300 z-30 shrink-0",
+          "hidden lg:flex sticky top-0 h-screen flex-col border-r-2 border-navy/15 bg-white/95 backdrop-blur-xl transition-all duration-300 z-30 shrink-0",
           collapsed ? "w-[68px]" : "w-[240px]"
         )}
       >
-        {/* Header: Logo + Collapse (removed line below logo) */}
+        {/* Header: Logo + Collapse */}
         <div className="flex items-center justify-between px-4 py-4">
           {!collapsed && (
             <TourLogo priority imageClassName="h-7" className="p-0.5" />
@@ -195,7 +195,7 @@ export function WriterSidebar() {
           <button
             onClick={() => setCollapsed((v) => !v)}
             className={cn(
-              "grid h-6 w-6 place-items-center rounded-full border border-navy/15 bg-white text-navy/70 shadow-2xs hover:bg-navy hover:text-white transition-all duration-150",
+              "grid h-6 w-6 place-items-center rounded-full border-2 border-navy/15 bg-white text-navy/70 hover:bg-navy hover:text-white transition-all duration-150",
               collapsed && "mx-auto mt-2"
             )}
             aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
@@ -223,9 +223,9 @@ export function WriterSidebar() {
                       href={item.href}
                       title={collapsed ? item.label : undefined}
                       className={cn(
-                        "flex items-center gap-3 rounded-xl px-3 py-2.5 text-[13px] font-semibold transition-all duration-150 relative",
+                        "flex items-center gap-3 rounded-2xl px-3 py-2.5 text-[13px] font-semibold transition-all duration-150 relative",
                         active
-                          ? "text-navy bg-navy/8 border-l-3 border-navy font-semibold"
+                          ? "text-navy bg-navy/10 border-l-4 border-navy font-bold"
                           : "text-navy/60 hover:bg-navy/5 hover:text-navy",
                         collapsed && "justify-center px-0 border-l-0"
                       )}
@@ -241,7 +241,7 @@ export function WriterSidebar() {
         </nav>
 
         {/* Desktop Bottom Links */}
-        <div className="border-t border-navy/8 p-3 space-y-0.5">
+        <div className="border-t-2 border-navy/15 p-3 space-y-0.5">
           {bottomNav.map((item) => {
             const Icon = item.icon;
             return (

@@ -43,7 +43,7 @@ export function AIAssistantModal() {
       {!hideFloatingButton && (
         <button
           onClick={() => setOpen(true)}
-          className="fixed bottom-20 right-6 sm:bottom-24 z-50 flex items-center gap-2.5 rounded-full bg-navy px-5 py-3 text-sm font-semibold text-ivory shadow-soft transition hover:bg-sapphire hover:scale-105"
+          className="fixed bottom-20 right-6 sm:bottom-24 z-50 flex items-center gap-2.5 rounded-full bg-navy px-5 py-3 text-sm font-semibold text-ivory transition hover:bg-sapphire hover:scale-105"
           aria-label="Open AI Assistant"
         >
           <Sparkles className="h-4 w-4 text-champagne animate-pulse" />
@@ -53,7 +53,7 @@ export function AIAssistantModal() {
 
       {open && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-navy/60 p-4 backdrop-blur-sm">
-          <div className="flex h-[600px] w-full max-w-2xl flex-col rounded-3xl border border-navy/10 bg-ivory shadow-soft overflow-hidden">
+          <div className="flex h-[600px] w-full max-w-2xl flex-col rounded-3xl border border-navy/10 bg-ivory overflow-hidden">
             {/* Header */}
             <div className="flex items-center justify-between border-b border-navy/10 bg-navy px-6 py-4 text-ivory">
               <div className="flex items-center gap-3">
@@ -110,7 +110,7 @@ export function AIAssistantModal() {
                   <div
                     className={`max-w-[80%] rounded-2xl p-4 text-sm leading-relaxed whitespace-pre-wrap ${m.role === "user"
                         ? "bg-navy text-ivory rounded-br-none"
-                        : "bg-white border border-navy/10 text-navy rounded-bl-none shadow-sm"
+                        : "bg-white border border-navy/10 text-navy rounded-bl-none"
                       }`}
                   >
                     {m.text}

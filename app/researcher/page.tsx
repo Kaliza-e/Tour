@@ -290,8 +290,8 @@ function NewProjectModal({ onClose, onCreated }: NewProjectModalProps) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-navy/40 px-4 py-12 backdrop-blur-sm">
-      <div className="w-full max-w-lg rounded-3xl bg-white shadow-2xl">
+    <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-navy/40 px-4 py-12">
+      <div className="w-full max-w-lg rounded-3xl border-2 border-navy/15 bg-white">
         <div className="flex items-start justify-between gap-4 border-b border-navy/10 px-7 py-5">
           <div>
             <h2 className="font-heading text-xl font-bold text-navy">New Research Project</h2>
@@ -485,10 +485,10 @@ function ProjectDetail({ project, onUpdate, onClose }: ProjectDetailProps) {
   return (
     <div className="fixed inset-0 z-40 flex">
       {/* Backdrop */}
-      <button type="button" className="flex-1 bg-navy/30 backdrop-blur-sm" onClick={onClose} aria-label="Close panel" />
+      <button type="button" className="flex-1 bg-navy/30" onClick={onClose} aria-label="Close panel" />
 
       {/* Panel */}
-      <div className="relative flex w-full max-w-2xl flex-col overflow-hidden bg-white shadow-2xl">
+      <div className="relative flex w-full max-w-2xl flex-col overflow-hidden bg-white border-l-2 border-navy/15">
 
         {/* ── Panel header ── */}
         <div className="shrink-0 border-b border-navy/10 px-6 py-5">
@@ -940,7 +940,7 @@ function ProjectCard({
 
   return (
     <article
-      className="group flex cursor-pointer flex-col rounded-3xl border border-navy/10 bg-white p-6 shadow-sm transition hover:border-sapphire/30 hover:shadow-card"
+      className="group flex cursor-pointer flex-col rounded-3xl border-2 border-navy/15 bg-white p-6 transition hover:border-sapphire"
       onClick={() => onOpen(project)}
       role="button"
       tabIndex={0}
@@ -1067,7 +1067,7 @@ export default function ResearcherDashboardPage() {
       {/* ══════════════════════════════════════════════════════
           Top bar
       ══════════════════════════════════════════════════════ */}
-      <div className="border-b border-navy/10 bg-white px-6 py-6 md:px-10">
+      <div className="border-b-2 border-navy/15 bg-white px-6 py-6 md:px-10">
         <div className="mx-auto max-w-screen-xl">
           <Link
             href="/"
@@ -1091,14 +1091,14 @@ export default function ResearcherDashboardPage() {
             <button
               type="button"
               onClick={() => void load()}
-              className="inline-flex items-center gap-1.5 rounded-full border border-navy/15 bg-white px-4 py-2 text-sm font-semibold text-navy hover:bg-navy/5"
+              className="inline-flex items-center gap-1.5 rounded-full border-2 border-navy/15 bg-white px-4 py-2 text-sm font-semibold text-navy hover:border-navy hover:bg-navy/5 transition cursor-pointer"
             >
               <RefreshCw className="h-4 w-4" /> Refresh
             </button>
             <button
               type="button"
               onClick={() => setShowNewModal(true)}
-              className="inline-flex items-center gap-1.5 rounded-full bg-navy px-4 py-2 text-sm font-semibold text-white hover:bg-sapphire"
+              className="inline-flex items-center gap-1.5 rounded-full bg-navy px-5 py-2 text-sm font-semibold text-white hover:bg-sapphire transition cursor-pointer"
             >
               <Plus className="h-4 w-4" /> New Project
             </button>
@@ -1112,7 +1112,7 @@ export default function ResearcherDashboardPage() {
         {/* ══════════════════════════════════════════════════════
             Stats row
         ══════════════════════════════════════════════════════ */}
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
           {[
             {
               label: "Projects",
@@ -1140,12 +1140,12 @@ export default function ResearcherDashboardPage() {
               icon: <Link2 className="h-5 w-5 text-violet-500" />,
             },
           ].map(({ label, value, icon }) => (
-            <div key={label} className="rounded-2xl border border-navy/10 bg-white p-4 shadow-sm">
+            <div key={label} className="rounded-3xl border-2 border-navy/15 bg-white p-5 transition-all duration-300 hover:border-navy/40 hover:-translate-y-1">
               <div className="flex items-center justify-between">
-                <p className="text-xs font-semibold uppercase tracking-wider text-navy/40">{label}</p>
+                <p className="text-xs font-semibold uppercase tracking-wider text-navy/50">{label}</p>
                 {icon}
               </div>
-              <p className="mt-2 text-2xl font-bold text-navy">{value}</p>
+              <p className="mt-2 font-heading text-3xl font-bold text-navy">{value}</p>
             </div>
           ))}
         </div>
@@ -1154,7 +1154,7 @@ export default function ResearcherDashboardPage() {
             Pipeline overview strip
         ══════════════════════════════════════════════════════ */}
         {projects.length > 0 && (
-          <div className="mt-6 overflow-hidden rounded-3xl border border-navy/10 bg-white shadow-sm">
+          <div className="mt-6 overflow-hidden rounded-3xl border border-navy/10 bg-white">
             <div className="border-b border-navy/8 px-6 py-4">
               <p className="text-xs font-bold uppercase tracking-wider text-navy/40">Pipeline overview</p>
             </div>
@@ -1293,7 +1293,7 @@ export default function ResearcherDashboardPage() {
 
         {/* ── Bottom CTA ── */}
         {projects.length > 0 && (
-          <div className="mt-8 rounded-3xl border border-navy/10 bg-white p-6 shadow-sm">
+          <div className="mt-8 rounded-3xl border border-navy/10 bg-white p-6">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.2em] text-sapphire">Ready to publish?</p>

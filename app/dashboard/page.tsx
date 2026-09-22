@@ -158,7 +158,7 @@ export default function AuthorDashboardPage() {
     <main className="min-h-screen bg-ivory">
 
       {/* ── Top bar ── */}
-      <div className="border-b border-navy/10 bg-white px-6 py-5 md:px-10">
+      <div className="border-b-2 border-navy/15 bg-white px-6 py-5 md:px-10">
         <div className="mx-auto flex max-w-screen-lg items-center justify-between gap-4">
           <div>
             <Link
@@ -183,7 +183,7 @@ export default function AuthorDashboardPage() {
                 setShowNotifications((open) => !open);
                 if (!showNotifications && unread > 0) void markAllRead();
               }}
-              className="relative inline-flex h-10 w-10 items-center justify-center rounded-full border border-navy/15 bg-white text-navy hover:bg-ivory"
+              className="relative inline-flex h-10 w-10 items-center justify-center rounded-full border-2 border-navy/15 bg-white text-navy hover:bg-ivory transition"
               aria-label="Notifications"
             >
               <Bell className="h-5 w-5" />
@@ -196,7 +196,7 @@ export default function AuthorDashboardPage() {
 
             {/* Notification dropdown */}
             {showNotifications && (
-              <div className="absolute right-0 top-12 z-50 w-80 overflow-hidden rounded-2xl border border-navy/10 bg-white shadow-xl">
+              <div className="absolute right-0 top-12 z-50 w-80 overflow-hidden rounded-3xl border-2 border-navy/15 bg-white">
                 <div className="flex items-center justify-between border-b border-navy/10 px-4 py-3">
                   <p className="text-sm font-bold text-navy">Notifications</p>
                   <button
@@ -251,7 +251,7 @@ export default function AuthorDashboardPage() {
       <div className="mx-auto max-w-screen-lg px-4 py-8 md:px-10">
 
         {/* ── Stats row ── */}
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
           {[
             { label: "Total submissions", value: submissions.length, icon: <FileText className="h-5 w-5 text-sapphire/70" /> },
             { label: "Under review", value: underReview, icon: <Clock className="h-5 w-5 text-amber-500" /> },
@@ -260,20 +260,20 @@ export default function AuthorDashboardPage() {
           ].map(({ label, value, icon }) => (
             <div
               key={label}
-              className="rounded-2xl border border-navy/10 bg-white p-4 shadow-sm"
+              className="rounded-3xl border-2 border-navy/15 bg-white p-5 transition-all duration-300 hover:border-navy/40 hover:-translate-y-1"
             >
               <div className="flex items-center justify-between">
-                <p className="text-xs font-semibold uppercase tracking-wider text-navy/45">{label}</p>
+                <p className="text-xs font-semibold uppercase tracking-wider text-navy/50">{label}</p>
                 {icon}
               </div>
-              <p className="mt-2 text-2xl font-bold text-navy">{value}</p>
+              <p className="mt-2 font-heading text-3xl font-bold text-navy">{value}</p>
             </div>
           ))}
         </div>
 
         {/* ── Urgent: revision requested ── */}
         {needsRevision > 0 && (
-          <div className="mt-6 rounded-2xl border border-orange-200 bg-orange-50 px-5 py-4">
+          <div className="mt-6 rounded-3xl border-2 border-orange-300 bg-orange-50/90 px-6 py-5">
             <div className="flex items-center gap-2">
               <AlertCircle className="h-5 w-5 text-orange-600" />
               <p className="font-semibold text-orange-800">
@@ -307,7 +307,7 @@ export default function AuthorDashboardPage() {
           {loadingSubs ? (
             <p className="mt-6 text-sm text-navy/50">Loading your submissions…</p>
           ) : submissions.length === 0 ? (
-            <div className="mt-6 rounded-3xl border border-dashed border-navy/20 bg-white p-12 text-center">
+            <div className="mt-6 rounded-3xl border-2 border-dashed border-navy/20 bg-white p-12 text-center">
               <FileText className="mx-auto h-10 w-10 text-sapphire/40" />
               <p className="mt-3 font-semibold text-navy">No submissions yet</p>
               <p className="mt-1 text-sm text-navy/55">
@@ -321,7 +321,7 @@ export default function AuthorDashboardPage() {
               </Link>
             </div>
           ) : (
-            <div className="mt-4 grid gap-4 sm:grid-cols-2">
+            <div className="mt-4 grid gap-5 sm:grid-cols-2">
               {submissions.map((s) => {
                 const latestReview = s.reviews[0] ?? null;
                 const needsRevisionNow = s.status === "REVISION_REQUESTED";
@@ -329,10 +329,10 @@ export default function AuthorDashboardPage() {
                 return (
                   <article
                     key={s.id}
-                    className={`flex flex-col rounded-3xl border bg-white p-5 shadow-sm transition ${
+                    className={`flex flex-col rounded-3xl border-2 bg-white p-6 transition-all duration-300 hover:border-navy/40 hover:-translate-y-1 ${
                       needsRevisionNow
-                        ? "border-orange-200 ring-1 ring-orange-100"
-                        : "border-navy/10"
+                        ? "border-orange-300 bg-orange-50/20"
+                        : "border-navy/15"
                     }`}
                   >
                     {/* Header */}
@@ -359,14 +359,14 @@ export default function AuthorDashboardPage() {
 
                     {/* Status badge */}
                     <div className="mt-3">
-                      <span className={`rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider ${STATUS_STYLES[s.status] ?? STATUS_STYLES.DRAFT}`}>
+                      <span className={`rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-wider ${STATUS_STYLES[s.status] ?? STATUS_STYLES.DRAFT}`}>
                         {STATUS_LABELS[s.status] ?? s.status}
                       </span>
                     </div>
 
                     {/* Reviewer feedback excerpt */}
                     {latestReview?.feedback && (
-                      <div className={`mt-3 rounded-xl border p-3 text-xs leading-relaxed ${
+                      <div className={`mt-3 rounded-2xl border p-3.5 text-xs leading-relaxed ${
                         latestReview.decision === "APPROVE"
                           ? "border-emerald-200 bg-emerald-50 text-emerald-800"
                           : latestReview.decision === "REJECT"
@@ -382,10 +382,10 @@ export default function AuthorDashboardPage() {
                     <div className="flex-1" />
 
                     {/* Actions */}
-                    <div className="mt-4 flex flex-wrap gap-2 border-t border-navy/8 pt-4">
+                    <div className="mt-4 flex flex-wrap gap-2 border-t border-navy/10 pt-4">
                       <Link
                         href="/my-submissions"
-                        className="inline-flex items-center gap-1.5 rounded-full border border-navy/15 px-3 py-1.5 text-xs font-semibold text-navy hover:bg-ivory"
+                        className="inline-flex items-center gap-1.5 rounded-full border-2 border-navy/15 px-4 py-1.5 text-xs font-semibold text-navy hover:border-navy hover:bg-ivory transition"
                       >
                         <FileText className="h-3.5 w-3.5" />
                         View Submission
@@ -394,7 +394,7 @@ export default function AuthorDashboardPage() {
                       {needsRevisionNow && (
                         <Link
                           href="/my-submissions"
-                          className="inline-flex items-center gap-1.5 rounded-full bg-orange-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-orange-700"
+                          className="inline-flex items-center gap-1.5 rounded-full bg-orange-600 px-4 py-1.5 text-xs font-semibold text-white hover:bg-orange-700 transition"
                         >
                           <RotateCcw className="h-3.5 w-3.5" />
                           Resubmit Revision
@@ -404,7 +404,7 @@ export default function AuthorDashboardPage() {
                       {s.status === "PUBLISHED" && s.publication && (
                         <Link
                           href={`/publications/${s.publication.id}`}
-                          className="inline-flex items-center gap-1.5 rounded-full bg-teal-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-teal-700"
+                          className="inline-flex items-center gap-1.5 rounded-full bg-teal-600 px-4 py-1.5 text-xs font-semibold text-white hover:bg-teal-700 transition"
                         >
                           <BookOpen className="h-3.5 w-3.5" />
                           View Article
@@ -419,7 +419,7 @@ export default function AuthorDashboardPage() {
         </div>
 
         {/* ── Quick links ── */}
-        <div className="mt-10 grid gap-3 sm:grid-cols-3">
+        <div className="mt-10 grid gap-4 sm:grid-cols-3">
           {[
             {
               href: "/get-published",
@@ -443,9 +443,9 @@ export default function AuthorDashboardPage() {
             <Link
               key={href}
               href={href}
-              className="flex items-start gap-3 rounded-2xl border border-navy/10 bg-white p-4 shadow-sm transition hover:border-navy/25 hover:shadow"
+              className="flex items-start gap-3 rounded-3xl border-2 border-navy/15 bg-white p-5 transition-all duration-300 hover:border-navy/40 hover:-translate-y-1"
             >
-              <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-sapphire/8">
+              <div className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-sapphire/10">
                 {icon}
               </div>
               <div>
