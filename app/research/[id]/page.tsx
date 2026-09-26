@@ -1,8 +1,10 @@
-import { Download, ExternalLink, Quote } from "lucide-react";
+import { Download, Quote } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
+import { ReadResearchButton } from "@/components/read-research-button";
+import { ResearchPublicationItem } from "@/components/research-reader-dialog";
 
 export const dynamic = "force-dynamic";
 
@@ -19,11 +21,14 @@ export default async function ResearchDetailPage({
         select: {
           fileUrl: true,
           fileName: true,
+          fileType: true,
           keywords: true,
           references: true,
           supportingLinks: true,
           category: true,
           researchType: true,
+          methodology: true,
+          abstract: true,
         },
       },
     },
@@ -36,6 +41,38 @@ export default async function ResearchDetailPage({
     ? publication.keywords
     : submission.keywords;
   const references = publication.references ?? submission.references;
+
+  const item: ResearchPublicationItem = {
+    id: publication.id,
+    title: publication.title,
+    category: publication.category,
+    author: publication.authors.map((a) => a.name).join(", ") || "TOUR Author",
+    authors: publication.authors.map((a) => ({
+      name: a.name,
+      institution: a.institution,
+      bio: a.bio,
+    })),
+    abstract: publication.abstract || submission.abstract || "",
+    summary: publication.summary || "",
+    content: publication.content || "",
+    methodology: submission.methodology || "",
+    references: references || "",
+    keywords: keywords || [],
+    authorBio: publication.authorBio || "",
+    publishedAt: publication.publicationDate
+      ? new Date(publication.publicationDate).toLocaleDateString("en-US", {
+          month: "long",
+          year: "numeric",
+        })
+      : undefined,
+    fileUrl: submission.fileUrl,
+    fileName: submission.fileName,
+    fileType: submission.fileType,
+    supportingLinks: submission.supportingLinks,
+    researchType: submission.researchType
+      ? submission.researchType.replace(/_/g, " ")
+      : "Research Article",
+  };
 
   return (
     <div className="bg-ivory py-16 md:py-20">
@@ -101,26 +138,15 @@ export default async function ResearchDetailPage({
 
         {/* ── Action buttons ── */}
         <div className="mt-6 flex flex-wrap gap-3">
-          {submission.fileUrl ? (
-            <>
-              <a
-                href={submission.fileUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-full bg-navy px-5 py-2.5 text-sm font-semibold text-white hover:bg-sapphire"
-              >
-                <ExternalLink className="h-4 w-4" /> Read Research
-              </a>
-              <a
-                href={submission.fileUrl}
-                download={submission.fileName ?? undefined}
-                className="inline-flex items-center gap-2 rounded-full border border-navy/15 bg-white px-5 py-2.5 text-sm font-semibold text-navy hover:bg-navy/5"
-              >
-                <Download className="h-4 w-4" /> Download PDF
-              </a>
-            </>
-          ) : (
-            <span className="text-sm text-navy/50">No downloadable file attached.</span>
+          <ReadResearchButton publication={item} />
+          {submission.fileUrl && (
+            <a
+              href={submission.fileUrl}
+              download={submission.fileName ?? undefined}
+              className="inline-flex items-center gap-2 rounded-full border border-navy/15 bg-white px-5 py-2.5 text-sm font-semibold text-navy hover:bg-navy/5"
+            >
+              <Download className="h-4 w-4" /> Download PDF
+            </a>
           )}
           <button
             type="button"
@@ -212,7 +238,7 @@ export default async function ResearchDetailPage({
                     rel="noreferrer"
                     className="inline-flex items-center gap-1 text-sm text-sapphire hover:underline break-all"
                   >
-                    {link} <ExternalLink className="h-3.5 w-3.5 shrink-0" />
+                    {link}
                   </a>
                 </li>
               ))}

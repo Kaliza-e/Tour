@@ -61,10 +61,10 @@ type Reviewer = { id: string; name: string; email: string };
 
 const STATUS_LABELS: Record<string, string> = {
   DRAFT: "Draft",
-  SUBMITTED: "Submitted",
+  SUBMITTED: "Under Review",
   UNDER_REVIEW: "Under Review",
-  REVISION_REQUESTED: "Revision Requested",
-  RESUBMITTED: "Resubmitted",
+  REVISION_REQUESTED: "Changes Requested",
+  RESUBMITTED: "Under Review",
   APPROVED: "Approved",
   PUBLISHED: "Published",
   REJECTED: "Rejected",

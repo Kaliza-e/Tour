@@ -119,7 +119,7 @@ export async function PATCH(request: Request) {
                 });
 
                 if (!current) throw new Error("Submission not found.");
-                if (current.status !== "APPROVED") throw new Error("Only approved submissions can be published.");
+                if (["REJECTED", "PUBLISHED"].includes(current.status)) throw new Error("This submission cannot be published in its current state.");
 
                 const publication = await tx.publication.upsert({
                     where: { submissionId },
@@ -170,7 +170,7 @@ export async function PATCH(request: Request) {
                 });
 
                 return { publication, userId: current.userId };
-            });
+            }, { maxWait: 15000, timeout: 30000 });
 
             await notifySubmissionAuthor(published.userId, "PUBLISHED", `/publications/${published.publication.id}`);
             return NextResponse.json({ success: true, publication: published.publication });
@@ -228,7 +228,7 @@ export async function PATCH(request: Request) {
                 where: { id: submissionId },
                 include: { authors: true, reviews: { orderBy: { createdAt: "desc" } } },
             });
-        });
+        }, { maxWait: 15000, timeout: 30000 });
 
         await notifySubmissionAuthor(currentUserId, nextStatus === "REVISION_REQUESTED" ? "REVISION_REQUESTED" : nextStatus === "APPROVED" ? "APPROVED" : "UNDER_REVIEW");
 
