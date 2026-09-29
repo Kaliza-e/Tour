@@ -38,26 +38,6 @@ export async function GET(
       tasks: { orderBy: { id: "asc" } },
       notes: { orderBy: { updatedAt: "desc" } },
       references: true,
-      files: { orderBy: { createdAt: "desc" } },
-      collaborators: {
-        include: {
-          user: { select: { id: true, name: true, email: true, image: true } },
-        },
-      },
-      paper: {
-        select: {
-          id: true,
-          title: true,
-          status: true,
-          abstract: true,
-          keywords: true,
-          pdfUrl: true,
-          views: true,
-          citationCount: true,
-          submittedAt: true,
-          publishedAt: true,
-        },
-      },
       question: {
         select: { id: true, title: true, status: true, description: true },
       },

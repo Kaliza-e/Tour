@@ -1,6 +1,5 @@
 // Tour — Research Ecosystem Platform
-// Prisma schema covering the full product surface described in the brief.
-// Run `npx prisma migrate dev` after setting DATABASE_URL in .env
+// Optimized & Cleaned Prisma Schema reflecting the active product surface.
 
 generator client {
   provider        = "prisma-client-js"
@@ -25,49 +24,38 @@ enum Role {
 }
 
 model User {
-  id               String   @id @default(cuid())
-  name             String
-  email            String   @unique
-  emailVerified    DateTime?
-  image            String?
-  hashedPassword   String?
-  role             Role     @default(STUDENT)
+  id                String   @id @default(cuid())
+  name              String
+  email             String   @unique
+  emailVerified     DateTime?
+  image             String?
+  hashedPassword    String?
+  role              Role     @default(STUDENT)
 
   // Profile / academic portfolio
-  bio              String?
-  school           String?
-  gradeLevel       String?
+  bio               String?
+  school            String?
+  gradeLevel        String?
   researchInterests String[] @default([])
-  skills           String[] @default([])
-  location         String?
+  skills            String[] @default([])
+  location          String?
 
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 
   // Relations
-  accounts         Account[]
-  sessions         Session[]
+  accounts             Account[]
+  sessions             Session[]
 
-  questionsAsked   Question[]        @relation("QuestionAuthor")
-  questionLikes    QuestionLike[]
-  projects         ResearchProject[] @relation("ProjectOwner")
-  collaborations   ProjectCollaborator[]
-  papers           ResearchPaper[]   @relation("PaperOwner")
-  paperAuthors     PaperAuthor[]
-  submissions      Submission[]
-  assignedSubmissions Submission[] @relation("AssignedReviewer")
-  submissionVersions SubmissionVersion[]
-  submissionAuthors SubmissionAuthor[]
-  reviews          Review[]
-  publicationAuthors PublicationAuthor[]
-  comments         Comment[]
-  bookmarks        Bookmark[]
-  achievements     UserAchievement[]
-  notifications    Notification[]
-  communityPosts   CommunityPost[]
-  challengeEntries ChallengeEntry[]
-  files            FileAsset[]
-  emailLogs        EmailNotificationLog[]
+  questionsAsked       Question[]           @relation("QuestionAuthor")
+  projects             ResearchProject[]    @relation("ProjectOwner")
+  submissions          Submission[]
+  assignedSubmissions  Submission[]         @relation("AssignedReviewer")
+  submissionVersions   SubmissionVersion[]
+  submissionAuthors    SubmissionAuthor[]
+  reviews              Review[]
+  notifications        Notification[]
+  emailLogs            EmailNotificationLog[]
 
   @@index([email])
 }
@@ -99,7 +87,7 @@ model Session {
 }
 
 // ---------------------------------------------------------------------------
-// TAXONOMY
+// TAXONOMY & QUESTION HUB
 // ---------------------------------------------------------------------------
 
 model Category {
@@ -111,13 +99,7 @@ model Category {
 
   questions   Question[]
   projects    ResearchProject[]
-  papers      ResearchPaper[]
-  challenges  Challenge[]
 }
-
-// ---------------------------------------------------------------------------
-// QUESTION HUB — the heart of Tour
-// ---------------------------------------------------------------------------
 
 enum QuestionStatus {
   OPEN
@@ -132,7 +114,6 @@ model Question {
   description String         @db.Text
   status      QuestionStatus @default(OPEN)
   tags        String[]       @default([])
-
   views       Int            @default(0)
 
   authorId    String
@@ -141,7 +122,6 @@ model Question {
   categoryId  String
   category    Category       @relation(fields: [categoryId], references: [id])
 
-  likes       QuestionLike[]
   project     ResearchProject? // set once a student adopts the question
 
   createdAt   DateTime       @default(now())
@@ -149,18 +129,6 @@ model Question {
 
   @@index([status])
   @@index([categoryId])
-}
-
-model QuestionLike {
-  id         String   @id @default(cuid())
-  questionId String
-  userId     String
-  createdAt  DateTime @default(now())
-
-  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([questionId, userId])
 }
 
 // ---------------------------------------------------------------------------
@@ -193,27 +161,12 @@ model ResearchProject {
   categoryId    String
   category      Category     @relation(fields: [categoryId], references: [id])
 
-  collaborators ProjectCollaborator[]
   notes         ResearchNote[]
   references    Reference[]
   tasks         Task[]
-  files         FileAsset[]
-  paper         ResearchPaper?
 
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
-}
-
-model ProjectCollaborator {
-  id        String  @id @default(cuid())
-  projectId String
-  userId    String
-  role      String  @default("Collaborator")
-
-  project   ResearchProject @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  user      User            @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([projectId, userId])
 }
 
 model ResearchNote {
@@ -245,33 +198,9 @@ model Task {
   project   ResearchProject @relation(fields: [projectId], references: [id], onDelete: Cascade)
 }
 
-model FileAsset {
-  id         String   @id @default(cuid())
-  url        String
-  name       String
-  type       String
-  size       Int
-
-  uploadedById String
-  uploadedBy   User   @relation(fields: [uploadedById], references: [id])
-
-  projectId  String?
-  project    ResearchProject? @relation(fields: [projectId], references: [id], onDelete: Cascade)
-
-  createdAt  DateTime @default(now())
-}
-
 // ---------------------------------------------------------------------------
-// PUBLICATION SYSTEM
+// SUBMISSION & PUBLICATION PIPELINE
 // ---------------------------------------------------------------------------
-
-enum PaperStatus {
-  DRAFT
-  SUBMITTED
-  IN_REVIEW
-  APPROVED
-  PUBLISHED
-}
 
 enum SubmissionStatus {
   DRAFT
@@ -320,48 +249,47 @@ model SubmissionAuthor {
 }
 
 model Submission {
-  id               String                 @id @default(cuid())
-  submissionId     String                 @unique
-  userId           String
-  assignedReviewerId String?
-  title            String
-  abstract         String                 @db.Text
-  category         String
-  researchType     SubmissionResearchType @default(RESEARCH_ARTICLE)
-  keywords         String[]               @default([])
-  description      String?                @db.Text
-  methodology      String?                @db.Text
-  references       String?                @db.Text
-  supportingLinks  String[]               @default([])
-  authorBio        String?                @db.Text
-  publicationTitle String?
-  publicationCategory String?
-  publicationSummary String?              @db.Text
+  id                   String                 @id @default(cuid())
+  submissionId         String                 @unique
+  userId               String
+  assignedReviewerId   String?
+  title                String
+  abstract             String                 @db.Text
+  category             String
+  researchType         SubmissionResearchType @default(RESEARCH_ARTICLE)
+  keywords             String[]               @default([])
+  description          String?                @db.Text
+  methodology          String?                @db.Text
+  references           String?                @db.Text
+  supportingLinks      String[]               @default([])
+  authorBio            String?                @db.Text
+  publicationTitle     String?
+  publicationCategory  String?
+  publicationSummary   String?                @db.Text
   publicationCoverImage String?
-  publicationAuthorBio String?            @db.Text
-  publicationDate  DateTime?
-  institution      String?
-  country          String?
-  academicLevel    String?
-  coAuthors        String[]               @default([])
-  email            String
-  fileUrl          String?
-  fileName         String?
-  fileType         String?
-  status           SubmissionStatus       @default(DRAFT)
-  isTermsAccepted  Boolean                @default(false)
-  submittedAt      DateTime?
-  createdAt        DateTime               @default(now())
-  updatedAt        DateTime               @updatedAt
+  publicationAuthorBio String?                @db.Text
+  publicationDate      DateTime?
+  institution          String?
+  country              String?
+  academicLevel        String?
+  coAuthors            String[]               @default([])
+  email                String
+  fileUrl              String?
+  fileName             String?
+  fileType             String?
+  status               SubmissionStatus       @default(DRAFT)
+  isTermsAccepted      Boolean                @default(false)
+  submittedAt          DateTime?
+  createdAt            DateTime               @default(now())
+  updatedAt            DateTime               @updatedAt
 
-  user             User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  authors          SubmissionAuthor[]
-  reviews          Review[]
-  statusHistory    SubmissionStatusHistory[]
-  fileRecords      SubmissionFile[]
-  publication      Publication?
-  versions         SubmissionVersion[]
-  assignedReviewer User? @relation("AssignedReviewer", fields: [assignedReviewerId], references: [id], onDelete: SetNull)
+  user                 User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  authors              SubmissionAuthor[]
+  reviews              Review[]
+  statusHistory        SubmissionStatusHistory[]
+  publication          Publication?
+  versions             SubmissionVersion[]
+  assignedReviewer     User?                  @relation("AssignedReviewer", fields: [assignedReviewerId], references: [id], onDelete: SetNull)
 
   @@index([userId])
   @@index([status])
@@ -387,21 +315,6 @@ model SubmissionVersion {
   createdBy     User       @relation(fields: [createdById], references: [id], onDelete: Cascade)
 
   @@unique([submissionId, versionNumber])
-  @@index([submissionId])
-}
-
-model SubmissionFile {
-  id            String      @id @default(cuid())
-  submissionId  String
-  filename      String
-  originalName  String
-  mimeType      String
-  size          Int
-  url           String
-  createdAt     DateTime    @default(now())
-
-  submission    Submission  @relation(fields: [submissionId], references: [id], onDelete: Cascade)
-
   @@index([submissionId])
 }
 
@@ -435,170 +348,28 @@ model SubmissionStatusHistory {
 }
 
 model Publication {
-  id            String      @id @default(cuid())
-  submissionId  String      @unique
-  title         String
-  category      String
-  abstract      String      @db.Text
-  summary       String?     @db.Text
-  coverImage    String?
+  id              String      @id @default(cuid())
+  submissionId    String      @unique
+  title           String
+  category        String
+  abstract        String      @db.Text
+  summary         String?     @db.Text
+  coverImage      String?
   publicationDate DateTime?
-  content       String?     @db.Text
-  keywords      String[]    @default([])
-  references    String?     @db.Text
-  authorBio     String?     @db.Text
-  isFeatured    Boolean     @default(false)
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
+  content         String?     @db.Text
+  keywords        String[]    @default([])
+  references      String?     @db.Text
+  authorBio       String?     @db.Text
+  isFeatured      Boolean     @default(false)
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
 
-  submission    Submission  @relation(fields: [submissionId], references: [id], onDelete: Cascade)
-  authors       PublicationAuthor[]
-}
-
-model PublicationAuthor {
-  id            String      @id @default(cuid())
-  publicationId String
-  userId        String?
-  name          String
-  institution   String?
-  bio           String?     @db.Text
-  role          String      @default("Author")
-
-  publication   Publication @relation(fields: [publicationId], references: [id], onDelete: Cascade)
-  user          User?       @relation(fields: [userId], references: [id], onDelete: SetNull)
-
-  @@index([publicationId])
-}
-
-model ResearchPaper {
-  id            String      @id @default(cuid())
-  title         String
-  abstract      String      @db.Text
-  keywords      String[]    @default([])
-  status        PaperStatus @default(DRAFT)
-
-  pdfUrl        String?
-  figures       String[]    @default([])
-  supplementary String[]    @default([])
-
-  categoryId    String
-  category      Category    @relation(fields: [categoryId], references: [id])
-
-  projectId     String      @unique
-  project       ResearchProject @relation(fields: [projectId], references: [id])
-
-  ownerId       String
-  owner         User        @relation("PaperOwner", fields: [ownerId], references: [id])
-  authors       PaperAuthor[]
-
-  views         Int         @default(0)
-  citationCount Int         @default(0)
-
-  comments      Comment[]
-  bookmarks     Bookmark[]
-
-  submittedAt   DateTime?
-  publishedAt   DateTime?
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
-
-  @@index([status])
-  @@index([categoryId])
-}
-
-model PaperAuthor {
-  id       String @id @default(cuid())
-  paperId  String
-  userId   String
-  order    Int    @default(0)
-
-  paper    ResearchPaper @relation(fields: [paperId], references: [id], onDelete: Cascade)
-  user     User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([paperId, userId])
-}
-
-model Comment {
-  id        String   @id @default(cuid())
-  content   String   @db.Text
-  paperId   String
-  userId    String
-  createdAt DateTime @default(now())
-
-  paper     ResearchPaper @relation(fields: [paperId], references: [id], onDelete: Cascade)
-  user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model Bookmark {
-  id       String @id @default(cuid())
-  paperId  String
-  userId   String
-
-  paper    ResearchPaper @relation(fields: [paperId], references: [id], onDelete: Cascade)
-  user     User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([paperId, userId])
+  submission      Submission  @relation(fields: [submissionId], references: [id], onDelete: Cascade)
 }
 
 // ---------------------------------------------------------------------------
-// COMMUNITY
+// NOTIFICATIONS & AUDIT LOGS
 // ---------------------------------------------------------------------------
-
-model CommunityPost {
-  id        String   @id @default(cuid())
-  title     String
-  content   String   @db.Text
-  authorId  String
-  author    User     @relation(fields: [authorId], references: [id])
-  createdAt DateTime @default(now())
-}
-
-model Challenge {
-  id          String   @id @default(cuid())
-  title       String
-  description String   @db.Text
-  categoryId  String
-  category    Category @relation(fields: [categoryId], references: [id])
-  startDate   DateTime
-  endDate     DateTime
-  entries     ChallengeEntry[]
-}
-
-model ChallengeEntry {
-  id          String   @id @default(cuid())
-  challengeId String
-  userId      String
-  summary     String   @db.Text
-  createdAt   DateTime @default(now())
-
-  challenge   Challenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
-  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-// ---------------------------------------------------------------------------
-// ACHIEVEMENTS & NOTIFICATIONS
-// ---------------------------------------------------------------------------
-
-model Achievement {
-  id          String @id @default(cuid())
-  title       String
-  description String
-  icon        String
-
-  users       UserAchievement[]
-}
-
-model UserAchievement {
-  id            String   @id @default(cuid())
-  userId        String
-  achievementId String
-  earnedAt      DateTime @default(now())
-
-  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  achievement   Achievement @relation(fields: [achievementId], references: [id], onDelete: Cascade)
-
-  @@unique([userId, achievementId])
-}
 
 model Notification {
   id        String   @id @default(cuid())
@@ -613,12 +384,6 @@ model Notification {
   @@index([userId])
   @@index([read])
 }
-
-// ---------------------------------------------------------------------------
-// EMAIL NOTIFICATION LOG
-// Persists every outbound email attempt so admins can audit delivery
-// and email providers can be swapped without touching the notification callers.
-// ---------------------------------------------------------------------------
 
 enum EmailEvent {
   SUBMISSION_RECEIVED
@@ -643,8 +408,8 @@ model EmailNotificationLog {
   body        String      @db.Text
   event       EmailEvent
   status      EmailStatus @default(PENDING)
-  provider    String?                      // e.g. "resend", "sendgrid", "console"
-  providerRef String?                      // message-id returned by the provider
+  provider    String?
+  providerRef String?
   error       String?     @db.Text
   sentAt      DateTime?
   createdAt   DateTime    @default(now())
@@ -655,4 +420,3 @@ model EmailNotificationLog {
   @@index([event])
   @@index([status])
 }
-

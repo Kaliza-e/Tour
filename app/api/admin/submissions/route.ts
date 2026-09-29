@@ -147,14 +147,6 @@ export async function PATCH(request: Request) {
                         coverImage: parsed.data.publicationCoverImage?.trim() || current.publicationCoverImage,
                         authorBio: parsed.data.publicationAuthorBio?.trim() || current.publicationAuthorBio || current.authorBio,
                         publicationDate: parsed.data.publicationDate ? new Date(parsed.data.publicationDate) : current.publicationDate || new Date(),
-                        authors: {
-                            create: current.authors.map((author) => ({
-                                userId: author.userId,
-                                name: author.fullName,
-                                institution: author.institution,
-                                bio: author.bio,
-                            })),
-                        },
                     },
                 });
 

@@ -11,7 +11,6 @@ export default async function PublicationDetailPage({ params }: { params: { id: 
   const publication = await prisma.publication.findFirst({
     where: { id: params.id, submission: { status: "PUBLISHED" } },
     include: {
-      authors: true,
       submission: {
         select: {
           fileUrl: true,
@@ -22,6 +21,13 @@ export default async function PublicationDetailPage({ params }: { params: { id: 
           references: true,
           supportingLinks: true,
           researchType: true,
+          authors: {
+            select: {
+              fullName: true,
+              institution: true,
+              bio: true,
+            },
+          },
         },
       },
     },
@@ -33,9 +39,9 @@ export default async function PublicationDetailPage({ params }: { params: { id: 
     id: publication.id,
     title: publication.title,
     category: publication.category,
-    author: publication.authors.map((a) => a.name).join(", ") || "TOUR Author",
-    authors: publication.authors.map((a) => ({
-      name: a.name,
+    author: publication.submission.authors.map((a) => a.fullName).join(", ") || "TOUR Author",
+    authors: publication.submission.authors.map((a) => ({
+      name: a.fullName,
       institution: a.institution,
       bio: a.bio,
     })),
@@ -80,8 +86,8 @@ export default async function PublicationDetailPage({ params }: { params: { id: 
         {publication.title}
       </h1>
       <p className="mt-3 text-sm text-navy/50">
-        {publication.authors.map((author) => author.name).join(", ")} ·{" "}
-        {publication.authors.map((author) => author.institution).filter(Boolean).join(", ")} · Published{" "}
+        {publication.submission.authors.map((author) => author.fullName).join(", ")} ·{" "}
+        {publication.submission.authors.map((author) => author.institution).filter(Boolean).join(", ")} · Published{" "}
         {publication.publicationDate?.toLocaleDateString()}
       </p>
 

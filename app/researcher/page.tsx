@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
+import { FormEvent, Suspense, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
@@ -126,7 +126,7 @@ function fmtDate(date: string | null | undefined) {
 // Main Component
 // ---------------------------------------------------------------------------
 
-export default function ResearcherDashboardPage() {
+function ResearcherDashboardContent() {
   const { data: session, status: sessionStatus } = useSession();
   const searchParams = useSearchParams();
 
@@ -848,5 +848,13 @@ export default function ResearcherDashboardPage() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function ResearcherDashboardPage() {
+  return (
+    <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-ivory text-sm text-navy/50">Loading workspace…</div>}>
+      <ResearcherDashboardContent />
+    </Suspense>
   );
 }

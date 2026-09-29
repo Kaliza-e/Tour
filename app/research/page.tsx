@@ -11,7 +11,6 @@ export default async function ResearchPage() {
     where: { submission: { status: "PUBLISHED" } },
     orderBy: { publicationDate: "desc" },
     include: {
-      authors: { select: { name: true, institution: true, bio: true } },
       submission: {
         select: {
           fileUrl: true,
@@ -22,6 +21,7 @@ export default async function ResearchPage() {
           references: true,
           supportingLinks: true,
           researchType: true,
+          authors: { select: { fullName: true, institution: true, bio: true } },
         },
       },
     },
@@ -31,9 +31,9 @@ export default async function ResearchPage() {
     id: publication.id,
     title: publication.title,
     category: publication.category,
-    author: publication.authors.map((author) => author.name).join(", ") || "TOUR Author",
-    authors: publication.authors.map((a) => ({
-      name: a.name,
+    author: publication.submission.authors.map((author) => author.fullName).join(", ") || "TOUR Author",
+    authors: publication.submission.authors.map((a) => ({
+      name: a.fullName,
       institution: a.institution,
       bio: a.bio,
     })),

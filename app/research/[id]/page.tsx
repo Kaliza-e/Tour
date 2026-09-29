@@ -16,7 +16,6 @@ export default async function ResearchDetailPage({
   const publication = await prisma.publication.findFirst({
     where: { id: params.id, submission: { status: "PUBLISHED" } },
     include: {
-      authors: true,
       submission: {
         select: {
           fileUrl: true,
@@ -29,6 +28,14 @@ export default async function ResearchDetailPage({
           researchType: true,
           methodology: true,
           abstract: true,
+          authors: {
+            select: {
+              id: true,
+              fullName: true,
+              institution: true,
+              bio: true,
+            },
+          },
         },
       },
     },
@@ -46,9 +53,9 @@ export default async function ResearchDetailPage({
     id: publication.id,
     title: publication.title,
     category: publication.category,
-    author: publication.authors.map((a) => a.name).join(", ") || "TOUR Author",
-    authors: publication.authors.map((a) => ({
-      name: a.name,
+    author: submission.authors.map((a) => a.fullName).join(", ") || "TOUR Author",
+    authors: submission.authors.map((a) => ({
+      name: a.fullName,
       institution: a.institution,
       bio: a.bio,
     })),
@@ -114,12 +121,12 @@ export default async function ResearchDetailPage({
 
         {/* ── Authors + meta ── */}
         <div className="mt-4 flex flex-wrap gap-3">
-          {publication.authors.map((author) => (
+          {submission.authors.map((author) => (
             <div
               key={author.id}
               className="rounded-2xl border border-navy/10 bg-white px-4 py-2.5 text-sm"
             >
-              <p className="font-semibold text-navy">{author.name}</p>
+              <p className="font-semibold text-navy">{author.fullName}</p>
               {author.institution && (
                 <p className="text-xs text-navy/55">{author.institution}</p>
               )}
@@ -181,17 +188,17 @@ export default async function ResearchDetailPage({
         )}
 
         {/* ── Author bios ── */}
-        {(publication.authorBio || publication.authors.some((a) => a.bio)) && (
+        {(publication.authorBio || submission.authors.some((a) => a.bio)) && (
           <section className="mt-6 rounded-3xl border border-navy/10 bg-white p-8">
-            <h2 className="font-heading text-lg font-bold text-navy">About the Author{publication.authors.length > 1 ? "s" : ""}</h2>
+            <h2 className="font-heading text-lg font-bold text-navy">About the Author{submission.authors.length > 1 ? "s" : ""}</h2>
             {publication.authorBio && (
               <p className="mt-3 leading-relaxed text-navy/70">{publication.authorBio}</p>
             )}
-            {publication.authors
+            {submission.authors
               .filter((a) => a.bio && a.bio !== publication.authorBio)
               .map((a) => (
                 <div key={a.id} className="mt-4">
-                  <p className="text-sm font-semibold text-navy">{a.name}</p>
+                  <p className="text-sm font-semibold text-navy">{a.fullName}</p>
                   <p className="mt-1 text-sm leading-relaxed text-navy/65">{a.bio}</p>
                 </div>
               ))}

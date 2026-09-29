@@ -59,7 +59,6 @@ export async function GET() {
         reviews: { orderBy: { createdAt: "desc" } },
         publication: true,
         authors: true,
-        fileRecords: true,
         versions: { orderBy: { versionNumber: "desc" }, select: { id: true, versionNumber: true, fileName: true, createdAt: true } },
         assignedReviewer: { select: { name: true } },
       },
@@ -152,19 +151,6 @@ export async function POST(request: Request) {
             userId,
           },
         },
-        ...(fileUrl
-          ? {
-              fileRecords: {
-                create: {
-                  filename: fileUrl.split("/").pop() || "submission-file",
-                  originalName: fileName || "submission-file",
-                  mimeType: fileType || "application/octet-stream",
-                  size: 0,
-                  url: fileUrl,
-                },
-              },
-            }
-          : {}),
       },
       include: {
         authors: true,
