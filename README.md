@@ -3,153 +3,546 @@
 > **Transforming curiosity into research, and research into impact.**
 
 <p align="center">
-  <img src="./public/tour-preview.png" alt="TOUR Platform — A space where young thinkers can begin their research journey early" width="100%" style="border-radius: 16px;" />
+  <img src="./public/tour-preview.png" alt="TOUR Platform — A space where young thinkers can begin their research journey early" width="100%" />
 </p>
 
-**TOUR** is a student-led, non-profit research and educational platform designed to empower young thinkers to start their academic research journey early. Tour provides a complete ecosystem that guides students from asking scientific questions to building research projects, conducting peer-reviewed manuscript submissions, and publishing original research articles.
+## About TOUR
 
----
+**TOUR** is a student-led, non-profit research and educational platform designed to help young people begin exploring academic research early.
 
-## 🌟 The TOUR Ecosystem Journey
+The platform provides a digital space where students can develop research ideas, organize their work, submit research for review, receive feedback, and eventually share approved research publicly.
+
+TOUR is built around a simple idea:
+
+> **Students should not have to wait until university to start thinking like researchers.**
+
+The platform connects the different stages of a student's research journey in one ecosystem:
 
 ```text
-Curiosity & Questions
-         ↓
-  Research Workspace (Goals, Hypotheses, Tasks & Citations)
-         ↓
-  Manuscript Submission (Draft & Revisions)
-         ↓
-  Peer & Admin Review (Approve, Request Revision, Reject)
-         ↓
-  Official Publication (Public Journal & Downloadable PDF)
+Research Idea
+     ↓
+Research Workspace
+     ↓
+Research Draft
+     ↓
+Submission
+     ↓
+Review & Feedback
+     ↓
+Revision
+     ↓
+Approval
+     ↓
+Publication
 ```
 
 ---
 
-## 🚀 Key Product Features & Workflows
+# 🌱 Core Platform
 
-### 1. 🎓 Student Researcher Workspace (`/researcher` & `/workspace`)
-- **Project Notebook**: Organize title, research goals, hypotheses, and structured objectives.
-- **Stage Tracking**: Step-by-step progress indicator (`WORKSPACE` → `RESEARCH` → `DRAFT` → `SUBMISSION` → `PUBLICATION`).
-- **Research Tools**: Manage research notes, todo items/tasks with due dates, and academic citations/references.
-- **Manuscript Submission**: Upload manuscript files (`.pdf`, `.docx`), set abstract, methodology, and keywords, and submit for peer review.
-- **Revision Lifecycle**: Track admin feedback, view version history snapshots (`SubmissionVersion`), and resubmit updated drafts.
+TOUR currently focuses on four main areas:
 
-### 2. 🛡️ Reviewer & Admin Review System (`/admin/submissions`)
-- **Role-Based Access Control**: Enforced access control for `ADMIN` and `REVIEWER` roles via server middleware.
-- **Reviewer Assignment**: Admins can assign specific submissions to verified peer reviewers.
-- **Structured Feedback**: Reviewers log official decisions (`APPROVE`, `REQUEST_REVISION`, `REJECT`) with detailed feedback.
-- **One-Click Journal Publishing**: Admins convert approved submissions directly into public journal articles with custom summary, cover image, and author metadata.
-- **User Management (`/admin/users`)**: Admins manage platform members and assign roles (`STUDENT`, `MENTOR`, `REVIEWER`, `ADMIN`).
+* **Researcher Workspace**
+* **Research Submission & Review**
+* **Public Research**
+* **Volunteer / Mentorship Applications**
 
-### 3. 📚 Public Research Journal (`/publications` & `/research`)
-- **Published Research Board**: Explore published student papers filtered by category (Biology, Earth Science, Medicine, Computer Science, etc.).
-- **Interactive Reader**: In-browser manuscript reader dialog with table of contents, citations, and metadata.
-- **File Downloads & Citation**: Direct access to uploaded PDFs and automated citation generator.
-
-### 4. 🤝 Volunteer & Mentorship Program (`/volunteer`)
-- **Onboarding Pipeline**: Form for educators, researchers, and volunteers to apply for mentorship, peer reviewing, workshop leadership, and outreach.
+The application also includes authentication and role-based access for different types of users.
 
 ---
 
-## 🏗️ Technology Stack
+# 🔬 Researcher Workspace
 
-- **Framework**: [Next.js 14 (App Router)](https://nextjs.org/)
-- **Language**: TypeScript & React 18
-- **Styling**: Tailwind CSS with custom design system tokens (`Navy`, `Ivory`, `Sapphire`, `Champagne`)
-- **Icons**: Lucide React & Custom Flaticons
-- **Database & ORM**: PostgreSQL ([Neon Serverless](https://neon.tech/)) & [Prisma ORM v5](https://www.prisma.io/)
-- **Authentication**: NextAuth.js (JWT strategy with role-based access)
-- **Document Processing**: `mammoth` (DOCX parsing) & Cloudinary asset support
+The researcher experience gives students a dedicated space to develop and manage their research work.
+
+Depending on the current research workflow, researchers can work with:
+
+* Research projects
+* Research goals
+* Research questions
+* Research notes
+* Tasks
+* References
+* Manuscript drafts
+* Submission information
+* Submission revisions
+
+The goal is to make research feel like an organized process rather than a collection of disconnected documents.
+
+### Research workflow
+
+```text
+WORKSPACE
+    ↓
+RESEARCH
+    ↓
+DRAFT
+    ↓
+SUBMISSION
+    ↓
+REVIEW
+    ↓
+REVISION
+    ↓
+PUBLICATION
+```
 
 ---
 
-## 🗄️ Database Architecture (Prisma Schema)
+# 📝 Research Submission
 
-The Prisma schema is normalized into 17 high-efficiency models representing the active application:
+Researchers can submit their work through the platform for review.
 
-- **Users & Auth**: `User`, `Account`, `Session`
-- **Taxonomy & Questions**: `Category`, `Question`
-- **Researcher Workspace**: `ResearchProject`, `ResearchNote`, `Reference`, `Task`
-- **Submission & Publishing Pipeline**: `Submission`, `SubmissionAuthor`, `SubmissionVersion`, `Review`, `SubmissionStatusHistory`, `Publication`
-- **Notifications & Audit Logs**: `Notification`, `EmailNotificationLog`
+A submission contains information associated with the research work and progresses through different statuses as it moves through the review process.
+
+The system maintains submission-related information so that researchers and administrators can track where a manuscript is in the publication workflow.
+
+The submission system is designed to support an iterative process:
+
+```text
+Draft
+  ↓
+Submit
+  ↓
+Review
+  ↓
+Feedback
+  ↓
+Revision
+  ↓
+Resubmit
+```
 
 ---
 
-## 🛠️ Getting Started
+# 🛡️ Review & Administration
 
-### 1. Prerequisites
-- Node.js 18+ installed
-- PostgreSQL database URL (e.g. Neon PostgreSQL)
+TOUR includes protected administrative functionality for managing the research ecosystem.
 
-### 2. Clone & Install Dependencies
+Administrative functionality includes areas for:
+
+* Managing users
+* Managing user roles
+* Reviewing research submissions
+* Providing feedback
+* Updating submission status
+* Managing published research
+
+Access to administrative functionality is restricted according to the user's role.
+
+### Platform roles
+
+The current platform supports role-based users including:
+
+| Role       | Purpose                                           |
+| ---------- | ------------------------------------------------- |
+| `STUDENT`  | Researcher who develops and submits research      |
+| `MENTOR`   | Mentor-oriented platform user                     |
+| `REVIEWER` | Reviews submitted research                        |
+| `ADMIN`    | Manages platform operations and research workflow |
+
+---
+
+# 📚 Public Research
+
+Approved research can be made available through the public research area.
+
+The public-facing research experience allows visitors to discover published work and explore research produced through the TOUR ecosystem.
+
+The platform includes public research routes for displaying published research and associated information.
+
+The goal is to create an accessible student research collection rather than keeping student work inside private workspaces.
+
+---
+
+# 🤝 Volunteer & Mentorship
+
+TOUR also provides a volunteer pathway for people who want to contribute to the initiative.
+
+The volunteer area is intended for people interested in supporting TOUR through areas such as:
+
+* Mentorship
+* Research support
+* Peer review
+* Workshops
+* Educational outreach
+* Other community contributions
+
+Volunteer applications are handled separately from the researcher workflow.
+
+---
+
+# 🔐 Authentication & Access Control
+
+TOUR uses authenticated user accounts and role-based access to protect private platform functionality.
+
+Authenticated users can access functionality according to their assigned role.
+
+The application includes authentication routes and protected areas for researcher and administrative workflows.
+
+User profiles can contain information relevant to the research community, including information such as:
+
+* Name
+* Email
+* Bio
+* School
+* Grade level
+* Research interests
+* Skills
+* Location
+* User role
+
+---
+
+# 🏗️ Technology Stack
+
+TOUR is built as a modern full-stack web application.
+
+### Frontend & Application
+
+* **Next.js 14**
+* **Next.js App Router**
+* **React**
+* **TypeScript**
+* **Tailwind CSS**
+
+### Backend
+
+TOUR uses Next.js server-side functionality and API routes for application logic and data access.
+
+### Database
+
+* **PostgreSQL**
+* **Neon PostgreSQL**
+* **Prisma ORM**
+* **Prisma Neon adapter**
+
+### Authentication
+
+* **NextAuth**
+* Credential-based authentication
+* JWT-based sessions
+* Role-based authorization
+
+### Supporting Technologies
+
+* **Lucide React**
+* **Cloudinary** for supported asset handling
+* **Mammoth** for supported DOCX processing
+
+> The exact dependencies and versions should always be treated as defined by `package.json`, rather than by this README.
+
+---
+
+# 🗄️ Database Architecture
+
+TOUR uses **Prisma ORM with PostgreSQL** to manage its application data.
+
+The database is organized around the main areas of the platform:
+
+### Authentication & Users
+
+User and authentication data supports:
+
+* User accounts
+* Authentication sessions
+* Connected authentication accounts
+* User roles
+* Researcher profile information
+
+### Research
+
+Research-related data supports the research workspace, including:
+
+* Research projects
+* Research notes
+* Tasks
+* References
+
+### Submissions
+
+The submission system manages:
+
+* Research submissions
+* Authors
+* Submission versions
+* Reviews
+* Submission status changes
+
+### Publications
+
+Approved research can be represented as public publications.
+
+### Platform Operations
+
+Additional application data supports platform communication and operational workflows where implemented.
+
+> The Prisma schema is the source of truth for the current database architecture. This README intentionally does not claim a fixed number of models because the schema may evolve as legacy fields and models are removed.
+
+---
+
+# 🧭 Main Application Areas
+
+The current application includes routes covering areas such as:
+
+```text
+/login
+/research
+/volunteer
+/contact
+```
+
+Authenticated workflows also include protected researcher and administrative areas.
+
+The exact route structure should be considered source-controlled application behavior rather than a fixed product specification.
+
+---
+
+# 🔄 Research Lifecycle
+
+The central TOUR workflow can be represented as:
+
+```text
+                    ┌─────────────────┐
+                    │ Research Idea   │
+                    └────────┬────────┘
+                             ↓
+                    ┌─────────────────┐
+                    │ Research        │
+                    │ Workspace       │
+                    └────────┬────────┘
+                             ↓
+                    ┌─────────────────┐
+                    │ Draft           │
+                    └────────┬────────┘
+                             ↓
+                    ┌─────────────────┐
+                    │ Submission      │
+                    └────────┬────────┘
+                             ↓
+                    ┌─────────────────┐
+                    │ Review          │
+                    └────────┬────────┘
+                             ↓
+                    ┌─────────────────┐
+                    │ Feedback /      │
+                    │ Revision        │
+                    └────────┬────────┘
+                             ↓
+                    ┌─────────────────┐
+                    │ Approval        │
+                    └────────┬────────┘
+                             ↓
+                    ┌─────────────────┐
+                    │ Publication     │
+                    └─────────────────┘
+```
+
+This workflow is the core of TOUR: helping a student move from **having a question** to producing something that can be shared with others.
+
+---
+
+# 💻 Getting Started
+
+## Prerequisites
+
+Make sure you have:
+
+* Node.js installed
+* npm installed
+* Access to a PostgreSQL database
+* A configured environment for authentication
+
+## Clone the repository
+
 ```bash
 git clone https://github.com/Kaliza-e/Tour.git
-cd tour
+
+cd Tour
+```
+
+## Install dependencies
+
+```bash
 npm install
 ```
 
-### 3. Configure Environment Variables
-Create a `.env` file in the root directory:
+## Environment Variables
+
+Create a `.env` file based on the environment variables required by the current application.
+
+A typical local configuration includes:
 
 ```env
-DATABASE_URL="postgresql://user:password@ep-host-pooler.neon.tech/neondb?sslmode=require"
-DIRECT_URL="postgresql://user:password@ep-host.neon.tech/neondb?sslmode=require"
-NEXTAUTH_SECRET="your-random-secret-key"
+DATABASE_URL="your-neon-pooled-database-url"
+DIRECT_URL="your-neon-direct-database-url"
+
+NEXTAUTH_SECRET="your-secret"
 NEXTAUTH_URL="http://localhost:3000"
 ```
 
-### 4. Sync Database Schema & Seed Initial Data
-```bash
-# Push schema to PostgreSQL database
-npx prisma db push --accept-data-loss
+Do **not** commit `.env` files or database credentials to Git.
 
-# Seed default categories and test accounts
+---
+
+# 🗃️ Database Commands
+
+After configuring the database, use the Prisma commands defined by the project.
+
+### Generate Prisma Client
+
+```bash
+npx prisma generate
+```
+
+### Push the current schema
+
+```bash
+npx prisma db push
+```
+
+### Open Prisma Studio
+
+```bash
+npx prisma studio
+```
+
+If the project contains a seed script:
+
+```bash
 npm run db:seed
 ```
 
-### 5. Start Development Server
+> Database commands should be run carefully against production databases. `prisma db push --accept-data-loss` should not be used casually because it can remove existing database structures or data.
+
+---
+
+# ▶️ Run the Application
+
+Start the development server:
+
 ```bash
 npm run dev
 ```
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+Then open:
+
+```text
+http://localhost:3000
+```
+
+For a production build:
+
+```bash
+npm run build
+```
+
+Then:
+
+```bash
+npm run start
+```
 
 ---
 
-## 🔑 Default Test Accounts (Post-Seed)
+# 📜 Available Scripts
 
-| Role | Email | Password |
-| :--- | :--- | :--- |
-| **Student** | `kaliza@tour.dev` | `password123` |
-| **Admin** | `admin@tour.dev` | `password123` |
-| **Reviewer** | `reviewer@tour.dev` | `password123` |
+The available scripts are defined in `package.json`.
 
----
+Common development commands include:
 
-## 💻 Available Scripts
+```bash
+npm run dev
+npm run build
+npm run start
+npm run lint
+```
 
-- `npm run dev`: Starts the Next.js development server.
-- `npm run build`: Cleans cache and creates an optimized production build.
-- `npm run start`: Runs the production server.
-- `npm run lint`: Runs Next.js ESLint checks.
-- `npm run db:push`: Pushes `prisma/schema.prisma` directly to database.
-- `npm run db:seed`: Seeds initial categories and test accounts into database.
-- `npm run db:studio`: Opens interactive Prisma Studio GUI at `http://localhost:5555`.
+Database-related scripts, where configured, include:
 
----
-
-## 🎨 Design Palette
-
-| Color | Token Name | Hex Code |
-| :--- | :--- | :--- |
-| Deep Navy | `navy` | `#112250` |
-| Soft Ivory | `ivory` | `#F5F4F0` |
-| Sapphire | `sapphire` | `#3B507D` |
-| Champagne | `champagne` | `#E7E2CE` |
-| Taupe | `taupe` | `#BEB7A7` |
+```bash
+npm run db:push
+npm run db:seed
+npm run db:studio
+```
 
 ---
 
-## 📄 License
+# 🎨 Design System
 
-Developed as part of the **TOUR Initiative** — a student-led non-profit platform dedicated to making academic research accessible for everyone.
+TOUR follows a calm, academic visual identity designed to feel more like a thoughtful research environment than a conventional enterprise dashboard.
+
+| Color      | Token       | Hex       |
+| ---------- | ----------- | --------- |
+| Deep Navy  | `navy`      | `#122550` |
+| Sapphire   | `sapphire`  | `#3B507D` |
+| Warm Taupe | `taupe`     | `#BEB7A7` |
+| Champagne  | `champagne` | `#E7E2CE` |
+| Soft Ivory | `ivory`     | `#F5F4F0` |
+
+The design direction emphasizes:
+
+* Academic clarity
+* Calm visual hierarchy
+* Readability
+* Minimal interfaces
+* Research-oriented presentation
+* Accessible information architecture
+
+---
+
+# 🌍 The TOUR Initiative
+
+TOUR is being developed as a **student-led, non-profit initiative** focused on making research more accessible to young people.
+
+The long-term vision is to create an ecosystem where students can:
+
+```text
+ASK
+ ↓
+EXPLORE
+ ↓
+RESEARCH
+ ↓
+WRITE
+ ↓
+REVIEW
+ ↓
+PUBLISH
+ ↓
+SHARE
+```
+
+Rather than treating research as something students encounter only after entering university, TOUR aims to make research an experience that students can begin much earlier.
+
+---
+
+# 📌 Project Status
+
+TOUR is an actively developed project.
+
+The current implementation focuses on the core research ecosystem:
+
+* Authentication
+* User roles
+* Research workspace
+* Research submissions
+* Submission review
+* Feedback and revision workflows
+* Public research
+* Volunteer functionality
+* Administrative management
+
+Features described in future product plans are not considered part of the current implementation unless they are present in the source code.
+
+---
+
+# 📄 License
+
+TOUR is developed as part of the **TOUR Initiative**, a student-led non-profit project dedicated to making academic research more accessible to young people.
+
+---
+
+## Built with curiosity. Designed for research. Created for impact.
+
+**TOUR — Transforming curiosity into research, and research into impact.**
