@@ -2,6 +2,10 @@
 
 > **Transforming curiosity into research, and research into impact.**
 
+<p align="center">
+  <img src="./public/tour-preview.png" alt="TOUR Platform — A space where young thinkers can begin their research journey early" width="100%" style="border-radius: 16px;" />
+</p>
+
 **TOUR** is a student-led, non-profit research and educational platform designed to empower young thinkers to start their academic research journey early. Tour provides a complete ecosystem that guides students from asking scientific questions to building research projects, conducting peer-reviewed manuscript submissions, and publishing original research articles.
 
 ---
