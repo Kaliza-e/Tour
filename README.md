@@ -3,7 +3,7 @@
 > **Transforming curiosity into research, and research into impact.**
 
 <p align="center">
-  <img src="./public/tour-preview.png" alt="TOUR Platform — A space where young thinkers can begin their research journey early" width="100%" />
+  <img src="public/hero-students.jpg" alt="TOUR Platform — A space where young thinkers can begin their research journey early" width="100%" />
 </p>
 
 ## About TOUR
