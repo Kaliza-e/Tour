@@ -92,7 +92,7 @@ body {
   font-family: var(--font-cormorant-family);
   font-size: 1.125rem;
   line-height: 1.6;
-  @apply bg-ivory text-navy antialiased;
+  @apply bg-white text-navy antialiased;
 }
 
 h1,

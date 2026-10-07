@@ -85,7 +85,7 @@ export default function AboutPage() {
             </div>
             <h2 className="font-heading text-2xl font-bold text-navy">Our Mission</h2>
             <p className="text-sm leading-relaxed text-navy/75">
-              We endeavor to empower young students to begin their research journey early by providing an accessible platform where they can think, explore their curiosity, research, write, publish, and exchange ideas freely.
+              We endeavor to empower young students to begin their research journey early by providing an accessible platform where they can think, explore their curiosity, write, publish, and exchange ideas freely.
             </p>
           </motion.div>
 

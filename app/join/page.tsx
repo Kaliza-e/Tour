@@ -142,10 +142,7 @@ export default function JoinPage() {
             </Link>
 
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-sapphire">
-                Registration
-              </p>
-              <h2 className="mt-3 font-heading text-3xl font-bold text-navy md:text-4xl">
+              <h2 className="font-heading text-3xl font-bold text-navy md:text-4xl">
                 Create your account
               </h2>
               <p className="mt-2 text-sm leading-relaxed text-navy/60">

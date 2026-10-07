@@ -325,3 +325,69 @@ export function FlaticonInstagram({ size = 20, className = "", ...props }: Flati
     </svg>
   );
 }
+
+// 28. What We Offer Icons (matching exact design graphics)
+
+// Science & Innovation (STEM) - Wireframe Globe Sphere
+export function FlaticonOfferStem({ size = 52, className = "", ...props }: FlaticonProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" className={className} stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <circle cx="24" cy="24" r="20" />
+      <line x1="4" y1="24" x2="44" y2="24" />
+      <line x1="24" y1="4" x2="24" y2="44" />
+      <ellipse cx="24" cy="14" rx="17.3" ry="5.5" />
+      <ellipse cx="24" cy="34" rx="17.3" ry="5.5" />
+      <ellipse cx="24" cy="24" rx="13" ry="20" />
+      <ellipse cx="24" cy="24" rx="6.5" ry="20" />
+    </svg>
+  );
+}
+
+// Health & Society - Geometric 4-Petal Flower Cross
+export function FlaticonOfferHealth({ size = 52, className = "", ...props }: FlaticonProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" className={className} stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      {/* 4 Primary Petals (N, E, S, W) */}
+      <path d="M 24 24 C 16 14 16 4 24 4 C 32 4 32 14 24 24 Z" />
+      <path d="M 24 24 C 34 16 44 16 44 24 C 44 32 34 32 24 24 Z" />
+      <path d="M 24 24 C 32 34 32 44 24 44 C 16 44 16 34 24 24 Z" />
+      <path d="M 24 24 C 14 32 4 32 4 24 C 4 16 14 16 24 24 Z" />
+      {/* 4 Diagonal Inner Petal Loops (NE, SE, SW, NW) */}
+      <path d="M 24 24 C 24 16 32 16 32 24 C 32 32 24 24 24 24 Z" />
+      <path d="M 24 24 C 32 24 32 32 24 32 C 16 32 24 24 24 24 Z" />
+      <path d="M 24 24 C 24 32 16 32 16 24 C 16 16 24 24 24 24 Z" />
+      <path d="M 24 24 C 16 24 16 16 24 16 C 32 16 24 24 24 24 Z" />
+    </svg>
+  );
+}
+
+// Education & Development - Detailed Multi-Petal Mandala / Rosette Flower
+export function FlaticonOfferEducation({ size = 52, className = "", ...props }: FlaticonProps) {
+  const angles = [0, 22.5, 45, 67.5, 90, 112.5, 135, 157.5, 180, 202.5, 225, 247.5, 270, 292.5, 315, 337.5];
+  return (
+    <svg width={size} height={size} viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" className={className} stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      {angles.map((angle) => (
+        <path
+          key={angle}
+          d="M 24 24 C 20.5 16 20.5 6 24 4 C 27.5 6 27.5 16 24 24 Z"
+          transform={`rotate(${angle} 24 24)`}
+        />
+      ))}
+      <circle cx="24" cy="24" r="3" fill="none" strokeWidth="1" />
+    </svg>
+  );
+}
+
+// Humanities & Perspectives - 4-Petal Loop Inscribed in Circle
+export function FlaticonOfferHumanities({ size = 52, className = "", ...props }: FlaticonProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" className={className} stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <circle cx="24" cy="24" r="20" />
+      <circle cx="24" cy="14" r="10" />
+      <circle cx="24" cy="34" r="10" />
+      <circle cx="14" cy="24" r="10" />
+      <circle cx="34" cy="24" r="10" />
+    </svg>
+  );
+}
+

@@ -251,9 +251,9 @@ export default function ContactPage() {
                 Prefer sending a direct email? Write to us directly at our open desk:
               </p>
               <div className="mt-3 flex items-center justify-between rounded-2xl border border-navy/15 bg-ivory/60 px-4 py-3">
-                <span className="text-xs font-mono font-bold text-navy">support@tour-research.org</span>
+                <span className="text-xs font-mono font-bold text-navy">tourresearchhub@gmail.com</span>
                 <a 
-                  href="mailto:support@tour-research.org" 
+                  href="mailto:tourresearchhub@gmail.com" 
                   className="rounded-full bg-sapphire/10 px-3 py-1 text-[11px] font-bold text-sapphire hover:bg-sapphire hover:text-white transition"
                 >
                   Write Email

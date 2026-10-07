@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { FormEvent, Suspense, useState } from "react";
 import Link from "next/link";
@@ -91,9 +91,6 @@ function LoginForm() {
           />
 
           <div className="relative z-10 flex-1 pt-24">
-            <p className="text-xs font-bold uppercase tracking-[0.25em] text-champagne">
-              Welcome back
-            </p>
             <h1 className="mt-4 max-w-md font-heading text-4xl font-bold leading-tight text-white xl:text-5xl">
               Welcome back to TOUR.
             </h1>
@@ -125,7 +122,7 @@ function LoginForm() {
             </Link>
 
             <div>
-              <h2 className="mt-3 font-heading text-3xl font-bold text-navy md:text-4xl">
+              <h2 className="font-heading text-3xl font-bold text-navy md:text-4xl">
                 Sign in
               </h2>
               <p className="mt-2 text-sm leading-relaxed text-navy/60">

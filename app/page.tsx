@@ -16,6 +16,12 @@ import {
   FlaticonIdea,
   FlaticonSearch,
   FlaticonGraduation,
+  FlaticonCheckCircle,
+  FlaticonShieldCheck,
+  FlaticonOfferStem,
+  FlaticonOfferHealth,
+  FlaticonOfferEducation,
+  FlaticonOfferHumanities,
 } from "@/components/flaticons";
 import { CountUp } from "@/components/count-up";
 import { AnimatedHeading } from "@/components/animated-heading";
@@ -106,19 +112,19 @@ const journey = [
 export default function LandingPage() {
   return (
     <>
-      {/* HERO SECTION */}
-      <section className="relative overflow-hidden bg-ivory/60 pt-6 pb-12 md:pb-16">
+      {/* 1.1 HERO SECTION (Warm Ivory Modern Header) */}
+      <section className="relative overflow-hidden bg-ivory/60 pt-6 pb-14 md:pb-20 border-b border-navy/10">
         <div className="container-tour relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center py-6 md:py-10">
             
-            {/* LEFT SIDE: Oval/blob image frame with attached static stats ribbon */}
+            {/* LEFT SIDE: Oval image frame with stats ribbon */}
             <motion.div 
               initial={{ opacity: 0, scale: 0.94, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
               className="lg:col-span-6 relative flex flex-col items-center justify-center order-2 lg:order-1"
             >
-              <div className="relative w-full max-w-md sm:max-w-lg aspect-[4/3] rounded-[60px] sm:rounded-[100px] border-4 border-navy/20 bg-navy overflow-hidden p-2 sm:p-3">
+              <div className="relative w-full max-w-md sm:max-w-lg aspect-[4/3] rounded-[60px] sm:rounded-[100px] border-4 border-navy/20 bg-navy overflow-hidden p-2 sm:p-3 shadow-xl">
                 <Image
                   src="/hero-students.jpg"
                   alt="Young Student Researchers"
@@ -129,9 +135,9 @@ export default function LandingPage() {
                 />
               </div>
 
-              {/* ATTACHED STATIC COMPACT STATS RIBBON */}
+              {/* STATS RIBBON */}
               <div className="-mt-8 relative z-20 w-full max-w-md sm:max-w-lg px-2">
-                <div className="rounded-2xl sm:rounded-full border-2 border-navy bg-navy px-4 py-3 flex items-center justify-around gap-2 text-ivory">
+                <div className="rounded-2xl sm:rounded-full border-2 border-navy bg-navy px-4 py-3 flex items-center justify-around gap-2 text-ivory shadow-lg">
                   <div className="flex items-center gap-2">
                     <FlaticonIdea size={16} className="text-champagne shrink-0" />
                     <div>
@@ -180,15 +186,14 @@ export default function LandingPage() {
                 </div>
               </div>
 
-              {/* Floating vector sparkles & plus icons around image */}
+              {/* Floating icons */}
               <FlaticonPlus size={22} className="absolute top-4 left-4 text-navy/40" />
               <FlaticonStar size={20} className="absolute bottom-16 right-2 text-navy/50" />
               <FlaticonPlus size={18} className="absolute -top-2 right-12 text-navy/35" />
             </motion.div>
 
-            {/* RIGHT SIDE: Headline, subtext & CTA */}
+            {/* RIGHT SIDE: Headline, subline & CTA */}
             <div className="lg:col-span-6 relative text-left space-y-6 order-1 lg:order-2">
-              {/* Floating Rocket Doodle top right */}
               <motion.div 
                 initial={{ opacity: 0, scale: 0.8, rotate: 0 }}
                 animate={{ opacity: 1, scale: 1, rotate: 12 }}
@@ -198,12 +203,11 @@ export default function LandingPage() {
                 <FlaticonRocket size={56} className="text-navy/80" />
               </motion.div>
 
-              {/* Floating decorative sparkles */}
               <FlaticonStar size={22} className="absolute -top-4 left-0 text-navy/40" />
 
               <AnimatedHeading 
                 text="Take a Tour Between Minds" 
-                className="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-[2.75rem] xl:text-5xl font-bold leading-[1.15] text-navy tracking-tight pt-4 uppercase" 
+                className="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-[2.75rem] xl:text-5xl font-bold leading-[1.15] text-navy tracking-tight" 
                 delay={0.15} 
               />
 
@@ -213,7 +217,7 @@ export default function LandingPage() {
                 transition={{ duration: 0.7, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
                 className="text-base sm:text-lg text-navy/70 leading-relaxed max-w-xl"
               >
-                Tour is an international student-led research platform designed to inspire curiosity, creativity, and confidence in young scholars and researchers worldwide.
+                Tour is a student-led, non-profit research and educational platform empowering young minds to explore, write, and share knowledge.
               </motion.p>
 
               {/* Action buttons */}
@@ -225,9 +229,9 @@ export default function LandingPage() {
               >
                 <Link
                   href="/join"
-                  className="inline-flex items-center gap-2.5 rounded-full border-2 border-navy bg-white px-7 py-3.5 text-sm font-semibold text-navy hover:bg-navy hover:text-ivory transition-all duration-200 active:scale-[0.98]"
+                  className="inline-flex items-center gap-2.5 rounded-full border-2 border-navy bg-navy px-7 py-3.5 text-sm font-semibold text-ivory hover:bg-sapphire transition-all duration-200 active:scale-[0.98] shadow-md"
                 >
-                  <span>Join the Journey</span>
+                  <span>Join the journey</span>
                   <FlaticonArrowRight size={18} />
                 </Link>
 
@@ -239,7 +243,6 @@ export default function LandingPage() {
                 </Link>
               </motion.div>
 
-              {/* Floating plus at bottom right */}
               <div className="pt-2 flex items-center justify-end pr-8">
                 <FlaticonPlus size={24} className="text-navy/40" />
               </div>
@@ -248,127 +251,53 @@ export default function LandingPage() {
         </div>
       </section>
 
-
-      {/* WHY TOUR */}
-      <section className="py-16">
-        <div className="container-tour">
-
+      {/* 1.5 WHAT WE OFFER (Dark Navy Contrast Luxury Section) */}
+      <section className="py-20 bg-navy text-ivory relative overflow-hidden">
+        <div className="absolute top-0 right-0 -mt-10 -mr-10 w-80 h-80 rounded-full bg-sapphire/10 blur-3xl pointer-events-none" />
+        <div className="container-tour relative z-10">
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.6, ease: "easeOut" }}
-            className="mx-auto max-w-2xl text-center"
+            className="mx-auto max-w-3xl text-center space-y-4"
           >
-            <h2 className="font-heading text-2xl font-semibold text-navy md:text-3xl">
-              Every discovery starts with a question worth exploring
-            </h2>
-            <p className="mt-4 text-navy/70 leading-relaxed">
-              Tour removes the barriers between curiosity and meaningful research,
-              helping ideas become projects, discoveries, and published work.
-            </p>
-          </motion.div>
-
-          <div className="mt-12 grid gap-6 md:grid-cols-3">
-            {[
-              {
-                title: "Explore without limits",
-                desc: "Share your ideas and research questions without needing expensive labs or resources to begin.",
-                icon: FlaticonSearch,
-                badge: "Limitless",
-              },
-              {
-                title: "A structured workspace",
-                desc: "Manage sources, notes, tasks, and drafts in one place designed for impactful research.",
-                icon: FlaticonBook,
-                badge: "Workspace",
-              },
-              {
-                title: "Share your discoveries",
-                desc: "Publish your work, receive feedback, and showcase your contribution to the community.",
-                icon: FlaticonGraduation,
-                badge: "Publishing",
-              },
-            ].map((feature, i) => {
-              const Icon = feature.icon;
-              return (
-                <motion.div
-                  key={feature.title}
-                  initial={{ opacity: 0, y: 35 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-50px" }}
-                  transition={{ duration: 0.6, delay: i * 0.15, ease: [0.22, 1, 0.36, 1] }}
-                  className="group relative rounded-3xl border-2 border-navy/15 bg-white p-8 transition-all duration-300 hover:border-navy hover:-translate-y-1.5 flex flex-col justify-between"
-                >
-                  <div>
-                    <div className="flex items-center justify-between mb-5">
-                      <div className="w-12 h-12 rounded-2xl bg-champagne/40 border border-navy/10 flex items-center justify-center text-navy group-hover:bg-navy group-hover:text-ivory transition-all duration-200">
-                        <Icon size={26} />
-                      </div>
-                      <span className="rounded-full bg-ivory px-3 py-1 text-xs font-semibold text-navy/70 border border-navy/10">
-                        {feature.badge}
-                      </span>
-                    </div>
-
-                    <h3 className="font-heading text-xl font-bold text-navy">
-                      {feature.title}
-                    </h3>
-
-                    <p className="mt-3 text-sm leading-relaxed text-navy/70">
-                      {feature.desc}
-                    </p>
-                  </div>
-                </motion.div>
-              );
-            })}
-          </div>
-
-        </div>
-      </section>
-
-      {/* WHAT WE OFFER */}
-      <section className="py-16 bg-white border-t border-navy/10">
-        <div className="container-tour">
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className="mx-auto max-w-3xl text-center"
-          >
-            <h2 className="font-heading text-2xl font-semibold text-navy md:text-3xl">
+            <span className="inline-block rounded-full bg-white/10 border border-white/20 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.2em] text-champagne">
+              Core Disciplines
+            </span>
+            <h2 className="font-heading text-3xl font-bold text-white md:text-4xl">
               What We Offer
             </h2>
-            <p className="mt-4 text-navy/70 leading-relaxed text-lg">
+            <p className="text-ivory/80 leading-relaxed text-base md:text-lg max-w-2xl mx-auto font-light">
               Tour provides a supportive environment for students to think, research, learn, write, and share their ideas, helping them gain an early and worthwhile start in science and academic research.
             </p>
           </motion.div>
 
-          <div className="mt-12 grid gap-6 md:grid-cols-2">
+          <div className="mt-14 grid gap-6 md:grid-cols-2">
             {[
               { 
                 title: "Science & Innovation (STEM)", 
-                sub: "Life Sciences, Technology & Engineering, and Environment", 
+                sub: "Life Sciences, Technology & Engineering, and Environment & Future Science", 
                 desc: "Exploring STEM fields, scientific research, technology, and innovation that shape our understanding of the world and drive future progress.",
-                icon: FlaticonIdea
+                icon: FlaticonOfferStem
               },
               { 
                 title: "Health & Society", 
-                sub: "Public & Global Health, Mental Health, and Health Policy", 
+                sub: "Public & Global Health, Mental Health & Psychology, and Health Policy & Ethics", 
                 desc: "Examining public health, health policy, psychology, and the social dimensions of health through research and critical analysis.",
-                icon: FlaticonBook
+                icon: FlaticonOfferHealth
               },
               { 
                 title: "Education & Development", 
-                sub: "Education & Learning, Youth & Human Development", 
+                sub: "Education & Learning, Youth & Human Development, and Access & Equity in Education", 
                 desc: "Focusing on education, learning systems, youth development, and the role of knowledge in shaping individuals and communities.",
-                icon: FlaticonGraduation
+                icon: FlaticonOfferEducation
               },
               { 
                 title: "Humanities & Perspectives", 
-                sub: "History & Philosophy, Society & Culture, and Ethics", 
+                sub: "History & Philosophy, Society & Culture, and Ethics & Social Issues", 
                 desc: "Exploring history, philosophy, social sciences, and diverse perspectives that help us understand societies, cultures, and ideas.",
-                icon: FlaticonSearch
+                icon: FlaticonOfferHumanities
               },
             ].map((cat, i) => {
               const Icon = cat.icon;
@@ -379,18 +308,18 @@ export default function LandingPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-50px" }}
                   transition={{ duration: 0.6, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] }}
-                  className="rounded-3xl border-2 border-navy/15 bg-ivory/40 p-8 space-y-4 hover:border-navy hover:bg-white transition-all duration-300 hover:-translate-y-1"
+                  className="rounded-3xl border border-white/15 bg-white/5 backdrop-blur-md p-8 space-y-4 hover:border-champagne/40 hover:bg-white/10 transition-all duration-300 hover:-translate-y-1"
                 >
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-2xl bg-navy text-ivory flex items-center justify-center shrink-0">
-                      <Icon size={24} />
+                    <div className="w-14 h-14 rounded-2xl bg-white/10 text-champagne border border-white/20 flex items-center justify-center shrink-0">
+                      <Icon size={30} />
                     </div>
                     <div>
-                      <h3 className="font-heading text-xl font-bold text-navy">{cat.title}</h3>
-                      <p className="text-xs font-semibold text-sapphire uppercase tracking-wider">{cat.sub}</p>
+                      <h3 className="font-heading text-xl font-bold text-white">{cat.title}</h3>
+                      <p className="text-xs font-semibold text-champagne/80 uppercase tracking-wider">{cat.sub}</p>
                     </div>
                   </div>
-                  <p className="text-sm text-navy/75 leading-relaxed">{cat.desc}</p>
+                  <p className="text-sm text-ivory/80 leading-relaxed font-light">{cat.desc}</p>
                 </motion.div>
               );
             })}
@@ -398,132 +327,248 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* CHOOSE YOUR PATH */}
-      <section className="bg-ivory py-16 border-t border-navy/10">
-        <div className="container-tour">
+      {/* 1.6 BEFORE SUBMITTING YOUR RESEARCH (Editorial Split Layout with Photo) */}
+      <section className="py-20 bg-white border-t border-navy/10">
+        <div className="container-tour max-w-6xl">
+          <div className="grid gap-12 lg:grid-cols-12 items-center">
+            
+            {/* Left Image Feature */}
+            <motion.div 
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.7 }}
+              className="lg:col-span-5 relative"
+            >
+              <div className="relative aspect-[4/5] rounded-[36px] overflow-hidden border-2 border-navy/15 shadow-2xl">
+                <Image 
+                  src="/student-writing.jpg" 
+                  alt="Student author preparing research" 
+                  fill
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent to-transparent" />
+                <div className="absolute bottom-6 left-6 right-6 text-white">
+                  <span className="rounded-full bg-sapphire px-3 py-1 text-xs font-bold uppercase tracking-wider text-white">
+                    Publishing Integrity
+                  </span>
+                  <p className="mt-3 font-heading text-xl font-bold leading-snug">
+                    "Original student research published with academic excellence."
+                  </p>
+                </div>
+              </div>
+
+              {/* Floating badge overlay */}
+              <div className="absolute -bottom-6 -right-6 hidden sm:flex items-center gap-3 rounded-2xl border-2 border-navy bg-white p-4 shadow-xl text-navy">
+                <div className="w-10 h-10 rounded-xl bg-sapphire/10 text-sapphire flex items-center justify-center font-bold">
+                  ✓
+                </div>
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-wider">Peer Reviewed</p>
+                  <p className="text-[11px] text-navy/65">Official Author Certificate</p>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Right Copy & Guideline Blocks */}
+            <div className="lg:col-span-7 space-y-6">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+              >
+                <span className="text-xs font-bold uppercase tracking-[0.2em] text-sapphire">
+                  Author Guidelines
+                </span>
+                <h2 className="mt-2 font-heading text-3xl sm:text-4xl font-bold text-navy">
+                  Before Submitting Your Research
+                </h2>
+                <p className="mt-3 text-navy/70 text-base">
+                  Before submitting your work, please carefully review the following guidelines.
+                </p>
+              </motion.div>
+
+              <div className="grid gap-4 sm:grid-cols-2 pt-2">
+                {/* Block 1 */}
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4 }}
+                  className="rounded-2xl border border-navy/15 bg-ivory/50 p-5 space-y-2 hover:border-navy transition-all"
+                >
+                  <div className="flex items-center gap-2.5 text-navy font-bold">
+                    <FlaticonCheckCircle size={18} className="text-sapphire" />
+                    <h4 className="font-heading text-base">Authorship & Originality</h4>
+                  </div>
+                  <ul className="space-y-1.5 text-xs text-navy/75 list-disc pl-4 leading-relaxed">
+                    <li>All submitted research must be the author's own original work.</li>
+                    <li>The author is fully responsible for the content submitted.</li>
+                    <li>Plagiarism in any form, including AI-generated text, is strictly prohibited.</li>
+                  </ul>
+                </motion.div>
+
+                {/* Block 2 */}
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: 0.1 }}
+                  className="rounded-2xl border border-navy/15 bg-ivory/50 p-5 space-y-2 hover:border-navy transition-all"
+                >
+                  <div className="flex items-center gap-2.5 text-navy font-bold">
+                    <FlaticonShieldCheck size={18} className="text-sapphire" />
+                    <h4 className="font-heading text-base">Use of Artificial Intelligence (AI)</h4>
+                  </div>
+                  <ul className="space-y-1.5 text-xs text-navy/75 list-disc pl-4 leading-relaxed">
+                    <li>AI tools are not allowed when writing or preparing research.</li>
+                    <li>AI may be used only as a tool, not as a writer.</li>
+                    <li>Permitted uses of AI include grammar checks only.</li>
+                  </ul>
+                </motion.div>
+
+                {/* Block 3 */}
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: 0.2 }}
+                  className="rounded-2xl border border-navy/15 bg-ivory/50 p-5 space-y-2 hover:border-navy transition-all"
+                >
+                  <div className="flex items-center gap-2.5 text-navy font-bold">
+                    <FlaticonBook size={18} className="text-sapphire" />
+                    <h4 className="font-heading text-base">Editorial Review & Publication</h4>
+                  </div>
+                  <ul className="space-y-1.5 text-xs text-navy/75 list-disc pl-4 leading-relaxed">
+                    <li>Tour may review and edit research for publication purposes.</li>
+                    <li>The author will be notified to approve or reject edits.</li>
+                    <li>If no response is received in time, Tour may proceed.</li>
+                  </ul>
+                </motion.div>
+
+                {/* Block 4 */}
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: 0.3 }}
+                  className="rounded-2xl border border-navy/15 bg-ivory/50 p-5 space-y-2 hover:border-navy transition-all"
+                >
+                  <div className="flex items-center gap-2.5 text-navy font-bold">
+                    <FlaticonSearch size={18} className="text-sapphire" />
+                    <h4 className="font-heading text-base">Referencing & Sources</h4>
+                  </div>
+                  <ul className="space-y-1.5 text-xs text-navy/75 list-disc pl-4 leading-relaxed">
+                    <li>All sources must be clearly cited using consistent style.</li>
+                    <li>Inaccurate references may result in revision or rejection.</li>
+                  </ul>
+                </motion.div>
+              </div>
+
+              {/* Callout */}
+              <motion.div 
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="rounded-2xl border border-sapphire/30 bg-champagne/40 px-6 py-4 flex items-center gap-3"
+              >
+                <FlaticonStar size={20} className="text-navy shrink-0" />
+                <p className="text-sm font-semibold text-navy">
+                  After publication, authors will receive a certificate for their work.
+                </p>
+              </motion.div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* 1.7 SUBMISSION TYPES (Warm Sand Section feel) */}
+      <section className="py-20 bg-[#f8f7f2] border-t border-navy/10">
+        <div className="container-tour max-w-6xl">
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.6 }}
-            className="mx-auto max-w-3xl text-center"
+            className="text-center max-w-3xl mx-auto mb-14"
           >
-            <h2 className="font-heading text-2xl font-semibold text-navy md:text-3xl">
-              Built for Student Researchers and Research Communities
+            <span className="text-xs font-bold uppercase tracking-[0.2em] text-sapphire">
+              Publishing Formats
+            </span>
+            <h2 className="mt-2 font-heading text-3xl font-bold text-navy md:text-4xl">
+              Submission Types
             </h2>
-            <p className="mt-4 text-navy/70 leading-relaxed">
-              Whether you are beginning your first research journey or supporting the next generation of innovators, Tour provides the tools to discover, collaborate, publish, and grow together.
+            <p className="mt-3 text-navy/70 text-base">
+              Choose the format that best fits your scientific methodology and research goals.
             </p>
           </motion.div>
 
-          <div className="mt-12 grid gap-6 md:grid-cols-2">
-            {/* RESEARCHERS */}
+          <div className="grid gap-8 md:grid-cols-3">
+            {/* Card 1 */}
             <motion.div 
-              initial={{ opacity: 0, y: 40 }}
+              initial={{ opacity: 0, y: 35 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-              className="rounded-[32px] border-2 border-navy/20 bg-white p-8 sm:p-10 flex flex-col justify-between hover:border-navy transition-all duration-300 hover:-translate-y-1"
+              transition={{ duration: 0.5 }}
+              className="rounded-3xl border-2 border-navy/15 bg-white p-8 flex flex-col justify-between hover:border-navy transition-all duration-300 hover:-translate-y-1.5 shadow-sm"
             >
               <div>
                 <div className="flex items-center justify-between mb-4">
-                  <span className="rounded-full bg-champagne/50 border border-navy/10 px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-navy">
-                    For Student Researchers
+                  <span className="rounded-full bg-sapphire/10 border border-sapphire/20 px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-sapphire">
+                    Format 01
                   </span>
-                  <FlaticonBook size={28} className="text-navy/70" />
+                  <FlaticonBook size={24} className="text-navy/60" />
                 </div>
-
-                <h3 className="mt-3 font-heading text-2xl sm:text-3xl font-bold text-navy">
-                  Explore, Research and Publish
-                </h3>
-
-                <p className="mt-4 text-sm leading-relaxed text-navy/70">
-                  Start your research journey with a platform designed for curious minds. Discover research topics, publish your work, collaborate with peers, and build an academic portfolio that grows with you.
+                <h3 className="font-heading text-2xl font-bold text-navy">Research Papers</h3>
+                <p className="mt-4 text-sm text-navy/75 leading-relaxed font-light">
+                  Original research-based work that explores a specific question or problem through structured methodology, analysis, and evidence. This type focuses on presenting new findings, insights, or data-driven conclusions.
                 </p>
-
-                <ul className="mt-6 space-y-3 text-sm text-navy/80">
-                  <li className="flex items-center gap-2.5">
-                    <FlaticonStar size={14} className="text-sapphire shrink-0" />
-                    <span>Publish original research papers and articles</span>
-                  </li>
-                  <li className="flex items-center gap-2.5">
-                    <FlaticonStar size={14} className="text-sapphire shrink-0" />
-                    <span>Discover research across multiple disciplines</span>
-                  </li>
-                  <li className="flex items-center gap-2.5">
-                    <FlaticonStar size={14} className="text-sapphire shrink-0" />
-                    <span>Collaborate with students from around the world</span>
-                  </li>
-                  <li className="flex items-center gap-2.5">
-                    <FlaticonStar size={14} className="text-sapphire shrink-0" />
-                    <span>Build a lasting academic portfolio</span>
-                  </li>
-                </ul>
-              </div>
-
-              <div className="mt-8">
-                <Link
-                  href="/questions"
-                  className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-navy bg-navy px-7 py-3.5 text-sm font-semibold text-ivory hover:bg-sapphire transition-all duration-200 w-full sm:w-auto"
-                >
-                  <span>Explore Research</span>
-                  <FlaticonArrowRight size={16} />
-                </Link>
               </div>
             </motion.div>
 
-            {/* EDUCATORS */}
+            {/* Card 2 */}
             <motion.div 
-              initial={{ opacity: 0, y: 40 }}
+              initial={{ opacity: 0, y: 35 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.7, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
-              className="rounded-[32px] border-2 border-navy bg-navy p-8 sm:p-10 text-ivory flex flex-col justify-between transition-all duration-300 hover:-translate-y-1"
+              transition={{ duration: 0.5, delay: 0.12 }}
+              className="rounded-3xl border-2 border-navy/15 bg-white p-8 flex flex-col justify-between hover:border-navy transition-all duration-300 hover:-translate-y-1.5 shadow-sm"
             >
               <div>
                 <div className="flex items-center justify-between mb-4">
-                  <span className="rounded-full bg-white/10 border border-ivory/20 px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-champagne">
-                    For Educators & Mentors
+                  <span className="rounded-full bg-emerald-100 border border-emerald-300 px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-emerald-800">
+                    Format 02
                   </span>
-                  <FlaticonGraduation size={28} className="text-champagne" />
+                  <FlaticonSearch size={24} className="text-navy/60" />
                 </div>
-
-                <h3 className="mt-3 font-heading text-2xl sm:text-3xl font-bold text-ivory">
-                  Mentor, Support, and Inspire
-                </h3>
-
-                <p className="mt-4 text-sm leading-relaxed text-ivory/80">
-                  Empower young researchers by mentoring projects, sharing opportunities, organizing research initiatives, and building collaborative scientific communities without barriers.
+                <h3 className="font-heading text-2xl font-bold text-navy">Review Articles</h3>
+                <p className="mt-4 text-sm text-navy/75 leading-relaxed font-light">
+                  Analytical articles that summarize, compare, and evaluate existing research on a specific topic. Review articles do not present new data but aim to organize current knowledge and highlight patterns, gaps, or trends.
                 </p>
-
-                <ul className="mt-6 space-y-3 text-sm text-ivory/90">
-                  <li className="flex items-center gap-2.5">
-                    <FlaticonStar size={14} className="text-champagne shrink-0" />
-                    <span>Connect with promising student researchers</span>
-                  </li>
-                  <li className="flex items-center gap-2.5">
-                    <FlaticonStar size={14} className="text-champagne shrink-0" />
-                    <span>Organize research initiatives and competitions</span>
-                  </li>
-                  <li className="flex items-center gap-2.5">
-                    <FlaticonStar size={14} className="text-champagne shrink-0" />
-                    <span>Mentor and review student work</span>
-                  </li>
-                  <li className="flex items-center gap-2.5">
-                    <FlaticonStar size={14} className="text-champagne shrink-0" />
-                    <span>Foster global scientific collaboration</span>
-                  </li>
-                </ul>
               </div>
+            </motion.div>
 
-              <div className="mt-8">
-                <Link
-                  href="/publications"
-                  className="inline-flex items-center justify-center gap-2 rounded-full bg-ivory px-7 py-3.5 text-sm font-semibold text-navy hover:bg-white transition-all duration-200 w-full sm:w-auto"
-                >
-                  <span>Join the Community</span>
-                  <FlaticonArrowRight size={16} />
-                </Link>
+            {/* Card 3 */}
+            <motion.div 
+              initial={{ opacity: 0, y: 35 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.5, delay: 0.24 }}
+              className="rounded-3xl border-2 border-navy/15 bg-white p-8 flex flex-col justify-between hover:border-navy transition-all duration-300 hover:-translate-y-1.5 shadow-sm"
+            >
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <span className="rounded-full bg-amber-100 border border-amber-300 px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-amber-900">
+                    Format 03
+                  </span>
+                  <FlaticonGraduation size={24} className="text-navy/60" />
+                </div>
+                <h3 className="font-heading text-2xl font-bold text-navy">Research Essays</h3>
+                <p className="mt-4 text-sm text-navy/75 leading-relaxed font-light">
+                  Thoughtful, research-informed essays that explore ideas, concepts, or questions through critical thinking and evidence. This format allows for more reflection and discussion while still requiring credible sources and academic reasoning.
+                </p>
               </div>
             </motion.div>
           </div>
@@ -574,63 +619,87 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* HOW IT WORKS */}
-      <section className="py-16 bg-gradient-to-b from-ivory/40 to-white border-t border-navy/10">
-        <div className="container-tour">
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-14"
-          >
-            <span className="inline-block px-4 py-1.5 rounded-full bg-sapphire/10 text-sapphire text-xs font-semibold uppercase tracking-wider mb-4 border border-sapphire/20">
-              How It Works
-            </span>
-            <h2 className="font-heading text-3xl font-semibold text-navy md:text-4xl mb-4">
-              Your Research Journey
-            </h2>
-            <p className="text-navy/70 max-w-2xl mx-auto">
-              From curiosity to contribution, discover how Tour transforms questions into published research
-            </p>
-          </motion.div>
+      {/* YOUR RESEARCH JOURNEY (Dark Banner Showcase with Certificate Image) */}
+      <section className="py-20 bg-[#182338] text-white border-t border-navy/10 overflow-hidden relative">
+        <div className="container-tour max-w-6xl relative z-10">
+          
+          <div className="grid gap-12 lg:grid-cols-12 items-center">
+            
+            {/* Timeline Steps Left */}
+            <div className="lg:col-span-7 space-y-8">
+              <motion.div 
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+              >
+                <span className="inline-block px-4 py-1.5 rounded-full bg-white/10 text-champagne text-xs font-bold uppercase tracking-wider mb-3 border border-white/20">
+                  How It Works
+                </span>
+                <h2 className="font-heading text-3xl font-bold text-white md:text-4xl">
+                  Your Research Journey
+                </h2>
+                <p className="mt-2 text-white/75 text-sm md:text-base font-light">
+                  From curiosity to contribution, discover how Tour transforms questions into published research
+                </p>
+              </motion.div>
 
-          <div className="relative">
-            <div className="relative z-10 grid gap-6 md:grid-cols-4">
-              {journey.map((step, index) => {
-                const Icon = step.icon;
-                return (
-                  <motion.div 
-                    key={step.label} 
-                    initial={{ opacity: 0, y: 35, scale: 0.95 }}
-                    whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                    viewport={{ once: true, margin: "-50px" }}
-                    transition={{ duration: 0.6, delay: index * 0.15, ease: [0.22, 1, 0.36, 1] }}
-                    className="group relative"
-                  >
-                    {/* Step number badge */}
-                    <div className="absolute -top-3 -left-3 w-9 h-9 rounded-full bg-navy text-ivory text-sm font-bold flex items-center justify-center z-20 border-2 border-white">
-                      {index + 1}
-                    </div>
-
-                    <div className="relative bg-white rounded-3xl p-6 border-2 border-navy/15 hover:border-navy transition-all duration-300 group-hover:-translate-y-1.5 h-full flex flex-col justify-between">
+              <div className="space-y-4">
+                {journey.map((step, index) => {
+                  const Icon = step.icon;
+                  return (
+                    <motion.div 
+                      key={step.label} 
+                      initial={{ opacity: 0, x: -20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.5, delay: index * 0.1 }}
+                      className="rounded-2xl border border-white/15 bg-white/5 p-5 flex items-start gap-4 hover:bg-white/10 transition-all"
+                    >
+                      <div className="w-10 h-10 rounded-xl bg-champagne text-navy font-bold flex items-center justify-center shrink-0">
+                        0{index + 1}
+                      </div>
                       <div>
-                        <div className="w-14 h-14 rounded-2xl bg-ivory border border-navy/10 flex items-center justify-center mb-4 text-navy group-hover:bg-navy group-hover:text-ivory transition-all duration-200">
-                          <Icon size={28} />
-                        </div>
-
-                        <h3 className="font-heading text-lg font-bold text-navy mb-2">
+                        <h3 className="font-heading text-lg font-bold text-white mb-1">
                           {step.label}
                         </h3>
-                        <p className="text-sm text-navy/70 leading-relaxed">
+                        <p className="text-xs sm:text-sm text-white/75 leading-relaxed font-light">
                           {step.desc}
                         </p>
                       </div>
-                    </div>
-                  </motion.div>
-                );
-              })}
+                    </motion.div>
+                  );
+                })}
+              </div>
             </div>
+
+            {/* Certificate Photo Frame Right */}
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7 }}
+              className="lg:col-span-5 relative"
+            >
+              <div className="relative aspect-[4/5] rounded-[36px] overflow-hidden border-2 border-white/20 shadow-2xl">
+                <Image 
+                  src="/publication-certificate.jpg" 
+                  alt="Student author holding publication certificate" 
+                  fill
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent to-transparent" />
+                <div className="absolute bottom-6 left-6 right-6 text-white">
+                  <span className="rounded-full bg-champagne text-navy px-3 py-1 text-xs font-bold uppercase tracking-wider">
+                    Author Recognition
+                  </span>
+                  <p className="mt-3 font-heading text-lg font-bold leading-snug">
+                    "Receive an official certificate upon publishing your work."
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+
           </div>
         </div>
       </section>
@@ -679,39 +748,43 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-16 border-t border-navy/10">
-        <div className="container-tour">
+      {/* CTA MEGA BANNER */}
+      <section className="py-20 border-t border-navy/10 bg-ivory/30">
+        <div className="container-tour max-w-5xl">
           <motion.div 
             initial={{ opacity: 0, y: 35 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="px-8 py-6 text-center"
+            className="px-8 py-16 md:py-20 text-center rounded-[40px] text-white shadow-2xl relative overflow-hidden border-2 border-navy/20"
           >
-            <h2 className="font-heading text-2xl font-semibold text-navy md:text-3xl">
-              Your curiosity could become the next discovery
-            </h2>
+            {/* Background Image & Gradient Overlay */}
+            <Image
+              src="/cta-bg.jpg"
+              alt="Student researchers collaborating"
+              fill
+              className="object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-navy/90 via-navy/80 to-navy/90 backdrop-blur-[2px]" />
 
-            <p className="mx-auto mt-4 max-w-xl text-navy/60">
-              Join researchers, innovators, and organizations turning questions into meaningful knowledge.
-            </p>
+            {/* Content */}
+            <div className="relative z-10 space-y-6 max-w-2xl mx-auto">
+              <h2 className="font-heading text-3xl font-bold text-white md:text-5xl leading-tight">
+                Your curiosity could become the next discovery
+              </h2>
 
-            <div className="mx-auto mt-6 max-w-2xl rounded-2xl border border-sapphire/15 bg-champagne/40 px-6 py-4">
-              <p className="text-sm font-semibold text-navy/80 leading-relaxed">
-                <span className="inline-block mr-1.5">⚠️</span>
-                <span className="font-bold">TOUR is not yet a registered 501(c)(3) organization.</span>{" "}
-                However, we are happy to provide verification or confirmation of participation for schools or clubs upon request.
+              <p className="text-white/85 text-base md:text-lg font-light leading-relaxed">
+                Join researchers, innovators, and organizations turning questions into meaningful knowledge.
               </p>
-            </div>
 
-            <div className="mt-9">
-              <Link href="/join">
-                <Button size="lg">
-                  Join Tour — It's Free
-                  <ArrowRight size={18}/>
-                </Button>
-              </Link>
+              <div className="pt-4">
+                <Link href="/join">
+                  <Button size="lg" className="rounded-full bg-white text-navy hover:bg-champagne hover:text-navy px-9 py-4 font-bold text-base transition-all duration-200 shadow-xl cursor-pointer">
+                    Join Tour — It's Free
+                    <ArrowRight size={18}/>
+                  </Button>
+                </Link>
+              </div>
             </div>
           </motion.div>
         </div>

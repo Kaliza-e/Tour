@@ -24,7 +24,7 @@ const socialLinks = [
   { name: "Twitter", href: "https://twitter.com", icon: FlaticonTwitter },
   { name: "LinkedIn", href: "https://linkedin.com", icon: FlaticonLinkedin },
   { name: "GitHub", href: "https://github.com", icon: FlaticonGithub },
-  { name: "Instagram", href: "https://instagram.com", icon: FlaticonInstagram },
+  { name: "Instagram", href: "https://www.instagram.com/tour.research/#", icon: FlaticonInstagram },
 ];
 
 export function Footer() {
@@ -58,6 +58,20 @@ export function Footer() {
 
   return (
     <footer className="border-t-2 border-navy bg-navy text-white">
+      {/* 501(c)(3) SITEWIDE NOTE CALLOUT */}
+      <div className="border-b border-white/10 bg-navy/90 py-4 text-white">
+        <div className="container-tour max-w-4xl">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 text-center sm:text-left rounded-2xl bg-white/5 border border-white/10 px-6 py-3.5 backdrop-blur-md">
+            <span className="inline-block rounded-full bg-champagne/20 border border-champagne/30 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-champagne shrink-0">
+              Note
+            </span>
+            <p className="text-xs md:text-sm text-white/80 leading-relaxed font-light">
+              Tour is not yet a registered 501(c)(3) organization. However, we are happy to provide verification or confirmation of participation for schools or clubs upon request.
+            </p>
+          </div>
+        </div>
+      </div>
+
       {/* MAIN 3-COLUMN FOOTER CONTAINER */}
       <div className="container-tour py-12 md:py-16">
         <div className="grid gap-10 lg:grid-cols-12 items-stretch">
@@ -156,10 +170,11 @@ export function Footer() {
               </Link>
 
               <div className="mt-6 space-y-2 text-xs md:text-sm text-white/80">
-                <p className="font-semibold text-white">+250 788 000 000</p>
+                <p className="font-semibold text-white">+218 91-3292844</p>
+                <p className="text-white/90 font-medium">tourresearchhub@gmail.com</p>
                 <p className="leading-relaxed">
-                  285 Research Way<br />
-                  Kigali, Rwanda
+                  Tripoli, Libya<br />
+                  Africa
                 </p>
               </div>
             </div>
