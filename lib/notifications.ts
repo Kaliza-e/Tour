@@ -374,3 +374,53 @@ export async function notifySubmissionAuthor(
         console.error("[TOUR notifications] notifySubmissionAuthor failed:", error);
     }
 }
+
+/**
+ * Generic internal notification service for P3 Notifications requirement.
+ */
+export async function notify(
+    userId: string,
+    type: string,
+    payload: {
+        title: string;
+        message: string;
+        link?: string;
+        dedupeKey?: string;
+    }
+): Promise<void> {
+    try {
+        if (!userId) return;
+
+        // Check if user disabled notifications for this type
+        const pref = await prisma.notificationPreference.findUnique({
+            where: { userId_type: { userId, type } },
+        }).catch(() => null);
+
+        if (pref && !pref.enabled) {
+            return;
+        }
+
+        // Check deduplication key if provided
+        if (payload.dedupeKey) {
+            const existing = await prisma.notification.findFirst({
+                where: { userId, dedupeKey: payload.dedupeKey },
+            }).catch(() => null);
+
+            if (existing) return;
+        }
+
+        await prisma.notification.create({
+            data: {
+                userId,
+                type,
+                title: payload.title,
+                message: payload.message,
+                link: payload.link || null,
+                dedupeKey: payload.dedupeKey || null,
+            },
+        });
+    } catch (err) {
+        console.error("[TOUR notifications] notify failed:", err);
+    }
+}
+

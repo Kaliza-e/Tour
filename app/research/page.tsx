@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { FlaticonBook, FlaticonArrowRight } from "@/components/flaticons";
-import { PublicationLibrary } from "@/components/publication-library";
+import { ResearchTabsView } from "@/components/research-tabs-view";
 import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
@@ -75,7 +75,7 @@ export default async function ResearchPage() {
           </p>
         </div>
 
-        <PublicationLibrary publications={items} />
+        <ResearchTabsView initialPublications={items} />
 
         {/* Callout Banner with Image */}
         <div className="grid gap-6 md:grid-cols-[1fr_300px] overflow-hidden rounded-3xl border-2 border-navy/15 bg-white p-6 md:p-8 shadow-sm">

@@ -6,6 +6,7 @@ import { Footer } from "@/components/footer";
 import { Providers } from "@/components/providers";
 import { BackgroundParticles } from "@/components/background-particles";
 import { PageTransition } from "@/components/page-transition";
+import { TourAiWidget } from "@/components/tour-ai-widget";
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
@@ -46,6 +47,7 @@ export default function RootLayout({
               <PageTransition>{children}</PageTransition>
             </main>
             <Footer />
+            <TourAiWidget />
           </div>
         </Providers>
       </body>

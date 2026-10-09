@@ -40,6 +40,12 @@ model User {
   skills            String[] @default([])
   location          String?
 
+  // Phase 1 Additions (B5 Author Info & B7 Student Researcher Profile)
+  orcid             String?
+  privacyConsent    Boolean  @default(false)
+  isPublic          Boolean  @default(false)
+  slug              String?  @unique
+
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 
@@ -57,7 +63,14 @@ model User {
   notifications        Notification[]
   emailLogs            EmailNotificationLog[]
 
+  // Phase 2 Additions
+  notificationPreferences NotificationPreference[]
+  questionCurious         QuestionCurious[]
+  threads                 Thread[]
+  replies                 Reply[]
+
   @@index([email])
+  @@index([slug])
 }
 
 model Account {
@@ -97,6 +110,9 @@ model Category {
   description String?
   icon        String?
 
+  // Phase 1 Addition (B6 Categories)
+  subtopics   String[] @default([])
+
   questions   Question[]
   projects    ResearchProject[]
 }
@@ -116,6 +132,13 @@ model Question {
   tags        String[]       @default([])
   views       Int            @default(0)
 
+  // Phase 2 Additions (P1 Research Questions)
+  subtopic         String?
+  moderationStatus String   @default("APPROVED") // APPROVED, PENDING, REJECTED
+  moderationReason String?
+  curiousCount     Int      @default(0)
+  linkedPaperId    String?
+
   authorId    String
   author      User           @relation("QuestionAuthor", fields: [authorId], references: [id])
 
@@ -127,8 +150,34 @@ model Question {
   createdAt   DateTime       @default(now())
   updatedAt   DateTime       @updatedAt
 
+  curiousUsers QuestionCurious[]
+  reports      QuestionReport[]
+
   @@index([status])
   @@index([categoryId])
+  @@index([moderationStatus])
+}
+
+model QuestionCurious {
+  id         String   @id @default(cuid())
+  questionId String
+  userId     String
+  createdAt  DateTime @default(now())
+
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([questionId, userId])
+}
+
+model QuestionReport {
+  id         String   @id @default(cuid())
+  questionId String
+  reporterId String
+  reason     String   @db.Text
+  createdAt  DateTime @default(now())
+
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
 }
 
 // ---------------------------------------------------------------------------
@@ -372,17 +421,37 @@ model Publication {
 // ---------------------------------------------------------------------------
 
 model Notification {
-  id        String   @id @default(cuid())
+  id        String    @id @default(cuid())
   userId    String
   message   String
   link      String?
-  read      Boolean  @default(false)
-  createdAt DateTime @default(now())
+  read      Boolean   @default(false)
+  createdAt DateTime  @default(now())
 
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  // Phase 2 Additions (P3 Notifications)
+  type      String?
+  title     String?
+  readAt    DateTime?
+  dedupeKey String?
+
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
   @@index([read])
+  @@index([dedupeKey])
+}
+
+model NotificationPreference {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String
+  enabled   Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, type])
 }
 
 enum EmailEvent {
@@ -419,4 +488,52 @@ model EmailNotificationLog {
   @@index([userId])
   @@index([event])
   @@index([status])
+}
+
+// ---------------------------------------------------------------------------
+// COMMUNITY (P4)
+// ---------------------------------------------------------------------------
+
+model Thread {
+  id         String   @id @default(cuid())
+  authorId   String
+  category   String
+  paperId    String?
+  questionId String?
+  title      String
+  body       String   @db.Text
+  status     String   @default("visible") // visible, hidden
+
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  author     User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  replies    Reply[]
+
+  @@index([category])
+  @@index([authorId])
+}
+
+model Reply {
+  id        String   @id @default(cuid())
+  threadId  String
+  authorId  String
+  body      String   @db.Text
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  thread    Thread   @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@index([threadId])
+}
+
+model CommunityReport {
+  id         String   @id @default(cuid())
+  threadId   String?
+  replyId    String?
+  reporterId String
+  reason     String   @db.Text
+  createdAt  DateTime @default(now())
 }

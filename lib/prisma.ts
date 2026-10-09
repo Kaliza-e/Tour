@@ -1,6 +1,9 @@
 import { PrismaClient } from "@prisma/client";
+import { Pool, neonConfig } from "@neondatabase/serverless";
 import { PrismaNeon } from "@prisma/adapter-neon";
-import { Pool } from "@neondatabase/serverless";
+import ws from "ws";
+
+neonConfig.webSocketConstructor = ws;
 
 const globalForPrisma = globalThis as unknown as {
   prisma?: PrismaClient;
@@ -9,29 +12,21 @@ const globalForPrisma = globalThis as unknown as {
 
 function getPrismaClient(): PrismaClient {
   const connectionString = process.env.DATABASE_URL;
-  if (connectionString && (connectionString.includes("neon.tech") || connectionString.includes("pooler"))) {
-    let pool = globalForPrisma.pool;
-    if (!pool) {
-      pool = new Pool({
-        connectionString,
-        connectionTimeoutMillis: 15000,
-        idleTimeoutMillis: 30000,
-      });
-      if (process.env.NODE_ENV !== "production") globalForPrisma.pool = pool;
-    }
-
-    const adapter = new PrismaNeon(pool);
-    return new PrismaClient({
-      adapter,
-      log: process.env.NODE_ENV === "development" ? ["query", "error", "warn"] : ["error"],
-    });
+  if (!connectionString) {
+    return new PrismaClient();
   }
-
+  const pool = globalForPrisma.pool ?? new Pool({ connectionString });
+  if (process.env.NODE_ENV !== "production") {
+    globalForPrisma.pool = pool;
+  }
+  const adapter = new PrismaNeon(pool);
   return new PrismaClient({
-    log: process.env.NODE_ENV === "development" ? ["query", "error", "warn"] : ["error"],
+    adapter,
+    log: process.env.NODE_ENV === "development" ? ["error", "warn"] : ["error"],
   });
 }
 
 export const prisma = globalForPrisma.prisma ?? getPrismaClient();
 
 if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
+

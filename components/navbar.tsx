@@ -71,6 +71,7 @@ export function Navbar() {
 
   const [mobileOpen, setMobileOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [unreadCount, setUnreadCount] = useState(0);
 
   const user = session?.user as SessionUser | undefined;
   const role = user?.role ?? "";
@@ -80,6 +81,23 @@ export function Navbar() {
   const isAdmin = role === "ADMIN";
   const isReviewer = role === "REVIEWER";
   const isAuthor = role === "STUDENT" || role === "MENTOR" || !role;
+
+  /* Fetch unread notifications count */
+  useEffect(() => {
+    if (isSignedIn) {
+      const fetchUnread = () => {
+        fetch("/api/notifications/unread-count")
+          .then((res) => res.json())
+          .then((data) => {
+            if (typeof data.count === "number") setUnreadCount(data.count);
+          })
+          .catch(() => {});
+      };
+      fetchUnread();
+      const interval = setInterval(fetchUnread, 45000); // 45s polling
+      return () => clearInterval(interval);
+    }
+  }, [isSignedIn]);
 
   /* Close menus on path change */
   useEffect(() => {
@@ -237,7 +255,7 @@ export function Navbar() {
                 aria-expanded={userMenuOpen}
                 aria-haspopup="menu"
                 title={user?.name || "Account"}
-                className="grid h-8 w-8 sm:h-9 sm:w-9 place-items-center overflow-hidden rounded-full border-2 border-navy/20 bg-navy text-white transition hover:ring-2 hover:ring-sapphire/40 ml-0.5"
+                className="relative grid h-8 w-8 sm:h-9 sm:w-9 place-items-center overflow-visible rounded-full border-2 border-navy/20 bg-navy text-white transition hover:ring-2 hover:ring-sapphire/40 ml-0.5"
               >
                 {user?.image ? (
                   <Image
@@ -245,10 +263,15 @@ export function Navbar() {
                     alt={user.name || "User"}
                     width={36}
                     height={36}
-                    className="h-full w-full object-cover"
+                    className="h-full w-full object-cover rounded-full"
                   />
                 ) : (
                   <FlaticonUser size={18} className="text-white" />
+                )}
+                {unreadCount > 0 && (
+                  <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-rose-500 text-[9px] font-bold text-white shadow-sm ring-2 ring-white">
+                    {unreadCount > 9 ? "9+" : unreadCount}
+                  </span>
                 )}
               </button>
 
