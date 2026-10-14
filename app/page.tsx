@@ -35,28 +35,49 @@ export default function LandingPage() {
   const [questions, setQuestions] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [loadingQuestions, setLoadingQuestions] = useState(true);
+  const [papersLoadError, setPapersLoadError] = useState(false);
+  const [questionsLoadError, setQuestionsLoadError] = useState(false);
 
   useEffect(() => {
-    async function loadRealData() {
+    async function loadPapers() {
       try {
-        const [pRes, qRes] = await Promise.all([
-          fetch("/api/papers?pageSize=3").then((r) => r.json()).catch(() => ({})),
-          fetch("/api/questions?limit=6").then((r) => r.json()).catch(() => ({})),
-        ]);
-        if (pRes?.papers && Array.isArray(pRes.papers)) {
-          setPapers(pRes.papers);
+        const response = await fetch("/api/papers?pageSize=3");
+        if (!response.ok) {
+          throw new Error(`Published research request failed: ${response.status}`);
         }
-        if (qRes?.questions && Array.isArray(qRes.questions)) {
-          setQuestions(qRes.questions);
+        const data = await response.json();
+        if (!Array.isArray(data?.papers)) {
+          throw new Error("Published research response has an invalid format.");
         }
+        setPapers(data.papers);
       } catch (err) {
-        console.error("Failed to load initial data:", err);
+        console.error("Failed to load published research:", err);
+        setPapersLoadError(true);
       } finally {
         setLoading(false);
+      }
+    }
+
+    async function loadQuestions() {
+      try {
+        const response = await fetch("/api/questions?limit=6");
+        if (!response.ok) {
+          throw new Error(`Research questions request failed: ${response.status}`);
+        }
+        const data = await response.json();
+        if (!Array.isArray(data?.questions)) {
+          throw new Error("Research questions response has an invalid format.");
+        }
+        setQuestions(data.questions);
+      } catch (err) {
+        console.error("Failed to load research questions:", err);
+        setQuestionsLoadError(true);
+      } finally {
         setLoadingQuestions(false);
       }
     }
-    loadRealData();
+
+    void Promise.all([loadPapers(), loadQuestions()]);
   }, []);
 
   return (
@@ -216,6 +237,10 @@ export default function LandingPage() {
               <div className="py-16 text-center text-xs font-semibold text-navy/40">
                 Loading approved questions...
               </div>
+            ) : questionsLoadError ? (
+              <p role="alert" className="py-10 text-center text-sm text-rose-700">
+                Research questions are temporarily unavailable. Please try again later.
+              </p>
             ) : questions.length > 0 ? (
               <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                 {questions.slice(0, 3).map((q, i) => (
@@ -616,6 +641,10 @@ export default function LandingPage() {
               <div className="py-12 text-center text-xs font-semibold text-navy/40">
                 Loading published research...
               </div>
+            ) : papersLoadError ? (
+              <p role="alert" className="py-10 text-center text-sm text-rose-700">
+                Published research is temporarily unavailable. Please try again later.
+              </p>
             ) : papers.length > 0 ? (
               <div className="grid gap-6 md:grid-cols-3">
                 {papers.map((paper, i) => (

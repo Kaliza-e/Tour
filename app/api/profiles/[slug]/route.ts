@@ -25,7 +25,7 @@ export async function GET(
         isPublic: true,
         slug: true,
       },
-    }).catch(() => null);
+    });
 
     if (!user) {
       return NextResponse.json({ error: "Profile not found" }, { status: 404 });
@@ -51,7 +51,7 @@ export async function GET(
         publicationDate: true,
       },
       orderBy: { publicationDate: "desc" },
-    }).catch(() => []);
+    });
 
     return NextResponse.json({
       profile: {

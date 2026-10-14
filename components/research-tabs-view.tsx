@@ -104,8 +104,13 @@ export function ResearchTabsView({ initialPublications }: ResearchTabsViewProps)
   const filteredPapers = initialPublications.filter((pub) => {
     const textMatches = `${pub.title} ${pub.author} ${pub.category} ${pub.abstract || ""}`.toLowerCase().includes(query.toLowerCase());
     const catMatches = selectedCategory === "All" || pub.category.toLowerCase().includes(selectedCategory.toLowerCase());
+    const subtopicMatches =
+      selectedSubtopic === "All" ||
+      pub.keywords?.some((keyword) =>
+        keyword.toLowerCase().includes(selectedSubtopic.toLowerCase())
+      );
     const authorMatches = !authorFilter || pub.author.toLowerCase().includes(authorFilter.toLowerCase());
-    return textMatches && catMatches && authorMatches;
+    return textMatches && catMatches && subtopicMatches && authorMatches;
   });
 
   // Handle Question Creation
@@ -159,16 +164,16 @@ export function ResearchTabsView({ initialPublications }: ResearchTabsViewProps)
   // Handle Research Question Adoption
   const handleAdoptQuestion = async (questionId: string) => {
     try {
-      const res = await fetch(`/api/questions/${questionId}/research`, { method: "POST" });
+      const res = await fetch(`/api/questions/${questionId}/claim`, { method: "POST" });
       const data = await res.json();
       if (!res.ok) {
         alert(data.error || "Failed to adopt question.");
         return;
       }
-      alert("Research project created! You can track your workspace in your profile.");
+      alert("Question claimed! A research draft is ready in your Research Notebook.");
       loadQuestions();
     } catch (e) {
-      alert("Please log in to start researching this question.");
+      alert("Unable to claim this question right now. Please try again.");
     }
   };
 
@@ -244,44 +249,50 @@ export function ResearchTabsView({ initialPublications }: ResearchTabsViewProps)
     <div className="space-y-8">
       {/* 1. TOP MAIN NAVIGATION TABS */}
       <div className="flex items-center justify-center">
-        <div className="inline-flex rounded-full border-2 border-navy/15 bg-white p-1.5 shadow-sm">
+        <div className="grid w-full grid-cols-3 rounded-2xl border-2 border-navy/15 bg-white p-1.5 shadow-sm sm:inline-flex sm:w-auto sm:rounded-full">
           <button
             type="button"
             onClick={() => setActiveTab("papers")}
-            className={`inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-xs font-bold transition cursor-pointer ${
+            aria-label="Research Papers"
+            className={`inline-flex min-w-0 flex-col items-center justify-center gap-1 rounded-xl px-1.5 py-2 text-center text-[11px] font-bold leading-tight transition cursor-pointer sm:flex-row sm:gap-2 sm:rounded-full sm:px-5 sm:py-2.5 sm:text-xs ${
               activeTab === "papers"
                 ? "bg-navy text-ivory shadow-md"
                 : "text-navy/70 hover:text-navy hover:bg-navy/5"
             }`}
           >
-            <BookOpen size={16} />
-            <span>Research Papers</span>
+            <BookOpen size={16} className="shrink-0" />
+            <span className="sm:hidden">Papers</span>
+            <span className="hidden sm:inline">Research Papers</span>
           </button>
 
           <button
             type="button"
             onClick={() => setActiveTab("questions")}
-            className={`inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-xs font-bold transition cursor-pointer ${
+            aria-label="Research Questions"
+            className={`inline-flex min-w-0 flex-col items-center justify-center gap-1 rounded-xl px-1.5 py-2 text-center text-[11px] font-bold leading-tight transition cursor-pointer sm:flex-row sm:gap-2 sm:rounded-full sm:px-5 sm:py-2.5 sm:text-xs ${
               activeTab === "questions"
                 ? "bg-navy text-ivory shadow-md"
                 : "text-navy/70 hover:text-navy hover:bg-navy/5"
             }`}
           >
-            <HelpCircle size={16} />
-            <span>Research Questions (P1)</span>
+            <HelpCircle size={16} className="shrink-0" />
+            <span className="sm:hidden">Questions</span>
+            <span className="hidden sm:inline">Research Questions (P1)</span>
           </button>
 
           <button
             type="button"
             onClick={() => setActiveTab("community")}
-            className={`inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-xs font-bold transition cursor-pointer ${
+            aria-label="Community"
+            className={`inline-flex min-w-0 flex-col items-center justify-center gap-1 rounded-xl px-1.5 py-2 text-center text-[11px] font-bold leading-tight transition cursor-pointer sm:flex-row sm:gap-2 sm:rounded-full sm:px-5 sm:py-2.5 sm:text-xs ${
               activeTab === "community"
                 ? "bg-navy text-ivory shadow-md"
                 : "text-navy/70 hover:text-navy hover:bg-navy/5"
             }`}
           >
-            <MessageSquare size={16} />
-            <span>Community (P4)</span>
+            <MessageSquare size={16} className="shrink-0" />
+            <span className="sm:hidden">Community</span>
+            <span className="hidden sm:inline">Community (P4)</span>
           </button>
         </div>
       </div>

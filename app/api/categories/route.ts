@@ -8,8 +8,9 @@ export async function GET() {
   try {
     // Count published papers per category
     const publications = await prisma.publication.findMany({
+      where: { submission: { status: "PUBLISHED" } },
       select: { category: true },
-    }).catch(() => []);
+    });
 
     const categoryCounts: Record<string, number> = {};
     for (const pub of publications) {
@@ -45,6 +46,9 @@ export async function GET() {
     return NextResponse.json({ categories: result });
   } catch (error) {
     console.error("GET /api/categories error:", error);
-    return NextResponse.json({ categories: OFFICIAL_CATEGORIES.map(c => ({ ...c, publishedCount: 0 })) });
+    return NextResponse.json(
+      { error: "Failed to fetch research categories." },
+      { status: 500 }
+    );
   }
 }

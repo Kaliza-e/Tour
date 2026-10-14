@@ -16,7 +16,8 @@ export async function GET(req: Request) {
     const status = searchParams.get("status")?.trim() || "";
     const q = searchParams.get("q")?.trim() || "";
     const sort = searchParams.get("sort") || "newest";
-    const limit = parseInt(searchParams.get("limit") || "50", 10);
+    const rawLimit = parseInt(searchParams.get("limit") || "50", 10);
+    const limit = Math.min(100, Math.max(1, isNaN(rawLimit) ? 50 : rawLimit));
 
     // Periodically run lazy release check for 30-day inactive claims
     await runLazyReleaseCheck();
@@ -75,7 +76,7 @@ export async function GET(req: Request) {
         },
       },
       orderBy: { createdAt: "desc" },
-      take: Math.min(100, Math.max(1, limit)),
+      take: limit,
     });
 
     // Map and calculate spots left
@@ -185,7 +186,10 @@ export async function GET(req: Request) {
     });
   } catch (error) {
     console.error("GET /api/questions error:", error);
-    return NextResponse.json({ questions: [], total: 0 }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to fetch research questions." },
+      { status: 500 }
+    );
   }
 }
 

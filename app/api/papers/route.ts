@@ -63,7 +63,7 @@ export async function GET(req: Request) {
     }
 
     // Count total matching publications
-    const total = await prisma.publication.count({ where: whereClause }).catch(() => 0);
+    const total = await prisma.publication.count({ where: whereClause });
 
     // Fetch paginated publications
     const publications = await prisma.publication.findMany({
@@ -95,7 +95,7 @@ export async function GET(req: Request) {
           },
         },
       },
-    }).catch(() => []);
+    });
 
     const totalPages = Math.ceil(total / pageSize) || 1;
 
@@ -134,6 +134,9 @@ export async function GET(req: Request) {
     });
   } catch (error) {
     console.error("GET /api/papers error:", error);
-    return NextResponse.json({ papers: [], pagination: { total: 0, page: 1, pageSize: 10, totalPages: 1 } });
+    return NextResponse.json(
+      { error: "Failed to fetch published research." },
+      { status: 500 }
+    );
   }
 }

@@ -18,11 +18,14 @@ export async function GET() {
         userId: session.user.id,
         read: false,
       },
-    }).catch(() => 0);
+    });
 
     return NextResponse.json({ count });
   } catch (error) {
     console.error("GET /api/notifications/unread-count error:", error);
-    return NextResponse.json({ count: 0 });
+    return NextResponse.json(
+      { error: "Failed to fetch unread notification count." },
+      { status: 500 }
+    );
   }
 }

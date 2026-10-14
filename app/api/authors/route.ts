@@ -46,7 +46,9 @@ export async function GET(req: Request) {
     return NextResponse.json({ authors });
   } catch (error) {
     console.error("GET /api/authors error:", error);
-    return NextResponse.json({ authors: [] });
+    return NextResponse.json(
+      { error: "Failed to fetch authors." },
+      { status: 500 }
+    );
   }
 }
-

@@ -22,7 +22,7 @@ export async function GET(
           },
         },
       },
-    }).catch(() => null);
+    });
 
     let fileUrl = publication?.submission?.fileUrl;
     let fileName = publication?.submission?.fileName || "publication.pdf";
@@ -32,7 +32,7 @@ export async function GET(
       const submission = await prisma.submission.findUnique({
         where: { id: paperId },
         select: { fileUrl: true, fileName: true, status: true },
-      }).catch(() => null);
+      });
 
       if (submission) {
         fileUrl = submission.fileUrl;

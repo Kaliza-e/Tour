@@ -2,6 +2,7 @@
 const nextConfig = {
   experimental: {
     serverComponentsExternalPackages: ["@neondatabase/serverless", "ws"],
+    optimizePackageImports: ["framer-motion"],
   },
   images: {
     remotePatterns: [{ protocol: "https", hostname: "res.cloudinary.com" }],

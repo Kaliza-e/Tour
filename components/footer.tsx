@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { TourLogo } from "@/components/tour-logo";
 import { 
   FlaticonArrowRight, 
   FlaticonGithub,
@@ -74,19 +75,19 @@ export function Footer() {
       {/* 1. INSTITUTIONAL STATUS BANNER (Sleek, reassuring, non-intrusive) */}
       <div className="border-b border-white/10 bg-white/[0.02]">
         <div className="container-tour py-4">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 rounded-2xl bg-white/[0.04] border border-white/10 px-5 py-3 text-center sm:text-left backdrop-blur-md">
-            <div className="flex items-center gap-2.5">
+          <div className="flex flex-col gap-3 rounded-2xl bg-white/[0.04] border border-white/10 px-5 py-4 text-left backdrop-blur-md md:flex-row md:items-center md:justify-between">
+            <div className="flex min-w-0 flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-4">
               <span className="inline-flex items-center gap-1.5 rounded-full bg-champagne/20 border border-champagne/30 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-champagne shrink-0">
                 <HeartHandshake size={13} />
                 Nonprofit Status Note
               </span>
-              <p className="text-xs sm:text-[13px] text-white/80 leading-relaxed font-light">
+              <p className="w-full text-xs sm:w-auto sm:flex-1 sm:text-[13px] text-white/80 leading-relaxed font-light">
                 Tour is not yet a registered 501(c)(3) organization. However, we are happy to provide verification or confirmation of participation for schools or clubs upon request.
               </p>
             </div>
             <Link
               href="/contact"
-              className="text-[11px] font-semibold text-champagne hover:text-white transition-colors underline underline-offset-4 shrink-0"
+              className="self-start text-[11px] font-semibold text-champagne hover:text-white transition-colors underline underline-offset-4 shrink-0 md:self-auto"
             >
               Request Verification &rarr;
             </Link>
@@ -100,19 +101,7 @@ export function Footer() {
           
           {/* COLUMN 1: BRAND & MISSION STATEMENT (4 COLS) */}
           <div className="lg:col-span-4 space-y-5">
-            <div className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-2xl bg-gradient-to-br from-champagne to-white text-navy flex items-center justify-center font-heading font-black text-xl shadow-md">
-                T
-              </div>
-              <div>
-                <span className="font-heading text-2xl font-bold tracking-tight text-white block leading-none">
-                  TOUR
-                </span>
-                <span className="text-[10px] uppercase font-bold tracking-[0.22em] text-champagne/90">
-                  Student Research Hub
-                </span>
-              </div>
-            </div>
+            <TourLogo className="justify-start" imageClassName="h-10 w-auto brightness-0 invert" />
 
             <p className="text-sm text-white/75 leading-relaxed font-light max-w-sm">
               An open, student-led academic platform providing young scholars a supportive environment to inquire, research, write, and publish peer-reviewed work.

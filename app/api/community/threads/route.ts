@@ -22,7 +22,7 @@ export async function GET(req: Request) {
       whereClause.category = { contains: category, mode: "insensitive" };
     }
 
-    const total = await prisma.thread.count({ where: whereClause }).catch(() => 0);
+    const total = await prisma.thread.count({ where: whereClause });
 
     const threads = await prisma.thread.findMany({
       where: whereClause,
@@ -40,7 +40,7 @@ export async function GET(req: Request) {
           select: { replies: true },
         },
       },
-    }).catch(() => []);
+    });
 
     const items = threads.map((t) => ({
       id: t.id,
@@ -64,7 +64,10 @@ export async function GET(req: Request) {
     });
   } catch (error) {
     console.error("GET /api/community/threads error:", error);
-    return NextResponse.json({ threads: [], pagination: { total: 0, page: 1, pageSize: 10, totalPages: 1 } });
+    return NextResponse.json(
+      { error: "Failed to fetch community threads." },
+      { status: 500 }
+    );
   }
 }
 

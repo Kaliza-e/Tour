@@ -15,12 +15,15 @@ export async function GET() {
 
     const preferences = await prisma.notificationPreference.findMany({
       where: { userId: session.user.id },
-    }).catch(() => []);
+    });
 
     return NextResponse.json({ preferences });
   } catch (error) {
     console.error("GET /api/notifications/preferences error:", error);
-    return NextResponse.json({ preferences: [] });
+    return NextResponse.json(
+      { error: "Failed to fetch notification preferences." },
+      { status: 500 }
+    );
   }
 }
 

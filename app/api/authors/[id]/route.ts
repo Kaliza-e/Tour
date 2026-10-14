@@ -29,7 +29,7 @@ export async function GET(
         isPublic: true,
         slug: true,
       },
-    }).catch(() => null);
+    });
 
     if (!user) {
       // Fallback: check if author exists in SubmissionAuthor records
@@ -42,7 +42,7 @@ export async function GET(
           country: true,
           bio: true,
         },
-      }).catch(() => null);
+      });
 
       if (!subAuthor) {
         return NextResponse.json(
@@ -89,7 +89,7 @@ export async function GET(
         },
       },
       orderBy: { publicationDate: "desc" },
-    }).catch(() => []);
+    });
 
     const papers = publications.map((pub) => ({
       id: pub.id,

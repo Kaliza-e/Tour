@@ -18,7 +18,7 @@ export async function GET() {
       const u = await prisma.user.findUnique({
         where: { email: session.user.email },
         select: { id: true },
-      }).catch(() => null);
+      });
       if (u) userId = u.id;
     }
 
@@ -62,7 +62,7 @@ export async function GET() {
         createdAt: true,
       },
       orderBy: { updatedAt: "desc" },
-    }).catch(() => []);
+    });
 
     // Fetch user's published papers
     const publications = await prisma.publication.findMany({
@@ -82,7 +82,7 @@ export async function GET() {
         publicationDate: true,
       },
       orderBy: { publicationDate: "desc" },
-    }).catch(() => []);
+    });
 
     return NextResponse.json({
       profile: {
@@ -110,7 +110,7 @@ export async function PUT(req: Request) {
       const u = await prisma.user.findUnique({
         where: { email: session.user.email },
         select: { id: true },
-      }).catch(() => null);
+      });
       if (u) userId = u.id;
     }
 
