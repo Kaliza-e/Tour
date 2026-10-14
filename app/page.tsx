@@ -1,12 +1,14 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { QuestionCard } from "@/components/question-card";
 import { PublicationCard } from "@/components/publication-card";
+import { QuestionCard } from "@/components/question-card";
 import {
   FlaticonRocket,
   FlaticonStar,
@@ -23,93 +25,40 @@ import {
   FlaticonOfferEducation,
   FlaticonOfferHumanities,
 } from "@/components/flaticons";
-import { CountUp } from "@/components/count-up";
 import { AnimatedHeading } from "@/components/animated-heading";
 
-const featuredQuestions = [
-  {
-    id: "q1",
-    title: "Why do octopuses have three hearts?",
-    category: "Biology",
-    askedBy: "Amara O.",
-    interestedResearchers: 12,
-    likes: 84,
-    views: 512,
-    status: "BEING_RESEARCHED" as const,
-  },
-  {
-    id: "q2",
-    title: "Could AI predict earthquakes before they happen?",
-    category: "Earth Science",
-    askedBy: "Diego R.",
-    interestedResearchers: 21,
-    likes: 143,
-    views: 980,
-    status: "OPEN" as const,
-  },
-  {
-    id: "q3",
-    title: "Why do some diseases affect only certain populations?",
-    category: "Medicine",
-    askedBy: "Priya K.",
-    interestedResearchers: 9,
-    likes: 67,
-    views: 401,
-    status: "RESEARCH_COMPLETED" as const,
-  },
-];
-
-const featuredPapers = [
-  {
-    id: "p1",
-    title: "Microplastic Accumulation in Freshwater Snails",
-    author: "Leah M.",
-    category: "Environmental Science",
-    readingTime: "9 min read",
-    views: 2140,
-  },
-  {
-    id: "p2",
-    title: "Predicting Wildfire Spread with Lightweight Neural Nets",
-    author: "Kofi A.",
-    category: "Computer Science",
-    readingTime: "12 min read",
-    views: 3320,
-  },
-  {
-    id: "p3",
-    title: "Sleep Patterns and Memory Consolidation in Teens",
-    author: "Sofia N.",
-    category: "Psychology",
-    readingTime: "7 min read",
-    views: 1870,
-  },
-];
-
-const journey = [
-  {
-    label: "Think About the Question",
-    desc: "Start by exploring the research question provided by the platform. Reflect on what it means, why it matters, and what you want to discover.",
-    icon: FlaticonIdea,
-  },
-  {
-    label: "Explore & Plan",
-    desc: "Explore the topic, gather relevant sources, and create a clear plan for how you will investigate the question.",
-    icon: FlaticonSearch,
-  },
-  {
-    label: "Conduct Research",
-    desc: "Put your plan into action by gathering information, analyzing evidence, and documenting your findings in your research workspace.",
-    icon: FlaticonBook,
-  },
-  {
-    label: "Publish Your Discoveries",
-    desc: "Turn your research into a meaningful contribution by sharing your findings with the community and contributing to knowledge.",
-    icon: FlaticonGraduation,
-  },
-];
-
 export default function LandingPage() {
+  const { data: session } = useSession();
+  const isSignedIn = Boolean(session);
+
+  const [papers, setPapers] = useState<any[]>([]);
+  const [questions, setQuestions] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [loadingQuestions, setLoadingQuestions] = useState(true);
+
+  useEffect(() => {
+    async function loadRealData() {
+      try {
+        const [pRes, qRes] = await Promise.all([
+          fetch("/api/papers?pageSize=3").then((r) => r.json()).catch(() => ({})),
+          fetch("/api/questions?limit=6").then((r) => r.json()).catch(() => ({})),
+        ]);
+        if (pRes?.papers && Array.isArray(pRes.papers)) {
+          setPapers(pRes.papers);
+        }
+        if (qRes?.questions && Array.isArray(qRes.questions)) {
+          setQuestions(qRes.questions);
+        }
+      } catch (err) {
+        console.error("Failed to load initial data:", err);
+      } finally {
+        setLoading(false);
+        setLoadingQuestions(false);
+      }
+    }
+    loadRealData();
+  }, []);
+
   return (
     <>
       {/* 1.1 HERO SECTION (Warm Ivory Modern Header) */}
@@ -117,7 +66,7 @@ export default function LandingPage() {
         <div className="container-tour relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center py-6 md:py-10">
             
-            {/* LEFT SIDE: Oval image frame with stats ribbon */}
+            {/* LEFT SIDE: Oval image frame with honest tag */}
             <motion.div 
               initial={{ opacity: 0, scale: 0.94, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -127,7 +76,7 @@ export default function LandingPage() {
               <div className="relative w-full max-w-md sm:max-w-lg aspect-[4/3] rounded-[60px] sm:rounded-[100px] border-4 border-navy/20 bg-navy overflow-hidden p-2 sm:p-3 shadow-xl">
                 <Image
                   src="/hero-students.jpg"
-                  alt="Young Student Researchers"
+                  alt="Student reading and taking research notes with an open book"
                   width={700}
                   height={525}
                   priority
@@ -135,54 +84,11 @@ export default function LandingPage() {
                 />
               </div>
 
-              {/* STATS RIBBON */}
-              <div className="-mt-8 relative z-20 w-full max-w-md sm:max-w-lg px-2">
-                <div className="rounded-2xl sm:rounded-full border-2 border-navy bg-navy px-4 py-3 flex items-center justify-around gap-2 text-ivory shadow-lg">
-                  <div className="flex items-center gap-2">
-                    <FlaticonIdea size={16} className="text-champagne shrink-0" />
-                    <div>
-                      <p className="font-heading text-sm sm:text-base font-bold text-white leading-none">
-                        <CountUp end={4200} suffix="+" />
-                      </p>
-                      <p className="text-[10px] uppercase tracking-wider text-ivory/70">Questions</p>
-                    </div>
-                  </div>
-
-                  <span className="h-6 w-px bg-white/20" />
-
-                  <div className="flex items-center gap-2">
-                    <FlaticonBook size={16} className="text-champagne shrink-0" />
-                    <div>
-                      <p className="font-heading text-sm sm:text-base font-bold text-white leading-none">
-                        <CountUp end={1100} suffix="+" />
-                      </p>
-                      <p className="text-[10px] uppercase tracking-wider text-ivory/70">Papers</p>
-                    </div>
-                  </div>
-
-                  <span className="h-6 w-px bg-white/20" />
-
-                  <div className="flex items-center gap-2">
-                    <FlaticonGraduation size={16} className="text-champagne shrink-0" />
-                    <div>
-                      <p className="font-heading text-sm sm:text-base font-bold text-white leading-none">
-                        <CountUp end={6800} suffix="+" />
-                      </p>
-                      <p className="text-[10px] uppercase tracking-wider text-ivory/70">Minds</p>
-                    </div>
-                  </div>
-
-                  <span className="h-6 w-px bg-white/20" />
-
-                  <div className="flex items-center gap-2">
-                    <FlaticonRocket size={16} className="text-champagne shrink-0" />
-                    <div>
-                      <p className="font-heading text-sm sm:text-base font-bold text-white leading-none">
-                        <CountUp end={312} suffix="+" />
-                      </p>
-                      <p className="text-[10px] uppercase tracking-wider text-ivory/70">Partners</p>
-                    </div>
-                  </div>
+              {/* Clean Honest Tag Badge */}
+              <div className="-mt-5 relative z-20 flex justify-center">
+                <div className="inline-flex items-center gap-2 rounded-full border border-navy/20 bg-white/95 px-5 py-2.5 text-xs font-semibold text-navy shadow-lg backdrop-blur-sm">
+                  <FlaticonIdea size={16} className="text-sapphire shrink-0" />
+                  <span>A student-led platform for curiosity & research</span>
                 </div>
               </div>
 
@@ -248,6 +154,107 @@ export default function LandingPage() {
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* 1.2 QUESTION HUB (Dynamic Research Questions) */}
+      <section className="py-20 bg-white border-b border-navy/10">
+        <div className="container-tour space-y-12">
+          
+          {/* Header & Required Intro Copy */}
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-6 border-b border-navy/10">
+            <motion.div 
+              initial={{ opacity: 0, y: 25 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="max-w-2xl space-y-3"
+            >
+              <div className="inline-flex items-center gap-2 rounded-full border border-sapphire/20 bg-champagne/40 px-3.5 py-1 text-xs font-bold uppercase tracking-[0.2em] text-navy">
+                <FlaticonIdea size={14} className="text-sapphire" />
+                <span>Question Hub</span>
+              </div>
+              
+              <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold text-navy leading-tight">
+                Found a question worth exploring?
+              </h2>
+              
+              <p className="text-sm sm:text-base text-navy/70 leading-relaxed font-light">
+                A question shared on Tour might be the starting point of your next research project. Choose a question that interests you, explore the topic, and begin looking for answers. You might discover something new, develop an idea, or even turn your findings into a research paper. Someone asked the question. You could be the one to explore it.
+              </p>
+            </motion.div>
+
+            {/* Action Buttons */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.15 }}
+              className="flex flex-wrap items-center gap-3 shrink-0 lg:pb-1"
+            >
+              <Link
+                href="/questions"
+                className="inline-flex items-center gap-2 rounded-full border-2 border-navy bg-navy px-6 py-3.5 text-xs sm:text-sm font-bold text-white hover:bg-sapphire hover:border-sapphire transition-all duration-200 shadow-sm cursor-pointer"
+              >
+                <span>Browse all questions</span>
+                <FlaticonArrowRight size={16} />
+              </Link>
+              
+              <Link
+                href={isSignedIn ? "/questions?action=ask" : "/login?callbackUrl=/questions?action=ask"}
+                className="inline-flex items-center gap-2 rounded-full border-2 border-navy/20 bg-white px-6 py-3.5 text-xs sm:text-sm font-bold text-navy hover:bg-navy/5 hover:border-navy transition-all duration-200 cursor-pointer"
+              >
+                <FlaticonPlus size={16} />
+                <span>Ask a question</span>
+              </Link>
+            </motion.div>
+          </div>
+
+          {/* Question Cards Grid */}
+          <div>
+            {loadingQuestions ? (
+              <div className="py-16 text-center text-xs font-semibold text-navy/40">
+                Loading approved questions...
+              </div>
+            ) : questions.length > 0 ? (
+              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                {questions.slice(0, 3).map((q, i) => (
+                  <motion.div
+                    key={q.id}
+                    initial={{ opacity: 0, y: 25 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-40px" }}
+                    transition={{ duration: 0.5, delay: i * 0.1 }}
+                    className="h-full flex flex-col"
+                  >
+                    <QuestionCard
+                      id={q.id}
+                      title={q.title}
+                      category={q.category}
+                      askedBy={q.askedBy}
+                      status={q.status}
+                      spotsLeft={q.spotsLeft}
+                      spotsIndicator={q.spotsIndicator}
+                      isFull={q.isFull}
+                      isClaimedByCurrentUser={q.isClaimedByCurrentUser}
+                      isAuthenticated={isSignedIn}
+                    />
+                  </motion.div>
+                ))}
+              </div>
+            ) : (
+              <div className="rounded-3xl border-2 border-dashed border-navy/20 bg-ivory/40 p-10 text-center space-y-3">
+                <p className="text-sm font-semibold text-navy">No approved research questions available yet.</p>
+                <Link
+                  href={isSignedIn ? "/questions?action=ask" : "/login?callbackUrl=/questions?action=ask"}
+                  className="inline-block text-xs font-bold text-sapphire hover:underline"
+                >
+                  Be the first to share a question &rarr;
+                </Link>
+              </div>
+            )}
+          </div>
+
         </div>
       </section>
 
@@ -329,7 +336,7 @@ export default function LandingPage() {
 
       {/* 1.6 BEFORE SUBMITTING YOUR RESEARCH (Editorial Split Layout with Photo) */}
       <section className="py-20 bg-white border-t border-navy/10">
-        <div className="container-tour max-w-6xl">
+        <div className="container-tour">
           <div className="grid gap-12 lg:grid-cols-12 items-center">
             
             {/* Left Image Feature */}
@@ -343,7 +350,7 @@ export default function LandingPage() {
               <div className="relative aspect-[4/5] rounded-[36px] overflow-hidden border-2 border-navy/15 shadow-2xl">
                 <Image 
                   src="/student-writing.jpg" 
-                  alt="Student author preparing research" 
+                  alt="Student author preparing and drafting research notes" 
                   fill
                   className="object-cover"
                 />
@@ -353,7 +360,7 @@ export default function LandingPage() {
                     Publishing Integrity
                   </span>
                   <p className="mt-3 font-heading text-xl font-bold leading-snug">
-                    "Original student research published with academic excellence."
+                    &quot;Original student research published with academic excellence.&quot;
                   </p>
                 </div>
               </div>
@@ -365,7 +372,7 @@ export default function LandingPage() {
                 </div>
                 <div>
                   <p className="text-xs font-bold uppercase tracking-wider">Peer Reviewed</p>
-                  <p className="text-[11px] text-navy/65">Official Author Certificate</p>
+                  <p className="text-[11px] text-navy/65">Editorial Recognition</p>
                 </div>
               </div>
             </motion.div>
@@ -403,7 +410,7 @@ export default function LandingPage() {
                     <h4 className="font-heading text-base">Authorship & Originality</h4>
                   </div>
                   <ul className="space-y-1.5 text-xs text-navy/75 list-disc pl-4 leading-relaxed">
-                    <li>All submitted research must be the author's own original work.</li>
+                    <li>All submitted research must be the author&apos;s own original work.</li>
                     <li>The author is fully responsible for the content submitted.</li>
                     <li>Plagiarism in any form, including AI-generated text, is strictly prohibited.</li>
                   </ul>
@@ -475,7 +482,7 @@ export default function LandingPage() {
               >
                 <FlaticonStar size={20} className="text-navy shrink-0" />
                 <p className="text-sm font-semibold text-navy">
-                  After publication, authors will receive a certificate for their work.
+                  After publication, authors receive editorial recognition and an official publication record on TOUR.
                 </p>
               </motion.div>
             </div>
@@ -486,7 +493,7 @@ export default function LandingPage() {
 
       {/* 1.7 SUBMISSION TYPES (Warm Sand Section feel) */}
       <section className="py-20 bg-[#f8f7f2] border-t border-navy/10">
-        <div className="container-tour max-w-6xl">
+        <div className="container-tour">
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -575,138 +582,9 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* FEATURED QUESTIONS */}
+      {/* 2.0 LATEST PUBLICATIONS */}
       <section className="bg-white py-16 border-t border-navy/10">
-        <div className="container-tour">
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.6 }}
-            className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end"
-          >
-            <div>
-              <span className="text-xs font-semibold uppercase tracking-widest text-sapphire">
-                Question Hub
-              </span>
-              <h2 className="mt-3 font-heading text-3xl font-bold text-navy md:text-4xl">
-                Questions researchers are exploring right now
-              </h2>
-            </div>
-
-            <Link
-              href="/questions"
-              className="inline-flex items-center gap-1.5 text-sm font-semibold text-navy hover:text-sapphire"
-            >
-              <span>Browse all questions</span>
-              <FlaticonArrowRight size={16} />
-            </Link>
-          </motion.div>
-
-          <div className="mt-8 grid gap-6 md:grid-cols-3">
-            {featuredQuestions.map((question, i) => (
-              <motion.div
-                key={question.id}
-                initial={{ opacity: 0, y: 35 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.6, delay: i * 0.15, ease: [0.22, 1, 0.36, 1] }}
-              >
-                <QuestionCard {...question} />
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* YOUR RESEARCH JOURNEY (Dark Banner Showcase with Certificate Image) */}
-      <section className="py-20 bg-[#182338] text-white border-t border-navy/10 overflow-hidden relative">
-        <div className="container-tour max-w-6xl relative z-10">
-          
-          <div className="grid gap-12 lg:grid-cols-12 items-center">
-            
-            {/* Timeline Steps Left */}
-            <div className="lg:col-span-7 space-y-8">
-              <motion.div 
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
-              >
-                <span className="inline-block px-4 py-1.5 rounded-full bg-white/10 text-champagne text-xs font-bold uppercase tracking-wider mb-3 border border-white/20">
-                  How It Works
-                </span>
-                <h2 className="font-heading text-3xl font-bold text-white md:text-4xl">
-                  Your Research Journey
-                </h2>
-                <p className="mt-2 text-white/75 text-sm md:text-base font-light">
-                  From curiosity to contribution, discover how Tour transforms questions into published research
-                </p>
-              </motion.div>
-
-              <div className="space-y-4">
-                {journey.map((step, index) => {
-                  const Icon = step.icon;
-                  return (
-                    <motion.div 
-                      key={step.label} 
-                      initial={{ opacity: 0, x: -20 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.5, delay: index * 0.1 }}
-                      className="rounded-2xl border border-white/15 bg-white/5 p-5 flex items-start gap-4 hover:bg-white/10 transition-all"
-                    >
-                      <div className="w-10 h-10 rounded-xl bg-champagne text-navy font-bold flex items-center justify-center shrink-0">
-                        0{index + 1}
-                      </div>
-                      <div>
-                        <h3 className="font-heading text-lg font-bold text-white mb-1">
-                          {step.label}
-                        </h3>
-                        <p className="text-xs sm:text-sm text-white/75 leading-relaxed font-light">
-                          {step.desc}
-                        </p>
-                      </div>
-                    </motion.div>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Certificate Photo Frame Right */}
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7 }}
-              className="lg:col-span-5 relative"
-            >
-              <div className="relative aspect-[4/5] rounded-[36px] overflow-hidden border-2 border-white/20 shadow-2xl">
-                <Image 
-                  src="/publication-certificate.jpg" 
-                  alt="Student author holding publication certificate" 
-                  fill
-                  className="object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent to-transparent" />
-                <div className="absolute bottom-6 left-6 right-6 text-white">
-                  <span className="rounded-full bg-champagne text-navy px-3 py-1 text-xs font-bold uppercase tracking-wider">
-                    Author Recognition
-                  </span>
-                  <p className="mt-3 font-heading text-lg font-bold leading-snug">
-                    "Receive an official certificate upon publishing your work."
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* LATEST PUBLICATIONS */}
-      <section className="bg-white py-16 border-t border-navy/10">
-        <div className="container-tour">
+        <div className="container-tour space-y-8">
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -732,25 +610,56 @@ export default function LandingPage() {
             </Link>
           </motion.div>
 
-          <div className="mt-8 grid gap-6 md:grid-cols-3">
-            {featuredPapers.map((paper, i) => (
-              <motion.div
-                key={paper.id}
-                initial={{ opacity: 0, y: 35 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.6, delay: i * 0.15, ease: [0.22, 1, 0.36, 1] }}
-              >
-                <PublicationCard {...paper} />
-              </motion.div>
-            ))}
+          {/* Real Papers or Honest Empty State */}
+          <div>
+            {loading ? (
+              <div className="py-12 text-center text-xs font-semibold text-navy/40">
+                Loading published research...
+              </div>
+            ) : papers.length > 0 ? (
+              <div className="grid gap-6 md:grid-cols-3">
+                {papers.map((paper, i) => (
+                  <motion.div
+                    key={paper.id}
+                    initial={{ opacity: 0, y: 35 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-50px" }}
+                    transition={{ duration: 0.6, delay: i * 0.15, ease: [0.22, 1, 0.36, 1] }}
+                  >
+                    <PublicationCard {...paper} />
+                  </motion.div>
+                ))}
+              </div>
+            ) : (
+              /* Honest Empty State */
+              <div className="rounded-3xl border-2 border-dashed border-navy/20 bg-ivory/40 p-10 sm:p-12 text-center space-y-4">
+                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-champagne/60 text-navy">
+                  <FlaticonBook size={28} />
+                </div>
+                <h3 className="font-heading text-xl sm:text-2xl font-bold text-navy">
+                  Be the first to publish your research
+                </h3>
+                <p className="text-xs sm:text-sm text-navy/70 leading-relaxed max-w-md mx-auto">
+                  TOUR features peer-reviewed student research across science, health, education, and humanities. Submit your manuscript to get reviewed and published.
+                </p>
+                <div className="pt-2">
+                  <Link
+                    href="/get-published"
+                    className="inline-flex items-center gap-2 rounded-full border-2 border-navy bg-navy px-6 py-3 text-xs sm:text-sm font-semibold text-white hover:bg-sapphire transition shadow-sm cursor-pointer"
+                  >
+                    <span>Submit Your Research</span>
+                    <FlaticonArrowRight size={14} />
+                  </Link>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </section>
 
-      {/* CTA MEGA BANNER */}
+      {/* 2.1 CTA MEGA BANNER */}
       <section className="py-20 border-t border-navy/10 bg-ivory/30">
-        <div className="container-tour max-w-5xl">
+        <div className="container-tour">
           <motion.div 
             initial={{ opacity: 0, y: 35 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -761,7 +670,7 @@ export default function LandingPage() {
             {/* Background Image & Gradient Overlay */}
             <Image
               src="/cta-bg.jpg"
-              alt="Student researchers collaborating"
+              alt="Atmospheric library inspiring curiosity and research discovery"
               fill
               className="object-cover"
             />
@@ -774,14 +683,19 @@ export default function LandingPage() {
               </h2>
 
               <p className="text-white/85 text-base md:text-lg font-light leading-relaxed">
-                Join researchers, innovators, and organizations turning questions into meaningful knowledge.
+                Join researchers, innovators, and students turning questions into meaningful knowledge.
               </p>
 
-              <div className="pt-4">
+              <div className="pt-4 flex flex-wrap items-center justify-center gap-4">
                 <Link href="/join">
                   <Button size="lg" className="rounded-full bg-white text-navy hover:bg-champagne hover:text-navy px-9 py-4 font-bold text-base transition-all duration-200 shadow-xl cursor-pointer">
-                    Join Tour — It's Free
+                    Join Tour — It&apos;s Free
                     <ArrowRight size={18}/>
+                  </Button>
+                </Link>
+                <Link href="/get-published">
+                  <Button size="lg" className="rounded-full border-2 border-white/40 bg-white/10 text-white hover:bg-white hover:text-navy px-8 py-4 font-bold text-base transition-all duration-200 cursor-pointer backdrop-blur-sm">
+                    Submit Your Research
                   </Button>
                 </Link>
               </div>

@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
@@ -67,11 +66,9 @@ const WAYS_TO_EARN = [
 ];
 
 export default function VolunteerPage() {
-  const [submitted, setSubmitted] = useState(false);
-
   return (
     <div className="bg-transparent min-h-screen py-12 md:py-20">
-      <div className="container-tour space-y-16 max-w-6xl">
+      <div className="container-tour space-y-16">
         
         {/* 2.1 HERO HEADER WITH IMAGE */}
         <motion.div 
@@ -93,14 +90,23 @@ export default function VolunteerPage() {
             <p className="text-sm sm:text-base leading-relaxed text-navy/70 font-light">
               You can receive volunteer hours for any work you complete for Tour. If you would like to learn more about Tour's volunteer opportunities, please continue reading.
             </p>
-            <div className="pt-2">
+            <div className="pt-2 flex flex-wrap items-center gap-3">
               <a 
-                href="#volunteer-form" 
+                href="https://tally.so/r/9qglQ4"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center gap-2.5 rounded-full border-2 border-navy bg-navy px-7 py-3.5 text-sm font-semibold text-ivory hover:bg-sapphire transition-all duration-200 shadow-md cursor-pointer"
               >
                 <span>Apply for Volunteer Hours</span>
                 <FlaticonArrowRight size={16} />
               </a>
+              <Link
+                href="/join-team"
+                className="inline-flex items-center gap-2 rounded-full border-2 border-navy/20 bg-white px-6 py-3.5 text-sm font-semibold text-navy hover:border-navy hover:bg-ivory transition-all duration-200 shadow-sm cursor-pointer"
+              >
+                <span>Want to join a Tour team? Apply here</span>
+                <FlaticonArrowRight size={16} />
+              </Link>
             </div>
           </div>
 
@@ -108,7 +114,7 @@ export default function VolunteerPage() {
             <div className="relative aspect-[4/3] rounded-[36px] overflow-hidden border-2 border-navy/15 shadow-xl">
               <Image 
                 src="/about-mission.jpg"
-                alt="Volunteers collaborating on research"
+                alt="Young student researchers collaborating on academic projects"
                 fill
                 className="object-cover"
                 priority
@@ -196,7 +202,7 @@ export default function VolunteerPage() {
               <p className="text-sm font-semibold text-champagne mb-4">
                 Volunteer hours may be granted for meaningful contributions, including but not limited to:
               </p>
-              <div className="grid gap-4 sm:grid-cols-3">
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                 <div className="rounded-2xl border border-white/15 bg-white/5 p-4 flex items-center gap-3">
                   <FlaticonCheckCircle size={20} className="text-champagne shrink-0" />
                   <span className="text-xs text-white font-medium">Research writing and submission</span>
@@ -204,6 +210,10 @@ export default function VolunteerPage() {
                 <div className="rounded-2xl border border-white/15 bg-white/5 p-4 flex items-center gap-3">
                   <FlaticonCheckCircle size={20} className="text-champagne shrink-0" />
                   <span className="text-xs text-white font-medium">Editing and reviewing</span>
+                </div>
+                <div className="rounded-2xl border border-white/15 bg-white/5 p-4 flex items-center gap-3">
+                  <FlaticonCheckCircle size={20} className="text-champagne shrink-0" />
+                  <span className="text-xs text-white font-medium">Graphic Design & visual media</span>
                 </div>
                 <div className="rounded-2xl border border-white/15 bg-white/5 p-4 flex items-center gap-3">
                   <FlaticonCheckCircle size={20} className="text-champagne shrink-0" />
@@ -256,6 +266,34 @@ export default function VolunteerPage() {
           </div>
         </motion.div>
 
+        {/* 2.6 WANT TO JOIN A TOUR TEAM? CALLOUT */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="rounded-3xl border-2 border-sapphire/30 bg-champagne/40 p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-sm"
+        >
+          <div className="space-y-1.5 text-center sm:text-left">
+            <span className="text-xs font-bold uppercase tracking-[0.2em] text-sapphire">
+              Staff & Contributor Roles
+            </span>
+            <h3 className="font-heading text-xl sm:text-2xl font-bold text-navy">
+              Want to join a Tour team? Apply here.
+            </h3>
+            <p className="text-xs sm:text-sm text-navy/75 max-w-xl">
+              Looking to contribute to Editorial, Research, Visuals, Tech, or Community? Apply directly to become an active Tour team member.
+            </p>
+          </div>
+          <Link
+            href="/join-team"
+            className="inline-flex items-center gap-2 rounded-full bg-navy px-6 py-3 text-xs sm:text-sm font-semibold text-white hover:bg-sapphire transition shrink-0 shadow-md cursor-pointer"
+          >
+            <span>Apply to Join Team</span>
+            <FlaticonArrowRight size={16} />
+          </Link>
+        </motion.div>
+
         {/* 2.7 APPLY FOR VOLUNTEER HOURS */}
         <motion.div 
           id="volunteer-form"
@@ -263,100 +301,41 @@ export default function VolunteerPage() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="rounded-[36px] border-2 border-navy/15 bg-white p-8 md:p-12 max-w-3xl mx-auto scroll-mt-24 space-y-8 shadow-lg"
+          className="rounded-[36px] border-2 border-navy/15 bg-white p-8 sm:p-12 md:p-14 max-w-3xl mx-auto text-center space-y-6 shadow-lg"
         >
-          <div className="text-center max-w-xl mx-auto space-y-2">
-            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-sapphire/10 text-sapphire mb-4">
-              <FlaticonHeart size={28} />
-            </div>
-            <h2 className="font-heading text-2xl font-bold text-navy md:text-4xl">Apply for Volunteer Hours</h2>
-            <p className="text-sm md:text-base font-medium text-navy/80">
-              To apply for volunteer hours, please use the form below.
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-3xl bg-sapphire/10 text-sapphire mb-2">
+            <FlaticonHeart size={32} />
+          </div>
+
+          <div className="space-y-3 max-w-xl mx-auto">
+            <span className="text-xs font-bold uppercase tracking-[0.2em] text-sapphire">
+              Official Reporting
+            </span>
+            <h2 className="font-heading text-2xl sm:text-3xl md:text-4xl font-bold text-navy">
+              Apply for Volunteer Hours
+            </h2>
+            <p className="text-sm sm:text-base text-navy/75 leading-relaxed font-light">
+              To record your contributions and request official volunteer hours documentation or digital certificates, please complete our verification form.
             </p>
           </div>
 
-          {submitted ? (
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="mt-8 rounded-3xl border-2 border-emerald-300 bg-emerald-50/70 p-8 text-center text-emerald-900"
+          <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a
+              href="https://tally.so/r/9qglQ4"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 rounded-full border-2 border-navy bg-navy px-8 py-4 text-sm font-bold text-white hover:bg-sapphire hover:border-sapphire transition shadow-md cursor-pointer"
             >
-              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-emerald-500 text-white">
-                <FlaticonCheckCircle size={32} />
-              </div>
-              <h3 className="mt-4 font-heading text-2xl font-bold">Application Received!</h3>
-              <p className="mt-2 text-sm leading-relaxed text-emerald-800">
-                Thank you for offering your time to Tour. We have logged your submission and will get back to you soon.
-              </p>
-            </motion.div>
-          ) : (
-            <form 
-              onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }} 
-              className="mt-8 space-y-6"
+              <span>Apply for Volunteer Hours</span>
+              <FlaticonArrowRight size={16} />
+            </a>
+            <Link
+              href="/join-team"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full border-2 border-navy/20 bg-white px-7 py-4 text-sm font-semibold text-navy hover:bg-ivory hover:border-navy transition cursor-pointer"
             >
-              <div className="grid gap-5 sm:grid-cols-2">
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-[0.15em] text-navy/80 mb-2">
-                    Full Name <span className="text-sapphire">*</span>
-                  </label>
-                  <div className="relative">
-                    <FlaticonUser size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-navy/35" />
-                    <input 
-                      required 
-                      type="text" 
-                      placeholder="Jane Doe" 
-                      className="w-full rounded-2xl border border-navy/15 bg-ivory/50 py-3.5 pl-11 pr-4 text-sm text-navy focus:border-sapphire focus:bg-white focus:outline-none transition" 
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-[0.15em] text-navy/80 mb-2">
-                    Email Address <span className="text-sapphire">*</span>
-                  </label>
-                  <div className="relative">
-                    <FlaticonMail size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-navy/35" />
-                    <input 
-                      required 
-                      type="email" 
-                      placeholder="you@example.com" 
-                      className="w-full rounded-2xl border border-navy/15 bg-ivory/50 py-3.5 pl-11 pr-4 text-sm text-navy focus:border-sapphire focus:bg-white focus:outline-none transition" 
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold uppercase tracking-[0.15em] text-navy/80 mb-2">
-                  Contribution Type / Interest
-                </label>
-                <div className="relative">
-                  <FlaticonFlask size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-navy/35" />
-                  <input 
-                    required 
-                    type="text" 
-                    placeholder="e.g. Writing, Editing, Graphic Design, Chapter Opening" 
-                    className="w-full rounded-2xl border border-navy/15 bg-ivory/50 py-3.5 pl-11 pr-4 text-sm text-navy focus:border-sapphire focus:bg-white focus:outline-none transition" 
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold uppercase tracking-[0.15em] text-navy/80 mb-2">
-                  Details / Hours Worked
-                </label>
-                <textarea 
-                  rows={4} 
-                  placeholder="Tell us about the work completed or hours you wish to report..." 
-                  className="w-full rounded-2xl border border-navy/15 bg-ivory/50 p-4 text-sm text-navy leading-relaxed focus:border-sapphire focus:bg-white focus:outline-none transition" 
-                />
-              </div>
-
-              <Button type="submit" className="w-full rounded-full bg-navy py-4 text-sm font-semibold text-white transition hover:bg-sapphire flex items-center justify-center gap-2 cursor-pointer shadow-md">
-                <span>Submit Volunteer Application</span> <FlaticonSend size={16} />
-              </Button>
-            </form>
-          )}
+              <span>Join a Tour Team</span>
+            </Link>
+          </div>
         </motion.div>
 
       </div>

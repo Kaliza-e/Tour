@@ -52,16 +52,20 @@ async function main() {
     },
   });
 
-  const biology = categories.find((c) => c.name === "Biology")!;
+  const stemCat = categories.find((c) => c.name === "Biology") || categories[0];
 
-  const question = await prisma.question.create({
-    data: {
-      title: "Why do octopuses have three hearts?",
+  const question = await prisma.question.upsert({
+    where: { id: "seed-q-stem-1" },
+    update: {},
+    create: {
+      id: "seed-q-stem-1",
+      title: "How do microplastics influence soil microbial biodiversity in urban agriculture?",
       description:
-        "Two hearts pump blood to the gills, one to the rest of the body — but the systemic heart stops when swimming. What's the evolutionary tradeoff?",
-      categoryId: biology.id,
-      authorId: kaliza.id,
-      tags: ["biology", "evolution", "marine-life"],
+        "With rising plastic degradation in topsoil, how does particulate accumulation affect nitrogen fixation and fungal-bacterial ratios in community gardens?",
+      categoryId: stemCat.id,
+      authorId: admin.id,
+      tags: ["STEM", "microbiome", "agriculture", "soil-science"],
+      status: "OPEN",
     },
   });
 

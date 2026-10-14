@@ -62,7 +62,7 @@ export default async function ResearchPage() {
 
   return (
     <div className="bg-transparent py-16 md:py-20">
-      <div className="container-tour space-y-10 max-w-6xl">
+      <div className="container-tour space-y-10">
         <div className="mx-auto max-w-3xl text-center space-y-4">
           <div className="inline-flex items-center gap-2 rounded-full border border-navy/15 bg-champagne/40 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-navy">
             <FlaticonBook size={14} /> Research Board
@@ -93,10 +93,10 @@ export default async function ResearchPage() {
             </div>
             <div>
               <Link
-                href="/researcher?action=new"
+                href="/get-published"
                 className="inline-flex items-center gap-2 rounded-full border-2 border-navy bg-navy px-6 py-3 text-sm font-semibold text-ivory hover:bg-sapphire transition-all shrink-0 cursor-pointer"
               >
-                <span>Start New Research</span>
+                <span>Submit Your Research</span>
                 <FlaticonArrowRight size={16} />
               </Link>
             </div>
@@ -105,7 +105,7 @@ export default async function ResearchPage() {
           <div className="relative h-48 md:h-full w-full overflow-hidden rounded-2xl border border-navy/10">
             <Image
               src="/research-discovery.jpg"
-              alt="Student researcher in lab"
+              alt="Student writing and researching an essay with papers and a laptop at a desk"
               fill
               className="object-cover"
             />

@@ -46,6 +46,9 @@ export async function createSubmissionStatusHistory(
 
 export function normalizeResearchType(value: string): SubmissionResearchType {
     const map: Record<string, SubmissionResearchType> = {
+        "Research Paper": "RESEARCH_ARTICLE",
+        "Review Article": "LITERATURE_REVIEW",
+        "Research Essay": "EXPLORATORY_ESSAY",
         "Research Article": "RESEARCH_ARTICLE",
         "Student Science Writing": "STUDENT_SCIENCE_WRITING",
         "Exploratory Essay": "EXPLORATORY_ESSAY",

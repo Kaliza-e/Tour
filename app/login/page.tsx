@@ -77,7 +77,7 @@ function LoginForm() {
         <div className="relative hidden flex-col justify-between overflow-hidden bg-navy px-12 py-14 lg:flex lg:w-[45%] xl:w-[40%]">
           <Image
             src="/hero-students.jpg"
-            alt="Students doing research"
+            alt="Student reading and conducting academic research with an open book"
             fill
             className="object-cover opacity-35"
             priority

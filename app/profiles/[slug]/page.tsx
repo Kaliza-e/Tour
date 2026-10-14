@@ -69,7 +69,7 @@ export default async function PublicProfilePage({ params }: ProfilePageProps) {
 
   return (
     <div className="bg-transparent min-h-screen py-12 md:py-16">
-      <div className="container-tour max-w-4xl space-y-8">
+      <div className="container-tour space-y-8">
         
         <Link
           href="/research"

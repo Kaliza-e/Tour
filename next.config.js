@@ -20,6 +20,7 @@ const nextConfig = {
               "font-src 'self' data: https://fonts.gstatic.com",
               "img-src 'self' data: https: blob:",
               "connect-src 'self' https://www.google-analytics.com https://vitals.vercel-insights.com",
+              "frame-src 'self' https://tally.so",
               "frame-ancestors 'none'",
               "base-uri 'self'",
               "form-action 'self'",

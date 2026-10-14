@@ -24,6 +24,7 @@ import {
   FileCode,
   FileSpreadsheet,
 } from "lucide-react";
+import { PublicationSubmissionModal } from "@/components/publication-submission-modal";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -52,6 +53,8 @@ interface ResearchItem {
   reviews: Review[];
   publication: { id: string } | null;
   assignedReviewer: { name: string } | null;
+  questionId?: string | null;
+  questionTitle?: string | null;
 }
 
 // ---------------------------------------------------------------------------
@@ -136,6 +139,8 @@ function ResearcherDashboardContent() {
 
   // Modals state
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const [showSubmitModal, setShowSubmitModal] = useState(false);
+  const [submitDraftId, setSubmitDraftId] = useState<string | null>(null);
   const [editingItem, setEditingItem] = useState<ResearchItem | null>(null);
   const [viewingItem, setViewingItem] = useState<ResearchItem | null>(null);
 
@@ -161,9 +166,15 @@ function ResearcherDashboardContent() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const editFileInputRef = useRef<HTMLInputElement>(null);
 
-  // Check query params to open create modal if requested
+  const prefilledQuestionId = searchParams?.get("questionId");
+  const prefilledQuestionTitle = searchParams?.get("questionTitle");
+
+  // Check query params to open modals if requested
   useEffect(() => {
-    if (searchParams?.get("action") === "new") {
+    const action = searchParams?.get("action");
+    if (action === "submit" || searchParams?.get("questionId")) {
+      setShowSubmitModal(true);
+    } else if (action === "new") {
       setShowCreateModal(true);
     }
   }, [searchParams]);
@@ -313,7 +324,7 @@ function ResearcherDashboardContent() {
 
   return (
     <div className="min-h-screen bg-ivory/40 pb-24 pt-8">
-      <div className="container-tour max-w-6xl space-y-8">
+      <div className="container-tour space-y-8">
         {/* ------------------------------------------------------------------ */}
         {/* Header Bar                                                          */}
         {/* ------------------------------------------------------------------ */}
@@ -338,14 +349,27 @@ function ResearcherDashboardContent() {
             </p>
           </div>
 
-          <button
-            type="button"
-            onClick={() => setShowCreateModal(true)}
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-navy px-5 py-3 text-sm font-semibold text-white shadow-md transition hover:bg-sapphire active:scale-[0.98]"
-          >
-            <Plus className="h-4 w-4" />
-            <span>New Research</span>
-          </button>
+          <div className="flex flex-wrap items-center gap-3">
+            <button
+              type="button"
+              onClick={() => {
+                setSubmitDraftId(null);
+                setShowSubmitModal(true);
+              }}
+              className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-navy bg-navy px-5 py-3 text-xs sm:text-sm font-semibold text-white shadow-md transition hover:bg-sapphire active:scale-[0.98] cursor-pointer"
+            >
+              <BookOpen className="h-4 w-4" />
+              <span>Submit for Publication</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setShowCreateModal(true)}
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-navy/20 bg-white px-5 py-3 text-xs sm:text-sm font-semibold text-navy shadow-xs transition hover:bg-ivory cursor-pointer"
+            >
+              <Plus className="h-4 w-4" />
+              <span>New Draft</span>
+            </button>
+          </div>
         </div>
 
         {/* ------------------------------------------------------------------ */}
@@ -392,13 +416,25 @@ function ResearcherDashboardContent() {
                 : "No research matching this filter."}
             </p>
             {filterTab === "ALL" && (
-              <button
-                type="button"
-                onClick={() => setShowCreateModal(true)}
-                className="mt-5 inline-flex items-center gap-2 rounded-full bg-navy px-5 py-2.5 text-xs font-semibold text-white hover:bg-sapphire"
-              >
-                <Plus className="h-4 w-4" /> Start New Research
-              </button>
+              <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSubmitDraftId(null);
+                    setShowSubmitModal(true);
+                  }}
+                  className="inline-flex items-center gap-2 rounded-full bg-navy px-5 py-2.5 text-xs font-semibold text-white hover:bg-sapphire shadow-xs cursor-pointer"
+                >
+                  <BookOpen className="h-4 w-4" /> Submit for Publication
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowCreateModal(true)}
+                  className="inline-flex items-center gap-2 rounded-full border border-navy/20 bg-white px-5 py-2.5 text-xs font-semibold text-navy hover:bg-ivory cursor-pointer"
+                >
+                  <Plus className="h-4 w-4" /> Start New Draft
+                </button>
+              </div>
             )}
           </div>
         ) : (
@@ -421,6 +457,11 @@ function ResearcherDashboardContent() {
                       <span className="rounded-full bg-ivory px-2.5 py-0.5 text-xs font-semibold text-navy/70">
                         {item.category}
                       </span>
+                      {item.questionTitle && (
+                        <span className="inline-flex items-center gap-1.5 rounded-full border border-sapphire/20 bg-sapphire/5 px-2.5 py-0.5 text-xs font-medium text-sapphire">
+                          <BookOpen className="h-3 w-3" /> Question: {item.questionTitle}
+                        </span>
+                      )}
                     </div>
 
                     <h3 className="font-heading text-lg font-bold leading-snug text-navy">
@@ -453,13 +494,26 @@ function ResearcherDashboardContent() {
                   {/* Context-Specific Action Buttons */}
                   <div className="mt-4 flex items-center gap-3 shrink-0 md:mt-0">
                     {item.status === "DRAFT" && (
-                      <button
-                        type="button"
-                        onClick={() => openEditor(item)}
-                        className="inline-flex items-center gap-2 rounded-full border border-navy/20 bg-ivory px-4 py-2 text-xs font-semibold text-navy hover:bg-navy hover:text-white transition"
-                      >
-                        Continue Editing
-                      </button>
+                      <div className="flex items-center gap-2">
+                        <button
+                          type="button"
+                          onClick={() => openEditor(item)}
+                          className="inline-flex items-center gap-1.5 rounded-full border border-navy/20 bg-ivory px-3.5 py-2 text-xs font-semibold text-navy hover:bg-navy hover:text-white transition cursor-pointer"
+                        >
+                          Continue Editing
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setSubmitDraftId(item.id);
+                            setShowSubmitModal(true);
+                          }}
+                          className="inline-flex items-center gap-1.5 rounded-full bg-navy px-3.5 py-2 text-xs font-semibold text-white hover:bg-sapphire transition shadow-xs cursor-pointer"
+                        >
+                          <BookOpen className="h-3.5 w-3.5" />
+                          <span>Submit</span>
+                        </button>
+                      </div>
                     )}
 
                     {["SUBMITTED", "UNDER_REVIEW", "RESUBMITTED", "APPROVED"].includes(item.status) && (
@@ -847,6 +901,24 @@ function ResearcherDashboardContent() {
           </div>
         </div>
       )}
+
+      {/* -------------------------------------------------------------------- */}
+      {/* 4. FORMAL PUBLICATION SUBMISSION MODAL                               */}
+      {/* -------------------------------------------------------------------- */}
+      <PublicationSubmissionModal
+        isOpen={showSubmitModal}
+        onClose={() => {
+          setShowSubmitModal(false);
+          setSubmitDraftId(null);
+        }}
+        onSuccess={() => {
+          void fetchResearch();
+        }}
+        existingDrafts={researchList.filter((r) => r.status === "DRAFT")}
+        preselectedDraftId={submitDraftId}
+        prefilledQuestionId={prefilledQuestionId}
+        prefilledQuestionTitle={prefilledQuestionTitle}
+      />
     </div>
   );
 }

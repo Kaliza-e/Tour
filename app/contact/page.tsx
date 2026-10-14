@@ -223,7 +223,7 @@ export default function ContactPage() {
             <div className="relative overflow-hidden rounded-3xl border-2 border-navy/15 bg-navy p-6 md:p-8 text-white min-h-[260px] flex flex-col justify-end">
               <Image
                 src="/research-discovery.jpg"
-                alt="Research discovery and collaboration"
+                alt="Student writing and researching an essay with study notes at a desk"
                 fill
                 className="object-cover opacity-30 transition-transform duration-700 hover:scale-105"
               />

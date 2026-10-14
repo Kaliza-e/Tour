@@ -54,7 +54,7 @@ export default function AboutPage() {
           <div className="relative h-[320px] sm:h-[420px] w-full overflow-hidden rounded-2xl">
             <Image
               src="/about-mission.jpg"
-              alt="Students collaborating on research"
+              alt="Diverse young student researchers collaborating around a study desk"
               fill
               className="object-cover"
               priority
@@ -129,7 +129,7 @@ export default function AboutPage() {
           <div className="relative h-64 sm:h-80 lg:h-full w-full overflow-hidden rounded-2xl border border-white/10">
             <Image
               src="/research-discovery.jpg"
-              alt="Student researcher in laboratory"
+              alt="Student writing and researching an essay with a notebook and laptop at a study desk"
               fill
               className="object-cover"
             />

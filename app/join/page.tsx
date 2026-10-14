@@ -407,7 +407,7 @@ export default function JoinPage() {
         <div className="relative hidden flex-col justify-between overflow-hidden bg-navy px-12 py-14 lg:flex lg:w-[42%] xl:w-[38%]">
           <Image
             src="/about-mission.jpg"
-            alt="Students collaborating on research"
+            alt="Diverse young student researchers collaborating around a study desk"
             fill
             className="object-cover opacity-35"
             priority

@@ -16,7 +16,7 @@ export default withAuth(
 
     if (isWriterPath && !token) {
       const url = new URL("/login", req.url);
-      url.searchParams.set("callbackUrl", path);
+      url.searchParams.set("callbackUrl", `${path}${req.nextUrl.search}`);
       return NextResponse.redirect(url);
     }
 

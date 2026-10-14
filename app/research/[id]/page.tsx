@@ -83,7 +83,7 @@ export default async function ResearchDetailPage({
 
   return (
     <div className="bg-ivory py-16 md:py-20">
-      <div className="container-tour max-w-4xl">
+      <div className="container-tour">
 
         {/* ── Breadcrumb ── */}
         <nav className="mb-8 text-sm text-navy/50" aria-label="Breadcrumb">

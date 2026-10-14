@@ -61,7 +61,7 @@ export default async function PublicationsPage() {
 
   return (
     <div className="bg-ivory py-16 md:py-20">
-      <div className="container-tour space-y-8 max-w-6xl">
+      <div className="container-tour space-y-8">
         <div className="max-w-2xl">
           <div className="inline-flex items-center gap-2 rounded-full border border-sapphire/20 bg-champagne/50 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-sapphire">
             <BookOpen className="h-4 w-4" /> Publications
@@ -84,10 +84,10 @@ export default async function PublicationsPage() {
               <p className="mt-1 text-sm text-navy/60">Submit your draft for peer review through your Researcher Notebook.</p>
             </div>
             <Link
-              href="/researcher?action=new"
+              href="/get-published"
               className="inline-flex items-center gap-2 rounded-full bg-navy px-6 py-3 text-sm font-semibold text-white hover:bg-sapphire transition"
             >
-              <span>Create New Research</span> <ArrowRight className="h-4 w-4" />
+              <span>Submit Your Research</span> <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
         </div>

@@ -66,8 +66,10 @@ model User {
   // Phase 2 Additions
   notificationPreferences NotificationPreference[]
   questionCurious         QuestionCurious[]
+  questionClaims          QuestionClaim[]
   threads                 Thread[]
   replies                 Reply[]
+  teamApplications        TeamApplication[]
 
   @@index([email])
   @@index([slug])
@@ -152,6 +154,7 @@ model Question {
 
   curiousUsers QuestionCurious[]
   reports      QuestionReport[]
+  claims       QuestionClaim[]
 
   @@index([status])
   @@index([categoryId])
@@ -178,6 +181,31 @@ model QuestionReport {
   createdAt  DateTime @default(now())
 
   question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+}
+
+enum ClaimStatus {
+  ACTIVE
+  COMPLETED
+  RELEASED
+}
+
+model QuestionClaim {
+  id         String      @id @default(cuid())
+  questionId String
+  userId     String
+  status     ClaimStatus @default(ACTIVE)
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  releasedAt DateTime?
+  notebookId String?
+
+  question   Question    @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  notebook   Submission? @relation(fields: [notebookId], references: [id], onDelete: SetNull)
+
+  @@unique([questionId, userId])
+  @@index([questionId, status])
+  @@index([userId, status])
 }
 
 // ---------------------------------------------------------------------------
@@ -329,6 +357,20 @@ model Submission {
   status               SubmissionStatus       @default(DRAFT)
   isTermsAccepted      Boolean                @default(false)
   submittedAt          DateTime?
+  questionId           String?
+  questionTitle        String?
+
+  // Formal publication submission fields
+  age                  Int?
+  isFirstPaper         Boolean?               @default(false)
+  referencesIncluded   Boolean?               @default(true)
+  whyTopic             String?                @db.Text
+  isOriginalWork       Boolean?               @default(true)
+  isPublishedBefore    Boolean?               @default(false)
+  publishedWhere       String?
+  aiUse                String?
+  wantsVolunteerHours  Boolean?               @default(false)
+
   createdAt            DateTime               @default(now())
   updatedAt            DateTime               @updatedAt
 
@@ -339,6 +381,7 @@ model Submission {
   publication          Publication?
   versions             SubmissionVersion[]
   assignedReviewer     User?                  @relation("AssignedReviewer", fields: [assignedReviewerId], references: [id], onDelete: SetNull)
+  questionClaims       QuestionClaim[]
 
   @@index([userId])
   @@index([status])
@@ -536,4 +579,28 @@ model CommunityReport {
   reporterId String
   reason     String   @db.Text
   createdAt  DateTime @default(now())
+}
+
+model TeamApplication {
+  id              String   @id @default(cuid())
+  fullName        String
+  email           String
+  country         String
+  age             Int
+  levelOfStudy    String   // Middle school, High school, Gap year, Undergraduate, Graduate
+  teams           String[] // Up to two teams
+  whyJoin         String   @db.Text
+  skills          String   @db.Text
+  hoursPerWeek    String   // 1-3, 3-5, 5-9, 9+
+  project         String   @db.Text
+  proudOfLink     String?
+  anythingElse    String?  @db.Text
+  status          String   @default("PENDING") // PENDING, REVIEWED, ACCEPTED, REJECTED
+  userId          String?
+  user            User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([email])
+  @@index([status])
 }

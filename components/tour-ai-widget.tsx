@@ -218,25 +218,27 @@ export function TourAiWidget() {
   return (
     <>
       {/* Floating Action Button */}
-      <motion.button
-        ref={chatTriggerRef}
-        type="button"
-        onClick={() => setIsOpen(!isOpen)}
-        aria-label={isOpen ? "Close Tour AI chat" : "Open Tour AI assistant chat"}
-        aria-expanded={isOpen}
-        aria-haspopup="dialog"
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        className="fixed bottom-6 right-6 z-50 flex items-center gap-2.5 rounded-full bg-navy px-5 py-3.5 text-ivory shadow-2xl transition-all duration-300 border-2 border-champagne/40 hover:bg-sapphire focus:outline-none focus:ring-4 focus:ring-sapphire/40 cursor-pointer"
-      >
-        <div className="relative flex h-7 w-7 items-center justify-center rounded-full bg-sapphire text-white">
-          <Sparkles size={16} className="animate-pulse" />
-          <span className="absolute -top-0.5 -right-0.5 h-2.5 w-2.5 rounded-full bg-emerald-400 border border-navy" />
-        </div>
-        <span className="font-heading font-semibold text-sm tracking-wide text-ivory">
-          Ask Tour AI
-        </span>
-      </motion.button>
+      <div className="fixed bottom-6 right-4 sm:right-6 md:right-8 z-30 pointer-events-auto">
+        <motion.button
+          ref={chatTriggerRef}
+          type="button"
+          onClick={() => setIsOpen(!isOpen)}
+          aria-label={isOpen ? "Close Tour AI chat" : "Open Tour AI assistant chat"}
+          aria-expanded={isOpen}
+          aria-haspopup="dialog"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="flex items-center gap-2 rounded-full bg-navy px-3.5 py-2.5 sm:px-4 sm:py-2.5 text-ivory shadow-xl transition-all duration-300 border-2 border-champagne/40 hover:bg-sapphire focus:outline-none focus:ring-4 focus:ring-sapphire/40 cursor-pointer"
+        >
+          <div className="relative flex h-6 w-6 items-center justify-center rounded-full bg-sapphire text-white shrink-0">
+            <Sparkles size={14} className="animate-pulse" />
+            <span className="absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full bg-emerald-400 border border-navy" />
+          </div>
+          <span className="hidden sm:inline font-heading font-semibold text-xs tracking-wide text-ivory">
+            Ask Tour AI
+          </span>
+        </motion.button>
+      </div>
 
       {/* Chat Panel Modal / Sheet */}
       <AnimatePresence>

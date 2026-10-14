@@ -68,7 +68,7 @@ export default async function PublicationDetailPage({ params }: { params: { id: 
   };
 
   return (
-    <div className="container-tour max-w-3xl py-20">
+    <div className="container-tour py-20">
       {publication.coverImage && (
         <Image
           src={publication.coverImage}

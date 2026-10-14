@@ -27,7 +27,18 @@ const createSchema = z.object({
   institution: z.string().optional(),
   country: z.string().optional(),
   academicLevel: z.string().optional(),
+  age: z.coerce.number().int().optional(),
+  isFirstPaper: z.boolean().optional(),
+  referencesIncluded: z.boolean().optional(),
+  whyTopic: z.string().optional(),
+  isOriginalWork: z.boolean().optional(),
+  isPublishedBefore: z.boolean().optional(),
+  publishedWhere: z.string().optional(),
+  aiUse: z.string().optional(),
+  wantsVolunteerHours: z.boolean().optional(),
   coAuthors: z.array(z.string()).optional().default([]),
+  questionId: z.string().optional(),
+  questionTitle: z.string().optional(),
 });
 
 const patchSchema = z.object({
@@ -110,6 +121,21 @@ export async function POST(request: Request) {
       coAuthors,
     } = parsed.data;
 
+    if (!isDraft) {
+      if (parsed.data.isPublishedBefore && !parsed.data.publishedWhere?.trim()) {
+        return NextResponse.json(
+          { error: "Please specify where your research was previously published." },
+          { status: 400 }
+        );
+      }
+      if (isTermsAccepted === false) {
+        return NextResponse.json(
+          { error: "You must accept the Tour publication rules and terms to submit." },
+          { status: 400 }
+        );
+      }
+    }
+
     const authorName = parsed.data.fullName || dbUser?.name || session?.user?.name || "Researcher";
     const authorEmail = parsed.data.email || dbUser?.email || session?.user?.email || "";
     const authorInstitution = parsed.data.institution || dbUser?.school || null;
@@ -140,8 +166,19 @@ export async function POST(request: Request) {
         fileName: fileName || null,
         fileType: fileType || null,
         status: initialStatus,
+        questionId: parsed.data.questionId || null,
+        questionTitle: parsed.data.questionTitle || null,
         isTermsAccepted: isTermsAccepted ?? true,
         submittedAt: isDraft ? null : new Date(),
+        age: parsed.data.age ?? null,
+        isFirstPaper: parsed.data.isFirstPaper ?? null,
+        referencesIncluded: parsed.data.referencesIncluded ?? null,
+        whyTopic: parsed.data.whyTopic || null,
+        isOriginalWork: parsed.data.isOriginalWork ?? null,
+        isPublishedBefore: parsed.data.isPublishedBefore ?? null,
+        publishedWhere: parsed.data.publishedWhere || null,
+        aiUse: parsed.data.aiUse || null,
+        wantsVolunteerHours: parsed.data.wantsVolunteerHours ?? null,
         authors: {
           create: {
             fullName: authorName,
@@ -184,6 +221,25 @@ export async function POST(request: Request) {
 
     if (!isDraft) {
       await notifySubmissionAuthor(userId, "RECEIVED");
+
+      // Complete Question Claim if tied to a question
+      if (submission.questionId) {
+        await prisma.questionClaim.updateMany({
+          where: {
+            OR: [
+              { notebookId: submission.id },
+              { questionId: submission.questionId, userId },
+            ],
+            status: "ACTIVE",
+          },
+          data: { status: "COMPLETED" },
+        }).catch(() => null);
+
+        await prisma.question.update({
+          where: { id: submission.questionId },
+          data: { status: "RESEARCH_COMPLETED" },
+        }).catch(() => null);
+      }
     }
 
     return NextResponse.json({ success: true, submission }, { status: 201 });
@@ -278,6 +334,25 @@ export async function PATCH(request: Request) {
 
     if (isSubmit) {
       await notifySubmissionAuthor(userId, "RECEIVED");
+
+      // Complete Question Claim if tied to a question
+      if (updatedSubmission.questionId) {
+        await prisma.questionClaim.updateMany({
+          where: {
+            OR: [
+              { notebookId: updatedSubmission.id },
+              { questionId: updatedSubmission.questionId, userId },
+            ],
+            status: "ACTIVE",
+          },
+          data: { status: "COMPLETED" },
+        }).catch(() => null);
+
+        await prisma.question.update({
+          where: { id: updatedSubmission.questionId },
+          data: { status: "RESEARCH_COMPLETED" },
+        }).catch(() => null);
+      }
     }
 
     return NextResponse.json({ success: true, submission: updatedSubmission });
