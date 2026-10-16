@@ -93,11 +93,6 @@
   }
 }
 
-*,
-*::before,
-*::after {
-  font-family: var(--font-cormorant-family);
-}
 
 html {
   scroll-behavior: smooth;
@@ -345,4 +340,41 @@ small,
 .fade-up {
   opacity: 0;
   animation: fade-up 0.8s ease forwards;
+}
+
+/* ── Continuous Smooth Footer Marquee ── */
+@keyframes footer-marquee {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.animate-footer-marquee {
+  display: flex;
+  width: max-content;
+  animation: footer-marquee 38s linear infinite;
+  will-change: transform;
+}
+
+.animate-footer-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* ── Ambient Footer Luminous Motion Glow ── */
+@keyframes footer-aurora {
+  0%, 100% {
+    transform: translate(0%, 0%) scale(1);
+    opacity: 0.12;
+  }
+  50% {
+    transform: translate(6%, -4%) scale(1.15);
+    opacity: 0.24;
+  }
+}
+
+.animate-footer-aurora {
+  animation: footer-aurora 12s ease-in-out infinite alternate;
 }

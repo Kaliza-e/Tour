@@ -232,7 +232,7 @@ export function TourAiWidget() {
         >
           <div className="relative flex h-6 w-6 items-center justify-center rounded-full bg-sapphire text-white shrink-0">
             <Sparkles size={14} className="animate-pulse" />
-            <span className="absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full bg-emerald-400 border border-navy" />
+            <span className="absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full bg-champagne border border-navy" />
           </div>
           <span className="hidden sm:inline font-heading font-semibold text-xs tracking-wide text-ivory">
             Ask Tour AI
@@ -276,7 +276,7 @@ export function TourAiWidget() {
                       <h2 className="font-heading text-lg font-bold text-ivory leading-none">
                         Tour AI
                       </h2>
-                      <span className="rounded-full bg-emerald-500/20 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-emerald-300 border border-emerald-500/30">
+                      <span className="rounded-full bg-champagne/20 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-champagne border border-champagne/30">
                         Online
                       </span>
                     </div>
@@ -357,8 +357,8 @@ export function TourAiWidget() {
                           type="button"
                           onClick={() => handleFeedback(msg.id, "up")}
                           aria-label="Thumbs up"
-                          className={`p-1 rounded hover:text-emerald-600 transition ${
-                            msg.feedback === "up" ? "text-emerald-600 font-bold" : ""
+                          className={`p-1 rounded hover:text-sapphire transition ${
+                            msg.feedback === "up" ? "text-sapphire font-bold" : ""
                           }`}
                         >
                           <ThumbsUp size={13} />

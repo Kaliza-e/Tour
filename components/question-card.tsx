@@ -3,9 +3,9 @@ import { FlaticonHeart, FlaticonUsers, FlaticonEye, FlaticonCheckCircle } from "
 import { Users } from "lucide-react";
 
 const statusStyles: Record<string, string> = {
-  OPEN: "bg-emerald-100 text-emerald-800 border-emerald-300",
-  BEING_RESEARCHED: "bg-amber-100 text-amber-900 border-amber-300",
-  FULL: "bg-rose-100 text-rose-800 border-rose-300",
+  OPEN: "bg-sapphire/10 text-sapphire border-sapphire/25",
+  BEING_RESEARCHED: "bg-champagne/40 text-navy border-taupe/40",
+  FULL: "bg-navy/5 text-navy/60 border-navy/15",
   RESEARCH_COMPLETED: "bg-navy/10 text-navy border-navy/20",
   ANSWERED: "bg-navy text-ivory",
 };
@@ -110,7 +110,7 @@ export function QuestionCard(q: QuestionCardProps) {
         {q.isClaimedByCurrentUser ? (
           <Link
             href="/researcher"
-            className="inline-flex h-10 w-full items-center justify-center gap-1.5 rounded-full border-2 border-emerald-500 bg-emerald-50 px-5 text-xs font-bold text-emerald-800 transition hover:bg-emerald-100"
+            className="inline-flex h-10 w-full items-center justify-center gap-1.5 rounded-full border-2 border-sapphire/40 bg-sapphire/10 px-5 text-xs font-bold text-sapphire transition hover:bg-sapphire/20"
           >
             <FlaticonCheckCircle size={14} />
             <span>In Your Notebook</span>

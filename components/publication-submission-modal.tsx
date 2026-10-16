@@ -131,11 +131,11 @@ export function PublicationSubmissionModal({
   // Prefill user data & initial draft/question info
   useEffect(() => {
     if (session?.user) {
-      if (session.user.name && !fullName) {
-        setFullName(session.user.name);
+      if (session.user.name) {
+        setFullName((prev) => prev || session.user.name || "");
       }
-      if (session.user.email && !email) {
-        setEmail(session.user.email);
+      if (session.user.email) {
+        setEmail((prev) => prev || session.user.email || "");
       }
     }
   }, [session]);
@@ -395,12 +395,12 @@ export function PublicationSubmissionModal({
         {/* THANK YOU / SUCCESS STATE */}
         {submissionSuccessData ? (
           <div className="text-center py-6 space-y-6">
-            <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-3xl bg-emerald-50 text-emerald-600 border border-emerald-200">
+            <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-3xl bg-sapphire/10 text-sapphire border border-sapphire/20">
               <CheckCircle2 size={44} />
             </div>
 
             <div className="space-y-2">
-              <span className="text-xs font-bold uppercase tracking-wider text-emerald-600">
+              <span className="text-xs font-bold uppercase tracking-wider text-sapphire">
                 Manuscript Received
               </span>
               <h2 className="font-heading text-2xl sm:text-3xl font-bold text-navy">
@@ -801,9 +801,9 @@ export function PublicationSubmissionModal({
                     </select>
 
                     {uploadedFileInfo && (
-                      <div className="rounded-xl border border-emerald-300 bg-emerald-50/70 p-3 flex items-center justify-between text-xs text-emerald-900">
+                      <div className="rounded-xl border border-sapphire/30 bg-sapphire/5 p-3 flex items-center justify-between text-xs text-navy">
                         <span className="flex items-center gap-2">
-                          <FileText size={16} className="text-emerald-700" />
+                          <FileText size={16} className="text-sapphire" />
                           <span>
                             Attached: <strong>{uploadedFileInfo.fileName}</strong>
                           </span>
@@ -812,7 +812,7 @@ export function PublicationSubmissionModal({
                           href={uploadedFileInfo.fileUrl}
                           target="_blank"
                           rel="noreferrer"
-                          className="text-emerald-700 hover:underline flex items-center gap-1 font-semibold"
+                          className="text-sapphire hover:underline flex items-center gap-1 font-semibold"
                         >
                           <span>Preview</span>
                           <ExternalLink size={12} />
@@ -837,7 +837,7 @@ export function PublicationSubmissionModal({
                       onClick={() => fileInputRef.current?.click()}
                       className={`flex flex-col items-center justify-center rounded-2xl border-2 border-dashed p-6 text-center cursor-pointer transition ${
                         uploadedFileInfo
-                          ? "border-emerald-500 bg-emerald-50/40"
+                          ? "border-sapphire bg-sapphire/5"
                           : errors.file
                           ? "border-red-400 bg-red-50/30"
                           : "border-navy/20 bg-ivory/30 hover:border-sapphire hover:bg-ivory/60"
@@ -851,10 +851,10 @@ export function PublicationSubmissionModal({
                           </span>
                         </div>
                       ) : uploadedFileInfo ? (
-                        <div className="flex flex-col items-center gap-2 text-emerald-800">
-                          <CheckCircle2 size={26} className="text-emerald-600" />
+                        <div className="flex flex-col items-center gap-2 text-navy">
+                          <CheckCircle2 size={26} className="text-sapphire" />
                           <span className="text-xs font-bold">{uploadedFileInfo.fileName}</span>
-                          <span className="text-[11px] text-emerald-700 underline">
+                          <span className="text-[11px] text-sapphire underline">
                             Click to change file
                           </span>
                         </div>

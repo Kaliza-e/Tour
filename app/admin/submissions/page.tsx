@@ -71,14 +71,14 @@ const STATUS_LABELS: Record<string, string> = {
 };
 
 const STATUS_STYLES: Record<string, string> = {
-  DRAFT: "bg-slate-100 text-slate-600",
-  SUBMITTED: "bg-blue-50 text-blue-700 border border-blue-200",
-  UNDER_REVIEW: "bg-amber-50 text-amber-700 border border-amber-200",
-  REVISION_REQUESTED: "bg-orange-50 text-orange-700 border border-orange-200",
-  RESUBMITTED: "bg-violet-50 text-violet-700 border border-violet-200",
-  APPROVED: "bg-emerald-50 text-emerald-700 border border-emerald-200",
-  PUBLISHED: "bg-teal-50 text-teal-700 border border-teal-200",
-  REJECTED: "bg-red-50 text-red-700 border border-red-200",
+  DRAFT: "bg-navy/5 text-navy/70 border border-navy/15",
+  SUBMITTED: "bg-sapphire/10 text-sapphire border border-sapphire/20",
+  UNDER_REVIEW: "bg-champagne/40 text-navy border border-taupe/30",
+  REVISION_REQUESTED: "bg-amber-50 text-amber-800 border border-amber-200",
+  RESUBMITTED: "bg-sapphire/15 text-sapphire border border-sapphire/30",
+  APPROVED: "bg-sapphire/20 text-navy font-semibold border border-sapphire/30",
+  PUBLISHED: "bg-navy text-ivory border border-navy",
+  REJECTED: "bg-rose-50 text-rose-700 border border-rose-200",
 };
 
 const DECISION_LABELS: Record<string, string> = {
@@ -354,7 +354,7 @@ export default function AdminSubmissionsPage() {
         {/* ── Flash message ── */}
         {message && (
           <div className={`mt-5 flex items-center justify-between rounded-2xl border-2 px-4 py-3 text-sm font-medium ${message.ok
-              ? "border-emerald-300 bg-emerald-50 text-emerald-800"
+              ? "border-sapphire/30 bg-sapphire/10 text-navy"
               : "border-red-300 bg-red-50 text-red-800"
             }`}>
             {message.text}
@@ -586,7 +586,7 @@ export default function AdminSubmissionsPage() {
                             <span className="font-semibold text-navy">
                               {i === 0 ? "Latest" : `Review ${selected.reviews.length - i}`}
                             </span>
-                            <span className={`rounded-full px-2 py-0.5 text-[10px] font-bold uppercase ${r.decision === "APPROVE" ? "bg-emerald-100 text-emerald-700"
+                            <span className={`rounded-full px-2 py-0.5 text-[10px] font-bold uppercase ${r.decision === "APPROVE" ? "bg-sapphire/20 text-navy font-bold"
                                 : r.decision === "REJECT" ? "bg-red-100 text-red-700"
                                   : "bg-orange-100 text-orange-700"
                               }`}>
@@ -664,10 +664,10 @@ export default function AdminSubmissionsPage() {
                           onClick={() => setDecision(d)}
                           className={`rounded-full px-4 py-2 text-sm font-semibold transition ${decision === d
                               ? d === "APPROVE"
-                                ? "bg-emerald-600 text-white"
+                                ? "bg-navy text-white shadow-xs"
                                 : d === "REJECT"
-                                  ? "bg-red-600 text-white"
-                                  : "bg-navy text-white"
+                                  ? "bg-red-600 text-white shadow-xs"
+                                  : "bg-navy text-white shadow-xs"
                               : "border border-navy/15 bg-white text-navy hover:bg-navy/5"
                             }`}
                         >
@@ -698,8 +698,8 @@ export default function AdminSubmissionsPage() {
                       type="button"
                       onClick={() => void saveReview()}
                       disabled={saving || (decision === "REQUEST_REVISION" && !feedback.trim())}
-                      className={`inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white disabled:opacity-50 ${decision === "APPROVE"
-                          ? "bg-emerald-600 hover:bg-emerald-700"
+                      className={`inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white disabled:opacity-50 cursor-pointer ${decision === "APPROVE"
+                          ? "bg-navy hover:bg-sapphire"
                           : decision === "REJECT"
                             ? "bg-red-600 hover:bg-red-700"
                             : "bg-navy hover:bg-sapphire"
@@ -773,14 +773,14 @@ export default function AdminSubmissionsPage() {
 
               {/* ── Published — view link ── */}
               {selected.status === "PUBLISHED" && selected.publication && (
-                <section className="rounded-2xl border border-teal-200 bg-teal-50 p-4">
-                  <p className="text-sm font-semibold text-teal-800">
+                <section className="rounded-2xl border border-navy/15 bg-champagne/40 p-4 shadow-xs">
+                  <p className="text-sm font-semibold text-navy">
                     This submission is published.
                   </p>
                   <Link
                     href={`/publications/${selected.publication.id}`}
                     target="_blank"
-                    className="mt-2 inline-flex items-center gap-1.5 text-sm font-semibold text-teal-700 hover:underline"
+                    className="mt-2 inline-flex items-center gap-1.5 text-sm font-semibold text-sapphire hover:underline"
                   >
                     View published article <ExternalLink className="h-4 w-4" />
                   </Link>

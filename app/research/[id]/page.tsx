@@ -96,7 +96,7 @@ export default async function ResearchDetailPage({
         {publication.coverImage && (
           <Image
             src={publication.coverImage}
-            alt=""
+            alt={publication.title ? `Cover image for ${publication.title}` : "Research publication cover"}
             width={1200}
             height={400}
             unoptimized

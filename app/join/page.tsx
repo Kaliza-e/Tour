@@ -30,16 +30,16 @@ const ROLE_OPTIONS = [
     icon: <FlaticonFlask size={20} />,
     title: "Student Researcher",
     desc: "I want to conduct research, write papers, and get published on TOUR.",
-    color: "border-sapphire/40 bg-sapphire/5 text-sapphire",
-    selectedColor: "border-sapphire bg-sapphire text-white",
+    color: "border-sapphire/30 bg-sapphire/5 text-sapphire",
+    selectedColor: "border-navy bg-navy text-white",
   },
   {
     value: "MENTOR",
     icon: <FlaticonBook size={20} />,
     title: "Mentor / Educator",
     desc: "I guide student researchers and support their academic development.",
-    color: "border-violet-300 bg-violet-50/60 text-violet-700",
-    selectedColor: "border-violet-600 bg-violet-600 text-white",
+    color: "border-navy/15 bg-champagne/30 text-navy",
+    selectedColor: "border-sapphire bg-sapphire text-white",
   },
 ] as const;
 
@@ -265,7 +265,7 @@ export default function JoinPage() {
                           <div
                             key={i}
                             className={`h-1.5 flex-1 rounded-full transition-all ${form.password.length >= 10
-                              ? "bg-emerald-500"
+                              ? "bg-sapphire"
                               : form.password.length >= 6
                                 ? i < 2 ? "bg-amber-400" : "bg-navy/15"
                                 : i < 1 ? "bg-amber-400" : "bg-navy/15"
@@ -410,7 +410,7 @@ export default function JoinPage() {
             alt="Diverse young student researchers collaborating around a study desk"
             fill
             className="object-cover opacity-35"
-            priority
+            sizes="(max-width: 1024px) 0vw, 40vw"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-navy/95 via-navy/70 to-navy/40" />
 

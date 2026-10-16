@@ -3,12 +3,12 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { motion } from "framer-motion";
-import { ArrowRight, BookOpen } from "lucide-react";
+import { ArrowRight, BookOpen, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PublicationCard } from "@/components/publication-card";
-import { QuestionCard } from "@/components/question-card";
 import {
   FlaticonRocket,
   FlaticonStar,
@@ -27,16 +27,56 @@ import {
 } from "@/components/flaticons";
 import { AnimatedHeading } from "@/components/animated-heading";
 
+const HERO_SLIDES = [
+  {
+    id: "research-papers",
+    image: "/hero-research-papers.jpg",
+    alt: "Scholarly research papers, open notebook, pen, and academic literature on study table",
+    tag: "Research Papers",
+    title: "Open Manuscripts, Scholarly Notes & Peer Review",
+  },
+  {
+    id: "academic-library",
+    image: "/hero-academic-library.jpg",
+    alt: "Curved architectural academic library with vast collections of research books and literature",
+    tag: "Archive of Minds",
+    title: "A Tour Across Curated Human Knowledge & Literature",
+  },
+  {
+    id: "library-aisle",
+    image: "/hero-library-aisle.jpg",
+    alt: "Warm academic library aisle filled with research journals and scholarly books",
+    tag: "Books & Inquiry",
+    title: "Inquiring, Reading, and Discovering New Perspectives",
+  },
+  {
+    id: "student-study",
+    image: "/hero-student-reading.jpg",
+    alt: "Student researcher drafting a paper manuscript, writing notes, and analyzing literature",
+    tag: "Student Authorship",
+    title: "Young Scholars Writing & Publishing Original Research",
+  },
+];
+
 export default function LandingPage() {
+  const router = useRouter();
   const { data: session } = useSession();
   const isSignedIn = Boolean(session);
 
   const [papers, setPapers] = useState<any[]>([]);
-  const [questions, setQuestions] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [loadingQuestions, setLoadingQuestions] = useState(true);
   const [papersLoadError, setPapersLoadError] = useState(false);
-  const [questionsLoadError, setQuestionsLoadError] = useState(false);
+
+  /* Hero search and slide states */
+  const [heroSearchQuery, setHeroSearchQuery] = useState("");
+  const [activeHeroSlide, setActiveHeroSlide] = useState(0);
+
+  const handleHeroSearch = () => {
+    const q = heroSearchQuery.trim();
+    const params = new URLSearchParams();
+    if (q) params.set("q", q);
+    router.push(`/research${params.toString() ? `?${params.toString()}` : ""}`);
+  };
 
   useEffect(() => {
     async function loadPapers() {
@@ -58,234 +98,157 @@ export default function LandingPage() {
       }
     }
 
-    async function loadQuestions() {
-      try {
-        const response = await fetch("/api/questions?limit=6");
-        if (!response.ok) {
-          throw new Error(`Research questions request failed: ${response.status}`);
-        }
-        const data = await response.json();
-        if (!Array.isArray(data?.questions)) {
-          throw new Error("Research questions response has an invalid format.");
-        }
-        setQuestions(data.questions);
-      } catch (err) {
-        console.error("Failed to load research questions:", err);
-        setQuestionsLoadError(true);
-      } finally {
-        setLoadingQuestions(false);
-      }
-    }
+    void loadPapers();
+  }, []);
 
-    void Promise.all([loadPapers(), loadQuestions()]);
+  /* Auto-advancing Hero Carousel (every 6 seconds) */
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveHeroSlide((prev) => (prev + 1) % HERO_SLIDES.length);
+    }, 6000);
+    return () => clearInterval(timer);
   }, []);
 
   return (
     <>
-      {/* 1.1 HERO SECTION (Warm Ivory Modern Header) */}
-      <section className="relative overflow-hidden bg-ivory/60 pt-6 pb-14 md:pb-20 border-b border-navy/10">
-        <div className="container-tour relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center py-6 md:py-10">
-            
-            {/* LEFT SIDE: Oval image frame with honest tag */}
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.94, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              className="lg:col-span-6 relative flex flex-col items-center justify-center order-2 lg:order-1"
-            >
-              <div className="relative w-full max-w-md sm:max-w-lg aspect-[4/3] rounded-[60px] sm:rounded-[100px] border-4 border-navy/20 bg-navy overflow-hidden p-2 sm:p-3 shadow-xl">
+      {/* 1.1 HERO SECTION (Ultra-Luxury Full-Bleed Layout with Dynamic Research Carousel) */}
+      <section className="relative -mt-20 sm:-mt-24 min-h-[680px] lg:min-h-[780px] flex flex-col justify-between pt-28 sm:pt-36 lg:pt-40 pb-12 sm:pb-16 overflow-hidden rounded-b-[2.5rem] sm:rounded-b-[4.5rem] shadow-2xl relative z-20">
+        {/* Background Image Carousel with Cinematic Multi-Stage Dark Gradient & Smooth Transitions */}
+        <div className="absolute inset-0 z-0 overflow-hidden">
+          {HERO_SLIDES.map((slide, idx) => {
+            const isActive = activeHeroSlide === idx;
+            return (
+              <div
+                key={slide.id}
+                className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+                  isActive ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"
+                }`}
+              >
                 <Image
-                  src="/hero-students.jpg"
-                  alt="Student reading and taking research notes with an open book"
-                  width={700}
-                  height={525}
-                  priority
-                  className="w-full h-full object-cover rounded-[50px] sm:rounded-[90px]"
+                  src={slide.image}
+                  alt={slide.alt}
+                  fill
+                  priority={idx === 0}
+                  className={`object-cover object-center transition-transform duration-[7000ms] ease-out ${
+                    isActive ? "scale-105" : "scale-100"
+                  }`}
                 />
+                {/* Multi-stage luxury overlay to ensure text and search dock remain ultra-readable */}
+                <div className="absolute inset-0 bg-gradient-to-b from-[#070D1E]/90 via-[#070D1E]/75 to-[#070D1E]/95" />
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-[#070D1E]/40 to-[#070D1E]/90 pointer-events-none" />
               </div>
+            );
+          })}
+        </div>
 
-              {/* Clean Honest Tag Badge */}
-              <div className="-mt-5 relative z-20 flex justify-center">
-                <div className="inline-flex items-center gap-2 rounded-full border border-navy/20 bg-white/95 px-5 py-2.5 text-xs font-semibold text-navy shadow-lg backdrop-blur-sm">
-                  <FlaticonIdea size={16} className="text-sapphire shrink-0" />
-                  <span>A student-led platform for curiosity & research</span>
+        {/* Ambient Top Glow */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[42rem] h-64 bg-sapphire/20 blur-[130px] pointer-events-none z-10" />
+
+        {/* Hero Main Copy: Clean, majestic, editorial */}
+        <div className="container-tour relative z-10 my-auto text-center px-4 sm:px-6 pt-6 sm:pt-10 pb-8 sm:pb-12">
+          <motion.div
+            initial={{ opacity: 0, y: 25 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            className="max-w-4xl mx-auto space-y-5 sm:space-y-6"
+          >
+            {/* The single majestic headline */}
+            <h1 className="font-heading text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight text-white leading-[1.08] drop-shadow-md">
+              Take a Tour between minds
+            </h1>
+
+            {/* Wordings below headline as requested */}
+            <p className="text-sm sm:text-base md:text-lg text-white/85 max-w-2xl mx-auto font-light leading-relaxed drop-shadow-sm">
+              Tour is an open, student-led academic platform providing young scholars a supportive environment to inquire, research, write, and publish peer-reviewed work.
+            </p>
+
+            {/* Sleek, elevated single search box */}
+            <div className="w-full max-w-2xl mx-auto pt-2 sm:pt-4">
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  handleHeroSearch();
+                }}
+                className="relative flex items-center rounded-full bg-white/95 border-2 border-white/20 shadow-2xl p-1.5 sm:p-2 backdrop-blur-xl transition-all duration-300 focus-within:bg-white focus-within:shadow-[0_20px_60px_rgba(0,0,0,0.4)] focus-within:border-white"
+              >
+                <div className="flex items-center pl-4 sm:pl-5 pr-2 pointer-events-none text-[#112250]/50">
+                  <FlaticonSearch size={20} className="stroke-[2.5]" />
                 </div>
-              </div>
-
-              {/* Floating icons */}
-              <FlaticonPlus size={22} className="absolute top-4 left-4 text-navy/40" />
-              <FlaticonStar size={20} className="absolute bottom-16 right-2 text-navy/50" />
-              <FlaticonPlus size={18} className="absolute -top-2 right-12 text-navy/35" />
-            </motion.div>
-
-            {/* RIGHT SIDE: Headline, subline & CTA */}
-            <div className="lg:col-span-6 relative text-left space-y-6 order-1 lg:order-2">
-              <motion.div 
-                initial={{ opacity: 0, scale: 0.8, rotate: 0 }}
-                animate={{ opacity: 1, scale: 1, rotate: 12 }}
-                transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
-                className="absolute -top-12 right-0 sm:right-6 text-navy pointer-events-none"
-              >
-                <FlaticonRocket size={56} className="text-navy/80" />
-              </motion.div>
-
-              <FlaticonStar size={22} className="absolute -top-4 left-0 text-navy/40" />
-
-              <AnimatedHeading 
-                text="Take a Tour Between Minds" 
-                className="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-[2.75rem] xl:text-5xl font-bold leading-[1.15] text-navy tracking-tight" 
-                delay={0.15} 
-              />
-
-              <motion.p 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                className="text-base sm:text-lg text-navy/70 leading-relaxed max-w-xl"
-              >
-                Tour is a student-led, non-profit research and educational platform empowering young minds to explore, write, and share knowledge.
-              </motion.p>
-
-              {/* Action buttons */}
-              <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
-                className="pt-3 flex flex-wrap items-center gap-4"
-              >
-                <Link
-                  href="/join"
-                  className="inline-flex items-center gap-2.5 rounded-full border-2 border-navy bg-navy px-7 py-3.5 text-sm font-semibold text-ivory hover:bg-sapphire transition-all duration-200 active:scale-[0.98] shadow-md"
+                <input
+                  type="text"
+                  value={heroSearchQuery}
+                  onChange={(e) => setHeroSearchQuery(e.target.value)}
+                  placeholder="Search research papers, topics, authors, or ideas..."
+                  aria-label="Search research papers"
+                  className="w-full bg-transparent py-3 sm:py-3.5 pr-4 text-xs sm:text-sm md:text-base text-[#112250] placeholder:text-[#112250]/45 focus:outline-none font-medium"
+                />
+                <button
+                  type="submit"
+                  aria-label="Search Tour"
+                  className="shrink-0 flex items-center gap-2 rounded-full bg-[#112250] hover:bg-[#1A3365] px-5 sm:px-7 py-3 sm:py-3.5 text-xs sm:text-sm font-semibold text-white shadow-md hover:shadow-lg transition-all duration-200 cursor-pointer active:scale-95"
                 >
-                  <span>Join the journey</span>
-                  <FlaticonArrowRight size={18} />
-                </Link>
-
-                <Link
-                  href="/publications"
-                  className="inline-flex items-center gap-2.5 rounded-full border border-navy/20 bg-transparent px-7 py-3.5 text-sm font-semibold text-navy hover:border-navy transition-all duration-200"
-                >
-                  <span>Explore Publications</span>
-                </Link>
-              </motion.div>
-
-              <div className="pt-2 flex items-center justify-end pr-8">
-                <FlaticonPlus size={24} className="text-navy/40" />
-              </div>
+                  <span>Search</span>
+                  <ArrowRight size={15} />
+                </button>
+              </form>
             </div>
+          </motion.div>
+        </div>
+
+        {/* Carousel indicators & research slide navigator at bottom (matching luxury editorial aesthetic) */}
+        <div className="container-tour relative z-20 flex flex-col sm:flex-row items-center sm:justify-between gap-3 pt-4 px-4 sm:px-6">
+          {/* Active research theme badge */}
+          <div className="flex items-center gap-2 bg-black/40 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/10 text-xs text-white/85 shadow-sm">
+            <span className="h-2 w-2 rounded-full bg-champagne animate-pulse" />
+            <span className="font-semibold text-champagne">{HERO_SLIDES[activeHeroSlide].tag}</span>
+            <span className="text-white/30 hidden md:inline">·</span>
+            <span className="font-light text-white/80 hidden md:inline text-[11px]">{HERO_SLIDES[activeHeroSlide].title}</span>
+          </div>
+
+          {/* Controls: Prev, Dots, Next */}
+          <div className="flex items-center gap-2 bg-black/40 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/10 shadow-sm">
+            <button
+              type="button"
+              onClick={() => setActiveHeroSlide((prev) => (prev - 1 + HERO_SLIDES.length) % HERO_SLIDES.length)}
+              aria-label="Previous research slide"
+              className="text-white/60 hover:text-white transition p-1 cursor-pointer"
+            >
+              <ChevronLeft size={14} />
+            </button>
+            
+            <div className="flex items-center gap-1.5 mx-1">
+              {HERO_SLIDES.map((slide, idx) => (
+                <button
+                  key={slide.id}
+                  type="button"
+                  onClick={() => setActiveHeroSlide(idx)}
+                  aria-label={`Go to slide ${idx + 1}: ${slide.tag}`}
+                  className={`transition-all duration-300 rounded-full cursor-pointer ${
+                    activeHeroSlide === idx
+                      ? "h-2 w-7 bg-champagne shadow-sm"
+                      : "h-2 w-2 bg-white/40 hover:bg-white/70"
+                  }`}
+                />
+              ))}
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setActiveHeroSlide((prev) => (prev + 1) % HERO_SLIDES.length)}
+              aria-label="Next research slide"
+              className="text-white/60 hover:text-white transition p-1 cursor-pointer"
+            >
+              <ChevronRight size={14} />
+            </button>
           </div>
         </div>
       </section>
 
-      {/* 1.2 QUESTION HUB (Dynamic Research Questions) */}
-      <section className="py-20 bg-white border-b border-navy/10">
-        <div className="container-tour space-y-12">
-          
-          {/* Header & Required Intro Copy */}
-          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-6 border-b border-navy/10">
-            <motion.div 
-              initial={{ opacity: 0, y: 25 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="max-w-2xl space-y-3"
-            >
-              <div className="inline-flex items-center gap-2 rounded-full border border-sapphire/20 bg-champagne/40 px-3.5 py-1 text-xs font-bold uppercase tracking-[0.2em] text-navy">
-                <FlaticonIdea size={14} className="text-sapphire" />
-                <span>Question Hub</span>
-              </div>
-              
-              <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold text-navy leading-tight">
-                Found a question worth exploring?
-              </h2>
-              
-              <p className="text-sm sm:text-base text-navy/70 leading-relaxed font-light">
-                A question shared on Tour might be the starting point of your next research project. Choose a question that interests you, explore the topic, and begin looking for answers. You might discover something new, develop an idea, or even turn your findings into a research paper. Someone asked the question. You could be the one to explore it.
-              </p>
-            </motion.div>
+      {/* 1.5 WHAT WE OFFER (Editorial Disciplines Showcase on Airy Canvas) */}
+      <section className="pt-24 sm:pt-32 pb-20 sm:pb-28 relative overflow-hidden">
+        {/* Ambient subtle glow backdrop */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[55rem] h-[35rem] bg-gradient-to-tr from-sapphire/5 via-champagne/15 to-transparent rounded-full blur-3xl pointer-events-none" />
 
-            {/* Action Buttons */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.15 }}
-              className="flex flex-wrap items-center gap-3 shrink-0 lg:pb-1"
-            >
-              <Link
-                href="/questions"
-                className="inline-flex items-center gap-2 rounded-full border-2 border-navy bg-navy px-6 py-3.5 text-xs sm:text-sm font-bold text-white hover:bg-sapphire hover:border-sapphire transition-all duration-200 shadow-sm cursor-pointer"
-              >
-                <span>Browse all questions</span>
-                <FlaticonArrowRight size={16} />
-              </Link>
-              
-              <Link
-                href={isSignedIn ? "/questions?action=ask" : "/login?callbackUrl=/questions?action=ask"}
-                className="inline-flex items-center gap-2 rounded-full border-2 border-navy/20 bg-white px-6 py-3.5 text-xs sm:text-sm font-bold text-navy hover:bg-navy/5 hover:border-navy transition-all duration-200 cursor-pointer"
-              >
-                <FlaticonPlus size={16} />
-                <span>Ask a question</span>
-              </Link>
-            </motion.div>
-          </div>
-
-          {/* Question Cards Grid */}
-          <div>
-            {loadingQuestions ? (
-              <div className="py-16 text-center text-xs font-semibold text-navy/40">
-                Loading approved questions...
-              </div>
-            ) : questionsLoadError ? (
-              <p role="alert" className="py-10 text-center text-sm text-rose-700">
-                Research questions are temporarily unavailable. Please try again later.
-              </p>
-            ) : questions.length > 0 ? (
-              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                {questions.slice(0, 3).map((q, i) => (
-                  <motion.div
-                    key={q.id}
-                    initial={{ opacity: 0, y: 25 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-40px" }}
-                    transition={{ duration: 0.5, delay: i * 0.1 }}
-                    className="h-full flex flex-col"
-                  >
-                    <QuestionCard
-                      id={q.id}
-                      title={q.title}
-                      category={q.category}
-                      askedBy={q.askedBy}
-                      status={q.status}
-                      spotsLeft={q.spotsLeft}
-                      spotsIndicator={q.spotsIndicator}
-                      isFull={q.isFull}
-                      isClaimedByCurrentUser={q.isClaimedByCurrentUser}
-                      isAuthenticated={isSignedIn}
-                    />
-                  </motion.div>
-                ))}
-              </div>
-            ) : (
-              <div className="rounded-3xl border-2 border-dashed border-navy/20 bg-ivory/40 p-10 text-center space-y-3">
-                <p className="text-sm font-semibold text-navy">No approved research questions available yet.</p>
-                <Link
-                  href={isSignedIn ? "/questions?action=ask" : "/login?callbackUrl=/questions?action=ask"}
-                  className="inline-block text-xs font-bold text-sapphire hover:underline"
-                >
-                  Be the first to share a question &rarr;
-                </Link>
-              </div>
-            )}
-          </div>
-
-        </div>
-      </section>
-
-      {/* 1.5 WHAT WE OFFER (Dark Navy Contrast Luxury Section) */}
-      <section className="py-20 bg-navy text-ivory relative overflow-hidden">
-        <div className="absolute top-0 right-0 -mt-10 -mr-10 w-80 h-80 rounded-full bg-sapphire/10 blur-3xl pointer-events-none" />
         <div className="container-tour relative z-10">
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
@@ -294,42 +257,51 @@ export default function LandingPage() {
             transition={{ duration: 0.6, ease: "easeOut" }}
             className="mx-auto max-w-3xl text-center space-y-4"
           >
-            <span className="inline-block rounded-full bg-white/10 border border-white/20 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.2em] text-champagne">
+            <span className="inline-flex items-center gap-2 rounded-full bg-white border border-navy/15 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.2em] text-sapphire shadow-xs">
+              <span className="h-1.5 w-1.5 rounded-full bg-sapphire animate-pulse" />
               Core Disciplines
             </span>
-            <h2 className="font-heading text-3xl font-bold text-white md:text-4xl">
+            <h2 className="font-heading text-4xl sm:text-5xl font-bold text-navy tracking-tight">
               What We Offer
             </h2>
-            <p className="text-ivory/80 leading-relaxed text-base md:text-lg max-w-2xl mx-auto font-light">
+            <p className="text-navy/70 leading-relaxed text-base md:text-lg max-w-2xl mx-auto font-light">
               Tour provides a supportive environment for students to think, research, learn, write, and share their ideas, helping them gain an early and worthwhile start in science and academic research.
             </p>
           </motion.div>
 
-          <div className="mt-14 grid gap-6 md:grid-cols-2">
+          <div className="mt-14 grid gap-6 sm:gap-8 md:grid-cols-2">
             {[
               { 
+                number: "01",
                 title: "Science & Innovation (STEM)", 
-                sub: "Life Sciences, Technology & Engineering, and Environment & Future Science", 
+                tags: ["Life Sciences", "Technology & Engineering", "Environment & Future"], 
                 desc: "Exploring STEM fields, scientific research, technology, and innovation that shape our understanding of the world and drive future progress.",
-                icon: FlaticonOfferStem
+                icon: FlaticonOfferStem,
+                href: "/research?discipline=stem",
               },
               { 
+                number: "02",
                 title: "Health & Society", 
-                sub: "Public & Global Health, Mental Health & Psychology, and Health Policy & Ethics", 
+                tags: ["Public & Global Health", "Mental Health & Psychology", "Health Policy & Ethics"], 
                 desc: "Examining public health, health policy, psychology, and the social dimensions of health through research and critical analysis.",
-                icon: FlaticonOfferHealth
+                icon: FlaticonOfferHealth,
+                href: "/research?discipline=health",
               },
               { 
+                number: "03",
                 title: "Education & Development", 
-                sub: "Education & Learning, Youth & Human Development, and Access & Equity in Education", 
+                tags: ["Education & Learning", "Youth & Human Development", "Access & Equity"], 
                 desc: "Focusing on education, learning systems, youth development, and the role of knowledge in shaping individuals and communities.",
-                icon: FlaticonOfferEducation
+                icon: FlaticonOfferEducation,
+                href: "/research?discipline=education",
               },
               { 
+                number: "04",
                 title: "Humanities & Perspectives", 
-                sub: "History & Philosophy, Society & Culture, and Ethics & Social Issues", 
+                tags: ["History & Philosophy", "Society & Culture", "Ethics & Social Issues"], 
                 desc: "Exploring history, philosophy, social sciences, and diverse perspectives that help us understand societies, cultures, and ideas.",
-                icon: FlaticonOfferHumanities
+                icon: FlaticonOfferHumanities,
+                href: "/research?discipline=humanities",
               },
             ].map((cat, i) => {
               const Icon = cat.icon;
@@ -339,19 +311,48 @@ export default function LandingPage() {
                   initial={{ opacity: 0, y: 35 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-50px" }}
-                  transition={{ duration: 0.6, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] }}
-                  className="rounded-3xl border border-white/15 bg-white/5 backdrop-blur-md p-8 space-y-4 hover:border-champagne/40 hover:bg-white/10 transition-all duration-300 hover:-translate-y-1"
+                  transition={{ duration: 0.6, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+                  className="group relative flex flex-col justify-between rounded-[2rem] border border-navy/10 bg-white/95 backdrop-blur-md p-7 sm:p-9 shadow-card hover:shadow-2xl hover:border-sapphire/40 transition-all duration-300 hover:-translate-y-1.5"
                 >
-                  <div className="flex items-center gap-4">
-                    <div className="w-14 h-14 rounded-2xl bg-white/10 text-champagne border border-white/20 flex items-center justify-center shrink-0">
-                      <Icon size={30} />
+                  <div>
+                    <div className="flex items-center justify-between">
+                      <div className="w-14 h-14 rounded-2xl bg-navy/[0.04] text-navy border border-navy/10 flex items-center justify-center group-hover:bg-navy group-hover:text-champagne transition-colors duration-300 shadow-xs">
+                        <Icon size={30} />
+                      </div>
+                      <span className="font-serif text-3xl font-light text-navy/25 group-hover:text-sapphire/50 transition-colors">
+                        {cat.number}
+                      </span>
                     </div>
-                    <div>
-                      <h3 className="font-heading text-xl font-bold text-white">{cat.title}</h3>
-                      <p className="text-xs font-semibold text-champagne/80 uppercase tracking-wider">{cat.sub}</p>
+
+                    <h3 className="mt-5 font-heading text-2xl font-bold text-navy group-hover:text-sapphire transition-colors">
+                      {cat.title}
+                    </h3>
+
+                    <div className="mt-3 flex flex-wrap gap-1.5">
+                      {cat.tags.map((tag) => (
+                        <span 
+                          key={tag}
+                          className="rounded-full bg-sapphire/[0.05] border border-sapphire/15 px-2.5 py-0.5 text-[11px] font-semibold text-sapphire"
+                        >
+                          {tag}
+                        </span>
+                      ))}
                     </div>
+
+                    <p className="mt-4 text-sm text-navy/70 leading-relaxed font-light">
+                      {cat.desc}
+                    </p>
                   </div>
-                  <p className="text-sm text-ivory/80 leading-relaxed font-light">{cat.desc}</p>
+
+                  <div className="pt-6 mt-6 border-t border-navy/5">
+                    <Link 
+                      href={cat.href}
+                      className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-navy/60 group-hover:text-sapphire group-hover:gap-3 transition-all"
+                    >
+                      <span>Explore {cat.title.split(" ")[0]} Papers</span>
+                      <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                    </Link>
+                  </div>
                 </motion.div>
               );
             })}
@@ -360,7 +361,7 @@ export default function LandingPage() {
       </section>
 
       {/* 1.6 BEFORE SUBMITTING YOUR RESEARCH (Editorial Split Layout with Photo) */}
-      <section className="py-20 bg-white border-t border-navy/10">
+      <section className="py-20 sm:py-28 relative">
         <div className="container-tour">
           <div className="grid gap-12 lg:grid-cols-12 items-center">
             
@@ -372,14 +373,14 @@ export default function LandingPage() {
               transition={{ duration: 0.7 }}
               className="lg:col-span-5 relative"
             >
-              <div className="relative aspect-[4/5] rounded-[36px] overflow-hidden border-2 border-navy/15 shadow-2xl">
+              <div className="relative aspect-[4/5] rounded-[2.5rem] overflow-hidden border border-navy/15 shadow-2xl">
                 <Image 
                   src="/student-writing.jpg" 
                   alt="Student author preparing and drafting research notes" 
                   fill
                   className="object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-navy/85 via-navy/20 to-transparent" />
                 <div className="absolute bottom-6 left-6 right-6 text-white">
                   <span className="rounded-full bg-sapphire px-3 py-1 text-xs font-bold uppercase tracking-wider text-white">
                     Publishing Integrity
@@ -391,7 +392,7 @@ export default function LandingPage() {
               </div>
 
               {/* Floating badge overlay */}
-              <div className="absolute -bottom-6 -right-6 hidden sm:flex items-center gap-3 rounded-2xl border-2 border-navy bg-white p-4 shadow-xl text-navy">
+              <div className="absolute -bottom-5 -right-5 hidden sm:flex items-center gap-3 rounded-2xl border border-navy/15 bg-white/95 backdrop-blur-md p-4 shadow-xl text-navy">
                 <div className="w-10 h-10 rounded-xl bg-sapphire/10 text-sapphire flex items-center justify-center font-bold">
                   ✓
                 </div>
@@ -428,7 +429,7 @@ export default function LandingPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.4 }}
-                  className="rounded-2xl border border-navy/15 bg-ivory/50 p-5 space-y-2 hover:border-navy transition-all"
+                  className="rounded-2xl border border-navy/10 bg-white/90 backdrop-blur-sm p-5 space-y-2 hover:border-navy/30 hover:shadow-card transition-all duration-300"
                 >
                   <div className="flex items-center gap-2.5 text-navy font-bold">
                     <FlaticonCheckCircle size={18} className="text-sapphire" />
@@ -447,7 +448,7 @@ export default function LandingPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: 0.1 }}
-                  className="rounded-2xl border border-navy/15 bg-ivory/50 p-5 space-y-2 hover:border-navy transition-all"
+                  className="rounded-2xl border border-navy/10 bg-white/90 backdrop-blur-sm p-5 space-y-2 hover:border-navy/30 hover:shadow-card transition-all duration-300"
                 >
                   <div className="flex items-center gap-2.5 text-navy font-bold">
                     <FlaticonShieldCheck size={18} className="text-sapphire" />
@@ -466,7 +467,7 @@ export default function LandingPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: 0.2 }}
-                  className="rounded-2xl border border-navy/15 bg-ivory/50 p-5 space-y-2 hover:border-navy transition-all"
+                  className="rounded-2xl border border-navy/10 bg-white/90 backdrop-blur-sm p-5 space-y-2 hover:border-navy/30 hover:shadow-card transition-all duration-300"
                 >
                   <div className="flex items-center gap-2.5 text-navy font-bold">
                     <FlaticonBook size={18} className="text-sapphire" />
@@ -485,7 +486,7 @@ export default function LandingPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: 0.3 }}
-                  className="rounded-2xl border border-navy/15 bg-ivory/50 p-5 space-y-2 hover:border-navy transition-all"
+                  className="rounded-2xl border border-navy/10 bg-white/90 backdrop-blur-sm p-5 space-y-2 hover:border-navy/30 hover:shadow-card transition-all duration-300"
                 >
                   <div className="flex items-center gap-2.5 text-navy font-bold">
                     <FlaticonSearch size={18} className="text-sapphire" />
@@ -503,7 +504,7 @@ export default function LandingPage() {
                 initial={{ opacity: 0, y: 15 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                className="rounded-2xl border border-sapphire/30 bg-champagne/40 px-6 py-4 flex items-center gap-3"
+                className="rounded-2xl border border-sapphire/20 bg-champagne/45 px-6 py-4 flex items-center gap-3 shadow-xs"
               >
                 <FlaticonStar size={20} className="text-navy shrink-0" />
                 <p className="text-sm font-semibold text-navy">
@@ -516,8 +517,8 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* 1.7 SUBMISSION TYPES (Warm Sand Section feel) */}
-      <section className="py-20 bg-[#f8f7f2] border-t border-navy/10">
+      {/* 1.7 SUBMISSION TYPES (Airy Architectural Formats Showcase) */}
+      <section className="py-20 sm:py-28 relative">
         <div className="container-tour">
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
@@ -544,19 +545,25 @@ export default function LandingPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.5 }}
-              className="rounded-3xl border-2 border-navy/15 bg-white p-8 flex flex-col justify-between hover:border-navy transition-all duration-300 hover:-translate-y-1.5 shadow-sm"
+              className="rounded-[2.25rem] border border-navy/10 bg-white/95 backdrop-blur-md p-8 sm:p-9 flex flex-col justify-between hover:border-navy/40 transition-all duration-300 hover:-translate-y-1.5 shadow-card hover:shadow-2xl group"
             >
               <div>
                 <div className="flex items-center justify-between mb-4">
                   <span className="rounded-full bg-sapphire/10 border border-sapphire/20 px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-sapphire">
                     Format 01
                   </span>
-                  <FlaticonBook size={24} className="text-navy/60" />
+                  <FlaticonBook size={24} className="text-navy/50 group-hover:text-navy transition-colors" />
                 </div>
-                <h3 className="font-heading text-2xl font-bold text-navy">Research Papers</h3>
-                <p className="mt-4 text-sm text-navy/75 leading-relaxed font-light">
+                <h3 className="font-heading text-2xl font-bold text-navy group-hover:text-sapphire transition-colors">Research Papers</h3>
+                <p className="mt-4 text-sm text-navy/70 leading-relaxed font-light">
                   Original research-based work that explores a specific question or problem through structured methodology, analysis, and evidence. This type focuses on presenting new findings, insights, or data-driven conclusions.
                 </p>
+              </div>
+              <div className="pt-6 mt-6 border-t border-navy/5">
+                <Link href="/get-published" className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-navy/60 group-hover:text-sapphire transition-colors">
+                  <span>Paper Guidelines</span>
+                  <ArrowRight size={13} className="group-hover:translate-x-0.5 transition-transform" />
+                </Link>
               </div>
             </motion.div>
 
@@ -566,19 +573,25 @@ export default function LandingPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.5, delay: 0.12 }}
-              className="rounded-3xl border-2 border-navy/15 bg-white p-8 flex flex-col justify-between hover:border-navy transition-all duration-300 hover:-translate-y-1.5 shadow-sm"
+              className="rounded-[2.25rem] border border-navy/10 bg-white/95 backdrop-blur-md p-8 sm:p-9 flex flex-col justify-between hover:border-navy/40 transition-all duration-300 hover:-translate-y-1.5 shadow-card hover:shadow-2xl group"
             >
               <div>
                 <div className="flex items-center justify-between mb-4">
-                  <span className="rounded-full bg-emerald-100 border border-emerald-300 px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-emerald-800">
+                  <span className="rounded-full bg-sapphire/10 border border-sapphire/20 px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-sapphire">
                     Format 02
                   </span>
-                  <FlaticonSearch size={24} className="text-navy/60" />
+                  <FlaticonSearch size={24} className="text-navy/50 group-hover:text-navy transition-colors" />
                 </div>
-                <h3 className="font-heading text-2xl font-bold text-navy">Review Articles</h3>
-                <p className="mt-4 text-sm text-navy/75 leading-relaxed font-light">
+                <h3 className="font-heading text-2xl font-bold text-navy group-hover:text-sapphire transition-colors">Review Articles</h3>
+                <p className="mt-4 text-sm text-navy/70 leading-relaxed font-light">
                   Analytical articles that summarize, compare, and evaluate existing research on a specific topic. Review articles do not present new data but aim to organize current knowledge and highlight patterns, gaps, or trends.
                 </p>
+              </div>
+              <div className="pt-6 mt-6 border-t border-navy/5">
+                <Link href="/get-published" className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-navy/60 group-hover:text-sapphire transition-colors">
+                  <span>Review Guidelines</span>
+                  <ArrowRight size={13} className="group-hover:translate-x-0.5 transition-transform" />
+                </Link>
               </div>
             </motion.div>
 
@@ -588,19 +601,25 @@ export default function LandingPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.5, delay: 0.24 }}
-              className="rounded-3xl border-2 border-navy/15 bg-white p-8 flex flex-col justify-between hover:border-navy transition-all duration-300 hover:-translate-y-1.5 shadow-sm"
+              className="rounded-[2.25rem] border border-navy/10 bg-white/95 backdrop-blur-md p-8 sm:p-9 flex flex-col justify-between hover:border-navy/40 transition-all duration-300 hover:-translate-y-1.5 shadow-card hover:shadow-2xl group"
             >
               <div>
                 <div className="flex items-center justify-between mb-4">
-                  <span className="rounded-full bg-amber-100 border border-amber-300 px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-amber-900">
+                  <span className="rounded-full bg-champagne/40 border border-champagne/60 px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-navy">
                     Format 03
                   </span>
-                  <FlaticonGraduation size={24} className="text-navy/60" />
+                  <FlaticonGraduation size={24} className="text-navy/50 group-hover:text-navy transition-colors" />
                 </div>
-                <h3 className="font-heading text-2xl font-bold text-navy">Research Essays</h3>
-                <p className="mt-4 text-sm text-navy/75 leading-relaxed font-light">
+                <h3 className="font-heading text-2xl font-bold text-navy group-hover:text-sapphire transition-colors">Research Essays</h3>
+                <p className="mt-4 text-sm text-navy/70 leading-relaxed font-light">
                   Thoughtful, research-informed essays that explore ideas, concepts, or questions through critical thinking and evidence. This format allows for more reflection and discussion while still requiring credible sources and academic reasoning.
                 </p>
+              </div>
+              <div className="pt-6 mt-6 border-t border-navy/5">
+                <Link href="/get-published" className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-navy/60 group-hover:text-sapphire transition-colors">
+                  <span>Essay Guidelines</span>
+                  <ArrowRight size={13} className="group-hover:translate-x-0.5 transition-transform" />
+                </Link>
               </div>
             </motion.div>
           </div>
@@ -608,7 +627,7 @@ export default function LandingPage() {
       </section>
 
       {/* 2.0 LATEST PUBLICATIONS */}
-      <section className="bg-white py-16 border-t border-navy/10">
+      <section className="py-20 sm:py-28 relative">
         <div className="container-tour space-y-8">
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
@@ -687,14 +706,14 @@ export default function LandingPage() {
       </section>
 
       {/* 2.1 CTA MEGA BANNER */}
-      <section className="py-20 border-t border-navy/10 bg-ivory/30">
+      <section className="py-16 sm:py-24 relative">
         <div className="container-tour">
           <motion.div 
             initial={{ opacity: 0, y: 35 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="px-8 py-16 md:py-20 text-center rounded-[40px] text-white shadow-2xl relative overflow-hidden border-2 border-navy/20"
+            className="px-8 py-16 md:py-20 text-center rounded-[2.5rem] sm:rounded-[3.5rem] text-white shadow-2xl relative overflow-hidden border border-white/20"
           >
             {/* Background Image & Gradient Overlay */}
             <Image

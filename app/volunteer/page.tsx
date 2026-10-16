@@ -25,43 +25,43 @@ const WAYS_TO_EARN = [
     title: "Writing & Publishing",
     desc: "Writing and publishing research papers or essays",
     icon: FlaticonBook,
-    color: "bg-blue-50 text-blue-700 border-blue-200",
+    color: "bg-sapphire/10 text-sapphire border-sapphire/20",
   },
   {
     title: "Opening Chapters",
     desc: "Opening chapters in your country or school. To help Tour reach more young thinkers, you can apply to open a chapter and inspire more students to explore research.",
     icon: FlaticonUsers,
-    color: "bg-purple-50 text-purple-700 border-purple-200",
+    color: "bg-champagne/40 text-navy border-taupe/30",
   },
   {
     title: "Social Media Creation",
     desc: "Creating Instagram posts or TikTok content",
     icon: FlaticonStar,
-    color: "bg-amber-50 text-amber-700 border-amber-200",
+    color: "bg-sapphire/10 text-sapphire border-sapphire/20",
   },
   {
     title: "Graphic & Visual Design",
     desc: "Designing graphic or visual content",
     icon: FlaticonFlask,
-    color: "bg-emerald-50 text-emerald-700 border-emerald-200",
+    color: "bg-champagne/40 text-navy border-taupe/30",
   },
   {
     title: "Editorial & Reviewing",
     desc: "Editing and reviewing submissions",
     icon: FlaticonShieldCheck,
-    color: "bg-indigo-50 text-indigo-700 border-indigo-200",
+    color: "bg-sapphire/10 text-sapphire border-sapphire/20",
   },
   {
     title: "Educational Initiatives",
     desc: "Organizing educational initiatives or learning campaigns",
     icon: FlaticonBriefcase,
-    color: "bg-rose-50 text-rose-700 border-rose-200",
+    color: "bg-champagne/40 text-navy border-taupe/30",
   },
   {
     title: "Translation Services",
     desc: "Translation",
     icon: FlaticonCheckCircle,
-    color: "bg-teal-50 text-teal-700 border-teal-200",
+    color: "bg-sapphire/10 text-sapphire border-sapphire/20",
   },
 ];
 
@@ -117,7 +117,7 @@ export default function VolunteerPage() {
                 alt="Young student researchers collaborating on academic projects"
                 fill
                 className="object-cover"
-                priority
+                sizes="(max-width: 1024px) 100vw, 40vw"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-navy/70 via-transparent to-transparent" />
               <div className="absolute bottom-6 left-6 right-6 text-white">

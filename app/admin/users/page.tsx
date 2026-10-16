@@ -47,10 +47,10 @@ async function readApiResponse(response: Response): Promise<{ error?: string }> 
 // ---------------------------------------------------------------------------
 
 const ROLE_STYLES: Record<Role, string> = {
-  STUDENT: "bg-blue-50 text-blue-700 border border-blue-200",
-  MENTOR: "bg-violet-50 text-violet-700 border border-violet-200",
-  REVIEWER: "bg-amber-50 text-amber-700 border border-amber-200",
-  ADMIN: "bg-rose-50 text-rose-700 border border-rose-200",
+  STUDENT: "bg-sapphire/10 text-sapphire border border-sapphire/20",
+  MENTOR: "bg-champagne/50 text-navy border border-taupe/40",
+  REVIEWER: "bg-navy/10 text-navy border border-navy/20",
+  ADMIN: "bg-navy text-white border border-navy",
 };
 
 const ROLE_LABELS: Record<Role, string> = {
@@ -280,7 +280,7 @@ export default function AdminUsersPage() {
         {message && (
           <div className={`mt-5 flex items-center justify-between rounded-2xl border px-4 py-3 text-sm font-medium ${
             message.ok
-              ? "border-emerald-200 bg-emerald-50 text-emerald-800"
+              ? "border-sapphire/30 bg-sapphire/10 text-navy"
               : "border-red-200 bg-red-50 text-red-800"
           }`}>
             {message.text}

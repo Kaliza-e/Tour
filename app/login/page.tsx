@@ -181,9 +181,9 @@ function LoginForm() {
                 {justRegistered && !error && (
                   <div
                     role="status"
-                    className="flex items-start gap-2.5 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700"
+                    className="flex items-start gap-2.5 rounded-xl border border-sapphire/30 bg-sapphire/10 px-4 py-3 text-sm text-navy"
                   >
-                    <span className="mt-0.5 shrink-0">✓</span>
+                    <span className="mt-0.5 shrink-0 text-sapphire font-bold">✓</span>
                     Account created! Sign in below to continue.
                   </div>
                 )}

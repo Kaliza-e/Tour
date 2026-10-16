@@ -130,8 +130,23 @@ function QuestionsBoardContent() {
     fetchQuestions();
   }, [fetchQuestions]);
 
-  // Handle URL callback for ask modal
+  // Handle URL callback for ask modal & search params
   useEffect(() => {
+    const q = searchParams?.get("search") || searchParams?.get("q");
+    if (q) {
+      setSearchTerm(q);
+    }
+
+    const catParam = searchParams?.get("category");
+    if (catParam) {
+      const match = CATEGORIES.find(
+        (c) => c.toLowerCase().includes(catParam.toLowerCase()) || catParam.toLowerCase().includes(c.toLowerCase())
+      );
+      if (match) {
+        setSelectedCategory(match);
+      }
+    }
+
     if (searchParams?.get("action") === "ask") {
       if (isAuthenticated) {
         setIsModalOpen(true);
@@ -266,17 +281,17 @@ function QuestionsBoardContent() {
 
         {/* ACTIVE CLAIMS BANNER FOR LOGGED-IN USERS */}
         {isAuthenticated && userActiveClaimsCount > 0 && (
-          <div className="mt-6 rounded-2xl border-2 border-emerald-500/30 bg-emerald-50/70 p-5 shadow-sm">
+          <div className="mt-6 rounded-2xl border-2 border-sapphire/30 bg-sapphire/5 p-5 shadow-sm">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div className="flex items-start gap-3">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-emerald-600 text-white shadow-sm mt-0.5">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-sapphire text-white shadow-sm mt-0.5">
                   <BookOpen size={18} />
                 </div>
                 <div>
-                  <h3 className="font-heading text-base font-bold text-emerald-950">
+                  <h3 className="font-heading text-base font-bold text-navy">
                     You have {userActiveClaimsCount} of 2 active research {userActiveClaimsCount === 1 ? "claim" : "claims"}
                   </h3>
-                  <p className="text-xs text-emerald-800/80 mt-0.5">
+                  <p className="text-xs text-navy/70 mt-0.5 font-light">
                     Your investigations are draft-ready in your notebook. You can work on them or release your spot.
                   </p>
                 </div>
@@ -284,7 +299,7 @@ function QuestionsBoardContent() {
 
               <Link
                 href="/researcher"
-                className="inline-flex items-center gap-1.5 self-start sm:self-auto rounded-full bg-emerald-700 px-4 py-2 text-xs font-bold text-white shadow-sm hover:bg-emerald-800 transition"
+                className="inline-flex items-center gap-1.5 self-start sm:self-auto rounded-full bg-navy px-4 py-2 text-xs font-bold text-white shadow-sm hover:bg-sapphire transition"
               >
                 <span>View in Notebook</span>
                 <ArrowRight size={13} />
@@ -292,14 +307,14 @@ function QuestionsBoardContent() {
             </div>
 
             {/* List of active claims with quick release */}
-            <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-3 pt-3 border-t border-emerald-200/60">
+            <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-3 pt-3 border-t border-navy/10">
               {userActiveClaims.map((claim) => (
                 <div
                   key={claim.id}
-                  className="flex items-center justify-between gap-3 rounded-xl border border-emerald-200 bg-white p-3 shadow-xs"
+                  className="flex items-center justify-between gap-3 rounded-xl border border-navy/15 bg-white p-3 shadow-xs"
                 >
                   <div className="min-w-0 flex-1">
-                    <span className="text-[10px] font-bold text-emerald-700 uppercase tracking-wider">
+                    <span className="text-[10px] font-bold text-sapphire uppercase tracking-wider">
                       {claim.category}
                     </span>
                     <Link
@@ -476,7 +491,7 @@ function QuestionsBoardContent() {
 
             {submitSuccess ? (
               <div className="text-center py-6 space-y-4">
-                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-100 text-emerald-700">
+                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-sapphire/10 text-sapphire border border-sapphire/20">
                   <CheckCircle2 size={32} />
                 </div>
                 <h3 className="font-heading text-2xl font-bold text-navy">

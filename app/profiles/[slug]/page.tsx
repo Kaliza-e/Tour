@@ -83,21 +83,21 @@ export default async function PublicProfilePage({ params }: ProfilePageProps) {
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div className="flex items-center gap-4">
               <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-navy text-ivory text-2xl font-bold font-heading shadow-md">
-                {user.name.charAt(0).toUpperCase()}
+                {(user.name || "A").charAt(0).toUpperCase()}
               </div>
               <div>
                 <span className="inline-block rounded-full bg-sapphire/10 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-sapphire mb-1">
                   Student Profile
                 </span>
                 <h1 className="font-heading text-3xl font-bold text-navy">
-                  {user.name}
+                  {user.name || "Student Researcher"}
                 </h1>
               </div>
             </div>
 
             {user.orcid && showDetails && (
-              <div className="inline-flex items-center gap-1.5 rounded-full border border-emerald-300 bg-emerald-50 px-3.5 py-1 text-xs font-mono font-semibold text-emerald-800">
-                <ShieldCheck size={14} className="text-emerald-600" />
+              <div className="inline-flex items-center gap-1.5 rounded-full border border-sapphire/30 bg-sapphire/10 px-3.5 py-1 text-xs font-mono font-semibold text-sapphire">
+                <ShieldCheck size={14} className="text-sapphire" />
                 <span>ORCID: {user.orcid}</span>
               </div>
             )}
@@ -164,7 +164,7 @@ export default async function PublicProfilePage({ params }: ProfilePageProps) {
 
                   <div className="pt-2 flex items-center justify-between">
                     <span className="text-xs text-navy/60">
-                      Author: {pub.submission?.authors?.map((a: { fullName: string }) => a.fullName).join(", ") || user.name}
+                      Author: {pub.submission?.authors?.map((a: { fullName: string }) => a.fullName).join(", ") || user.name || "Student Researcher"}
                     </span>
 
                     <Link

@@ -96,23 +96,23 @@ const STATUS_MAP: Record<string, { label: string; badge: string; icon: React.Rea
   },
   RESUBMITTED: {
     label: "Under Review",
-    badge: "bg-blue-50 text-blue-700 border-blue-200",
-    icon: <RotateCcw className="h-3.5 w-3.5 text-blue-600" />,
+    badge: "bg-sapphire/10 text-sapphire border-sapphire/20",
+    icon: <RotateCcw className="h-3.5 w-3.5 text-sapphire" />,
   },
   APPROVED: {
     label: "Approved",
-    badge: "bg-emerald-50 text-emerald-700 border-emerald-200",
-    icon: <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" />,
+    badge: "bg-sapphire/15 text-navy font-semibold border-sapphire/25",
+    icon: <CheckCircle2 className="h-3.5 w-3.5 text-sapphire" />,
   },
   PUBLISHED: {
     label: "Published",
-    badge: "bg-teal-50 text-teal-700 border-teal-200",
-    icon: <CheckCircle2 className="h-3.5 w-3.5 text-teal-600" />,
+    badge: "bg-navy text-ivory border-navy",
+    icon: <CheckCircle2 className="h-3.5 w-3.5 text-champagne" />,
   },
   REJECTED: {
     label: "Rejected",
-    badge: "bg-red-50 text-red-700 border-red-200",
-    icon: <X className="h-3.5 w-3.5 text-red-600" />,
+    badge: "bg-rose-50 text-rose-700 border-rose-200",
+    icon: <X className="h-3.5 w-3.5 text-rose-600" />,
   },
 };
 
@@ -549,7 +549,7 @@ function ResearcherDashboardContent() {
                     {item.status === "PUBLISHED" && (
                       <Link
                         href={item.publication?.id ? `/publications/${item.publication.id}` : `/publications`}
-                        className="inline-flex items-center gap-2 rounded-full bg-teal-700 px-4 py-2 text-xs font-semibold text-white shadow-sm hover:bg-teal-800 transition"
+                        className="inline-flex items-center gap-2 rounded-full bg-navy px-4 py-2 text-xs font-semibold text-white shadow-sm hover:bg-sapphire transition"
                       >
                         <BookOpen className="h-3.5 w-3.5" /> View Published Research
                       </Link>

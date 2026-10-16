@@ -57,8 +57,8 @@ interface QuestionDetail {
 }
 
 const statusStyles: Record<string, string> = {
-  OPEN: "bg-emerald-100 text-emerald-800 border-emerald-300",
-  BEING_RESEARCHED: "bg-amber-100 text-amber-900 border-amber-300",
+  OPEN: "bg-sapphire/10 text-sapphire border-sapphire/25",
+  BEING_RESEARCHED: "bg-champagne/40 text-navy border-taupe/40",
   FULL: "bg-rose-100 text-rose-800 border-rose-300",
   RESEARCH_COMPLETED: "bg-navy/10 text-navy border-navy/20",
 };
@@ -348,19 +348,19 @@ export default function QuestionDetailPage() {
 
           {/* SUCCESS BANNER */}
           {claimSuccessMessage && (
-            <div className="mt-6 rounded-2xl border border-emerald-300 bg-emerald-50 p-4 text-xs sm:text-sm text-emerald-900 flex items-start justify-between gap-3">
+            <div className="mt-6 rounded-2xl border border-sapphire/30 bg-sapphire/5 p-4 text-xs sm:text-sm text-navy flex items-start justify-between gap-3">
               <div className="flex items-start gap-2">
-                <CheckCircle2 size={18} className="text-emerald-600 shrink-0 mt-0.5" />
+                <CheckCircle2 size={18} className="text-sapphire shrink-0 mt-0.5" />
                 <div>
                   <p className="font-bold">{claimSuccessMessage}</p>
-                  <p className="text-xs text-emerald-800/80 mt-1">
+                  <p className="text-xs text-navy/70 mt-1 font-light">
                     You can record your hypotheses, sources, methodology, and progress directly in your notebook.
                   </p>
                 </div>
               </div>
               <Link
                 href="/researcher"
-                className="shrink-0 inline-flex items-center gap-1 rounded-full bg-emerald-700 px-4 py-1.5 text-xs font-bold text-white hover:bg-emerald-800 transition"
+                className="shrink-0 inline-flex items-center gap-1 rounded-full bg-navy px-4 py-1.5 text-xs font-bold text-white hover:bg-sapphire transition"
               >
                 <span>Open Notebook</span>
                 <ArrowRight size={12} />
@@ -411,9 +411,9 @@ export default function QuestionDetailPage() {
 
                 <Link
                   href="/researcher"
-                  className="inline-flex items-center gap-2 rounded-full border-2 border-emerald-600 bg-emerald-50 px-6 py-3 text-xs sm:text-sm font-bold text-emerald-900 hover:bg-emerald-100 transition shadow-xs"
+                  className="inline-flex items-center gap-2 rounded-full border-2 border-sapphire/40 bg-sapphire/10 px-6 py-3 text-xs sm:text-sm font-bold text-navy hover:bg-sapphire/20 transition shadow-xs"
                 >
-                  <BookOpen size={16} className="text-emerald-700" />
+                  <BookOpen size={16} className="text-sapphire" />
                   <span>In Your Notebook</span>
                 </Link>
 

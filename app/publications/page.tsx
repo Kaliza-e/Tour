@@ -60,7 +60,7 @@ export default async function PublicationsPage() {
   }));
 
   return (
-    <div className="bg-ivory py-16 md:py-20">
+    <div className="bg-transparent py-16 md:py-20">
       <div className="container-tour space-y-8">
         <div className="max-w-2xl">
           <div className="inline-flex items-center gap-2 rounded-full border border-sapphire/20 bg-champagne/50 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-sapphire">

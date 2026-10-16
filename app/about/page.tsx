@@ -57,7 +57,7 @@ export default function AboutPage() {
               alt="Diverse young student researchers collaborating around a study desk"
               fill
               className="object-cover"
-              priority
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1200px"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-navy/60 via-transparent to-transparent" />
             <div className="absolute bottom-6 left-6 right-6 text-white max-w-xl">
@@ -106,13 +106,14 @@ export default function AboutPage() {
           </motion.div>
         </div>
 
-        {/* Why Tour Exists Banner with side image */}
+        {/* Why Tour Exists Banner with side image (Open Access) */}
         <motion.div 
+          id="open-access"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
-          className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr] overflow-hidden rounded-3xl border-2 border-navy bg-navy text-ivory p-6 md:p-8"
+          className="scroll-mt-24 grid gap-6 lg:grid-cols-[1.2fr_0.8fr] overflow-hidden rounded-3xl border-2 border-navy bg-navy text-ivory p-6 md:p-8"
         >
           <div className="flex flex-col justify-center space-y-4 p-4 md:p-6">
             <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.15em] text-champagne w-fit">
@@ -167,6 +168,119 @@ export default function AboutPage() {
                 </motion.div>
               );
             })}
+          </div>
+        </div>
+
+        {/* ── ACADEMIC INTEGRITY, REVIEW & GUIDELINES POLICIES ── */}
+        <div className="space-y-10 pt-8 border-t border-navy/10">
+          <div className="text-center max-w-2xl mx-auto space-y-2">
+            <span className="text-xs font-bold uppercase tracking-[0.2em] text-sapphire">Standards & Governance</span>
+            <h2 className="font-heading text-3xl font-bold text-navy">Academic Integrity & Review Standards</h2>
+            <p className="text-sm text-navy/70">
+              Clear, transparent guidelines designed to support young scholars in producing rigorous, authentic, peer-reviewed work.
+            </p>
+          </div>
+
+          <div className="grid gap-8 lg:grid-cols-2">
+            {/* Author Guidelines */}
+            <motion.div
+              id="guidelines"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="scroll-mt-24 rounded-3xl border-2 border-navy/15 bg-white p-7 sm:p-8 space-y-4 shadow-sm"
+            >
+              <div className="flex items-center gap-3">
+                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-sapphire/10 text-sapphire border border-sapphire/20">
+                  <FlaticonBook size={20} />
+                </div>
+                <div>
+                  <h3 className="font-heading text-xl font-bold text-navy">Author Guidelines</h3>
+                  <span className="text-xs text-sapphire font-semibold uppercase tracking-wider">Submission Standards</span>
+                </div>
+              </div>
+              <ul className="space-y-2.5 text-sm text-navy/75 leading-relaxed list-disc list-inside">
+                <li>All submissions must be the original intellectual work of student author(s).</li>
+                <li>Clear hypothesis, methodology, analysis, and factual supporting evidence required.</li>
+                <li>Standard academic referencing styles (APA, IEEE, Chicago, MLA) must be consistently cited.</li>
+                <li>Authors retain copyright ownership while granting TOUR open-access distribution license.</li>
+              </ul>
+            </motion.div>
+
+            {/* Double-Blind Peer Review */}
+            <motion.div
+              id="review"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="scroll-mt-24 rounded-3xl border-2 border-navy/15 bg-white p-7 sm:p-8 space-y-4 shadow-sm"
+            >
+              <div className="flex items-center gap-3">
+                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-sapphire/10 text-sapphire border border-sapphire/20">
+                  <FlaticonGraduation size={20} />
+                </div>
+                <div>
+                  <h3 className="font-heading text-xl font-bold text-navy">Double-Blind Peer Review</h3>
+                  <span className="text-xs text-sapphire font-semibold uppercase tracking-wider">Evaluation Process</span>
+                </div>
+              </div>
+              <ul className="space-y-2.5 text-sm text-navy/75 leading-relaxed list-disc list-inside">
+                <li>Reviewer identities and author identities are kept strictly anonymous to prevent bias.</li>
+                <li>Submissions are assessed for originality, methodology soundness, and logical consistency.</li>
+                <li>Constructive feedback is provided to help student authors revise, improve, and learn.</li>
+                <li>Editorial board conducts final verification before awarding publication records.</li>
+              </ul>
+            </motion.div>
+
+            {/* 100% Original AI Policy */}
+            <motion.div
+              id="ethics"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="scroll-mt-24 rounded-3xl border-2 border-navy/15 bg-white p-7 sm:p-8 space-y-4 shadow-sm"
+            >
+              <div className="flex items-center gap-3">
+                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-sapphire/10 text-sapphire border border-sapphire/20">
+                  <FlaticonIdea size={20} />
+                </div>
+                <div>
+                  <h3 className="font-heading text-xl font-bold text-navy">100% Original AI Policy</h3>
+                  <span className="text-xs text-sapphire font-semibold uppercase tracking-wider">Ethics & Integrity</span>
+                </div>
+              </div>
+              <ul className="space-y-2.5 text-sm text-navy/75 leading-relaxed list-disc list-inside">
+                <li>AI generation of research papers, abstracts, analyses, or conclusions is strictly prohibited.</li>
+                <li>AI tools may only be utilized as assistants for basic spelling and grammatical proofreading.</li>
+                <li>Any computational tools or algorithms used for data processing must be explicitly cited.</li>
+                <li>Violations result in immediate rejection to preserve genuine student intellectual growth.</li>
+              </ul>
+            </motion.div>
+
+            {/* Student Verification & Confirmation */}
+            <motion.div
+              id="verification"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="scroll-mt-24 rounded-3xl border-2 border-navy/15 bg-white p-7 sm:p-8 space-y-4 shadow-sm"
+            >
+              <div className="flex items-center gap-3">
+                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-champagne/40 text-navy border border-taupe/30">
+                  <FlaticonSparkles size={20} />
+                </div>
+                <div>
+                  <h3 className="font-heading text-xl font-bold text-navy">Student Verification</h3>
+                  <span className="text-xs text-sapphire font-semibold uppercase tracking-wider">Institutional Records</span>
+                </div>
+              </div>
+              <ul className="space-y-2.5 text-sm text-navy/75 leading-relaxed list-disc list-inside">
+                <li>Official letters confirming research publication and author participation for schools.</li>
+                <li>Verified service hour certificates for volunteer contributors and student reviewers.</li>
+                <li>Digital publication record codes verifiable through the TOUR platform registry.</li>
+                <li>Institutional inquiries processed promptly by the editorial secretariat within 24 hours.</li>
+              </ul>
+            </motion.div>
           </div>
         </div>
       </div>

@@ -72,7 +72,7 @@ export default async function PublicationDetailPage({ params }: { params: { id: 
       {publication.coverImage && (
         <Image
           src={publication.coverImage}
-          alt=""
+          alt={publication.title ? `Cover image for ${publication.title}` : "Publication cover"}
           width={1200}
           height={320}
           unoptimized
@@ -115,39 +115,39 @@ export default async function PublicationDetailPage({ params }: { params: { id: 
         </button>
       </div>
 
-      <div className="mt-10 rounded-card bg-white p-8">
-        <h2 className="font-heading text-lg font-bold text-navy">Abstract</h2>
-        <p className="mt-3 leading-relaxed text-navy/65">{publication.abstract}</p>
+      <div className="mt-10 rounded-3xl border-2 border-navy/15 bg-white p-7 sm:p-8 shadow-sm">
+        <h2 className="font-heading text-xl font-bold text-navy">Abstract</h2>
+        <p className="mt-3 leading-relaxed text-navy/75 text-sm sm:text-base font-light">{publication.abstract}</p>
       </div>
 
       {publication.summary && (
-        <div className="mt-8 rounded-card border border-navy/8 bg-white p-8">
-          <h2 className="font-heading text-lg font-bold text-navy">Summary</h2>
-          <p className="mt-3 leading-relaxed text-navy/65">{publication.summary}</p>
+        <div className="mt-8 rounded-3xl border-2 border-navy/15 bg-white p-7 sm:p-8 shadow-sm">
+          <h2 className="font-heading text-xl font-bold text-navy">Summary</h2>
+          <p className="mt-3 leading-relaxed text-navy/75 text-sm sm:text-base font-light">{publication.summary}</p>
         </div>
       )}
 
       {publication.content && (
-        <div className="mt-8 rounded-card border border-navy/8 bg-white p-8">
-          <h2 className="font-heading text-lg font-bold text-navy">Research details</h2>
-          <p className="mt-3 whitespace-pre-wrap leading-relaxed text-navy/65">
+        <div className="mt-8 rounded-3xl border-2 border-navy/15 bg-white p-7 sm:p-8 shadow-sm">
+          <h2 className="font-heading text-xl font-bold text-navy">Research details</h2>
+          <p className="mt-3 whitespace-pre-wrap leading-relaxed text-navy/75 text-sm sm:text-base font-light">
             {publication.content}
           </p>
         </div>
       )}
 
       {publication.authorBio && (
-        <div className="mt-8 rounded-card border border-navy/8 bg-white p-6">
-          <h3 className="font-heading text-sm font-bold text-navy">Author bio</h3>
-          <p className="mt-2 leading-relaxed text-navy/65">{publication.authorBio}</p>
+        <div className="mt-8 rounded-3xl border-2 border-navy/15 bg-white p-6 sm:p-7 shadow-sm">
+          <h3 className="font-heading text-base font-bold text-navy">Author bio</h3>
+          <p className="mt-2 leading-relaxed text-navy/70 text-sm font-light">{publication.authorBio}</p>
         </div>
       )}
 
-      <div className="mt-8 rounded-card border border-navy/8 bg-white p-6">
-        <h3 className="font-heading text-sm font-bold text-navy">Keywords</h3>
-        <div className="mt-2 flex flex-wrap gap-2">
+      <div className="mt-8 rounded-3xl border-2 border-navy/15 bg-white p-6 sm:p-7 shadow-sm">
+        <h3 className="font-heading text-base font-bold text-navy">Keywords</h3>
+        <div className="mt-3 flex flex-wrap gap-2">
           {publication.keywords.map((keyword) => (
-            <span key={keyword} className="rounded-pill bg-ivory px-3 py-1 text-xs text-navy/60">
+            <span key={keyword} className="rounded-full bg-ivory border border-navy/10 px-3.5 py-1 text-xs font-semibold text-navy/70">
               {keyword}
             </span>
           ))}
@@ -155,9 +155,9 @@ export default async function PublicationDetailPage({ params }: { params: { id: 
       </div>
 
       {publication.references && (
-        <div className="mt-8 rounded-card border border-navy/8 bg-white p-6">
-          <h3 className="font-heading text-sm font-bold text-navy">References</h3>
-          <p className="mt-2 whitespace-pre-wrap leading-relaxed text-navy/65">
+        <div className="mt-8 rounded-3xl border-2 border-navy/15 bg-white p-6 sm:p-7 shadow-sm">
+          <h3 className="font-heading text-base font-bold text-navy">References</h3>
+          <p className="mt-2 whitespace-pre-wrap leading-relaxed text-navy/70 text-xs sm:text-sm font-light">
             {publication.references}
           </p>
         </div>

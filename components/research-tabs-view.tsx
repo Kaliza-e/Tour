@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import {
   BookOpen,
   HelpCircle,
@@ -29,6 +30,7 @@ interface ResearchTabsViewProps {
 }
 
 export function ResearchTabsView({ initialPublications }: ResearchTabsViewProps) {
+  const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState<"papers" | "questions" | "community">("papers");
 
   // PAPERS TAB STATE
@@ -37,6 +39,24 @@ export function ResearchTabsView({ initialPublications }: ResearchTabsViewProps)
   const [selectedSubtopic, setSelectedSubtopic] = useState("All");
   const [authorFilter, setAuthorFilter] = useState("");
   const [readerPub, setReaderPub] = useState<ResearchPublicationItem | null>(null);
+
+  useEffect(() => {
+    const q = searchParams?.get("q") || searchParams?.get("search");
+    if (q) setQuery(q);
+
+    const catParam = searchParams?.get("category");
+    if (catParam) {
+      const matched = OFFICIAL_CATEGORIES.find(
+        (c) =>
+          c.slug.toLowerCase() === catParam.toLowerCase() ||
+          c.name.toLowerCase() === catParam.toLowerCase() ||
+          c.id.toLowerCase() === catParam.toLowerCase()
+      );
+      if (matched) {
+        setSelectedCategory(matched.name);
+      }
+    }
+  }, [searchParams]);
 
   // QUESTIONS TAB STATE (P1)
   const [questions, setQuestions] = useState<any[]>([]);
@@ -459,10 +479,10 @@ export function ResearchTabsView({ initialPublications }: ResearchTabsViewProps)
                       <span
                         className={`rounded-full px-3 py-0.5 text-[10px] font-bold uppercase tracking-wider ${
                           q.status === "RESEARCH_COMPLETED"
-                            ? "bg-emerald-100 text-emerald-800 border border-emerald-300"
+                            ? "bg-navy/10 text-navy border border-navy/20"
                             : q.status === "BEING_RESEARCHED"
-                            ? "bg-amber-100 text-amber-800 border border-amber-300"
-                            : "bg-blue-100 text-blue-800 border border-blue-300"
+                            ? "bg-champagne/40 text-navy border border-taupe/40"
+                            : "bg-sapphire/10 text-sapphire border border-sapphire/25"
                         }`}
                       >
                         {q.status.replace(/_/g, " ")}
@@ -490,9 +510,9 @@ export function ResearchTabsView({ initialPublications }: ResearchTabsViewProps)
                     {q.status === "RESEARCH_COMPLETED" && q.linkedPaperId ? (
                       <Link
                         href={`/research?paper=${q.linkedPaperId}`}
-                        className="inline-flex items-center gap-1 font-bold text-emerald-700 hover:underline"
+                        className="inline-flex items-center gap-1 font-bold text-sapphire hover:underline"
                       >
-                        <span>Research Completed</span> <CheckCircle size={14} />
+                        <span>Research Completed</span> <CheckCircle size={14} className="text-sapphire" />
                       </Link>
                     ) : (
                       <button

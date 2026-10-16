@@ -103,11 +103,11 @@ export default function JoinTeamPage() {
   // Autofill if user is logged in
   useEffect(() => {
     if (session?.user) {
-      if (session.user.name && !fullName) {
-        setFullName(session.user.name);
+      if (session.user.name) {
+        setFullName((prev) => prev || session.user.name || "");
       }
-      if (session.user.email && !email) {
-        setEmail(session.user.email);
+      if (session.user.email) {
+        setEmail((prev) => prev || session.user.email || "");
       }
     }
   }, [session]);
@@ -274,13 +274,13 @@ export default function JoinTeamPage() {
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="rounded-[36px] border-2 border-emerald-200 bg-white p-8 sm:p-12 text-center shadow-xl space-y-6"
+            className="rounded-[36px] border-2 border-sapphire/30 bg-white p-8 sm:p-12 text-center shadow-xl space-y-6"
           >
-            <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-3xl bg-emerald-50 text-emerald-600 border border-emerald-200">
+            <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-3xl bg-sapphire/10 text-sapphire border border-sapphire/20">
               <FlaticonCheckCircle size={44} />
             </div>
             <div className="space-y-2">
-              <span className="text-xs font-bold uppercase tracking-wider text-emerald-600">
+              <span className="text-xs font-bold uppercase tracking-wider text-sapphire">
                 Application Received
               </span>
               <h2 className="font-heading text-2xl sm:text-3xl font-bold text-navy">

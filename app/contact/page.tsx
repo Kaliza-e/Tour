@@ -69,7 +69,7 @@ export default function ContactPage() {
           {/* Quick contact feature chips */}
           <div className="mt-6 flex flex-wrap items-center gap-3">
             <div className="flex items-center gap-2 rounded-full border border-navy/15 bg-white px-3.5 py-1.5 text-xs font-semibold text-navy">
-              <FlaticonCheckCircle size={15} className="text-emerald-500" />
+              <FlaticonCheckCircle size={15} className="text-sapphire" />
               <span>24-Hour Response Time</span>
             </div>
             <div className="flex items-center gap-2 rounded-full border border-navy/15 bg-white px-3.5 py-1.5 text-xs font-semibold text-navy">
@@ -118,19 +118,19 @@ export default function ContactPage() {
               <motion.div 
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="mt-8 rounded-2xl border-2 border-emerald-300 bg-emerald-50/70 p-8 text-center text-emerald-900"
+                className="mt-8 rounded-2xl border-2 border-sapphire/30 bg-sapphire/5 p-8 text-center text-navy"
               >
-                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-emerald-500 text-white">
+                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-sapphire text-white shadow-sm">
                   <FlaticonCheckCircle size={32} />
                 </div>
-                <h3 className="mt-4 font-heading text-2xl font-bold">Message Delivered!</h3>
-                <p className="mt-2 text-sm leading-relaxed text-emerald-800">
-                  Thank you for contacting TOUR. Our editorial team will review your inquiry regarding <strong className="font-semibold">{subjectChip}</strong> and get back to you within 24 hours.
+                <h3 className="mt-4 font-heading text-2xl font-bold text-navy">Message Delivered!</h3>
+                <p className="mt-2 text-sm leading-relaxed text-navy/75 font-light">
+                  Thank you for contacting TOUR. Our editorial team will review your inquiry regarding <strong className="font-semibold text-navy">{subjectChip}</strong> and get back to you within 24 hours.
                 </p>
                 <button
                   type="button"
                   onClick={() => setSubmitted(false)}
-                  className="mt-6 rounded-full border border-emerald-600 bg-white px-6 py-2.5 text-xs font-bold text-emerald-700 hover:bg-emerald-100 cursor-pointer"
+                  className="mt-6 rounded-full border border-navy/20 bg-white px-6 py-2.5 text-xs font-bold text-navy hover:bg-navy/5 cursor-pointer transition"
                 >
                   Send another message
                 </button>

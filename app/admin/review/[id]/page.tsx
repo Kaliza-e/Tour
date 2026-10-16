@@ -74,14 +74,14 @@ const STATUS_LABELS: Record<string, string> = {
 };
 
 const STATUS_STYLES: Record<string, string> = {
-  SUBMITTED: "bg-blue-50 text-blue-700 border border-blue-200",
-  UNDER_REVIEW: "bg-amber-50 text-amber-700 border border-amber-200",
-  REVISION_REQUESTED: "bg-orange-50 text-orange-700 border border-orange-200",
-  RESUBMITTED: "bg-violet-50 text-violet-700 border border-violet-200",
-  APPROVED: "bg-emerald-50 text-emerald-700 border border-emerald-200",
-  PUBLISHED: "bg-teal-50 text-teal-700 border border-teal-200",
-  REJECTED: "bg-red-50 text-red-700 border border-red-200",
-  DRAFT: "bg-slate-100 text-slate-600",
+  SUBMITTED: "bg-sapphire/10 text-sapphire border border-sapphire/20",
+  UNDER_REVIEW: "bg-champagne/40 text-navy border border-taupe/30",
+  REVISION_REQUESTED: "bg-amber-50 text-amber-800 border border-amber-200",
+  RESUBMITTED: "bg-sapphire/15 text-sapphire border border-sapphire/30",
+  APPROVED: "bg-sapphire/20 text-navy font-semibold border border-sapphire/30",
+  PUBLISHED: "bg-navy text-ivory border border-navy",
+  REJECTED: "bg-rose-50 text-rose-700 border border-rose-200",
+  DRAFT: "bg-navy/5 text-navy/70 border border-navy/15",
 };
 
 function fmt(date: string | null | undefined) {
@@ -243,7 +243,7 @@ export default function ReviewDetailPage() {
       {message && (
         <div className={`mx-auto mt-4 max-w-screen-lg px-4 md:px-10`}>
           <div className={`flex items-center justify-between rounded-2xl border px-4 py-3 text-sm font-medium ${
-            message.ok ? "border-emerald-200 bg-emerald-50 text-emerald-800" : "border-red-200 bg-red-50 text-red-800"
+            message.ok ? "border-sapphire/30 bg-sapphire/10 text-navy" : "border-red-200 bg-red-50 text-red-800"
           }`}>
             {message.text}
             <button type="button" onClick={() => setMessage(null)} aria-label="Dismiss">
@@ -398,16 +398,16 @@ export default function ReviewDetailPage() {
           {latestReview && (
             <div className={`rounded-3xl border p-5 ${
               latestReview.decision === "APPROVE"
-                ? "border-emerald-200 bg-emerald-50"
+                ? "border-sapphire/30 bg-sapphire/5"
                 : latestReview.decision === "REJECT"
                 ? "border-red-200 bg-red-50"
                 : "border-orange-200 bg-orange-50"
             }`}>
               <div className="flex items-center gap-2 text-sm font-bold text-navy">
-                <MessageSquare className="h-4 w-4" />
+                <MessageSquare className="h-4 w-4 text-sapphire" />
                 Latest Review
                 <span className={`ml-auto rounded-full px-2 py-0.5 text-[10px] font-bold uppercase ${
-                  latestReview.decision === "APPROVE" ? "bg-emerald-200 text-emerald-800"
+                  latestReview.decision === "APPROVE" ? "bg-sapphire/20 text-navy"
                   : latestReview.decision === "REJECT" ? "bg-red-200 text-red-800"
                   : "bg-orange-200 text-orange-800"
                 }`}>
@@ -420,14 +420,14 @@ export default function ReviewDetailPage() {
                 <p className="mt-1 text-xs text-navy/50">by {latestReview.reviewer.name}</p>
               )}
               {latestReview.feedback && (
-                <p className="mt-2.5 text-sm leading-relaxed text-navy/75">{latestReview.feedback}</p>
+                <p className="mt-2.5 text-sm leading-relaxed text-navy/75 font-light">{latestReview.feedback}</p>
               )}
             </div>
           )}
 
           {/* Review decision panel */}
           {submission.status !== "PUBLISHED" && submission.status !== "REJECTED" && (
-            <div className="rounded-3xl border border-navy/10 bg-white p-5">
+            <div className="rounded-3xl border border-navy/10 bg-white p-5 shadow-sm">
               <h2 className="mb-4 font-heading text-base font-bold text-navy">Review Actions</h2>
 
               {/* Decision selector */}
@@ -437,7 +437,7 @@ export default function ReviewDetailPage() {
                   <select
                     value={decision}
                     onChange={(e) => setDecision(e.target.value as typeof decision)}
-                    className="w-full appearance-none rounded-xl border border-navy/10 bg-ivory px-3 py-2.5 pr-9 text-sm font-normal outline-none focus:border-sapphire"
+                    className="w-full appearance-none rounded-xl border border-navy/10 bg-ivory px-3 py-2.5 pr-9 text-sm font-normal outline-none focus:border-sapphire cursor-pointer"
                   >
                     <option value="REQUEST_REVISION">Request Revision</option>
                     <option value="APPROVE">Approve</option>
@@ -449,7 +449,7 @@ export default function ReviewDetailPage() {
 
               {/* Visual decision intent */}
               {decision === "APPROVE" && (
-                <div className="mt-3 rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs text-emerald-700">
+                <div className="mt-3 rounded-xl border border-sapphire/30 bg-sapphire/10 px-3 py-2 text-xs text-navy font-medium">
                   This submission will be moved to <strong>Approved</strong>. An admin can then publish it to the platform.
                 </div>
               )}
@@ -491,9 +491,9 @@ export default function ReviewDetailPage() {
                   type="button"
                   onClick={() => void saveReview()}
                   disabled={saving || (decision === "REQUEST_REVISION" && !feedback.trim())}
-                  className={`inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white transition disabled:opacity-50 ${
+                  className={`inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white transition disabled:opacity-50 cursor-pointer ${
                     decision === "APPROVE"
-                      ? "bg-emerald-600 hover:bg-emerald-700"
+                      ? "bg-navy hover:bg-sapphire"
                       : decision === "REJECT"
                       ? "bg-red-600 hover:bg-red-700"
                       : "bg-navy hover:bg-sapphire"
@@ -575,12 +575,12 @@ export default function ReviewDetailPage() {
 
           {/* Published */}
           {submission.status === "PUBLISHED" && submission.publication && (
-            <div className="rounded-3xl border border-teal-200 bg-teal-50 p-5">
-              <p className="font-semibold text-teal-800">This research is published.</p>
+            <div className="rounded-3xl border border-navy/15 bg-champagne/40 p-5 shadow-xs">
+              <p className="font-semibold text-navy">This research is published.</p>
               <Link
                 href={`/publications/${submission.publication.id}`}
                 target="_blank"
-                className="mt-2 inline-flex items-center gap-1.5 text-sm font-semibold text-teal-700 hover:underline"
+                className="mt-2 inline-flex items-center gap-1.5 text-sm font-semibold text-sapphire hover:underline"
               >
                 View live article <ExternalLink className="h-4 w-4" />
               </Link>
