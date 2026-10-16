@@ -319,7 +319,7 @@ export default function LandingPage() {
                       <div className="w-14 h-14 rounded-2xl bg-navy/[0.04] text-navy border border-navy/10 flex items-center justify-center group-hover:bg-navy group-hover:text-champagne transition-colors duration-300 shadow-xs">
                         <Icon size={30} />
                       </div>
-                      <span className="font-serif text-3xl font-light text-navy/25 group-hover:text-sapphire/50 transition-colors">
+                      <span className="font-sans text-3xl font-light text-navy/25 group-hover:text-sapphire/50 transition-colors">
                         {cat.number}
                       </span>
                     </div>

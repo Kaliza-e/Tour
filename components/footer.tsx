@@ -213,7 +213,7 @@ export function Footer() {
               <p className="text-[11px] sm:text-xs text-white/65 leading-relaxed font-light max-w-sm">
                 Tour is an open, student-led academic platform providing young scholars a supportive environment to inquire, research, write, and publish peer-reviewed work.
               </p>
-              <p className="text-[11px] sm:text-xs text-champagne/80 font-serif italic">
+              <p className="text-[11px] sm:text-xs text-champagne/80 italic">
                 Take a Tour between minds.
               </p>
             </div>

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond } from "next/font/google";
+import { Manrope } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
@@ -8,11 +8,10 @@ import { BackgroundParticles } from "@/components/background-particles";
 import { PageTransition } from "@/components/page-transition";
 import { TourAiWidget } from "@/components/tour-ai-widget";
 
-const cormorant = Cormorant_Garamond({
+const manrope = Manrope({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  style: ["normal", "italic"],
-  variable: "--font-cormorant",
+  weight: ["300", "400", "500", "600", "700", "800"],
+  variable: "--font-manrope",
   display: "swap",
 });
 
@@ -33,11 +32,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={cormorant.variable} suppressHydrationWarning>
+    <html lang="en" className={`${manrope.variable} font-sans`} suppressHydrationWarning>
       <body
         suppressHydrationWarning
-        className="relative bg-[#EBF1F5] text-navy antialiased min-h-screen selection:bg-sapphire/20"
-        style={{ fontFamily: "var(--font-cormorant-family)" }}
+        className="relative bg-[#EBF1F5] text-navy antialiased min-h-screen selection:bg-sapphire/20 font-sans"
       >
         <Providers>
           <BackgroundParticles />

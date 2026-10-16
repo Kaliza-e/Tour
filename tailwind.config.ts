@@ -22,34 +22,35 @@ const config: Config = {
         muted: "#BEB7A7",
       },
       fontFamily: {
-        cormorant: ["var(--font-cormorant-family)"],
-        "cormorant-garamond": ["var(--font-cormorant-family)"],
-        seasons: ["var(--font-cormorant-family)"],
-        "the-seasons": ["var(--font-cormorant-family)"],
-        heading: ["var(--font-cormorant-family)"],
-        body: ["var(--font-cormorant-family)"],
-        button: ["var(--font-cormorant-family)"],
-        navigation: ["var(--font-cormorant-family)"],
-        form: ["var(--font-cormorant-family)"],
-        logo: ["var(--font-cormorant-family)"],
-        label: ["var(--font-cormorant-family)"],
-        outfit: ["var(--font-cormorant-family)"],
-        sans: ["var(--font-cormorant-family)"],
-        serif: ["var(--font-cormorant-family)"],
+        sans: ["var(--font-manrope)", "var(--font-manrope-family)", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
+        manrope: ["var(--font-manrope)", "var(--font-manrope-family)", "sans-serif"],
+        heading: ["var(--font-manrope)", "var(--font-manrope-family)", "sans-serif"],
+        body: ["var(--font-manrope)", "var(--font-manrope-family)", "sans-serif"],
+        button: ["var(--font-manrope)", "var(--font-manrope-family)", "sans-serif"],
+        navigation: ["var(--font-manrope)", "var(--font-manrope-family)", "sans-serif"],
+        form: ["var(--font-manrope)", "var(--font-manrope-family)", "sans-serif"],
+        logo: ["var(--font-manrope)", "var(--font-manrope-family)", "sans-serif"],
+        label: ["var(--font-manrope)", "var(--font-manrope-family)", "sans-serif"],
+        outfit: ["var(--font-manrope)", "var(--font-manrope-family)", "sans-serif"],
+        cormorant: ["var(--font-manrope)", "var(--font-manrope-family)", "sans-serif"],
+        "cormorant-garamond": ["var(--font-manrope)", "var(--font-manrope-family)", "sans-serif"],
+        seasons: ["var(--font-manrope)", "var(--font-manrope-family)", "sans-serif"],
+        "the-seasons": ["var(--font-manrope)", "var(--font-manrope-family)", "sans-serif"],
+        serif: ["var(--font-manrope)", "var(--font-manrope-family)", "sans-serif"],
       },
       fontSize: {
-        xs: ["0.875rem", { lineHeight: "1.4" }],      /* 14px */
-        sm: ["0.95rem", { lineHeight: "1.5" }],       /* ~15px */
-        base: ["1rem", { lineHeight: "1.6" }],        /* 16px */
-        lg: ["1.125rem", { lineHeight: "1.5" }],     /* ~18px */
-        xl: ["1.25rem", { lineHeight: "1.4" }],       /* ~20px */
-        "2xl": ["1.5rem", { lineHeight: "1.3" }],      /* ~24px */
-        "3xl": ["1.875rem", { lineHeight: "1.25" }],   /* ~30px */
-        "4xl": ["2.25rem", { lineHeight: "1.2" }],    /* ~36px */
-        "5xl": ["3rem", { lineHeight: "1.15" }],      /* ~48px */
-        "6xl": ["3.75rem", { lineHeight: "1.1" }],    /* ~60px */
-        hero: ["3rem", { lineHeight: "1.1", letterSpacing: "0" }],
-        "hero-md": ["2.25rem", { lineHeight: "1.15", letterSpacing: "0" }],
+        xs: ["0.875rem", { lineHeight: "1.45", letterSpacing: "-0.006em" }],      /* 14px */
+        sm: ["0.95rem", { lineHeight: "1.55", letterSpacing: "-0.008em" }],       /* ~15px */
+        base: ["1rem", { lineHeight: "1.65", letterSpacing: "-0.011em" }],        /* 16px */
+        lg: ["1.125rem", { lineHeight: "1.55", letterSpacing: "-0.013em" }],     /* ~18px */
+        xl: ["1.25rem", { lineHeight: "1.45", letterSpacing: "-0.017em" }],       /* ~20px */
+        "2xl": ["1.5rem", { lineHeight: "1.35", letterSpacing: "-0.02em" }],      /* ~24px */
+        "3xl": ["1.875rem", { lineHeight: "1.25", letterSpacing: "-0.022em" }],   /* ~30px */
+        "4xl": ["2.25rem", { lineHeight: "1.2", letterSpacing: "-0.025em" }],     /* ~36px */
+        "5xl": ["3rem", { lineHeight: "1.15", letterSpacing: "-0.028em" }],       /* ~48px */
+        "6xl": ["3.75rem", { lineHeight: "1.1", letterSpacing: "-0.03em" }],      /* ~60px */
+        hero: ["3rem", { lineHeight: "1.1", letterSpacing: "-0.03em" }],
+        "hero-md": ["2.25rem", { lineHeight: "1.15", letterSpacing: "-0.025em" }],
       },
       borderRadius: {
         card: "1.5rem",

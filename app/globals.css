@@ -2,78 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: 'The Seasons';
-  src: url('/fonts/the-seasons/FONTSPRINGDEMO-TheSeasonsRegular.woff2') format('woff2'),
-       url('/fonts/the-seasons/FONTSPRINGDEMO-TheSeasonsRegular.woff') format('woff');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-  unicode-range: U+0020, U+002C, U+002E, U+0030-0033, U+0035-003B, U+003F, U+0041-005A, U+0061-007A, U+00C0-00FF;
-}
-
-@font-face {
-  font-family: 'The Seasons';
-  src: url('/fonts/the-seasons/FONTSPRINGDEMO-TheSeasonsItalic.woff2') format('woff2'),
-       url('/fonts/the-seasons/FONTSPRINGDEMO-TheSeasonsItalic.woff') format('woff');
-  font-weight: 400;
-  font-style: italic;
-  font-display: swap;
-  unicode-range: U+0020, U+002C, U+002E, U+0030-0033, U+0035-003B, U+003F, U+0041-005A, U+0061-007A, U+00C0-00FF;
-}
-
-@font-face {
-  font-family: 'The Seasons';
-  src: url('/fonts/the-seasons/FONTSPRINGDEMO-TheSeasonsBold.woff2') format('woff2'),
-       url('/fonts/the-seasons/FONTSPRINGDEMO-TheSeasonsBold.woff') format('woff');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-  unicode-range: U+0020, U+002C, U+002E, U+0030-0033, U+0035-003B, U+003F, U+0041-005A, U+0061-007A, U+00C0-00FF;
-}
-
-@font-face {
-  font-family: 'The Seasons';
-  src: url('/fonts/the-seasons/FONTSPRINGDEMO-TheSeasonsBoldItalic.woff2') format('woff2'),
-       url('/fonts/the-seasons/FONTSPRINGDEMO-TheSeasonsBoldItalic.woff') format('woff');
-  font-weight: 700;
-  font-style: italic;
-  font-display: swap;
-  unicode-range: U+0020, U+002C, U+002E, U+0030-0033, U+0035-003B, U+003F, U+0041-005A, U+0061-007A, U+00C0-00FF;
-}
-
-@font-face {
-  font-family: 'The Seasons';
-  src: url('/fonts/the-seasons/FONTSPRINGDEMO-TheSeasonsLightRegular.woff2') format('woff2'),
-       url('/fonts/the-seasons/FONTSPRINGDEMO-TheSeasonsLightRegular.woff') format('woff');
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-  unicode-range: U+0020, U+002C, U+002E, U+0030-0033, U+0035-003B, U+003F, U+0041-005A, U+0061-007A, U+00C0-00FF;
-}
-
-@font-face {
-  font-family: 'The Seasons';
-  src: url('/fonts/the-seasons/FONTSPRINGDEMO-TheSeasonsLightItalic.woff2') format('woff2'),
-       url('/fonts/the-seasons/FONTSPRINGDEMO-TheSeasonsLightItalic.woff') format('woff');
-  font-weight: 300;
-  font-style: italic;
-  font-display: swap;
-  unicode-range: U+0020, U+002C, U+002E, U+0030-0033, U+0035-003B, U+003F, U+0041-005A, U+0061-007A, U+00C0-00FF;
-}
-
 :root {
-  --font-cormorant-family: var(--font-cormorant), 'Cormorant Garamond', serif;
-  --font-the-seasons-family: var(--font-cormorant-family);
-  --font-outfit: var(--font-cormorant-family);
-  --font-outfit-family: var(--font-cormorant-family);
-  --font-heading: var(--font-cormorant-family);
-  --font-body: var(--font-cormorant-family);
-  --font-button: var(--font-cormorant-family);
-  --font-navigation: var(--font-cormorant-family);
-  --font-form: var(--font-cormorant-family);
-  --font-logo: var(--font-cormorant-family);
-  --font-label: var(--font-cormorant-family);
+  --font-manrope-family: var(--font-manrope), 'Manrope', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-sans-family: var(--font-manrope-family);
+  --font-cormorant-family: var(--font-manrope-family);
+  --font-the-seasons-family: var(--font-manrope-family);
+  --font-outfit: var(--font-manrope-family);
+  --font-outfit-family: var(--font-manrope-family);
+  --font-heading: var(--font-manrope-family);
+  --font-body: var(--font-manrope-family);
+  --font-button: var(--font-manrope-family);
+  --font-navigation: var(--font-manrope-family);
+  --font-form: var(--font-manrope-family);
+  --font-logo: var(--font-manrope-family);
+  --font-label: var(--font-manrope-family);
+  --font-serif: var(--font-manrope-family);
 
   /* Shared Container & Layout Variables */
   --container-max-width: 72rem; /* 1152px / max-w-6xl */
@@ -93,18 +36,20 @@
   }
 }
 
-
 html {
   scroll-behavior: smooth;
-  font-family: var(--font-cormorant-family);
-  font-size: 112.5%; /* 18px base font size for elegant Cormorant Garamond proportions */
+  font-family: var(--font-manrope-family);
+  font-size: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  font-family: var(--font-cormorant-family);
-  font-size: 1.125rem;
+  font-family: var(--font-manrope-family);
+  font-size: 1rem;
   line-height: 1.6;
-  @apply bg-white text-navy antialiased;
+  letter-spacing: -0.011em;
+  @apply bg-[#EBF1F5] text-navy antialiased;
 }
 
 h1,
@@ -113,42 +58,43 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: var(--font-cormorant-family);
-  @apply font-semibold tracking-tight;
+  font-family: var(--font-manrope-family);
+  letter-spacing: -0.025em;
+  @apply font-bold text-navy;
 }
 
 h1 {
-  font-size: 2.5rem;
-  line-height: 1.15;
-}
-
-h2 {
-  font-size: 2rem;
+  font-size: 2.25rem;
   line-height: 1.2;
 }
 
-h3 {
-  font-size: 1.625rem;
+h2 {
+  font-size: 1.875rem;
   line-height: 1.25;
 }
 
-h4 {
-  font-size: 1.35rem;
+h3 {
+  font-size: 1.5rem;
   line-height: 1.3;
+}
+
+h4 {
+  font-size: 1.25rem;
+  line-height: 1.35;
 }
 
 /* Button font */
 button,
 .btn {
-  font-family: var(--font-cormorant-family);
-  font-size: 1.05rem;
+  font-family: var(--font-manrope-family);
+  letter-spacing: -0.01em;
 }
 
 /* Navigation font */
 nav,
 .navbar {
-  font-family: var(--font-cormorant-family);
-  font-size: 1.1rem;
+  font-family: var(--font-manrope-family);
+  letter-spacing: -0.01em;
 }
 
 /* Form elements font */
@@ -157,13 +103,14 @@ textarea,
 select,
 label,
 .form-control {
-  font-family: var(--font-cormorant-family);
-  font-size: 1.05rem;
+  font-family: var(--font-manrope-family);
+  letter-spacing: -0.01em;
 }
 
 /* Logo font */
 .logo {
-  font-family: var(--font-cormorant-family);
+  font-family: var(--font-manrope-family);
+  letter-spacing: -0.02em;
 }
 
 /* Small labels font */
@@ -171,7 +118,16 @@ small,
 .label,
 .text-xs,
 .text-sm {
-  font-family: var(--font-cormorant-family);
+  font-family: var(--font-manrope-family);
+}
+
+/* Research paper body and prose text comfort */
+article,
+.prose,
+.research-content {
+  font-family: var(--font-manrope-family);
+  line-height: 1.7;
+  letter-spacing: -0.011em;
 }
 
 /* Visible keyboard focus, respected everywhere */
