@@ -371,12 +371,14 @@ export default function AdminSubmissionsPage() {
             {/* Top Brand / Logo */}
             <div className="flex items-center justify-between lg:justify-start gap-3 mb-8">
               <Link href="/admin/submissions" className="flex items-center gap-2.5">
-                <div className="grid h-9 w-9 place-items-center rounded-xl bg-navy text-champagne font-extrabold text-lg shadow-sm">
-                  T
-                </div>
-                <span className="font-heading text-xl font-bold tracking-tight text-navy">
-                  TOUR Admin
-                </span>
+                <Image
+                  src="/logo.png"
+                  alt="TOUR"
+                  width={115}
+                  height={34}
+                  priority
+                  className="h-6.5 sm:h-7.5 w-auto object-contain"
+                />
               </Link>
 
               {/* Mobile toggle */}
@@ -522,14 +524,12 @@ export default function AdminSubmissionsPage() {
 
                 {/* Profile Pill */}
                 <div className="flex items-center gap-2.5 rounded-full bg-white border border-navy/15 px-3 py-1.5 shadow-xs">
-                  <Image
-                    src="/logo.png"
-                    alt="TOUR"
-                    width={115}
-                    height={34}
-                    priority
-                    className="h-6.5 sm:h-7.5 w-auto object-contain"
-                  />
+                  <div className="h-7 w-7 rounded-full bg-navy text-champagne text-[10px] font-bold grid place-items-center">
+                    TA
+                  </div>
+                  <span className="hidden sm:inline text-xs font-bold text-navy">
+                    TOUR Admin
+                  </span>
                 </div>
               </div>
             </div>
