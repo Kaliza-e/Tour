@@ -1,9 +1,9 @@
 "use client";
-
 import { FormEvent, Suspense, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
 import {
   AlertCircle,
   ArrowLeft,
@@ -399,12 +399,14 @@ function ResearcherDashboardContent() {
             {/* Top Brand / Logo */}
             <div className="flex items-center justify-between lg:justify-start gap-3 mb-8">
               <Link href="/researcher" className="flex items-center gap-2.5">
-                <div className="grid h-9 w-9 place-items-center rounded-xl bg-navy text-champagne font-extrabold text-lg shadow-sm">
-                  R
-                </div>
-                <span className="font-heading text-xl font-bold tracking-tight text-navy">
-                  TOUR Notebook
-                </span>
+               <Image
+                               src="/logo.png"
+                               alt="TOUR"
+                               width={115}
+                               height={34}
+                               priority
+                               className="h-6.5 sm:h-7.5 w-auto object-contain"
+                             />
               </Link>
 
               {/* Mobile toggle */}

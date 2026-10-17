@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
+import Image from "next/image"
 import {
   ArrowLeft,
   ArrowUpRight,
@@ -521,12 +522,14 @@ export default function AdminSubmissionsPage() {
 
                 {/* Profile Pill */}
                 <div className="flex items-center gap-2.5 rounded-full bg-white border border-navy/15 px-3 py-1.5 shadow-xs">
-                  <div className="h-7 w-7 rounded-full bg-navy text-champagne text-[10px] font-bold grid place-items-center">
-                    TA
-                  </div>
-                  <span className="hidden sm:inline text-xs font-bold text-navy">
-                    TOUR Admin
-                  </span>
+                  <Image
+                    src="/logo.png"
+                    alt="TOUR"
+                    width={115}
+                    height={34}
+                    priority
+                    className="h-6.5 sm:h-7.5 w-auto object-contain"
+                  />
                 </div>
               </div>
             </div>
@@ -534,11 +537,10 @@ export default function AdminSubmissionsPage() {
             {/* Flash Message Banner */}
             {message && (
               <div
-                className={`mb-6 flex items-center justify-between rounded-2xl border px-4 py-3 text-xs sm:text-sm font-semibold transition ${
-                  message.ok
+                className={`mb-6 flex items-center justify-between rounded-2xl border px-4 py-3 text-xs sm:text-sm font-semibold transition ${message.ok
                     ? "border-sapphire/30 bg-sapphire/10 text-navy"
                     : "border-rose-200 bg-rose-50 text-rose-800"
-                }`}
+                  }`}
               >
                 <span>{message.text}</span>
                 <button type="button" onClick={() => setMessage(null)} aria-label="Dismiss">
@@ -656,11 +658,10 @@ export default function AdminSubmissionsPage() {
                           key={st}
                           type="button"
                           onClick={() => setStatusFilter(st)}
-                          className={`rounded-full px-2.5 py-1 text-[10px] font-bold transition cursor-pointer ${
-                            statusFilter === st
+                          className={`rounded-full px-2.5 py-1 text-[10px] font-bold transition cursor-pointer ${statusFilter === st
                               ? "bg-navy text-white"
                               : "bg-ivory text-navy/70 hover:bg-navy/5 border border-navy/10"
-                          }`}
+                            }`}
                         >
                           {st === "ALL" ? "All" : STATUS_LABELS[st] || st}
                         </button>
@@ -726,9 +727,8 @@ export default function AdminSubmissionsPage() {
                               {/* Status Badge */}
                               <td className="py-3.5 pr-3">
                                 <span
-                                  className={`inline-block rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider border ${
-                                    STATUS_STYLES[s.status] ?? STATUS_STYLES.DRAFT
-                                  }`}
+                                  className={`inline-block rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider border ${STATUS_STYLES[s.status] ?? STATUS_STYLES.DRAFT
+                                    }`}
                                 >
                                   {STATUS_LABELS[s.status] ?? s.status}
                                 </span>
@@ -998,9 +998,8 @@ export default function AdminSubmissionsPage() {
                 </h2>
                 <div className="mt-2 flex flex-wrap items-center gap-2">
                   <span
-                    className={`rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider border ${
-                      STATUS_STYLES[selected.status] ?? STATUS_STYLES.DRAFT
-                    }`}
+                    className={`rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider border ${STATUS_STYLES[selected.status] ?? STATUS_STYLES.DRAFT
+                      }`}
                   >
                     {STATUS_LABELS[selected.status] ?? selected.status}
                   </span>
@@ -1109,13 +1108,12 @@ export default function AdminSubmissionsPage() {
                               {i === 0 ? "Latest Review" : `Review #${selected.reviews.length - i}`}
                             </span>
                             <span
-                              className={`rounded-full px-2 py-0.5 text-[10px] font-bold uppercase ${
-                                r.decision === "APPROVE"
+                              className={`rounded-full px-2 py-0.5 text-[10px] font-bold uppercase ${r.decision === "APPROVE"
                                   ? "bg-sapphire/20 text-navy font-bold"
                                   : r.decision === "REJECT"
-                                  ? "bg-rose-100 text-rose-700"
-                                  : "bg-champagne text-navy border border-taupe/30"
-                              }`}
+                                    ? "bg-rose-100 text-rose-700"
+                                    : "bg-champagne text-navy border border-taupe/30"
+                                }`}
                             >
                               {DECISION_LABELS[r.decision]}
                             </span>
@@ -1187,15 +1185,14 @@ export default function AdminSubmissionsPage() {
                           key={d}
                           type="button"
                           onClick={() => setDecision(d)}
-                          className={`rounded-full px-4 py-2 text-xs font-semibold transition cursor-pointer ${
-                            decision === d
+                          className={`rounded-full px-4 py-2 text-xs font-semibold transition cursor-pointer ${decision === d
                               ? d === "APPROVE"
                                 ? "bg-navy text-white shadow-xs"
                                 : d === "REJECT"
-                                ? "bg-rose-600 text-white shadow-xs"
-                                : "bg-navy text-white shadow-xs"
+                                  ? "bg-rose-600 text-white shadow-xs"
+                                  : "bg-navy text-white shadow-xs"
                               : "border border-navy/15 bg-white text-navy hover:bg-ivory"
-                          }`}
+                            }`}
                         >
                           {DECISION_LABELS[d]}
                         </button>
@@ -1213,8 +1210,8 @@ export default function AdminSubmissionsPage() {
                           decision === "REQUEST_REVISION"
                             ? "Thank you for your submission. Please expand the methodology section and clarify the analysis…"
                             : decision === "APPROVE"
-                            ? "Add congratulations or notes for the author before publishing…"
-                            : "Provide a constructive explanation of why the paper was not accepted…"
+                              ? "Add congratulations or notes for the author before publishing…"
+                              : "Provide a constructive explanation of why the paper was not accepted…"
                         }
                         className="mt-1.5 w-full rounded-xl border border-navy/15 bg-white px-3 py-2.5 text-xs text-navy leading-relaxed outline-none focus:border-sapphire"
                       />
