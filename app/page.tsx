@@ -144,35 +144,88 @@ export default function LandingPage() {
         {/* Ambient Top Glow */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[42rem] h-64 bg-sapphire/20 blur-[130px] pointer-events-none z-10" />
 
-        {/* Hero Main Copy: Clean, majestic, editorial */}
+        {/* Hero Main Copy: Clean, majestic, editorial with minimized character scale & lightness */}
         <div className="container-tour relative z-10 my-auto text-center px-4 sm:px-6 pt-6 sm:pt-10 pb-8 sm:pb-12">
-          <motion.div
-            initial={{ opacity: 0, y: 25 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="max-w-4xl mx-auto space-y-5 sm:space-y-6"
-          >
-            {/* The single majestic headline */}
-            <h1 className="font-heading text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight text-white leading-[1.08] drop-shadow-md">
-              Take a Tour between minds
-            </h1>
+          <div className="max-w-3xl mx-auto space-y-4 sm:space-y-5">
+            {/* Delicate Discovery Micro-Pill Badge */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: -10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+              className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3.5 py-1 text-xs font-light text-white/90 backdrop-blur-md shadow-sm"
+            >
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-champagne opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-champagne" />
+              </span>
+              <span className="text-[11px] font-medium tracking-[0.18em] uppercase text-champagne">
+                Academic Discovery
+              </span>
+              <span className="text-white/30">·</span>
+              <span className="text-[11px] text-white/80 font-light">Student-Led Research</span>
+            </motion.div>
 
-            {/* Wordings below headline as requested */}
-            <p className="text-sm sm:text-base md:text-lg text-white/85 max-w-2xl mx-auto font-light leading-relaxed drop-shadow-sm">
+            {/* Refined, Animated Headline (Minimized scale & reduced boldness) */}
+            <div className="relative">
+              {/* Subtle ambient aura behind headline */}
+              <div className="absolute -inset-x-8 -top-6 -bottom-6 bg-gradient-to-r from-sapphire/20 via-champagne/15 to-sapphire/20 blur-2xl pointer-events-none rounded-full opacity-70 animate-pulse" />
+
+              <h1 className="relative font-heading text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-normal tracking-tight text-white leading-tight sm:leading-snug md:leading-[1.18] drop-shadow-[0_4px_20px_rgba(0,0,0,0.4)]">
+                {/* Word-by-word staggered blur-to-focus animation */}
+                {[
+                  { text: "Take", delay: 0.1 },
+                  { text: "a", delay: 0.16 },
+                  { text: "Tour", delay: 0.22 },
+                ].map((item, idx) => (
+                  <motion.span
+                    key={idx}
+                    initial={{ opacity: 0, y: 14, filter: "blur(6px)" }}
+                    animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                    transition={{ duration: 0.6, delay: item.delay, ease: [0.22, 1, 0.36, 1] }}
+                    className="inline-block mr-[0.25em] font-light text-white"
+                  >
+                    {item.text}
+                  </motion.span>
+                ))}
+
+                {/* Animated shimmering phrase "between minds" */}
+                <motion.span
+                  initial={{ opacity: 0, y: 14, filter: "blur(6px)" }}
+                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                  transition={{ duration: 0.7, delay: 0.28, ease: [0.22, 1, 0.36, 1] }}
+                  className="inline-block bg-gradient-to-r from-white via-champagne to-sky-100 bg-clip-text text-transparent font-normal sm:font-medium tracking-normal"
+                >
+                  between minds
+                </motion.span>
+              </h1>
+            </div>
+
+            {/* Refined, graceful subtitle */}
+            <motion.p
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.38, ease: [0.22, 1, 0.36, 1] }}
+              className="text-xs sm:text-sm md:text-base text-white/80 max-w-xl mx-auto font-light leading-relaxed drop-shadow-sm"
+            >
               Tour is an open, student-led academic platform providing young scholars a supportive environment to inquire, research, write, and publish peer-reviewed work.
-            </p>
+            </motion.p>
 
-            {/* Sleek, elevated single search box */}
-            <div className="w-full max-w-2xl mx-auto pt-2 sm:pt-4">
+            {/* Sleek elevated single search dock with subtle floating hover */}
+            <motion.div
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.65, delay: 0.48, ease: [0.22, 1, 0.36, 1] }}
+              className="w-full max-w-xl mx-auto pt-2"
+            >
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
                   handleHeroSearch();
                 }}
-                className="relative flex items-center rounded-full bg-white/95 border-2 border-white/20 shadow-2xl p-1.5 sm:p-2 backdrop-blur-xl transition-all duration-300 focus-within:bg-white focus-within:shadow-[0_20px_60px_rgba(0,0,0,0.4)] focus-within:border-white"
+                className="group relative flex items-center rounded-full bg-white/95 border-2 border-white/20 shadow-2xl p-1.5 sm:p-2 backdrop-blur-xl transition-all duration-300 hover:shadow-[0_20px_50px_rgba(0,0,0,0.35)] hover:border-white/40 focus-within:bg-white focus-within:shadow-[0_20px_60px_rgba(0,0,0,0.45)] focus-within:border-white focus-within:ring-2 focus-within:ring-champagne/40"
               >
-                <div className="flex items-center pl-4 sm:pl-5 pr-2 pointer-events-none text-[#112250]/50">
-                  <FlaticonSearch size={20} className="stroke-[2.5]" />
+                <div className="flex items-center pl-3.5 sm:pl-4 pr-2 pointer-events-none text-[#112250]/50 transition-colors group-focus-within:text-[#112250]">
+                  <FlaticonSearch size={18} className="stroke-[2.5]" />
                 </div>
                 <input
                   type="text"
@@ -180,19 +233,19 @@ export default function LandingPage() {
                   onChange={(e) => setHeroSearchQuery(e.target.value)}
                   placeholder="Search research papers, topics, authors, or ideas..."
                   aria-label="Search research papers"
-                  className="w-full bg-transparent py-3 sm:py-3.5 pr-4 text-xs sm:text-sm md:text-base text-[#112250] placeholder:text-[#112250]/45 focus:outline-none font-medium"
+                  className="w-full bg-transparent py-2.5 sm:py-3 pr-4 text-xs sm:text-sm md:text-base text-[#112250] placeholder:text-[#112250]/45 focus:outline-none font-medium"
                 />
                 <button
                   type="submit"
                   aria-label="Search Tour"
-                  className="shrink-0 flex items-center gap-2 rounded-full bg-[#112250] hover:bg-[#1A3365] px-5 sm:px-7 py-3 sm:py-3.5 text-xs sm:text-sm font-semibold text-white shadow-md hover:shadow-lg transition-all duration-200 cursor-pointer active:scale-95"
+                  className="shrink-0 flex items-center gap-2 rounded-full bg-[#112250] hover:bg-[#1A3365] px-4 sm:px-6 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold text-white shadow-md hover:shadow-lg transition-all duration-200 cursor-pointer active:scale-95"
                 >
                   <span>Search</span>
-                  <ArrowRight size={15} />
+                  <ArrowRight size={14} />
                 </button>
               </form>
-            </div>
-          </motion.div>
+            </motion.div>
+          </div>
         </div>
 
         {/* Carousel indicators & research slide navigator at bottom (matching luxury editorial aesthetic) */}

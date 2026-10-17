@@ -12,6 +12,7 @@ import {
   FlaticonHeart
 } from "@/components/flaticons";
 import { AnimatedHeading } from "@/components/animated-heading";
+import { PastelLightbulbAccent } from "@/components/pastel-lightbulb-accent";
 
 const values = [
   { title: "Curiosity", desc: "Every meaningful study begins with a question worth exploring.", icon: FlaticonIdea },
@@ -25,23 +26,26 @@ export default function AboutPage() {
     <div className="bg-transparent py-12 md:py-16">
       <div className="container-tour space-y-12 md:space-y-16">
         {/* Header */}
-        <motion.div 
-          initial={{ opacity: 0, y: 25 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="mx-auto max-w-3xl text-center space-y-4"
-        >
-          <div className="inline-flex items-center gap-2 rounded-full border border-navy/15 bg-champagne/40 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-navy">
-            <FlaticonSparkles size={14} className="text-navy" /> About Tour
-          </div>
-          <AnimatedHeading 
-            text="A space where young thinkers can begin their research journey early." 
-            className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold text-navy leading-tight" 
-          />
-          <p className="text-base sm:text-lg leading-relaxed text-navy/75">
-            Tour is a student-led, non-profit research and educational platform that encourages young thinkers to start their research journey early, learn from their curiosity, and answer questions instead of only asking them. We believe curiosity, learning, and publishing should be accessible to everyone.
-          </p>
-        </motion.div>
+        <div className="relative">
+          <PastelLightbulbAccent variant="hero" className="-top-8 sm:-top-12 md:-top-14" />
+          <motion.div 
+            initial={{ opacity: 0, y: 25 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            className="relative z-10 mx-auto max-w-3xl text-center space-y-4"
+          >
+            <div className="inline-flex items-center gap-2 rounded-full border border-navy/15 bg-champagne/40 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-navy">
+              <FlaticonSparkles size={14} className="text-navy" /> About Tour
+            </div>
+            <AnimatedHeading 
+              text="A space where young thinkers can begin their research journey early." 
+              className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold text-navy leading-tight" 
+            />
+            <p className="text-base sm:text-lg leading-relaxed text-navy/75">
+              Tour is a student-led, non-profit research and educational platform that encourages young thinkers to start their research journey early, learn from their curiosity, and answer questions instead of only asking them. We believe curiosity, learning, and publishing should be accessible to everyone.
+            </p>
+          </motion.div>
+        </div>
 
         {/* Hero Image Showcase */}
         <motion.div 

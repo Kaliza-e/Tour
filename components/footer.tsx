@@ -83,6 +83,8 @@ export function Footer() {
 
   const hiddenFooterPages = [
     "/dashboard",
+    "/researcher",
+    "/admin",
     "/workspace",
     "/submit",
     "/achievements",

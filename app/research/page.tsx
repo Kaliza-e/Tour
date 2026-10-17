@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { FlaticonBook, FlaticonArrowRight } from "@/components/flaticons";
 import { ResearchTabsView } from "@/components/research-tabs-view";
+import { PastelLightbulbAccent } from "@/components/pastel-lightbulb-accent";
 import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
@@ -64,16 +65,19 @@ export default async function ResearchPage() {
   return (
     <div className="bg-transparent py-16 md:py-20">
       <div className="container-tour space-y-10">
-        <div className="mx-auto max-w-3xl text-center space-y-4">
-          <div className="inline-flex items-center gap-2 rounded-full border border-navy/15 bg-champagne/40 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-navy">
-            <FlaticonBook size={14} /> Research Board
+        <div className="relative">
+          <PastelLightbulbAccent variant="hero" className="-top-10 sm:-top-14 md:-top-16" />
+          <div className="relative z-10 mx-auto max-w-3xl text-center space-y-4">
+            <div className="inline-flex items-center gap-2 rounded-full border border-navy/15 bg-champagne/40 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-navy">
+              <FlaticonBook size={14} /> Research Board
+            </div>
+            <h1 className="font-heading text-3xl font-bold text-navy md:text-5xl">
+              Discover Student Research & Publications
+            </h1>
+            <p className="text-base sm:text-lg leading-relaxed text-navy/70">
+              Read and download research that has completed TOUR&apos;s peer review process.
+            </p>
           </div>
-          <h1 className="font-heading text-3xl font-bold text-navy md:text-5xl">
-            Discover Student Research & Publications
-          </h1>
-          <p className="text-base sm:text-lg leading-relaxed text-navy/70">
-            Read and download research that has completed TOUR&apos;s peer review process.
-          </p>
         </div>
 
         <Suspense fallback={<div className="py-12 text-center text-sm font-semibold text-navy/40">Loading research catalog...</div>}>

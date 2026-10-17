@@ -17,6 +17,7 @@ import {
   FlaticonBook,
 } from "@/components/flaticons";
 import { AlertCircle, Check, Loader2, Sparkles, ExternalLink } from "lucide-react";
+import { PastelLightbulbAccent } from "@/components/pastel-lightbulb-accent";
 
 const TEAM_OPTIONS = [
   {
@@ -239,35 +240,38 @@ export default function JoinTeamPage() {
     <div className="min-h-screen bg-transparent py-12 md:py-20">
       <div className="container-tour max-w-4xl space-y-12">
         {/* HEADER SECTION */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="text-center space-y-4"
-        >
-          <div className="inline-flex items-center gap-2 rounded-full border border-sapphire/25 bg-sapphire/10 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.2em] text-sapphire">
-            <FlaticonUsers size={16} /> Tour Team Application
-          </div>
-          <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold text-navy leading-tight">
-            Join the Tour Team
-          </h1>
-          <p className="max-w-2xl mx-auto text-base sm:text-lg leading-relaxed text-navy/75 font-light">
-            Tour is entirely student-led. We bring together passionate youth researchers, writers, editors,
-            designers, and technologists to make research and knowledge accessible to young minds everywhere.
-          </p>
+        <div className="relative">
+          <PastelLightbulbAccent variant="hero" className="-top-8 sm:-top-12 md:-top-14" />
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="relative z-10 text-center space-y-4"
+          >
+            <div className="inline-flex items-center gap-2 rounded-full border border-sapphire/25 bg-sapphire/10 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.2em] text-sapphire">
+              <FlaticonUsers size={16} /> Tour Team Application
+            </div>
+            <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold text-navy leading-tight">
+              Join the Tour Team
+            </h1>
+            <p className="max-w-2xl mx-auto text-base sm:text-lg leading-relaxed text-navy/75 font-light">
+              Tour is entirely student-led. We bring together passionate youth researchers, writers, editors,
+              designers, and technologists to make research and knowledge accessible to young minds everywhere.
+            </p>
 
-          <div className="pt-2 flex flex-wrap items-center justify-center gap-4 text-xs font-medium text-navy/60">
-            <span className="inline-flex items-center gap-1.5">
-              <FlaticonCheckCircle size={16} className="text-sapphire" /> Volunteer Hour Certificates
-            </span>
-            <span className="inline-flex items-center gap-1.5">
-              <FlaticonCheckCircle size={16} className="text-sapphire" /> Student Leadership & Impact
-            </span>
-            <span className="inline-flex items-center gap-1.5">
-              <FlaticonCheckCircle size={16} className="text-sapphire" /> Global Collaborative Community
-            </span>
-          </div>
-        </motion.div>
+            <div className="pt-2 flex flex-wrap items-center justify-center gap-4 text-xs font-medium text-navy/60">
+              <span className="inline-flex items-center gap-1.5">
+                <FlaticonCheckCircle size={16} className="text-sapphire" /> Volunteer Hour Certificates
+              </span>
+              <span className="inline-flex items-center gap-1.5">
+                <FlaticonCheckCircle size={16} className="text-sapphire" /> Student Leadership & Impact
+              </span>
+              <span className="inline-flex items-center gap-1.5">
+                <FlaticonCheckCircle size={16} className="text-sapphire" /> Global Collaborative Community
+              </span>
+            </div>
+          </motion.div>
+        </div>
 
         {/* THANK YOU / SUCCESS STATE */}
         {isSuccess ? (

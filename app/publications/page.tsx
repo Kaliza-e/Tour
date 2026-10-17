@@ -1,6 +1,7 @@
 import { ArrowRight, BookOpen } from "lucide-react";
 import Link from "next/link";
 import { PublicationLibrary } from "@/components/publication-library";
+import { PastelLightbulbAccent } from "@/components/pastel-lightbulb-accent";
 import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
@@ -62,16 +63,19 @@ export default async function PublicationsPage() {
   return (
     <div className="bg-transparent py-16 md:py-20">
       <div className="container-tour space-y-8">
-        <div className="max-w-2xl">
-          <div className="inline-flex items-center gap-2 rounded-full border border-sapphire/20 bg-champagne/50 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-sapphire">
-            <BookOpen className="h-4 w-4" /> Publications
+        <div className="relative">
+          <PastelLightbulbAccent variant="hero" className="-top-10 sm:-top-14 md:-top-16" />
+          <div className="relative z-10 max-w-2xl">
+            <div className="inline-flex items-center gap-2 rounded-full border border-sapphire/20 bg-champagne/50 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-sapphire">
+              <BookOpen className="h-4 w-4" /> Publications
+            </div>
+            <h1 className="mt-5 font-heading text-3xl font-bold text-navy md:text-4xl">
+              Explore Published Student Research
+            </h1>
+            <p className="mt-3 text-base leading-relaxed text-navy/70">
+              Read and download research that has completed TOUR&apos;s rigorous peer review process.
+            </p>
           </div>
-          <h1 className="mt-5 font-heading text-3xl font-bold text-navy md:text-4xl">
-            Explore Published Student Research
-          </h1>
-          <p className="mt-3 text-base leading-relaxed text-navy/70">
-            Read and download research that has completed TOUR&apos;s rigorous peer review process.
-          </p>
         </div>
 
         <PublicationLibrary publications={items} />

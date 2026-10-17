@@ -215,6 +215,10 @@ export function TourAiWidget() {
     // On mobile small screen optional auto-close or keep open
   };
 
+  if (pathname?.startsWith("/admin") || pathname?.startsWith("/researcher")) {
+    return null;
+  }
+
   return (
     <>
       {/* Floating Action Button */}

@@ -20,6 +20,7 @@ import {
   Loader2,
 } from "lucide-react";
 import { QuestionCard } from "@/components/question-card";
+import { PastelLightbulbAccent } from "@/components/pastel-lightbulb-accent";
 
 interface QuestionItem {
   id: string;
@@ -253,29 +254,32 @@ function QuestionsBoardContent() {
     <div className="min-h-screen pb-20 pt-28 sm:pt-36">
       <div className="container-tour">
         {/* HEADER SECTION */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-navy/10 pb-8">
-          <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 rounded-full border border-sapphire/20 bg-sapphire/5 px-3.5 py-1 text-xs font-semibold text-sapphire mb-4">
-              <Sparkles size={13} />
-              <span>Collaborative Student Inquiry</span>
+        <div className="relative">
+          <PastelLightbulbAccent variant="hero" className="-top-8 sm:-top-12 md:-top-14" />
+          <div className="relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-navy/10 pb-8">
+            <div className="max-w-2xl">
+              <div className="inline-flex items-center gap-2 rounded-full border border-sapphire/20 bg-sapphire/5 px-3.5 py-1 text-xs font-semibold text-sapphire mb-4">
+                <Sparkles size={13} />
+                <span>Collaborative Student Inquiry</span>
+              </div>
+              <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-navy">
+                Question Board
+              </h1>
+              <p className="mt-3 text-sm sm:text-base text-navy/70 leading-relaxed font-light">
+                Explore authentic student-proposed research inquiries, claim an open investigation for your
+                Notebook (up to 3 researchers per question), or post an original question for the community.
+              </p>
             </div>
-            <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-navy">
-              Question Board
-            </h1>
-            <p className="mt-3 text-sm sm:text-base text-navy/70 leading-relaxed font-light">
-              Explore authentic student-proposed research inquiries, claim an open investigation for your
-              Notebook (up to 3 researchers per question), or post an original question for the community.
-            </p>
-          </div>
 
-          <div className="flex items-center gap-3">
-            <button
-              onClick={handleOpenAskModal}
-              className="inline-flex items-center gap-2 rounded-full border-2 border-navy bg-navy px-6 py-3 text-xs sm:text-sm font-bold text-ivory shadow-md transition-all hover:bg-sapphire hover:border-sapphire active:scale-95 cursor-pointer"
-            >
-              <PlusCircle size={16} />
-              <span>Ask a Question</span>
-            </button>
+            <div className="flex items-center gap-3">
+              <button
+                onClick={handleOpenAskModal}
+                className="inline-flex items-center gap-2 rounded-full border-2 border-navy bg-navy px-6 py-3 text-xs sm:text-sm font-bold text-ivory shadow-md transition-all hover:bg-sapphire hover:border-sapphire active:scale-95 cursor-pointer"
+              >
+                <PlusCircle size={16} />
+                <span>Ask a Question</span>
+              </button>
+            </div>
           </div>
         </div>
 

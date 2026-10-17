@@ -17,6 +17,7 @@ import {
   FlaticonFlask
 } from "@/components/flaticons";
 import { Button } from "@/components/ui/button";
+import { PastelLightbulbAccent } from "@/components/pastel-lightbulb-accent";
 
 const SUBJECT_OPTIONS = [
   "Paper Submission",
@@ -50,38 +51,42 @@ export default function ContactPage() {
       <div className="container-tour space-y-10">
         
         {/* HERO HEADER */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="max-w-3xl"
-        >
-          <div className="inline-flex items-center gap-2 rounded-full border border-sapphire/25 bg-sapphire/10 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.2em] text-sapphire">
-            <FlaticonMail size={16} /> Contact TOUR Team
-          </div>
-          <h1 className="mt-5 font-heading text-3xl font-bold text-navy md:text-5xl">
-            We&apos;re here to guide your research journey.
-          </h1>
-          <p className="mt-4 text-base leading-relaxed text-navy/70 md:text-lg">
-            Whether you have a question about publishing your research, volunteering as a mentor, or getting your school involved — reach out anytime.
-          </p>
+        <div className="relative">
+          <PastelLightbulbAccent variant="hero" className="-top-8 sm:-top-12 md:-top-14" />
 
-          {/* Quick contact feature chips */}
-          <div className="mt-6 flex flex-wrap items-center gap-3">
-            <div className="flex items-center gap-2 rounded-full border border-navy/15 bg-white px-3.5 py-1.5 text-xs font-semibold text-navy">
-              <FlaticonCheckCircle size={15} className="text-sapphire" />
-              <span>24-Hour Response Time</span>
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="relative z-10 max-w-3xl"
+          >
+            <div className="inline-flex items-center gap-2 rounded-full border border-sapphire/25 bg-sapphire/10 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.2em] text-sapphire">
+              <FlaticonMail size={16} /> Contact TOUR Team
             </div>
-            <div className="flex items-center gap-2 rounded-full border border-navy/15 bg-white px-3.5 py-1.5 text-xs font-semibold text-navy">
-              <FlaticonFlask size={15} className="text-sapphire" />
-              <span>Peer Review Desk</span>
+            <h1 className="mt-5 font-heading text-3xl font-bold text-navy md:text-5xl">
+              We&apos;re here to guide your research journey.
+            </h1>
+            <p className="mt-4 text-base leading-relaxed text-navy/70 md:text-lg">
+              Whether you have a question about publishing your research, volunteering as a mentor, or getting your school involved — reach out anytime.
+            </p>
+
+            {/* Quick contact feature chips */}
+            <div className="mt-6 flex flex-wrap items-center gap-3">
+              <div className="flex items-center gap-2 rounded-full border border-navy/15 bg-white px-3.5 py-1.5 text-xs font-semibold text-navy">
+                <FlaticonCheckCircle size={15} className="text-sapphire" />
+                <span>24-Hour Response Time</span>
+              </div>
+              <div className="flex items-center gap-2 rounded-full border border-navy/15 bg-white px-3.5 py-1.5 text-xs font-semibold text-navy">
+                <FlaticonFlask size={15} className="text-sapphire" />
+                <span>Peer Review Desk</span>
+              </div>
+              <div className="flex items-center gap-2 rounded-full border border-navy/15 bg-white px-3.5 py-1.5 text-xs font-semibold text-navy">
+                <FlaticonHeart size={15} className="text-rose-500" />
+                <span>Community Support</span>
+              </div>
             </div>
-            <div className="flex items-center gap-2 rounded-full border border-navy/15 bg-white px-3.5 py-1.5 text-xs font-semibold text-navy">
-              <FlaticonHeart size={15} className="text-rose-500" />
-              <span>Community Support</span>
-            </div>
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
 
         {/* MAIN GRID */}
         <div className="grid gap-8 lg:grid-cols-12 items-start">
