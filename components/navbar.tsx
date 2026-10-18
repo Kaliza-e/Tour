@@ -6,6 +6,15 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
 import {
+  Bell,
+  Check,
+  CheckCheck,
+  Clock,
+  ExternalLink,
+  FileText,
+  Sparkles,
+} from "lucide-react";
+import {
   FlaticonBriefcase,
   FlaticonChevronDown,
   FlaticonFlask,
@@ -63,6 +72,35 @@ type SessionUser = {
   role?: UserRole;
 };
 
+interface NotificationItem {
+  id: string;
+  userId: string;
+  message: string;
+  link: string | null;
+  read: boolean;
+  createdAt: string;
+  type: string | null;
+  title: string | null;
+  readAt: string | null;
+}
+
+function timeAgo(dateString: string | Date | null | undefined): string {
+  if (!dateString) return "";
+  const now = new Date();
+  const date = new Date(dateString);
+  const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+
+  if (diffInSeconds < 60) return "Just now";
+  const diffInMinutes = Math.floor(diffInSeconds / 60);
+  if (diffInMinutes < 60) return `${diffInMinutes}m ago`;
+  const diffInHours = Math.floor(diffInMinutes / 60);
+  if (diffInHours < 24) return `${diffInHours}h ago`;
+  const diffInDays = Math.floor(diffInHours / 24);
+  if (diffInDays < 7) return `${diffInDays}d ago`;
+
+  return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+}
+
 /* -------------------------------------------------------------------------- */
 /* Component                                                                  */
 /* -------------------------------------------------------------------------- */
@@ -74,6 +112,9 @@ export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
+  const [notifications, setNotifications] = useState<NotificationItem[]>([]);
+  const [notificationsLoading, setNotificationsLoading] = useState(false);
+  const [activeMenuTab, setActiveMenuTab] = useState<"notifications" | "menu">("notifications");
 
   const user = session?.user as SessionUser | undefined;
   const role = user?.role ?? "";
@@ -85,21 +126,98 @@ export function Navbar() {
   const isAuthor = role === "STUDENT" || role === "MENTOR" || !role;
 
   /* Fetch unread notifications count */
+  const fetchUnread = () => {
+    fetch("/api/notifications/unread-count")
+      .then((res) => res.json())
+      .then((data) => {
+        if (typeof data.count === "number") setUnreadCount(data.count);
+      })
+      .catch(() => {});
+  };
+
   useEffect(() => {
     if (isSignedIn) {
-      const fetchUnread = () => {
-        fetch("/api/notifications/unread-count")
-          .then((res) => res.json())
-          .then((data) => {
-            if (typeof data.count === "number") setUnreadCount(data.count);
-          })
-          .catch(() => {});
-      };
       fetchUnread();
-      const interval = setInterval(fetchUnread, 45000); // 45s polling
+      const interval = setInterval(fetchUnread, 30000); // 30s polling
       return () => clearInterval(interval);
     }
   }, [isSignedIn]);
+
+  /* Fetch full notification list */
+  const fetchNotifications = async () => {
+    setNotificationsLoading(true);
+    try {
+      const res = await fetch("/api/notifications", { cache: "no-store" });
+      if (res.ok) {
+        const data = (await res.json()) as { notifications: NotificationItem[]; unreadCount: number };
+        setNotifications(data.notifications || []);
+        if (typeof data.unreadCount === "number") {
+          setUnreadCount(data.unreadCount);
+        }
+      }
+    } catch (err) {
+      console.error("Failed to fetch notifications", err);
+    } finally {
+      setNotificationsLoading(false);
+    }
+  };
+
+  /* Mark all notifications as read */
+  const markAllAsRead = async () => {
+    setUnreadCount(0);
+    setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
+    try {
+      await fetch("/api/notifications/read-all", { method: "POST" });
+    } catch (err) {
+      console.error("Failed to mark notifications read", err);
+    }
+  };
+
+  /* Mark single notification as read & handle link */
+  const handleNotificationClick = async (n: NotificationItem) => {
+    if (!n.read) {
+      setUnreadCount((prev) => Math.max(0, prev - 1));
+      setNotifications((prev) =>
+        prev.map((item) => (item.id === n.id ? { ...item, read: true } : item))
+      );
+      try {
+        await fetch("/api/notifications", {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id: n.id, read: true }),
+        });
+      } catch (err) {
+        console.error("Failed to mark notification read", err);
+      }
+    }
+    if (n.link) {
+      setUserMenuOpen(false);
+    }
+  };
+
+  /* Toggle dropdown menu and load notifications */
+  const handleToggleUserMenu = () => {
+    setUserMenuOpen((prev) => {
+      const next = !prev;
+      if (next) {
+        if (unreadCount > 0) {
+          setActiveMenuTab("notifications");
+        }
+        void fetchNotifications();
+      }
+      return next;
+    });
+  };
+
+  /* Auto-mark notifications as read when the user views the notifications tab */
+  useEffect(() => {
+    if (userMenuOpen && activeMenuTab === "notifications" && unreadCount > 0) {
+      const timer = setTimeout(() => {
+        void markAllAsRead();
+      }, 1200);
+      return () => clearTimeout(timer);
+    }
+  }, [userMenuOpen, activeMenuTab, unreadCount]);
 
   /* Close menus on path change */
   useEffect(() => {
@@ -242,16 +360,16 @@ export function Navbar() {
               <FlaticonBook size={20} />
             </Link>
 
-            {/* User Profile / Auth */}
+            {/* User Profile / Notifications Auth */}
             {isSignedIn ? (
               <div className="relative" data-user-menu>
                 <button
                   type="button"
-                  onClick={() => setUserMenuOpen((open) => !open)}
+                  onClick={handleToggleUserMenu}
                   aria-expanded={userMenuOpen}
                   aria-haspopup="menu"
                   title={user?.name || "Account"}
-                  className="relative grid h-8 w-8 sm:h-9 sm:w-9 place-items-center overflow-visible rounded-full border-2 border-navy/20 bg-navy text-white transition hover:ring-2 hover:ring-sapphire/40 ml-0.5"
+                  className="relative grid h-8 w-8 sm:h-9 sm:w-9 place-items-center overflow-visible rounded-full border-2 border-navy/20 bg-navy text-white transition hover:ring-2 hover:ring-sapphire/40 ml-0.5 cursor-pointer"
                 >
                   {user?.image ? (
                     <Image
@@ -265,75 +383,246 @@ export function Navbar() {
                     <FlaticonUser size={18} className="text-white" />
                   )}
                   {unreadCount > 0 && (
-                    <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-rose-500 text-[9px] font-bold text-white shadow-sm ring-2 ring-white">
+                    <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-rose-500 text-[9px] font-bold text-white shadow-sm ring-2 ring-white animate-in zoom-in-75">
                       {unreadCount > 9 ? "9+" : unreadCount}
                     </span>
                   )}
                 </button>
 
-                {/* User Dropdown */}
+                {/* Modern User & Notifications Dropdown */}
                 {userMenuOpen && (
                   <div
                     role="menu"
-                    className="absolute right-0 top-[calc(100%+14px)] w-64 overflow-hidden rounded-2xl border-2 border-navy/15 bg-white p-2 shadow-xl z-50"
+                    className="absolute right-0 top-[calc(100%+14px)] w-80 sm:w-92 overflow-hidden rounded-3xl border-2 border-navy/15 bg-white shadow-2xl z-50 animate-in fade-in zoom-in-95 duration-150"
                   >
-                    <div className="border-b border-navy/10 px-3 py-3">
-                      <p className="truncate text-xs font-bold text-navy">
-                        {user?.name || "User"}
-                      </p>
-                      <p className="truncate text-[11px] text-navy/60">
-                        {user?.email || role || "TOUR Member"}
-                      </p>
+                    {/* User Header */}
+                    <div className="border-b border-navy/10 px-4 py-3 bg-ivory/50 flex items-center justify-between">
+                      <div className="flex items-center gap-2.5 min-w-0">
+                        <div className="h-8.5 w-8.5 rounded-full bg-navy text-white text-xs font-bold grid place-items-center shrink-0 border border-navy/20 shadow-xs">
+                          {user?.name ? user.name.slice(0, 2).toUpperCase() : "AU"}
+                        </div>
+                        <div className="min-w-0">
+                          <p className="truncate text-xs font-bold text-navy">
+                            {user?.name || "User"}
+                          </p>
+                          <p className="truncate text-[11px] text-navy/55">
+                            {user?.email || "TOUR Member"}
+                          </p>
+                        </div>
+                      </div>
+                      <span className="shrink-0 rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider bg-sapphire/10 text-sapphire border border-sapphire/20">
+                        {role || "Author"}
+                      </span>
                     </div>
 
-                    <div className="py-1 space-y-0.5">
-                      <Link
-                        href={getDashboardPath()}
-                        role="menuitem"
-                        className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-xs font-semibold text-navy transition-colors hover:bg-navy/5"
-                      >
-                        {isAdmin ? (
-                          <FlaticonShieldCheck size={16} className="text-sapphire" />
-                        ) : isReviewer ? (
-                          <FlaticonSettings size={16} className="text-sapphire" />
-                        ) : (
-                          <FlaticonDashboard size={16} className="text-sapphire" />
+                    {/* Tab Navigation: Notifications vs Account Menu */}
+                    <div className="flex items-center border-b border-navy/10 bg-white px-2 pt-1.5">
+                      <button
+                        type="button"
+                        onClick={() => setActiveMenuTab("notifications")}
+                        className={cn(
+                          "flex-1 pb-2 text-xs font-bold transition flex items-center justify-center gap-1.5 border-b-2 cursor-pointer",
+                          activeMenuTab === "notifications"
+                            ? "border-navy text-navy font-extrabold"
+                            : "border-transparent text-navy/50 hover:text-navy"
                         )}
-                        {getDashboardLabel()}
-                      </Link>
+                      >
+                        <Bell className="h-3.5 w-3.5" />
+                        <span>Notifications</span>
+                        {unreadCount > 0 && (
+                          <span className="ml-1 rounded-full bg-rose-500 px-1.5 py-0.2 text-[9px] font-bold text-white shadow-2xs">
+                            {unreadCount}
+                          </span>
+                        )}
+                      </button>
 
-                      {isAuthor && (
+                      <button
+                        type="button"
+                        onClick={() => setActiveMenuTab("menu")}
+                        className={cn(
+                          "flex-1 pb-2 text-xs font-bold transition flex items-center justify-center gap-1.5 border-b-2 cursor-pointer",
+                          activeMenuTab === "menu"
+                            ? "border-navy text-navy font-extrabold"
+                            : "border-transparent text-navy/50 hover:text-navy"
+                        )}
+                      >
+                        <FlaticonDashboard size={14} />
+                        <span>Account</span>
+                      </button>
+                    </div>
+
+                    {/* Tab 1: Notifications List */}
+                    {activeMenuTab === "notifications" && (
+                      <div>
+                        {/* Sub-header with mark all as read */}
+                        <div className="flex items-center justify-between px-4 py-2 border-b border-navy/5 bg-ivory/20">
+                          <span className="text-[11px] font-semibold text-navy/60">
+                            {unreadCount > 0 ? (
+                              <span className="text-sapphire font-bold">{unreadCount} unread</span>
+                            ) : (
+                              "All notifications read"
+                            )}
+                          </span>
+                          {unreadCount > 0 && (
+                            <button
+                              type="button"
+                              onClick={markAllAsRead}
+                              className="inline-flex items-center gap-1 text-[11px] font-bold text-sapphire hover:text-navy transition cursor-pointer"
+                            >
+                              <CheckCheck className="h-3.5 w-3.5" />
+                              <span>Mark all read</span>
+                            </button>
+                          )}
+                        </div>
+
+                        {/* List */}
+                        <div className="max-h-72 overflow-y-auto divide-y divide-navy/5">
+                          {notificationsLoading && notifications.length === 0 ? (
+                            <div className="py-8 text-center text-xs text-navy/50">
+                              Loading notifications…
+                            </div>
+                          ) : notifications.length === 0 ? (
+                            <div className="py-10 text-center px-4">
+                              <Bell className="h-7 w-7 text-navy/20 mx-auto mb-2" />
+                              <p className="text-xs font-bold text-navy">No notifications yet</p>
+                              <p className="text-[11px] text-navy/50 mt-1 max-w-[200px] mx-auto">
+                                Updates regarding research submissions and reviews will show up here.
+                              </p>
+                            </div>
+                          ) : (
+                            notifications.map((n) => {
+                              const itemInner = (
+                                <>
+                                  <div
+                                    className={cn(
+                                      "mt-0.5 grid h-7 w-7 place-items-center rounded-full shrink-0",
+                                      !n.read
+                                        ? "bg-sapphire/15 text-sapphire"
+                                        : "bg-navy/5 text-navy/40"
+                                    )}
+                                  >
+                                    {!n.read ? (
+                                      <Sparkles className="h-3.5 w-3.5 text-sapphire" />
+                                    ) : (
+                                      <Check className="h-3.5 w-3.5 text-navy/40" />
+                                    )}
+                                  </div>
+
+                                  <div className="flex-1 min-w-0">
+                                    {n.title && (
+                                      <p className="text-xs font-bold text-navy truncate">
+                                        {n.title}
+                                      </p>
+                                    )}
+                                    <p
+                                      className={cn(
+                                        "text-xs leading-snug",
+                                        !n.read ? "font-semibold text-navy" : "text-navy/70"
+                                      )}
+                                    >
+                                      {n.message}
+                                    </p>
+                                    <div className="mt-1 flex items-center justify-between">
+                                      <span className="text-[10px] text-navy/45">
+                                        {timeAgo(n.createdAt)}
+                                      </span>
+                                      {n.link && (
+                                        <span className="text-[10px] font-bold text-sapphire inline-flex items-center gap-0.5">
+                                          View <ExternalLink className="h-2.5 w-2.5" />
+                                        </span>
+                                      )}
+                                    </div>
+                                  </div>
+
+                                  {!n.read && (
+                                    <span
+                                      className="h-2 w-2 rounded-full bg-sapphire shrink-0 mt-1.5"
+                                      title="Unread"
+                                    />
+                                  )}
+                                </>
+                              );
+
+                              const itemClasses = cn(
+                                "px-4 py-3 transition cursor-pointer flex items-start gap-3 hover:bg-ivory/60 text-left w-full",
+                                !n.read ? "bg-sapphire/5" : "bg-white"
+                              );
+
+                              return n.link ? (
+                                <Link
+                                  key={n.id}
+                                  href={n.link}
+                                  onClick={() => void handleNotificationClick(n)}
+                                  className={itemClasses}
+                                >
+                                  {itemInner}
+                                </Link>
+                              ) : (
+                                <div
+                                  key={n.id}
+                                  onClick={() => void handleNotificationClick(n)}
+                                  className={itemClasses}
+                                >
+                                  {itemInner}
+                                </div>
+                              );
+                            })
+                          )}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Tab 2: Account Navigation Links */}
+                    {activeMenuTab === "menu" && (
+                      <div className="py-2 px-1 space-y-0.5">
                         <Link
-                          href="/researcher"
+                          href={getDashboardPath()}
                           role="menuitem"
                           className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-xs font-semibold text-navy transition-colors hover:bg-navy/5"
                         >
-                          <FlaticonFlask size={16} className="text-sapphire" />
-                          My Research
+                          {isAdmin ? (
+                            <FlaticonShieldCheck size={16} className="text-sapphire" />
+                          ) : isReviewer ? (
+                            <FlaticonSettings size={16} className="text-sapphire" />
+                          ) : (
+                            <FlaticonDashboard size={16} className="text-sapphire" />
+                          )}
+                          {getDashboardLabel()}
                         </Link>
-                      )}
 
-                      <Link
-                        href="/settings"
-                        role="menuitem"
-                        className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-xs font-semibold text-navy transition-colors hover:bg-navy/5"
-                      >
-                        <FlaticonSettings size={16} className="text-sapphire" />
-                        Settings
-                      </Link>
-                    </div>
+                        {isAuthor && (
+                          <Link
+                            href="/researcher"
+                            role="menuitem"
+                            className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-xs font-semibold text-navy transition-colors hover:bg-navy/5"
+                          >
+                            <FlaticonFlask size={16} className="text-sapphire" />
+                            My Research
+                          </Link>
+                        )}
 
-                    <div className="border-t border-navy/10 pt-1">
-                      <button
-                        type="button"
-                        onClick={handleLogout}
-                        role="menuitem"
-                        className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-left text-xs font-bold text-navy/80 transition-colors hover:bg-navy/5 cursor-pointer"
-                      >
-                        <FlaticonUser size={16} className="rotate-180" />
-                        Sign out
-                      </button>
-                    </div>
+                        <Link
+                          href="/settings"
+                          role="menuitem"
+                          className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-xs font-semibold text-navy transition-colors hover:bg-navy/5"
+                        >
+                          <FlaticonSettings size={16} className="text-sapphire" />
+                          Settings
+                        </Link>
+
+                        <div className="border-t border-navy/10 pt-1 mt-1">
+                          <button
+                            type="button"
+                            onClick={handleLogout}
+                            role="menuitem"
+                            className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-left text-xs font-bold text-rose-700 transition-colors hover:bg-rose-50 cursor-pointer"
+                          >
+                            <FlaticonUser size={16} className="rotate-180" />
+                            Sign out
+                          </button>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>

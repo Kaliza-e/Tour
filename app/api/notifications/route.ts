@@ -47,13 +47,19 @@ export async function PATCH(request: Request) {
     // Mark a single notification (must belong to this user)
     await prisma.notification.updateMany({
       where: { id: parsed.data.id, userId },
-      data: { read: parsed.data.read },
+      data: {
+        read: parsed.data.read,
+        readAt: parsed.data.read ? new Date() : null,
+      },
     });
   } else {
     // Mark all of this user's notifications as read
     await prisma.notification.updateMany({
       where: { userId, read: false },
-      data: { read: true },
+      data: {
+        read: true,
+        readAt: new Date(),
+      },
     });
   }
 
