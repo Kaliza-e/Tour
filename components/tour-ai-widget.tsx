@@ -9,12 +9,12 @@ import {
   Send,
   ThumbsUp,
   ThumbsDown,
-  MessageCircle,
   Bot,
   User,
   ArrowRight,
   HelpCircle,
   RefreshCw,
+  MessageSquare,
 } from "lucide-react";
 
 interface MessageButton {
@@ -28,45 +28,56 @@ interface Message {
   role: "user" | "assistant";
   text: string;
   buttons?: MessageButton[];
+  source?: string;
   feedback?: "up" | "down" | null;
   isFallback?: boolean;
 }
 
 const STARTER_CHIPS = [
-  "How do I submit my research?",
+  "How do I submit?",
   "How do I earn volunteer hours?",
-  "Which submission type should I choose?",
-  "Can I use AI in my research?",
+  "Help me find a topic",
+  "Which submission type fits me?",
 ];
 
-const FALLBACK_FAQS: Array<{ question: string; answer: string; buttonLabel: string; href: string }> = [
+const FALLBACK_FAQS: Array<{
+  question: string;
+  answer: string;
+  buttonLabel: string;
+  href: string;
+}> = [
   {
     question: "How do I submit my research?",
-    answer: "You can start a research draft in your Researcher Notebook after logging in. Submit your title, abstract, methodology, and paper file!",
+    answer:
+      "You can submit your paper details, abstract, methodology, and manuscript directly on our Publish page. Make sure all work is 100% original!",
     buttonLabel: "Go to Publish",
     href: "/get-published",
   },
   {
     question: "Can I use AI to write my paper?",
-    answer: "No. TOUR strictly forbids AI-written research, conclusions, or abstracts. All work must be 100% original to the student author(s).",
+    answer:
+      "No. TOUR strictly forbids AI-written research, conclusions, or abstracts. All work must be 100% original to the student author(s). External grammar tools are permitted for proofreading.",
     buttonLabel: "Publishing Guidelines",
     href: "/get-published",
   },
   {
     question: "How do I earn volunteer hours?",
-    answer: "You can earn volunteer hours by publishing research, opening a chapter, creating social media content, or editing and reviewing papers.",
+    answer:
+      "You can earn hours through research writing, opening a chapter, creating educational social media content, poster design, or reviewing student papers.",
     buttonLabel: "Volunteer Opportunities",
     href: "/volunteer",
   },
   {
     question: "Do I get a certificate or recommendation?",
-    answer: "Yes! TOUR offers Digital Certificates, documented hours records, and Recommendation Letters for volunteers serving 2+ consecutive months.",
+    answer:
+      "Yes! Authors receive a digital publication certificate. Volunteers receive verified hours records and are eligible for recommendation letters after 2 consecutive months of service.",
     buttonLabel: "Learn About Recognition",
     href: "/volunteer",
   },
   {
     question: "How do I contact the TOUR team?",
-    answer: "You can reach out via our contact form or email tourresearchhub@gmail.com directly. We guarantee a response within 24 hours on business days!",
+    answer:
+      "Reach out directly through our Contact page for questions about deadlines, fees, chapters, or verification.",
     buttonLabel: "Contact Team",
     href: "/contact",
   },
@@ -78,10 +89,10 @@ export function TourAiWidget() {
     {
       id: "welcome",
       role: "assistant",
-      text: "Hi! I'm Tour AI, your guide for Tour. How can I help you navigate our platform, publishing rules, or volunteer program today?",
+      text: "Hi! I'm Tour AI, your friendly guide for Tour. How can I help you explore research categories, understand our publishing rules, or learn about volunteering?",
       buttons: [
-        { label: "Publishing Guide", pageKey: "publish", href: "/get-published" },
-        { label: "Volunteer Info", pageKey: "volunteer", href: "/volunteer" },
+        { label: "Publish", pageKey: "publish", href: "/get-published" },
+        { label: "Volunteer", pageKey: "volunteer", href: "/volunteer" },
       ],
     },
   ]);
@@ -98,12 +109,13 @@ export function TourAiWidget() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
 
-  // Map pathname to page key
+  // Map pathname to verified page key
   const getPageKey = useCallback((): string => {
     if (!pathname || pathname === "/") return "home";
     if (pathname.startsWith("/about")) return "about";
     if (pathname.startsWith("/research")) return "research";
-    if (pathname.startsWith("/get-published") || pathname.startsWith("/researcher")) return "publish";
+    if (pathname.startsWith("/get-published") || pathname.startsWith("/researcher"))
+      return "publish";
     if (pathname.startsWith("/volunteer")) return "volunteer";
     if (pathname.startsWith("/contact")) return "contact";
     return "home";
@@ -119,9 +131,10 @@ export function TourAiWidget() {
   // Handle focus trap & restoration
   useEffect(() => {
     if (isOpen) {
-      setTimeout(() => {
+      const timer = setTimeout(() => {
         inputRef.current?.focus();
       }, 100);
+      return () => clearTimeout(timer);
     } else {
       chatTriggerRef.current?.focus();
     }
@@ -163,35 +176,128 @@ export function TourAiWidget() {
 
       const res = await fetch("/api/tour-ai/chat", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json, text/event-stream",
+        },
         body: JSON.stringify({
           messages: history,
           page: pageKey,
+          stream: true,
         }),
       });
 
       if (!res.ok) {
-        throw new Error(`API response error status: ${res.status}`);
+        const errorData = await res.json().catch(() => ({}));
+        const errorText =
+          errorData.text ||
+          (res.status === 429
+            ? "You are sending messages a bit too quickly! Please wait a moment before sending another message."
+            : res.status === 400 && query.length > 1000
+            ? "Your message is a bit too long! Please keep questions under 1000 characters."
+            : "Tour AI is currently in offline mode. Please contact the team directly!");
+
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: (Date.now() + 1).toString(),
+            role: "assistant",
+            text: errorText,
+            buttons: [{ label: "Contact Team", pageKey: "contact", href: "/contact" }],
+            isFallback: true,
+          },
+        ]);
+        return;
       }
 
-      const data = await res.json();
+      // Check if SSE stream or standard JSON
+      const contentType = res.headers.get("content-type") || "";
 
-      const assistantMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        role: "assistant",
-        text: data.text || "I'm having trouble getting that answer right now. Please reach out to our team!",
-        buttons: data.buttons || [{ label: "Contact Team", pageKey: "contact", href: "/contact" }],
-      };
+      if (contentType.includes("text/event-stream") && res.body) {
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder("utf-8");
+        let accumulatedText = "";
+        let finalButtons: MessageButton[] = [];
+        let finalSource: string | undefined;
 
-      setMessages((prev) => [...prev, assistantMessage]);
+        const tempId = (Date.now() + 1).toString();
+        // Insert empty assistant message to stream into
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: tempId,
+            role: "assistant",
+            text: "",
+            buttons: [],
+          },
+        ]);
+
+        let done = false;
+        while (!done) {
+          const { value, done: streamDone } = await reader.read();
+          done = streamDone;
+          if (value) {
+            const chunk = decoder.decode(value, { stream: true });
+            const lines = chunk.split("\n");
+            for (const line of lines) {
+              if (line.startsWith("data: ")) {
+                try {
+                  const eventData = JSON.parse(line.slice(6));
+                  if (eventData.type === "delta" && eventData.text) {
+                    accumulatedText = eventData.text;
+                    setMessages((prev) =>
+                      prev.map((msg) =>
+                        msg.id === tempId ? { ...msg, text: accumulatedText } : msg
+                      )
+                    );
+                  } else if (eventData.type === "done") {
+                    accumulatedText = eventData.text || accumulatedText;
+                    finalButtons = eventData.buttons || [];
+                    finalSource = eventData.source;
+                    setMessages((prev) =>
+                      prev.map((msg) =>
+                        msg.id === tempId
+                          ? {
+                              ...msg,
+                              text: accumulatedText,
+                              buttons: finalButtons,
+                              source: finalSource,
+                            }
+                          : msg
+                      )
+                    );
+                  }
+                } catch {
+                  // Incomplete chunk parse
+                }
+              }
+            }
+          }
+        }
+      } else {
+        const data = await res.json();
+        const assistantMessage: Message = {
+          id: (Date.now() + 1).toString(),
+          role: "assistant",
+          text:
+            data.text ||
+            "I don't have confirmed information about that in Tour's knowledge base. Please contact our team!",
+          buttons:
+            data.buttons && data.buttons.length > 0
+              ? data.buttons
+              : [{ label: "Contact Team", pageKey: "contact", href: "/contact" }],
+          source: data.source,
+        };
+        setMessages((prev) => [...prev, assistantMessage]);
+      }
     } catch (err) {
       console.error("Tour AI widget fetch error:", err);
       setShowFaqList(true);
       const fallbackMsg: Message = {
         id: (Date.now() + 1).toString(),
         role: "assistant",
-        text: "It looks like our live assistant service is currently unreachable. Don't worry! You can check our top FAQs below or contact the Tour team directly.",
-        buttons: [{ label: "Contact the Team", pageKey: "contact", href: "/contact" }],
+        text: "Tour AI is currently in offline mode. I can still guide you through our main pages, guidelines, and FAQs!",
+        buttons: [{ label: "Contact Team", pageKey: "contact", href: "/contact" }],
         isFallback: true,
       };
       setMessages((prev) => [...prev, fallbackMsg]);
@@ -200,6 +306,7 @@ export function TourAiWidget() {
     }
   };
 
+  // Anonymous feedback: stores only vote count, never message text
   const handleFeedback = (msgId: string, type: "up" | "down") => {
     setMessages((prev) =>
       prev.map((msg) =>
@@ -208,11 +315,17 @@ export function TourAiWidget() {
           : msg
       )
     );
+    try {
+      const storageKey = `tour_ai_feedback_${type}`;
+      const current = parseInt(localStorage.getItem(storageKey) || "0", 10);
+      localStorage.setItem(storageKey, (current + 1).toString());
+    } catch {
+      // LocalStorage access optional
+    }
   };
 
   const handleNavigate = (href: string) => {
     router.push(href);
-    // On mobile small screen optional auto-close or keep open
   };
 
   if (pathname?.startsWith("/admin") || pathname?.startsWith("/researcher")) {
@@ -222,7 +335,7 @@ export function TourAiWidget() {
   return (
     <>
       {/* Floating Action Button */}
-      <div className="fixed bottom-6 right-4 sm:right-6 md:right-8 z-30 pointer-events-auto">
+      <div className="fixed bottom-6 right-4 sm:right-6 md:right-8 z-40 pointer-events-auto">
         <motion.button
           ref={chatTriggerRef}
           type="button"
@@ -267,7 +380,7 @@ export function TourAiWidget() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 30, scale: 0.95 }}
               transition={{ duration: 0.25, ease: "easeOut" }}
-              className="pointer-events-auto flex h-[90vh] w-full flex-col overflow-hidden rounded-t-3xl border-2 border-navy/20 bg-ivory shadow-2xl sm:h-[580px] sm:w-[420px] sm:rounded-3xl"
+              className="pointer-events-auto flex h-[88vh] w-full flex-col overflow-hidden rounded-t-3xl border-2 border-navy/20 bg-ivory shadow-2xl sm:h-[580px] sm:w-[420px] sm:rounded-3xl"
             >
               {/* HEADER */}
               <div className="flex items-center justify-between border-b border-navy/10 bg-navy px-5 py-4 text-ivory">
@@ -281,24 +394,36 @@ export function TourAiWidget() {
                         Tour AI
                       </h2>
                       <span className="rounded-full bg-champagne/20 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-champagne border border-champagne/30">
-                        Online
+                        Guide
                       </span>
                     </div>
                     <p className="text-[11px] text-ivory/70 font-light mt-0.5">
-                      Student Guide & Platform Assistant
+                      Student Research & Platform Guide
                     </p>
                   </div>
                 </div>
 
-                <button
-                  ref={closeButtonRef}
-                  type="button"
-                  onClick={() => setIsOpen(false)}
-                  aria-label="Close Tour AI panel"
-                  className="rounded-full p-2 text-ivory/80 hover:bg-white/10 hover:text-white transition cursor-pointer"
-                >
-                  <X size={18} />
-                </button>
+                <div className="flex items-center gap-1">
+                  <button
+                    type="button"
+                    onClick={() => handleNavigate("/contact")}
+                    title="Talk to the team"
+                    aria-label="Talk to the Tour team"
+                    className="rounded-full p-2 text-ivory/80 hover:bg-white/10 hover:text-white transition cursor-pointer text-xs flex items-center gap-1"
+                  >
+                    <MessageSquare size={16} />
+                  </button>
+
+                  <button
+                    ref={closeButtonRef}
+                    type="button"
+                    onClick={() => setIsOpen(false)}
+                    aria-label="Close Tour AI panel"
+                    className="rounded-full p-2 text-ivory/80 hover:bg-white/10 hover:text-white transition cursor-pointer"
+                  >
+                    <X size={18} />
+                  </button>
+                </div>
               </div>
 
               {/* MESSAGES SCROLL BODY */}
@@ -310,7 +435,7 @@ export function TourAiWidget() {
                       msg.role === "user" ? "items-end" : "items-start"
                     }`}
                   >
-                    <div className="flex items-start gap-2 max-w-[85%]">
+                    <div className="flex items-start gap-2 max-w-[88%]">
                       {msg.role === "assistant" && (
                         <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-sapphire text-white mt-1">
                           <Bot size={14} />
@@ -327,6 +452,13 @@ export function TourAiWidget() {
                         <p className="whitespace-pre-wrap leading-relaxed text-xs sm:text-sm">
                           {msg.text}
                         </p>
+
+                        {/* Source Attribution Tag */}
+                        {msg.source && (
+                          <div className="mt-2 text-[10px] font-medium text-navy/50 italic">
+                            Source: {msg.source}
+                          </div>
+                        )}
 
                         {/* Action buttons embedded in message */}
                         {msg.buttons && msg.buttons.length > 0 && (
@@ -427,9 +559,14 @@ export function TourAiWidget() {
                     </div>
                     <div className="space-y-2">
                       {FALLBACK_FAQS.map((faq, idx) => (
-                        <div key={idx} className="rounded-xl border border-amber-200/80 bg-white p-3 space-y-1.5">
+                        <div
+                          key={idx}
+                          className="rounded-xl border border-amber-200/80 bg-white p-3 space-y-1.5"
+                        >
                           <p className="text-xs font-bold text-navy">{faq.question}</p>
-                          <p className="text-[11px] text-navy/70 leading-relaxed">{faq.answer}</p>
+                          <p className="text-[11px] text-navy/70 leading-relaxed">
+                            {faq.answer}
+                          </p>
                           <button
                             type="button"
                             onClick={() => handleNavigate(faq.href)}
@@ -448,9 +585,9 @@ export function TourAiWidget() {
               </div>
 
               {/* DISCLAIMER */}
-              <div className="bg-ivory border-t border-navy/10 px-4 py-1.5 text-center">
-                <p className="text-[10px] text-navy/60 font-light">
-                  Tour AI can make mistakes. Check important details with the Tour team.
+              <div className="bg-ivory border-t border-navy/10 px-4 py-2 text-center">
+                <p className="text-[10px] text-navy/60 font-light leading-tight">
+                  Tour AI is an AI and can make mistakes. Confirm important decisions with the Tour team.
                 </p>
               </div>
 

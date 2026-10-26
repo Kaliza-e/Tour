@@ -11,7 +11,10 @@
     "db:push": "prisma db push",
     "db:migrate": "prisma migrate dev",
     "db:studio": "prisma studio",
-    "db:seed": "tsx prisma/seed.ts"
+    "db:seed": "tsx prisma/seed.ts",
+    "test:ai": "tsx tests/run-eval.ts",
+    "test:unit": "tsx tests/unit-tests.ts",
+    "index:kb": "tsx scripts/index-kb.ts"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
@@ -39,6 +42,7 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.52.1",
+    "sharp": "^0.35.5",
     "tailwind-merge": "^2.4.0",
     "ws": "^8.21.3",
     "zod": "^3.23.8"
